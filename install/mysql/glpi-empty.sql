@@ -2553,6 +2553,8 @@ CREATE TABLE `glpi_entities` (
   `latitude` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `longitude` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `altitude` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pendingenddate` int(11) NOT NULL DEFAULT '-2',
+  `pending_add_follow` int(11) NOT NULL DEFAULT '-2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unicity` (`entities_id`,`name`),
   KEY `entities_id` (`entities_id`),
@@ -2562,7 +2564,6 @@ CREATE TABLE `glpi_entities` (
   KEY `changetemplates_id` (`changetemplates_id`),
   KEY `problemtemplates_id` (`problemtemplates_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 
 ### Dump table glpi_entities_knowbaseitems
 
@@ -6600,6 +6601,8 @@ CREATE TABLE `glpi_tickets` (
   `locations_id` int(11) NOT NULL DEFAULT '0',
   `validation_percent` int(11) NOT NULL DEFAULT '0',
   `date_creation` timestamp NULL DEFAULT NULL,
+  `pendingenddate` timestamp DEFAULT NULL,
+  `pendingcomment` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `date` (`date`),
   KEY `closedate` (`closedate`),

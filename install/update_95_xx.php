@@ -45,6 +45,23 @@ function update95toXX() {
    $migration->displayTitle(sprintf(__('Update to %s'), 'x.x.x'));
    $migration->setVersion('x.x.x');
 
+   // Manage pending status end date + comment
+   $migration->addField("glpi_tickets", "pendingenddate", "datetime");
+   $migration->addField("glpi_tickets", "pendingcomment", "longtext");
+   $migration->addField("glpi_entities", "pendingenddate", "integer");
+   $migration->addField("glpi_entities", "pending_add_follow", "integer");
+
+   if (!countElementsInTable('glpi_crontasks',
+      "`itemtype`='Ticket' AND `name`='expirePending'")) {
+      $query = "INSERT INTO `glpi_crontasks`
+                       (`itemtype`, `name`, `frequency`, `param`, `state`, `mode`, `allowmode`,
+                        `hourmin`, `hourmax`, `logs_lifetime`, `lastrun`, `lastcode`, `comment`)
+                VALUES ('Ticket', 'expirePending', 3600, NULL, 1, 2, 3,
+                        0, 24, 10, NULL, NULL, NULL); ";
+      $DB->queryOrDie($query, "x.x.x Add expirePending Ticket cron task");
+   }
+
+
    // ************ Keep it at the end **************
    foreach ($ADDTODISPLAYPREF as $type => $tab) {
       $rank = 1;

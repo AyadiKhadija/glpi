@@ -1186,6 +1186,9 @@ class Ticket extends CommonITILObject {
          }
       }
 
+      // Manage expire pending date
+      $input = $this->fillExpireDatePending($input);
+
       $input = parent::prepareInputForUpdate($input);
       return $input;
    }
@@ -1556,6 +1559,7 @@ class Ticket extends CommonITILObject {
             ]
          );
       }
+      $this->AddFollowupWhenSetPendingStatus();
    }
 
 
@@ -1794,6 +1798,9 @@ class Ticket extends CommonITILObject {
                                                 Ticket::INCIDENT_TYPE);
       }
 
+      // Manage expire pending date
+      $input = $this->fillExpireDatePending($input);
+
       return $input;
    }
 
@@ -1955,7 +1962,7 @@ class Ticket extends CommonITILObject {
                                                           "<a href='".Ticket::getFormURLWithID($this->fields['id'])."'>".
                                                             $this->fields['id']."</a>")));
       }
-
+      $this->AddFollowupWhenSetPendingStatus('add');
    }
 
 
@@ -2881,6 +2888,27 @@ class Ticket extends CommonITILObject {
          ],
          'forcegroupby'       => true
       ];
+
+      $tab[] = [
+         'id'                 => '143',
+         'table'              => 'glpi_tickets',
+         'field'              => 'pendingenddate',
+         'name'               => __('Expiration date of pending state'),
+         'datatype'           => 'datetime',
+         'maybefuture'        => true,
+         'massiveaction'      => false,
+      ];
+
+      $tab[] = [
+         'id'                 => '144',
+         'table'              => 'glpi_tickets',
+         'field'              => 'pendingcomment',
+         'name'               => __('Pending state reasons'),
+         'datatype'           => 'text',
+         'massiveaction'      => false,
+      ];
+
+      $tab = array_merge($tab, $this->getSearchOptionsActors());
 
       $tab[] = [
          'id'                 => 'ola',
@@ -4635,6 +4663,10 @@ class Ticket extends CommonITILObject {
       echo $tt->getEndHiddenFieldValue('requesttypes_id', $this);
       echo "</td>";
       echo "</tr>";
+
+      if ($canupdate) {
+         $this->pendingEndDate($statusrand);
+      }
 
       echo "<tr class='tab_bg_1'>";
       echo "<th>".$tt->getBeginHiddenFieldText('urgency');
@@ -7326,5 +7358,159 @@ class Ticket extends CommonITILObject {
 
    static function getIcon() {
       return "fas fa-exclamation-circle";
+   }
+
+   /**
+    * Display fields to manage end date of pending state if enabled in entity configuration
+    *
+    * @param string $statusrand
+    */
+   function pendingEndDate($statusrand) {
+      global $CFG_GLPI;
+
+      $entity = new Entity();
+      $val = $entity->getUsedConfig('pendingenddate', $this->fields['entities_id']);
+      if ($val >= 0) {
+         $rand = mt_rand();
+         $p = [
+             'state' => '__VALUE__',
+             'pendingenddate' => $this->fields['pendingenddate'],
+             'pendingcomment' => $this->fields["pendingcomment"]
+         ];
+
+         Ajax::updateItemOnSelectEvent("dropdown_status$statusrand", "results_pendingstate$rand",
+                                       $CFG_GLPI["root_doc"].
+                                          "/ajax/ticketpendingstatus.php",
+                                       $p);
+         echo "<tr class='tab_bg_1' id='results_pendingstate$rand'>";
+         $this->showPendingEndDate($this->fields["status"], $this->fields['pendingenddate'],
+                 $this->fields['pendingcomment']);
+         echo "</tr>\n";
+      }
+   }
+
+
+   /**
+    * Display the expiration date and reasons of the pending state
+    *
+    * @param string $state
+    * @param string $pendingenddate
+    * @param string $pendingcomment
+    */
+   function showPendingEndDate($state, $pendingenddate, $pendingcomment) {
+      if ($state == Ticket::WAITING) {
+         echo "<th>";
+         echo __('Expiration date of pending status');
+         echo "</th>";
+         echo "<td>";
+         Html::showDateTimeField('pendingenddate', array('value' => $pendingenddate,
+                                                   'timestep'   => 1,
+                                                   'maybeempty' => true));
+         echo "</td>";
+         echo "<th>";
+         echo __('Pending status reasons');
+         echo "</th>";
+         echo "<td>";
+         echo "<textarea cols='40' rows='1' name='pendingcomment' >".
+              $pendingcomment;
+         echo "</textarea>";
+         echo "</td>";
+      }
+   }
+
+
+   /**
+    * Cron used to pass tickets from WAITING (pending) status to ASSIGNED when pending date is
+    * expired
+    *
+    * @param type $task
+    */
+   static public function cronExpirePending($task) {
+      $ticket = new self();
+      $entity = new entity();
+
+      $entities = getAllDatasFromTable('glpi_entities');
+      foreach ($entities as $entdata) {
+         $val = $entity->getUsedConfig('pendingenddate', $entdata['id']);
+         if ($val >= 0) {
+            $tickets = $ticket->find("`status`='".Ticket::WAITING."'"
+                    . " AND `pendingenddate` IS NOT NULL"
+                    . " AND `pendingenddate` < NOW()"
+                    . " AND `entities_id`='".$entdata['id']."'");
+            foreach ($tickets as $data) {
+               // so we need udpate the ticket to modify status from WAITING to ASSIGNED
+               $input = [
+                   'id'             => $data['id'],
+                   'pendingenddate' => 'NULL',
+                   'pendingcomment' => 'NULL',
+                   'status'         => Ticket::ASSIGNED
+               ];
+               $ticket->update($input);
+               $task->addVolume(1);
+            }
+         }
+      }
+      return True;
+   }
+
+
+   /**
+    * Fill expire pending date if not filled and days defined in entity configuration
+    * Called when add and update the ticket
+    */
+   function fillExpireDatePending($input) {
+      if (isset($input['status']) AND $input['status'] == Ticket::WAITING) {
+         $entity = new Entity();
+         $entities_id = 0;
+         if (isset($input['entities_id'])) {
+            $entities_id = $input['entities_id'];
+         } else {
+            $entities_id = $this->fields['entities_id'];
+         }
+         $val = $entity->getUsedConfig('pendingenddate', $entities_id);
+         if ($val > 0) {
+            if (!isset($input['pendingenddate']) OR $input['pendingenddate'] == '') {
+               $input['pendingenddate'] = date('Y-m-d H:i:s', (date('U') + ($val * 24 * 3600)));
+            }
+         }
+      } else if (isset($input['status'])
+              AND $input['status'] != Ticket::WAITING) {
+         $input['pendingenddate'] = 'NULL';
+         $input['pendingcomment'] = 'NULL';
+      }
+
+      return $input;
+   }
+
+
+   /**
+    * Add a 'private' followup in case define an expiration date / a reason of pending state
+    */
+   function AddFollowupWhenSetPendingStatus($type='update') {
+      $entity = new Entity();
+      $val = $entity->getUsedConfig('pending_add_follow', $this->fields['entities_id']);
+      if ($val == 1) {
+         if (($type == 'update'
+                 AND isset($this->oldvalues['status'])
+                 AND $this->input['status'] == Ticket::WAITING
+                 AND $this->input['status'] != $this->oldvalues['status'])
+             OR ($type == 'add'
+                 AND isset($this->input['status'])
+                 AND $this->input['status'] == Ticket::WAITING)) {
+
+            $pendingcomment = '';
+            if (isset($this->input['pendingcomment'])) {
+               $pendingcomment = ":\n".$this->input['pendingcomment'];
+            }
+            $input = [
+                'tickets_id' => $this->fields['id'],
+                'content'    => __('Set ticket status in pending state').$pendingcomment,
+                'is_private' => True,
+                'users_id'   => $_SESSION['glpiID']
+            ];
+            $tfollow = new TicketFollowup();
+            $tfollow->add($input);
+         }
+      }
    }
 }
