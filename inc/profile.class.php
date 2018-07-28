@@ -52,7 +52,7 @@ class Profile extends CommonDBTM {
 
 
    /// Common fields used for all profiles type
-   static public $common_fields  = ['id', 'interface', 'is_default', 'name'];
+   static public $common_fields  = ['id', 'interface', 'is_default', 'name', 'default_entity'];
 
    public $dohistory             = true;
 
@@ -608,6 +608,12 @@ class Profile extends CommonDBTM {
                               ['value'=>$this->fields["interface"]]);
       echo "</td></tr>\n";
 
+      echo "<tr class='tab_bg_1'><td>".__("Default entity")."</td>";
+      echo "<td>";
+      Entity::dropdown(['name' => 'default_entity',
+                        'value'=>$this->fields["default_entity"]]);
+      echo "</td></tr>\n";
+      
       echo "<tr class='tab_bg_1'><td>".__('Update password')."</td><td>";
       Html::showCheckbox(['name'    => '_password_update',
                                'checked' => $this->fields['password_update']]);

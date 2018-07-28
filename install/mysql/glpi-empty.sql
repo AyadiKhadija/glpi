@@ -7060,20 +7060,22 @@ CREATE TABLE `glpi_profiles` (
   `tickettemplates_id` int(11) NOT NULL DEFAULT '0',
   `change_status` text COLLATE utf8_unicode_ci COMMENT 'json encoded array of from/dest allowed status change',
   `date_creation` datetime DEFAULT NULL,
+  `default_entity` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `interface` (`interface`),
   KEY `is_default` (`is_default`),
   KEY `date_mod` (`date_mod`),
   KEY `date_creation` (`date_creation`)
+  KEY `default_entity` (`default_entity`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `glpi_profiles` VALUES ('1','Self-Service','helpdesk','1','1','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','{\"1\":{\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":0},\"2\":{\"1\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":0},\"3\":{\"1\":0,\"2\":0,\"4\":0,\"5\":0,\"6\":0},\"4\":{\"1\":0,\"2\":0,\"3\":0,\"5\":0,\"6\":0},\"5\":{\"1\":0,\"2\":0,\"3\":0,\"4\":0},\"6\":{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0}}',NULL,NULL,'[]','0','0',NULL,NULL);
-INSERT INTO `glpi_profiles` VALUES ('2','Observer','central','0','1','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','[]',NULL,NULL,'[]','0','0',NULL,NULL);
-INSERT INTO `glpi_profiles` VALUES ('3','Admin','central','0','3','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','[]',NULL,NULL,'[]','0','0',NULL,NULL);
-INSERT INTO `glpi_profiles` VALUES ('4','Super-Admin','central','0','3','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','[]',NULL,NULL,'[]','0','0',NULL,NULL);
-INSERT INTO `glpi_profiles` VALUES ('5','Hotliner','central','0','3','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','[]',NULL,NULL,'[]','1','0',NULL,NULL);
-INSERT INTO `glpi_profiles` VALUES ('6','Technician','central','0','3','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','[]',NULL,NULL,'[]','0','0',NULL,NULL);
-INSERT INTO `glpi_profiles` VALUES ('7','Supervisor','central','0','3','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','[]',NULL,NULL,'[]','0','0',NULL,NULL);
+INSERT INTO `glpi_profiles` VALUES ('1','Self-Service','helpdesk','1','1','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','{\"1\":{\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":0},\"2\":{\"1\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":0},\"3\":{\"1\":0,\"2\":0,\"4\":0,\"5\":0,\"6\":0},\"4\":{\"1\":0,\"2\":0,\"3\":0,\"5\":0,\"6\":0},\"5\":{\"1\":0,\"2\":0,\"3\":0,\"4\":0},\"6\":{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0}}',NULL,NULL,'[]','0','0',NULL,NULL,0);
+INSERT INTO `glpi_profiles` VALUES ('2','Observer','central','0','1','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','[]',NULL,NULL,'[]','0','0',NULL,NULL,0);
+INSERT INTO `glpi_profiles` VALUES ('3','Admin','central','0','3','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','[]',NULL,NULL,'[]','0','0',NULL,NULL,0);
+INSERT INTO `glpi_profiles` VALUES ('4','Super-Admin','central','0','3','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','[]',NULL,NULL,'[]','0','0',NULL,NULL,0);
+INSERT INTO `glpi_profiles` VALUES ('5','Hotliner','central','0','3','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','[]',NULL,NULL,'[]','1','0',NULL,NULL,0);
+INSERT INTO `glpi_profiles` VALUES ('6','Technician','central','0','3','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','[]',NULL,NULL,'[]','0','0',NULL,NULL,0);
+INSERT INTO `glpi_profiles` VALUES ('7','Supervisor','central','0','3','[\"Computer\",\"Monitor\",\"NetworkEquipment\",\"Peripheral\",\"Phone\",\"Printer\",\"Software\", \"DCRoom\", \"Rack\", \"Enclosure\"]','[]',NULL,NULL,'[]','0','0',NULL,NULL,0);
 INSERT INTO `glpi_profiles` VALUES ('8','Read-Only','central','0','0','[]','{\"1\":{\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":0},
                        \"2\":{\"1\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":0},
                        \"3\":{\"1\":0,\"2\":0,\"4\":0,\"5\":0,\"6\":0},
@@ -7095,7 +7097,7 @@ INSERT INTO `glpi_profiles` VALUES ('8','Read-Only','central','0','0','[]','{\"1
                        \"12\":{\"1\":0,\"9\":0,\"10\":0,\"7\":0,\"4\":0,\"11\":0,\"5\":0,\"8\":0,\"6\":0},
                        \"5\":{\"1\":0,\"9\":0,\"10\":0,\"7\":0,\"4\":0,\"11\":0,\"12\":0,\"8\":0,\"6\":0},
                        \"8\":{\"1\":0,\"9\":0,\"10\":0,\"7\":0,\"4\":0,\"11\":0,\"12\":0,\"5\":0,\"6\":0},
-                       \"6\":{\"1\":0,\"9\":0,\"10\":0,\"7\":0,\"4\":0,\"11\":0,\"12\":0,\"5\":0,\"8\":0}}','2016-02-08 16:57:46');
+                       \"6\":{\"1\":0,\"9\":0,\"10\":0,\"7\":0,\"4\":0,\"11\":0,\"12\":0,\"5\":0,\"8\":0}}','2016-02-08 16:57:46',0);
 
 ### Dump table glpi_profiles_reminders
 

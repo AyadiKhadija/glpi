@@ -416,22 +416,10 @@ class Session {
             $_SESSION['glpiactiveentities'] = [];
 
             Search::resetSaveSearch();
-            $active_entity_done = false;
-
-            // Try to load default entity if it is a root entity
-            foreach ($data['entities'] as $key => $val) {
-               if ($val['id'] == $_SESSION["glpidefault_entity"]) {
-                  if (self::changeActiveEntities($val['id'], $val['is_recursive'])) {
-                     $active_entity_done = true;
-                  }
-               }
-            }
-            if (!$active_entity_done) {
-               // Try to load default entity
-               if (!self::changeActiveEntities($_SESSION["glpidefault_entity"], true)) {
-                  // Load all entities
-                  self::changeActiveEntities("all");
-               }
+            
+            if (!self::changeActiveEntities($profile->fields['default_entity'], true)) {
+               // Load all entities
+               self::changeActiveEntities("all");
             }
             Plugin::doHook("change_profile");
          }
