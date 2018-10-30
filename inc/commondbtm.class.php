@@ -461,7 +461,7 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Retrieve all items from the database
     *
-    * @param string $condition condition used to search if needed (empty get all) (default '')
+    * @param string|array $condition condition used to search if needed (empty get all) (default '')
     * @param string $order     order field if needed (default '')
     * @param string $limit     limit retrieved datas if needed (default '')
     *
@@ -471,31 +471,31 @@ class CommonDBTM extends CommonGLPI {
       global $DB;
       // Make new database object and fill variables
 
-      $query = "SELECT *
-                FROM `".$this->getTable()."`";
+      $crit = [];
 
+      $crit['SELECT'] = '*';
       if (!empty($condition)) {
-         $query .= " WHERE $condition";
+         $crit['WHERE'] = $condition;
       }
 
       if (!empty($order)) {
-         $query .= " ORDER BY $order";
+         $crit['ORDER'] = $order;
       }
 
       if (!empty($limit)) {
-         $query .= " LIMIT ".intval($limit);
+         $crit['LIMIT'] = intval($limit);
       }
 
-      $data = [];
-      if ($result = $DB->query($query)) {
-         if ($DB->numrows($result)) {
-            while ($line = $DB->fetch_assoc($result)) {
-               $data[$line['id']] = $line;
-            }
+      $iterator = $DB->request($this->getTable(), $crit);
+
+      $result = [];
+      if ($iterator->count()) {
+         while ($data = $iterator->next()) {
+            $result[$data['id']] = $data;
          }
       }
 
-      return $data;
+      return $result;
    }
 
 

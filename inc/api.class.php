@@ -125,16 +125,33 @@ abstract class API extends CommonGLPI {
 
       // check ip access
       $apiclient = new APIClient;
+      
       $where_ip = "";
       if ($this->ipnum) {
-         $where_ip .= " AND (`ipv4_range_start` IS NULL
-                             OR (`ipv4_range_start` <= '$this->ipnum'
-                                 AND `ipv4_range_end` >= '$this->ipnum'))";
+         $condition = [
+            'AND' => [
+               'is_active' => 1,
+               'OR' => [
+                  'ipv4_range_start' => null,
+                  'AND' => [
+                     'ipv4_range_start' => ['<=', '$this->ipnum'],
+                     'ipv4_range_end' => ['>=', '$this->ipnum']
+                  ]
+               ]
+            ]
+         ];
       } else {
-         $where_ip .= " AND (`ipv6` IS NULL
-                             OR `ipv6` = '".$DB->escape($this->iptxt)."')";
+         $condition = [
+            'AND' => [
+               'is_active' => 1,
+               'OR' => [
+                  'ipv6' => null,
+                  'ipv6' => $DB->escape($this->iptxt)
+               ]
+            ]
+         ];
       }
-      $found_clients = $apiclient->find("`is_active` = 1 $where_ip");
+      $found_clients = $apiclient->find($condition);
       if (count($found_clients) <= 0) {
          $this->returnError(__("There isn't an active API client matching your IP address in the configuration").
                             " (".$this->iptxt.")",
@@ -570,17 +587,25 @@ abstract class API extends CommonGLPI {
           && $params['with_disks']
           && in_array($itemtype, $CFG_GLPI['itemdeviceharddrive_types'])) {
          // build query to retrive filesystems
-         $query = "SELECT `glpi_filesystems`.`name` AS fsname,
-                          `glpi_items_disks`.*
-                   FROM `glpi_items_disks`
-                   LEFT JOIN `glpi_filesystems`
-                             ON (`glpi_items_disks`.`filesystems_id` = `glpi_filesystems`.`id`)
-                   WHERE `items_id` = '$id'
-                         AND `itemtype` = '$itemtype'
-                         AND `is_deleted` = 0";
+         $iterator = $DB->request('glpi_items_disks',[
+            'SELECT' => ['`glpi_filesystems`.`name` AS fsname', '`glpi_items_disks`.*'],
+            'LEFT JOIN' => [
+               'glpi_filesystems' => [
+                  'FKEY' => [
+                     'glpi_items_disks' => 'filesystems_id',
+                     'glpi_filesystems' => 'id'
+                  ]
+               ]
+            ],
+            'WHERE' => [
+               'items_id' => $id,
+               'itemtype' => $itemtype,
+               'is_deleted' => 0
+            ]
+         ]);
          $fields['_disks'] = [];
-         if ($result = $DB->query($query)) {
-            while ($data = $DB->fetch_assoc($result)) {
+         if ($iterator->count()) {
+            while ($data = $iterator->next()) {
                unset($data['items_id']);
                unset($data['is_deleted']);
                $fields['_disks'][] = ['name' => $data];
@@ -596,23 +621,41 @@ abstract class API extends CommonGLPI {
          if (!Software::canView()) {
             $fields['_softwares'] = self::arrayRightError();
          } else {
-            $query = "SELECT `glpi_softwares`.`softwarecategories_id`,
-                             `glpi_softwares`.`id` AS softwares_id,
-                             `glpi_softwareversions`.`id` AS softwareversions_id,
-                             `glpi_computers_softwareversions`.`is_dynamic`,
-                             `glpi_softwareversions`.`states_id`,
-                             `glpi_softwares`.`is_valid`
-                      FROM `glpi_computers_softwareversions`
-                      LEFT JOIN `glpi_softwareversions`
-                           ON (`glpi_computers_softwareversions`.`softwareversions_id`
-                                 = `glpi_softwareversions`.`id`)
-                      LEFT JOIN `glpi_softwares`
-                           ON (`glpi_softwareversions`.`softwares_id` = `glpi_softwares`.`id`)
-                      WHERE `glpi_computers_softwareversions`.`computers_id` = '$id'
-                            AND `glpi_computers_softwareversions`.`is_deleted` = 0
-                      ORDER BY `glpi_softwares`.`name`, `glpi_softwareversions`.`name`";
-            if ($result = $DB->query($query)) {
-               while ($data = $DB->fetch_assoc($result)) {
+            $iterator = $DB->request('glpi_computers_softwareversions', [
+               'SELECT' => [
+                  '`glpi_softwares`.`softwarecategories_id`',
+                  '`glpi_softwares`.`id` AS softwares_id',
+                  '`glpi_softwareversions`.`id` AS softwareversions_id',
+                  '`glpi_computers_softwareversions`.`is_dynamic`',
+                  '`glpi_softwareversions`.`states_id`',
+                  '`glpi_softwares`.`is_valid`'
+               ],
+               'LEFT JOIN' => [
+                  'glpi_softwareversions' => [
+                     'FKEY' => [
+                        'glpi_computers_softwareversions' => 'softwareversions_id',
+                        'glpi_softwareversions' => 'id'
+                     ]
+                  ],
+                  'glpi_softwares' => [
+                     'FKEY' => [
+                        'glpi_softwareversions' => 'softwares_id',
+                        'glpi_softwares' => 'id'
+                     ]
+                  ]
+               ],
+               'WHERE' => [
+                  '`glpi_computers_softwareversions`.`computers_id`' => $id,
+                  '`glpi_computers_softwareversions`.`is_deleted`' => 0
+               ],
+               'ORDER' => [
+                  '`glpi_softwares`.`name`',
+                  '`glpi_softwareversions`.`name`'
+               ]
+            ]);
+
+            if ($iterator->count()) {
+               while ($data = $iterator->next()) {
                   $fields['_softwares'][] = $data;
                }
             }
@@ -627,21 +670,31 @@ abstract class API extends CommonGLPI {
          foreach ($CFG_GLPI["directconnect_types"] as $connect_type) {
             $connect_item = new $connect_type();
             if ($connect_item->canView()) {
-               $query = "SELECT `glpi_computers_items`.`id` AS assoc_id,
-                         `glpi_computers_items`.`computers_id` AS assoc_computers_id,
-                         `glpi_computers_items`.`itemtype` AS assoc_itemtype,
-                         `glpi_computers_items`.`items_id` AS assoc_items_id,
-                         `glpi_computers_items`.`is_dynamic` AS assoc_is_dynamic,
-                         ".getTableForItemType($connect_type).".*
-                         FROM `glpi_computers_items`
-                         LEFT JOIN `".getTableForItemType($connect_type)."`
-                           ON (`".getTableForItemType($connect_type)."`.`id`
-                                 = `glpi_computers_items`.`items_id`)
-                         WHERE `computers_id` = '$id'
-                               AND `itemtype` = '".$connect_type."'
-                               AND `glpi_computers_items`.`is_deleted` = 0";
-               if ($result = $DB->query($query)) {
-                  while ($data = $DB->fetch_assoc($result)) {
+               $iterator = $DB->request('glpi_computers_items', [
+                  'SELECT' => [
+                     '`glpi_computers_items`.`id` AS assoc_id',
+                     '`glpi_computers_items`.`computers_id` AS assoc_computers_id',
+                     '`glpi_computers_items`.`itemtype` AS assoc_itemtype',
+                     '`glpi_computers_items`.`items_id` AS assoc_items_id',
+                     '`glpi_computers_items`.`is_dynamic` AS assoc_is_dynamic',
+                     getTableForItemType($connect_type).'.*'
+                  ],
+                  'LEFT JOIN' => [
+                     getTableForItemType($connect_type) => [
+                        'FKEY' => [
+                           getTableForItemType($connect_type) => 'id',
+                           'glpi_computers_items' => 'items_id'
+                        ]
+                     ]
+                  ],
+                  'WHERE' => [
+                     'computers_id' => $id,
+                     'itemtype' => $connect_type,
+                     '`glpi_computers_items`.`is_deleted`' => 0
+                  ]
+               ]);
+               if ($iterator->count()) {
+                  while ($data = $iterator->next()) {
                      $fields['_connections'][$connect_type][] = $data;
                   }
                }
@@ -777,24 +830,33 @@ abstract class API extends CommonGLPI {
          if (!Contract::canView()) {
             $fields['_contracts'] = self::arrayRightError();
          } else {
-            $query = "SELECT `glpi_contracts_items`.*
-                     FROM `glpi_contracts_items`,
-                          `glpi_contracts`
-                     LEFT JOIN `glpi_entities` ON (`glpi_contracts`.`entities_id`=`glpi_entities`.`id`)
-                     WHERE `glpi_contracts`.`id`=`glpi_contracts_items`.`contracts_id`
-                           AND `glpi_contracts_items`.`items_id` = '$id'
-                           AND `glpi_contracts_items`.`itemtype` = '$itemtype'".
-                           getEntitiesRestrictRequest(" AND", "glpi_contracts", '', '', true)."
-                     ORDER BY `glpi_contracts`.`name`";
-            if ($result = $DB->query($query)) {
-               while ($data = $DB->fetch_assoc($result)) {
+            $iterator = $DB->request(['glpi_contracts_items', 'glpi_contracts'], [
+               'SELECT' => ['`glpi_contracts_items`.*'],
+               'LEFT JOIN' => [
+                  'glpi_entities' => [
+                     'FKEY' => [
+                        'glpi_contracts' => 'entities_id',
+                        'glpi_entities' => 'id'
+                     ]
+                  ]
+               ],
+               'WHERE' => [
+                  '`glpi_contracts`.`id`' => '`glpi_contracts_items`.`contracts_id`',
+                  '`glpi_contracts_items`.`items_id`' => $id,
+                  '`glpi_contracts_items`.`itemtype`' => $itemtype,
+                  ['RAW' => [getEntitiesRestrictRequest(" AND", "glpi_contracts", '', '', true)]]
+               ],
+               'ORDER' => '`glpi_contracts`.`name`'
+            ]);
+            if ($iterator->count()) {
+               while ($data = $iterator->next()) {
                   $fields['_contracts'][] = $data;
                }
             }
          }
       }
 
-      // retrieve item contracts
+      // retrieve item documents
       if (isset($params['with_documents'])
           && $params['with_documents']) {
          $fields['_documents'] = [];
@@ -804,22 +866,46 @@ abstract class API extends CommonGLPI {
              && !Document::canView()) {
             $fields['_documents'] = self::arrayRightError();
          } else {
-            $query = "SELECT `glpi_documents_items`.`id` AS assocID,
-                             `glpi_documents_items`.`date_mod` AS assocdate,
-                             `glpi_entities`.`id` AS entityID,
-                             `glpi_entities`.`completename` AS entity,
-                             `glpi_documentcategories`.`completename` AS headings,
-                             `glpi_documents`.*
-                      FROM `glpi_documents_items`
-                      LEFT JOIN `glpi_documents`
-                                ON (`glpi_documents_items`.`documents_id`=`glpi_documents`.`id`)
-                      LEFT JOIN `glpi_entities` ON (`glpi_documents`.`entities_id`=`glpi_entities`.`id`)
-                      LEFT JOIN `glpi_documentcategories`
-                              ON (`glpi_documents`.`documentcategories_id`=`glpi_documentcategories`.`id`)
-                      WHERE `glpi_documents_items`.`items_id` = '$id'
-                            AND `glpi_documents_items`.`itemtype` = '$itemtype' ";
-            if ($result = $DB->query($query)) {
-               while ($data = $DB->fetch_assoc($result)) {
+            $iterator = $DB->request('glpi_documents_items', [
+               'SELECT' => [
+                  '`glpi_documents_items`.`id` AS assocID',
+                  '`glpi_documents_items`.`date_mod` AS assocdate',
+                  '`glpi_entities`.`id` AS entityID',
+                  '`glpi_entities`.`completename` AS entity',
+                  '`glpi_documentcategories`.`completename` AS headings',
+                  '`glpi_documents`.*'
+               ],
+               'LEFT JOIN' => [
+                  'glpi_documents' => [
+                     'FKEY' => [
+                        'glpi_documents_items' => 'documents_id',
+                        'glpi_documents' => 'id'
+                     ]
+                  ]
+               ],
+               'LEFT JOIN' => [
+                  'glpi_entities' => [
+                     'FKEY' => [
+                        'glpi_documents' => 'entities_id',
+                        'glpi_entities' => 'id'
+                     ]
+                  ]
+               ],
+               'LEFT JOIN' => [
+                  'glpi_documentcategories' => [
+                     'FKEY' => [
+                        'glpi_documents' => 'documentcategories_id',
+                        'glpi_documentcategories' => 'id'
+                     ]
+                  ]
+               ],
+               'WHERE' => [
+                  '`glpi_documents_items`.`items_id`' => $id,
+                  '`glpi_documents_items`.`itemtype`' => $itemtype
+               ]
+            ]);
+            if ($iterator->count()) {
+               while ($data = $iterator->next()) {
                   $fields['_documents'][] = $data;
                }
             }
@@ -833,15 +919,19 @@ abstract class API extends CommonGLPI {
          if (!Ticket::canView()) {
             $fields['_tickets'] = self::arrayRightError();
          } else {
-            $query = "SELECT ".Ticket::getCommonSelect()."
-                      FROM `glpi_tickets` ".
-                      Ticket::getCommonLeftJoin()."
-                      WHERE `glpi_items_tickets`.`items_id` = '$id'
-                             AND `glpi_items_tickets`.`itemtype` = '$itemtype' ".
-                            getEntitiesRestrictRequest("AND", "glpi_tickets")."
-                      ORDER BY `glpi_tickets`.`date_mod` DESC";
-            if ($result = $DB->query($query)) {
-               while ($data = $DB->fetch_assoc($result)) {
+            $crit = [
+               'SELECT DISTINCT' => Ticket::getCommonSelect(),
+               'LEFT JOIN' => Ticket::getCommonLeftJoin(),
+               'WHERE' => [
+                  '`glpi_items_tickets`.`items_id`' => $id,
+                  '`glpi_items_tickets`.`itemtype`' => $itemtype,
+                  'RAW' => [getEntitiesRestrictRequest("AND", "glpi_tickets")]
+               ],
+               'ORDER' => '`glpi_tickets`.`date_mod` DESC'
+            ];
+            $iterator = $DB->request('glpi_tickets', $crit);
+            if ($iterator->count()) {
+               while ($data = $iterator->next()) {
                   $fields['_tickets'][] = $data;
                }
             }

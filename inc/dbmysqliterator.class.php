@@ -92,6 +92,7 @@ class DBmysqlIterator implements Iterator, Countable {
     */
    function execute ($table, $crit = "", $debug = false) {
       $this->buildQuery($table, $crit, $debug);
+      
       $this->res = ($this->conn ? $this->conn->query($this->sql) : false);
       $this->position = 0;
       return $this;
@@ -230,7 +231,7 @@ class DBmysqlIterator implements Iterator, Countable {
 
          if (is_array($field)) {
             foreach ($field as $t => $f) {
-               $this->sql .= (empty($this->sql) ? 'SELECT ' : ', ');
+               $this->sql .= (empty($this->sql) ? 'SELECT '.$distinct : ', ');
                $this->sql .= $this->handleFields($t, $f);
             }
          } else if (empty($field) && !$count) {

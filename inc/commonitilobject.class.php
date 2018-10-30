@@ -4765,31 +4765,57 @@ abstract class CommonITILObject extends CommonDBTM {
       $linkclass = new $this->userlinkclass();
       $linktable = $linkclass->getTable();
 
-      $query = "SELECT DISTINCT `glpi_users`.`id` AS users_id, `glpi_users`.`name` AS name,
-                                `glpi_users`.`realname` AS realname,
-                                `glpi_users`.`firstname` AS firstname
-                FROM `".$this->getTable()."`
-                LEFT JOIN `$linktable`
-                  ON (`$linktable`.`".$this->getForeignKeyField()."` = `".$this->getTable()."`.`id`
-                      AND `$linktable`.`type` = '".CommonITILActor::REQUESTER."')
-                INNER JOIN `glpi_users` ON (`glpi_users`.`id` = `$linktable`.`users_id`)
-                WHERE `".$this->getTable()."`.`is_deleted` = 0 ".
-                      getEntitiesRestrictRequest("AND", $this->getTable());
+      $crit = [
+         'SELECT DISTINCT' => [
+            '`glpi_users`.`id` AS users_id',
+            '`glpi_users`.`name` AS name',
+            '`glpi_users`.`realname` AS realname',
+            '`glpi_users`.`firstname` AS firstname'
+         ],
+         'LEFT JOIN' => [
+            $linktable => [
+               'FKEY' => [
+                  $linktable => $this->getForeignKeyField(),
+                  $this->getTable() => 'id',
+                  [
+                     'AND' => [
+                        "`$linktable`.`type`" => CommonITILActor::REQUESTER
+                     ]
+                  ]
+               ]
+            ]
+         ],
+         'INNER JOIN' => [
+            'glpi_users' => [
+               'FKEY' => [
+                  'glpi_users' => 'id',
+                  $linktable => 'user_id'
+               ]
+            ]
+         ],
+         'WHERE' => [
+            $this->getTable()."`.`is_deleted`" => 0,
+            getEntitiesRestrictRequest("", $this->getTable())
+         ]
+      ];
 
       if (!empty($date1) || !empty($date2)) {
-         $query .= " AND (".getDateRequest("`".$this->getTable()."`.`date`", $date1, $date2)."
-                          OR ".getDateRequest("`".$this->getTable()."`.`closedate`", $date1,
-                                              $date2).") ";
+         $crit['WHERE'][] = [
+            'OR' => [
+               getDateRequest("`".$this->getTable()."`.`date`", $date1, $date2),
+               getDateRequest("`".$this->getTable()."`.`closedate`", $date1, $date2)
+            ]
+         ];
       }
-      $query .= " ORDER BY realname, firstname, name";
+      $crit['ORDER'] = 'realname, firstname, name';
 
-      $result = $DB->query($query);
+      $iterator = $DB->request($this->getTable(), $crit);
       $tab    = [];
-      if ($DB->numrows($result) >= 1) {
-         while ($line = $DB->fetch_assoc($result)) {
+      if ($iterator->count()) {
+         while ($data = $iterator->next()) {
             $tab[] = [
-               'id'   => $line['users_id'],
-               'link' => formatUserName($line['users_id'], $line['name'], $line['realname'], $line['firstname'], 1),
+               'id'   => $data['users_id'],
+               'link' => formatUserName($data['users_id'], $data['name'], $data['realname'], $data['firstname'], 1),
             ];
          }
       }
