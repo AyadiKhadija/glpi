@@ -945,32 +945,51 @@ class Change extends CommonITILObject {
 
       $SELECT = "";
       if (count($_SESSION["glpiactiveentities"])>1) {
-         $SELECT .= ", `glpi_entities`.`completename` AS entityname,
-                       `glpi_changes`.`entities_id` AS entityID ";
+         $SELECT = ['`glpi_entities`.`completename` AS entityname',  
+                        '`glpi_tickets`.`entities_id` AS entityID'];
       }
 
-      return " DISTINCT `glpi_changes`.*,
-                        `glpi_itilcategories`.`completename` AS catname
-                        $SELECT";
+      return array_merge($SELECT, ['`glpi_changes`.*',
+                        '`glpi_itilcategories`.`completename` AS catname']);
    }
 
    static function getCommonLeftJoin() {
 
       $FROM = "";
       if (count($_SESSION["glpiactiveentities"])>1) {
-         $FROM .= " LEFT JOIN `glpi_entities`
-                        ON (`glpi_entities`.`id` = `glpi_changes`.`entities_id`) ";
+         $FROM['glpi_entities'] = [
+            'FKEY' => [
+               'glpi_entities' => 'id',
+               'glpi_tickets' => 'entities_id'
+            ]
+         ];
       }
 
-      return " LEFT JOIN `glpi_changes_groups`
-                  ON (`glpi_changes`.`id` = `glpi_changes_groups`.`changes_id`)
-               LEFT JOIN `glpi_changes_users`
-                  ON (`glpi_changes`.`id` = `glpi_changes_users`.`changes_id`)
-               LEFT JOIN `glpi_changes_suppliers`
-                  ON (`glpi_changes`.`id` = `glpi_changes_suppliers`.`changes_id`)
-               LEFT JOIN `glpi_itilcategories`
-                  ON (`glpi_changes`.`itilcategories_id` = `glpi_itilcategories`.`id`)
-               $FROM";
+      $FROM['glpi_changes_groups'] = [
+         'FKEY' => [
+            'glpi_changes' => 'id',
+            'glpi_changes_groups' => 'changes_id'
+         ]
+      ];
+      $FROM['glpi_changes_users'] = [
+         'FKEY' => [
+            'glpi_changes' => 'id',
+            'glpi_changes_users' => 'changes_id'
+         ]
+      ];
+      $FROM['glpi_changes_suppliers'] = [
+         'FKEY' => [
+            'glpi_changes' => 'id',
+            'glpi_changes_suppliers' => 'changes_id'
+         ]
+      ];
+      $FROM['glpi_itilcategories'] = [
+         'FKEY' => [
+            'glpi_changes' => 'itilcategories_id',
+            'glpi_itilcategories' => 'id'
+         ]
+      ];
+      return $FROM;
    }
 
    /**
@@ -993,8 +1012,7 @@ class Change extends CommonITILObject {
          return false;
       }
 
-      $restrict = '';
-      $order    = '';
+      $crit = [];
 
       $options  = [
          'reset' => 'reset',
@@ -1002,8 +1020,9 @@ class Change extends CommonITILObject {
 
       switch ($item->getType()) {
          case 'User' :
-            $restrict   = "(`glpi_changes_users`.`users_id` = '".$item->getID()."')";
-            $order      = '`glpi_changes`.`date_mod` DESC';
+            $crit['WHERE'] = [
+               'glpi_changes_users.users_id' => $item->getID(),
+            ];
 
             $options['criteria'][0]['field']      = 4; // status
             $options['criteria'][0]['searchtype'] = 'equals';
@@ -1023,8 +1042,9 @@ class Change extends CommonITILObject {
             break;
 
          case 'Supplier' :
-            $restrict   = "(`glpi_changes_suppliers`.`suppliers_id` = '".$item->getID()."')";
-            $order      = '`glpi_changes`.`date_mod` DESC';
+            $crit['WHERE'] = [
+               'glpi_changes_suppliers.suppliers_id' => $item->getID(),
+            ];
 
             $options['criteria'][0]['field']      = 6;
             $options['criteria'][0]['searchtype'] = 'equals';
@@ -1048,12 +1068,17 @@ class Change extends CommonITILObject {
             echo "</td></tr></table>";
 
             if ($tree) {
-               $restrict = "IN (".implode(',', getSonsOf('glpi_groups', $item->getID())).")";
+               $crit['WHERE'] = [
+                  '`glpi_changes_groups`.`groups_id`' => getSonsOf('glpi_groups', $item->getID())
+               ];
             } else {
-               $restrict = "='".$item->getID()."'";
+               $crit['WHERE'] = [
+                  '`glpi_changes_groups`.`groups_id`' => $item->getID()
+               ];
             }
-            $restrict   = "(`glpi_changes_groups`.`groups_id` $restrict)";
-            $order      = '`glpi_changes`.`date_mod` DESC';
+            $crit['WHERE'][] = [
+               '`glpi_changes_groups`.`type`' => CommonITILActor::REQUESTER
+            ];
 
             $options['criteria'][0]['field']      = 71;
             $options['criteria'][0]['searchtype'] = ($tree ? 'under' : 'equals');
@@ -1062,23 +1087,31 @@ class Change extends CommonITILObject {
             break;
 
          default :
-            $restrict   = "(`items_id` = '".$item->getID()."'
-                            AND `itemtype` = '".$item->getType()."')";
-            $order      = '`glpi_changes`.`date_mod` DESC';
+            $crit['WHERE'] = [
+               'items_id' => $item->getID(),
+               'itemtype' => $item->getType()
+            ];
             break;
       }
+      $crit[] = [
+         'SELECT DISTINCT' => self::getCommonSelect(),
+         'LEFT JOIN' => [
+            'glpi_changes_items' => [
+               'FKEY' => [
+                  'glpi_changes' => 'id',
+                  'glpi_changes_items' => 'changes_id'
+               ]
+            ],
+            self::getCommonLeftJoin()
+         ],
+         'LIMIT' => intval($_SESSION['glpilist_limit'])
+      ];
+      $crit['WHERE'][] = [
+         getEntitiesRestrictRequest('', "glpi_changes")
+      ];
 
-      $query = "SELECT ".self::getCommonSelect()."
-                FROM `glpi_changes`
-                LEFT JOIN `glpi_changes_items`
-                  ON (`glpi_changes`.`id` = `glpi_changes_items`.`changes_id`) ".
-                self::getCommonLeftJoin()."
-                WHERE $restrict ".
-                      getEntitiesRestrictRequest("AND", "glpi_changes")."
-                ORDER BY $order
-                LIMIT ".intval($_SESSION['glpilist_limit']);
-      $result = $DB->query($query);
-      $number = $DB->numrows($result);
+      $iterator = $DB->request('glpi_changes', $crit);
+      $number = $iterator->count();
 
       // Ticket for the item
       echo "<div><table class='tab_cadre_fixe'>";
@@ -1109,7 +1142,7 @@ class Change extends CommonITILObject {
       if ($number > 0) {
          self::commonListHeader(Search::HTML_OUTPUT);
 
-         while ($data = $DB->fetch_assoc($result)) {
+         while ($data = $iterator->next()) {
             Session::addToNavigateListItems('Problem', $data["id"]);
             self::showShort($data["id"]);
          }
@@ -1120,28 +1153,39 @@ class Change extends CommonITILObject {
 
       // Tickets for linked items
       $linkeditems = $item->getLinkedItems();
-      $restrict = [];
+      $crit = [];
       if (count($linkeditems)) {
          foreach ($linkeditems as $ltype => $tab) {
             foreach ($tab as $lID) {
-               $restrict[] = "(`itemtype` = '$ltype' AND `items_id` = '$lID')";
+               $crit['WHERE']['OR'][] = [
+                  'AND' => [
+                     'itemtype' => $ltype,
+                     'items_id' => $lID
+                  ]
+               ];
             }
          }
       }
 
-      if (count($restrict)) {
+      if (isset($crit['WHERE']['OR']) && count($crit['WHERE']['OR']) {
 
-         $query = "SELECT ".self::getCommonSelect()."
-                   FROM `glpi_changes`
-                   LEFT JOIN `glpi_changes_items`
-                        ON (`glpi_changes`.`id` = `glpi_changes_items`.`changes_id`) ".
-                   self::getCommonLeftJoin()."
-                   WHERE ".implode(' OR ', $restrict).
-                         getEntitiesRestrictRequest(' AND ', 'glpi_changes') . "
-                   ORDER BY `glpi_changes`.`date_mod` DESC
-                   LIMIT ".intval($_SESSION['glpilist_limit']);
-         $result = $DB->query($query);
-         $number = $DB->numrows($result);
+         $crit = [
+            'SELECT DISTINCT' => self::getCommonSelect(),
+            'LEFT JOIN' => [
+               'glpi_changes_items' => [
+                  'FKEY' => [
+                     'glpi_changes' => 'id',
+                     'glpi_changes_items' => 'changes_id'
+                  ]
+               ],
+               self::getCommonLeftJoin()
+            ],
+            'WHERE' => $crit['WHERE'],
+            'ORDER' => 'glpi_changes.date_mod DESC',
+            'LIMIT' => intval($_SESSION['glpilist_limit'])
+         ];
+         $iterator = $DB->request('glpi_changes', $crit);
+         $number = $iterator->next();
 
          echo "<div class='spaced'><table class='tab_cadre_fixe'>";
          echo "<tr><th colspan='$colspan'>";
@@ -1151,7 +1195,7 @@ class Change extends CommonITILObject {
          if ($number > 0) {
             self::commonListHeader(Search::HTML_OUTPUT);
 
-            while ($data = $DB->fetch_assoc($result)) {
+            while ($data = $iterator->next()) {
                // Session::addToNavigateListItems(TRACKING_TYPE,$data["id"]);
                self::showShort($data["id"]);
             }

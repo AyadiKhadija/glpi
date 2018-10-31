@@ -75,19 +75,27 @@ class Calendar_Holiday extends CommonDBRelation {
 
       $rand    = mt_rand();
 
-      $query = "SELECT DISTINCT `glpi_calendars_holidays`.`id` AS linkID,
-                                `glpi_holidays`.*
-                FROM `glpi_calendars_holidays`
-                LEFT JOIN `glpi_holidays`
-                     ON (`glpi_calendars_holidays`.`holidays_id` = `glpi_holidays`.`id`)
-                WHERE `glpi_calendars_holidays`.`calendars_id` = '$ID'
-                ORDER BY `glpi_holidays`.`name`";
-      $result = $DB->query($query);
+      $iterator = $DB->request('glpi_calendars_holidays', [
+         'SELECT DISTINCT' => [
+            'glpi_calendars_holidays.id AS linkID',
+            'glpi_holidays.*'
+         ],
+         'LEFT JOIN' => [
+            'glpi_holidays' => [
+               'FKEY' => [
+                  'glpi_calendars_holidays' => 'holidays_id',
+                  'glpi_holidays' => 'id'
+               ]
+            ]
+         ],
+         'WHERE' => ['glpi_calendars_holidays.calendars_id' => $ID],
+         'ORDER' => 'glpi_holidays.name'
+      ]);
 
       $holidays = [];
       $used     = [];
-      if ($numrows = $DB->numrows($result)) {
-         while ($data = $DB->fetch_assoc($result)) {
+      if ($iterator->count()) {
+         while ($data = $iterator->next()) {
             $holidays[$data['id']] = $data;
             $used[$data['id']]     = $data['id'];
          }

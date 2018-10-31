@@ -5880,8 +5880,6 @@ class Ticket extends CommonITILObject {
       }
 
       $crit = [];
-      $restrict         = [];
-      $order            = '';
       $options['reset'] = 'reset';
 
       switch ($item->getType()) {

@@ -131,15 +131,13 @@ class CartridgeItem extends CommonDBTM {
    static function getCount($id) {
       global $DB;
 
-      $query = "SELECT *
-                FROM `glpi_cartridges`
-                WHERE `cartridgeitems_id` = '".$id."'";
+      $iterator = $DB->request('glpi_cartridges', [
+         'WHERE' => [
+            'cartridgeitems_id' => $id
+         ]
+      ]);
 
-      if ($result = $DB->query($query)) {
-         $number = $DB->numrows($result);
-         return $number;
-      }
-      return false;
+      return $iterator->count();
    }
 
 
@@ -569,35 +567,51 @@ class CartridgeItem extends CommonDBTM {
    static function dropdownForPrinter(Printer $printer) {
       global $DB;
 
-      $query = "SELECT COUNT(*) AS cpt,
-                       `glpi_locations`.`completename` AS location,
-                       `glpi_cartridgeitems`.`ref` AS ref,
-                       `glpi_cartridgeitems`.`name` AS name,
-                       `glpi_cartridgeitems`.`id` AS tID
-                FROM `glpi_cartridgeitems`
-                INNER JOIN `glpi_cartridgeitems_printermodels`
-                     ON (`glpi_cartridgeitems`.`id`
-                         = `glpi_cartridgeitems_printermodels`.`cartridgeitems_id`)
-                INNER JOIN `glpi_cartridges`
-                     ON (`glpi_cartridges`.`cartridgeitems_id` = `glpi_cartridgeitems`.`id`
-                         AND `glpi_cartridges`.`date_use` IS NULL)
-                LEFT JOIN `glpi_locations`
-                     ON (`glpi_locations`.`id` = `glpi_cartridgeitems`.`locations_id`)
-                WHERE `glpi_cartridgeitems_printermodels`.`printermodels_id`
-                           = '".$printer->fields["printermodels_id"]."'
-                      ".getEntitiesRestrictRequest('AND', 'glpi_cartridgeitems', '',
-                                                   $printer->fields["entities_id"], true)."
-                GROUP BY tID
-                ORDER BY `name`, `ref`";
+      $iterator = $DB->request('glpi_cartridgeitems', [
+         'SELECT' => [
+            'glpi_locations.completename AS location',
+            'glpi_cartridgeitems.ref AS ref',
+            'glpi_cartridgeitems.name AS name',
+            'glpi_cartridgeitems.id AS tID'
+         ],
+         'COUNT' => 'cpt',
+         'INNER JOIN' => [
+            'glpi_cartridgeitems_printermodels' => [
+               'FKEY' => [
+                  'glpi_cartridgeitems' => 'id',
+                  'glpi_cartridgeitems_printermodels' => 'cartridgeitems_id'
+               ]
+            ],
+            'glpi_cartridges' => [
+               'FKEY' => [
+                  'glpi_cartridges' => 'cartridgeitems_id',
+                  'glpi_cartridgeitems' => 'id'
+               ]
+            ]
+         ],
+         'LEFT JOIN' => [
+            'glpi_locations' => [
+               'FKEY' => [
+                  'glpi_locations' => 'id',
+                  'glpi_cartridgeitems' => 'locations_id'
+               ]
+            ]
+         ],
+         'WHERE' => [
+            'glpi_cartridgeitems_printermodels.printermodels_id' => $printer->fields["printermodels_id"],
+            getEntitiesRestrictRequest('', 'glpi_cartridgeitems', '', $printer->fields["entities_id"], true)
+         ],
+         'ORDER' => 'tID',
+         'GROUP' => ['name', 'ref']
+      ]);
+
       $datas = [];
-      if ($result = $DB->query($query)) {
-         if ($DB->numrows($result)) {
-            while ($data= $DB->fetch_assoc($result)) {
-               $text = sprintf(__('%1$s - %2$s'), $data["name"], $data["ref"]);
-               $text = sprintf(__('%1$s (%2$s)'), $text, $data["cpt"]);
-               $text = sprintf(__('%1$s - %2$s'), $text, $data["location"]);
-               $datas[$data["tID"]] = $text;
-            }
+      if ($iterator->count()) {
+         while ($data = $iterator->next()) {
+            $text = sprintf(__('%1$s - %2$s'), $data["name"], $data["ref"]);
+            $text = sprintf(__('%1$s (%2$s)'), $text, $data["cpt"]);
+            $text = sprintf(__('%1$s - %2$s'), $text, $data["location"]);
+            $datas[$data["tID"]] = $text;
          }
       }
       if (count($datas)) {

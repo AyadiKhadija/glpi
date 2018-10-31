@@ -123,19 +123,29 @@ class Change_Problem extends CommonDBRelation{
       $canedit = $problem->canEdit($ID);
       $rand    = mt_rand();
 
-      $query = "SELECT DISTINCT `glpi_changes_problems`.`id` AS linkID,
-                                `glpi_changes`.*
-                FROM `glpi_changes_problems`
-                LEFT JOIN `glpi_changes`
-                     ON (`glpi_changes_problems`.`changes_id` = `glpi_changes`.`id`)
-                WHERE `glpi_changes_problems`.`problems_id` = '$ID'
-                ORDER BY `glpi_changes`.`name`";
-      $result = $DB->query($query);
+      $iterator = $DB->request('glpi_changes_problems', [
+         'SELECT DISTINCT' => [
+            'glpi_changes_problems.id AS linkID',
+            'glpi_changes.*'
+         ],
+         'LEFT JOIN' => [
+            'glpi_changes' => [
+               'FKEY' = [
+                  'glpi_changes_problems' => 'changes_id',
+                  'glpi_changes' => 'id'
+               ]
+            ]
+         ],
+         'WHERE' => [
+            'glpi_changes_problems.problems_id' => $ID
+         ],
+         'ORDER' => 'glpi_changes.name'
+      ]);
 
       $changes = [];
       $used    = [];
-      if ($numrows = $DB->numrows($result)) {
-         while ($data = $DB->fetch_assoc($result)) {
+      if ($numrows = $iterator->count()) {
+         while ($data = $iterator->next()) {
             $changes[$data['id']] = $data;
             $used[$data['id']]    = $data['id'];
          }
@@ -224,19 +234,29 @@ class Change_Problem extends CommonDBRelation{
       $canedit = $change->canEdit($ID);
       $rand    = mt_rand();
 
-      $query = "SELECT DISTINCT `glpi_changes_problems`.`id` AS linkID,
-                                `glpi_problems`.*
-                FROM `glpi_changes_problems`
-                LEFT JOIN `glpi_problems`
-                     ON (`glpi_changes_problems`.`problems_id` = `glpi_problems`.`id`)
-                WHERE `glpi_changes_problems`.`changes_id` = '$ID'
-                ORDER BY `glpi_problems`.`name`";
-      $result = $DB->query($query);
+      $iterator = $DB->request('glpi_changes_problems', [
+         'SELECT DISTINCT' => [
+            'glpi_changes_problems.id AS linkID',
+            'glpi_problems.*'
+         ],
+         'LEFT JOIN' => [
+            'glpi_problems' => [
+               'FKEY' = [
+                  'glpi_changes_problems' => 'problems_id',
+                  'glpi_problems' => 'id'
+               ]
+            ]
+         ],
+         'WHERE' => [
+            'glpi_changes_problems.changes_id' => $ID
+         ],
+         'ORDER' => 'glpi_problems.name'
+      ]);
 
       $problems = [];
       $used     = [];
-      if ($numrows = $DB->numrows($result)) {
-         while ($data = $DB->fetch_assoc($result)) {
+      if ($numrows = $iterator->count()) {
+         while ($data = $iterator->next()) {
             $problems[$data['id']] = $data;
             $used[$data['id']]     = $data['id'];
          }
