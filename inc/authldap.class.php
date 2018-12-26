@@ -3407,6 +3407,8 @@ class AuthLDAP extends CommonDBTM {
             ['id' => ['<>', $this->input['id']]]
          );
       }
+
+      parent::post_updateItem();
    }
 
    function post_addItem() {
@@ -3419,6 +3421,8 @@ class AuthLDAP extends CommonDBTM {
             ['id' => ['<>', $this->fields['id']]]
          );
       }
+
+      parent::post_addItem();
    }
 
    function prepareInputForAdd($input) {

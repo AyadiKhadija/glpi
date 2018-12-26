@@ -182,6 +182,8 @@ class Budget extends CommonDropdown{
          // ADD Documents
          Document_Item::cloneItem($this->getType(), $this->input["_oldID"], $this->fields['id']);
       }
+
+      parent::post_addItem();
    }
 
 

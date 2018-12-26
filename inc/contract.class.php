@@ -144,6 +144,8 @@ class Contract extends CommonDBTM {
          // ADD Devices
          ContractCost::cloneContract($this->input["_oldID"], $this->fields['id']);
       }
+
+      parent::post_addItem();
    }
 
 

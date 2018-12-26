@@ -81,6 +81,8 @@ class Event extends CommonDBTM {
 
          Toolbox::logInFile("event", $full_message);
       }
+
+      parent::post_addItem();
    }
 
 

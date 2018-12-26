@@ -2085,4 +2085,28 @@ class Plugin extends CommonDBTM {
       $forbidden[] = 'purge';
       return $forbidden;
    }
+
+   /**
+    * Get webhook triggers managed by plugins
+    *
+    * @since 10.0.0
+    * @return Array containing plugin webhook triggers
+   **/
+   static function getWebhookTriggers() {
+
+      $sopt = [];
+      foreach (self::getPlugins() as $plug) {
+         if (file_exists(GLPI_ROOT . "/plugins/$plug/hook.php")) {
+            include_once(GLPI_ROOT . "/plugins/$plug/hook.php");
+         }
+         $function = "plugin_".$plug."getWebhookTriggers";
+         if (function_exists($function)) {
+            $tmp = $function();
+            if (is_array($tmp) && count($tmp)) {
+               $sopt += $tmp;
+            }
+         }
+      }
+      return $sopt;
+   }
 }

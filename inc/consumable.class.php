@@ -99,6 +99,7 @@ class Consumable extends CommonDBChild {
 
       Infocom::cloneItem('ConsumableItem', $this->fields["consumableitems_id"], $this->fields['id'],
                          $this->getType());
+      parent::post_addItem();
    }
 
 

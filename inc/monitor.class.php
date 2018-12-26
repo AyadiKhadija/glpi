@@ -134,6 +134,7 @@ class Monitor extends CommonDBTM {
          KnowbaseItem_Item::cloneItem($this->getType(), $this->input["_oldID"], $this->fields['id']);
       }
 
+      parent::post_addItem();
    }
 
 

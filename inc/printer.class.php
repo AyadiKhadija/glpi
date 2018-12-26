@@ -224,6 +224,8 @@ class Printer  extends CommonDBTM {
          //Add KB links
          KnowbaseItem_Item::cloneItem($this->getType(), $this->input["_oldID"], $this->fields['id']);
       }
+
+      parent::post_addItem();
    }
 
 

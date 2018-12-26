@@ -151,6 +151,8 @@ class DropdownTranslation extends CommonDBChild {
             $translation->generateCompletename($this->fields, false);
          }
       }
+
+      parent::post_purgeItem();
       return true;
    }
 
@@ -161,6 +163,8 @@ class DropdownTranslation extends CommonDBChild {
          $translation = new self();
          $translation->generateCompletename($this->fields, false);
       }
+
+      parent::post_updateItem();
    }
 
 
@@ -174,6 +178,8 @@ class DropdownTranslation extends CommonDBChild {
          $translation = new self();
          $translation->generateCompletename($this->fields, true);
       }
+
+      parent::post_addItem();
    }
 
 
