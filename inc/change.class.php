@@ -326,6 +326,8 @@ class Change extends CommonITILObject {
          $this->getFromDB($this->fields['id']);
          NotificationEvent::raiseEvent($mailtype, $this);
       }
+
+      parent::post_updateItem();
    }
 
 
@@ -389,6 +391,8 @@ class Change extends CommonITILObject {
             '_disablenotif' => true
          ]);
       }
+
+      parent::post_addItem();
    }
 
 

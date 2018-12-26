@@ -327,6 +327,8 @@ class Ticket_Ticket extends CommonDBRelation {
          $t->getFromDB($this->fields['tickets_id_2']);
          NotificationEvent::raiseEvent("update", $t);
       }
+
+      parent::post_deleteFromDB();
    }
 
 
@@ -346,6 +348,7 @@ class Ticket_Ticket extends CommonDBRelation {
          NotificationEvent::raiseEvent("update", $t);
       }
 
+      parent::post_addItem();
    }
 
 

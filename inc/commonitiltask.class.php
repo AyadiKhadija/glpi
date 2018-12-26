@@ -224,6 +224,8 @@ abstract class CommonITILTask  extends CommonDBTM {
                           'task_groups_id_tech' => $this->fields['groups_id_tech']];
          NotificationEvent::raiseEvent('delete_task', $item, $options);
       }
+
+      parent::post_deleteFromDB();
    }
 
 
@@ -371,6 +373,8 @@ abstract class CommonITILTask  extends CommonDBTM {
          Log::history($this->getField($item->getForeignKeyField()), $itemtype, $changes,
                       $this->getType(), Log::HISTORY_UPDATE_SUBITEM);
       }
+
+      parent::post_updateItem();
    }
 
 
@@ -507,6 +511,8 @@ abstract class CommonITILTask  extends CommonDBTM {
       Log::history($this->getField($this->input["_job"]->getForeignKeyField()),
                    $this->input["_job"]->getTYpe(), $changes, $this->getType(),
                    Log::HISTORY_ADD_SUBITEM);
+
+      parent::post_addItem();
    }
 
 

@@ -181,13 +181,15 @@ class TicketSatisfaction extends CommonDBTM {
             NotificationEvent::raiseEvent("satisfaction", $ticket);
          }
       }
+
+      parent::post_addItem();
    }
 
 
    /**
     * @since 0.85
    **/
-   function post_UpdateItem($history = 1) {
+   function post_updateItem($history = 1) {
       global $CFG_GLPI;
 
       if (!isset($this->input['_disablenotif']) && $CFG_GLPI["use_notifications"]) {
@@ -196,6 +198,8 @@ class TicketSatisfaction extends CommonDBTM {
             NotificationEvent::raiseEvent("replysatisfaction", $ticket);
          }
       }
+
+      parent::post_updateItem();
    }
 
 

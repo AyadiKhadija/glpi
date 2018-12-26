@@ -242,6 +242,8 @@ class Project extends CommonDBTM {
          $this->getFromDB($this->fields['id']);
          NotificationEvent::raiseEvent("update", $this);
       }
+
+      parent::post_updateItem();
    }
 
 
@@ -279,6 +281,8 @@ class Project extends CommonDBTM {
 
          NotificationEvent::raiseEvent('new', $this);
       }
+
+      parent::post_addItem();
    }
 
 

@@ -394,6 +394,7 @@ class NetworkPort extends CommonDBChild {
     */
    function post_addItem() {
       $this->updateDependencies(!$this->input['_no_history']);
+      parent::post_addItem();
    }
 
 

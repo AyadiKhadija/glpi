@@ -367,6 +367,8 @@ class Reservation extends CommonDBChild {
             $rr->delete(['id' => $data['id']]);
          }
       }
+
+      parent::post_purgeItem();
    }
 
 

@@ -319,6 +319,8 @@ class Problem extends CommonITILObject {
          $this->getFromDB($this->fields['id']);
          NotificationEvent::raiseEvent($mailtype, $this);
       }
+
+      parent::post_updateItem();
    }
 
 

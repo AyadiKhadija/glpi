@@ -36,7 +36,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Update from 9.4 to 10.0.0
+ * Update from 9.4 to 10.0
  *
  * @return bool for success (will die for most error)
 **/
@@ -70,7 +70,6 @@ function update94to100() {
          'UNIQUE'
       );
    }
-   /** /Add main column on displaypreferences */
 
    /** add display preferences for sub items */
    $ADDTODISPLAYPREF['Contract'] = [3, 4, 29, 5];
@@ -87,7 +86,6 @@ function update94to100() {
          $DB->query($query);
       }
    }
-   /** /add display preferences for sub items */
 
    //Add over-quota option to software licenses to allow assignment after all alloted licenses are used
    if (!$DB->fieldExists('glpi_softwarelicenses', 'allow_overquota')) {
@@ -147,6 +145,91 @@ function update94to100() {
       );
    }
    /** /move cache configuration into local configuration file */
+
+   //Add webhooks table
+   if (!$DB->tableExists('glpi_webhooks')) {
+      $query = "CREATE TABLE `glpi_webhooks` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `entities_id` int(11) NOT NULL DEFAULT '0',
+                  `name` varchar(255) NOT NULL,
+                  `comment` text,
+                  `url` varchar(255) NOT NULL,
+                  `payload` text NOT NULL,
+                  `is_recursive` tinyint(1) NOT NULL DEFAULT '0',
+                  `is_active` tinyint(1) NOT NULL DEFAULT '0',
+                  `date_creation` datetime DEFAULT NULL,
+                  `date_mod` datetime DEFAULT NULL,
+                  `is_plaintextpayload` tinyint(1) NOT NULL DEFAULT '1',
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+      $DB->queryOrDie($query, "10.0.0 add table glpi_webhooks");
+   }
+
+   //Add webhook triggers table
+   if (!$DB->tableExists('glpi_webhooktriggers')) {
+      $query = "CREATE TABLE `glpi_webhooktriggers` (
+                 `id` INT(11) NOT NULL,
+                 `webhooks_id` INT(11) NOT NULL,
+                 `itemtype` VARCHAR(100) NOT NULL,
+                 `action` VARCHAR(255) NOT NULL,
+                 PRIMARY KEY (`id`),
+                 KEY `webhookaction` (`itemtype`,`webhooks_id`,`action`)
+               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+      $DB->queryOrDie($query, "10.0.0 add table glpi_webhooktriggers");
+   }
+
+   if (!$DB->tableExists('glpi_queuedwebhooks')) {
+      $query = "CREATE TABLE `glpi_queuedwebhooks` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `payload` text NOT NULL,
+                  `url` varchar(255) NOT NULL,
+                  `date_creation` datetime,
+                  `date_send` datetime,
+                  `date_sent` datetime,
+                  `sent_try` int(11) NOT NULL DEFAULT '0',
+                  `entities_id` int(11) NOT NULL DEFAULT '0',
+                  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+      $DB->queryOrDie($query, "10.0.0 add table glpi_queuedwebhooks");
+   }
+
+   $DB->updateOrInsert("glpi_crontasks", [
+      'frequency'       => "60",
+      'param'           => "50",
+      'state'           => "1",
+      'mode'            => "1",
+      'allowmode'       => "3",
+      'hourmin'         => "0",
+      'hourmax'         => "24",
+      'logs_lifetime'   => "30",
+      'lastrun'         => null,
+      'lastcode'        => null,
+      'comment'         => null
+   ], [
+      'itemtype'  => "QueuedWebhook",
+      'name'      => "queuedwebhook"
+   ]);
+
+   $DB->updateOrInsert("glpi_crontasks", [
+      'frequency'       => "86400",
+      'param'           => "30",
+      'state'           => "1",
+      'mode'            => "1",
+      'allowmode'       => "3",
+      'hourmin'         => "0",
+      'hourmax'         => "24",
+      'logs_lifetime'   => "10",
+      'lastrun'         => null,
+      'lastcode'        => null,
+      'comment'         => null
+   ], [
+      'itemtype'  => "QueuedWebhook",
+      'name'      => "queuedwebhookclean"
+   ]);
+
+   $migration->addRight('webhook');
+   $migration->addRight('queuedwebhook');
 
    // ************ Keep it at the end **************
    Config::deleteConfigurationValues('core', $config_to_drop);

@@ -216,6 +216,8 @@ class ProjectTask extends CommonDBChild {
          $this->getFromDB($this->fields['id']);
          NotificationEvent::raiseEvent("update", $this);
       }
+
+      parent::post_updateItem();
    }
 
 
@@ -234,6 +236,8 @@ class ProjectTask extends CommonDBChild {
 
          NotificationEvent::raiseEvent('new', $this);
       }
+
+      parent::post_updateItem();
    }
 
 

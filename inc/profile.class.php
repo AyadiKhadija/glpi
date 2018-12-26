@@ -192,6 +192,8 @@ class Profile extends CommonDBTM {
          }
          ///TODO other needed fields
       }
+
+      parent::post_updateItem();
    }
 
 
@@ -211,6 +213,8 @@ class Profile extends CommonDBTM {
             ]
          );
       }
+
+      parent::post_addItem();
    }
 
 
@@ -1422,6 +1426,9 @@ class Profile extends CommonDBTM {
                       ['itemtype'  => 'Item_Devices',
                             'label'     => _n('Component', 'Components', Session::getPluralNumber()),
                             'field'     => 'device'],
+                      ['rights'    => Webhook::getRights(),
+                            'label'     => _n('Webhook', 'Webhooks', Session::getPluralNumber()),
+                            'field'     => 'webhook'],
                       ['rights'    => $dropdown_rights,
                             'label'     => _n('Global dropdown', 'Global dropdowns', Session::getPluralNumber()),
                             'field'     => 'dropdown'],

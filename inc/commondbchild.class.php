@@ -491,6 +491,8 @@ abstract class CommonDBChild extends CommonDBConnexity {
          Log::history($item->getID(), $item->getType(), $changes, $this->getType(),
                       static::$log_history_add);
       }
+
+      parent::post_addItem();
    }
 
 
@@ -553,6 +555,8 @@ abstract class CommonDBChild extends CommonDBConnexity {
                          static::$log_history_add);
          }
       }
+
+      parent::post_updateItem();
    }
 
    /**
@@ -585,6 +589,8 @@ abstract class CommonDBChild extends CommonDBConnexity {
          Log::history($item->getID(), $item->getType(), $changes, $this->getType(),
                       static::$log_history_delete);
       }
+
+      parent::post_deleteFromDB();
    }
 
 
@@ -649,6 +655,8 @@ abstract class CommonDBChild extends CommonDBConnexity {
                          static::$log_history_unlock);
          }
       }
+
+      parent::post_restoreItem();
    }
 
 

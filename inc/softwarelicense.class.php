@@ -185,6 +185,8 @@ class SoftwareLicense extends CommonTreeDropdown {
       // Add infocoms if exists for the licence
       Infocom::cloneItem('Software', $dupid, $this->fields['id'], $this->getType());
       Software::updateValidityIndicator($this->fields["softwares_id"]);
+
+      parent::post_addItem();
    }
 
    /**
@@ -196,6 +198,8 @@ class SoftwareLicense extends CommonTreeDropdown {
       if (in_array("is_valid", $this->updates)) {
          Software::updateValidityIndicator($this->fields["softwares_id"]);
       }
+
+      parent::post_addItem();
    }
 
 
@@ -205,6 +209,7 @@ class SoftwareLicense extends CommonTreeDropdown {
    **/
    function post_deleteFromDB() {
       Software::updateValidityIndicator($this->fields["softwares_id"]);
+      parent::post_deleteFromDB();
    }
 
 

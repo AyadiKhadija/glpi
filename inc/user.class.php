@@ -675,6 +675,8 @@ class User extends CommonDBTM {
             $right->add($affectation);
          }
       }
+
+      parent::post_addItem();
    }
 
 
@@ -861,6 +863,7 @@ class User extends CommonDBTM {
       $this->syncLdapGroups();
       $this->syncDynamicEmails();
       $this->applyRightRules();
+      parent::post_updateItem();
    }
 
 

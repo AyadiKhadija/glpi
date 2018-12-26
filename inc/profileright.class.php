@@ -346,6 +346,8 @@ class ProfileRight extends CommonDBChild {
          $_SESSION['glpiactiveprofile'][$this->fields['name']] = $this->fields['rights'];
          unset($_SESSION['glpimenu']);
       }
+
+      parent::post_updateItem();
    }
 
 

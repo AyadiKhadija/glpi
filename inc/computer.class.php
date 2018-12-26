@@ -121,6 +121,7 @@ class Computer extends CommonDBTM {
 
       $comp_softvers = new Computer_SoftwareVersion();
       $comp_softvers->updateDatasForComputer($this->fields['id']);
+      parent::post_restoreItem();
    }
 
 
@@ -128,6 +129,7 @@ class Computer extends CommonDBTM {
 
       $comp_softvers = new Computer_SoftwareVersion();
       $comp_softvers->updateDatasForComputer($this->fields['id']);
+      parent::post_deleteItem();
    }
 
 
@@ -248,6 +250,7 @@ class Computer extends CommonDBTM {
             }
          }
       }
+      parent::post_updateItem();
    }
 
 
@@ -302,6 +305,7 @@ class Computer extends CommonDBTM {
          //Add KB links
          KnowbaseItem_Item::cloneItem($this->getType(), $this->input["_oldID"], $this->fields['id']);
       }
+      parent::post_addItem();
    }
 
 

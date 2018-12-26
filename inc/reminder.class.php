@@ -346,6 +346,7 @@ class Reminder extends CommonDBVisible {
          PlanningRecall::manageDatas($this->input['_planningrecall']);
       }
 
+      parent::post_addItem();
    }
 
 
@@ -364,6 +365,7 @@ class Reminder extends CommonDBVisible {
                                                $this->fields["begin"]);
       }
 
+      parent::post_updateItem();
    }
 
 
