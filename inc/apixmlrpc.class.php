@@ -31,12 +31,6 @@
  */
 
 class APIXmlrpc extends API {
-   protected $request_uri;
-   protected $url_elements;
-   protected $verb;
-   protected $parameters;
-   protected $debug = 0;
-   protected $format = "json";
 
    static $content_type = "application/xml";
 
@@ -221,7 +215,7 @@ class APIXmlrpc extends API {
          } else if ($resource === "deleteItems") { // delete one or many CommonDBTM items
             if (isset($this->parameters['id'])) {
                //override input
-               $this->parameters['input'] = new stdClass();;
+               $this->parameters['input'] = new stdClass();
                $this->parameters['input']->id = $this->parameters['id'];
             }
             return $this->returnResponse($this->deleteItems($this->parameters['itemtype'],
@@ -282,13 +276,13 @@ class APIXmlrpc extends API {
    }
 
    /**
-    * Generic function to send a message and an http code to client
+    * Generic function to send a message and an HTTP code to client
     *
     * @since 9.1
     *
     * @param mixed   $response          string message or array of data to send
-    * @param integer $httpcode          http code (see : https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
-    * @param array   $additionalheaders headers to send with http response (must be an array(key => value))
+    * @param integer $httpcode          HTTP code (see : https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
+    * @param array   $additionalheaders headers to send with HTTP response (must be an array(key => value))
     *
     * @return void
     */

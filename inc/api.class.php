@@ -44,22 +44,27 @@ abstract class API extends CommonGLPI {
 
    static $api_url = "";
    static $content_type = "application/json";
-   protected $format;
    protected $iptxt         = "";
    protected $ipnum         = "";
    protected $app_tokens    = [];
    protected $apiclients_id = 0;
+   protected $verb;
+   protected $request_uri;
+   protected $url_elements;
+   protected $parameters;
+   protected $debug           = 0;
+   protected $format          = "json";
 
    /**
-    * First function used on api call
-    * Parse sended query/parameters and call the corresponding API::method
+    * First function used on API call
+    * Parse sent query/parameters and call the corresponding API::method
     *
     * @return void self::returnResponse called for output
     */
    abstract public function call();
 
    /**
-    * Needed to transform params of called api in $this->parameters attribute
+    * Needed to transform params of called API in $this->parameters attribute
     *
     * @return string endpoint called
     */
@@ -69,8 +74,8 @@ abstract class API extends CommonGLPI {
     * Generic messages
     *
     * @param mixed   $response          string message or array of data to send
-    * @param integer $code              http code
-    * @param array   $additionalheaders headers to send with http response (must be an array(key => value))
+    * @param integer $code              HTTP code
+    * @param array   $additionalheaders headers to send with HTTP response (must be an array(key => value))
     *
     * @return void
     */
@@ -92,7 +97,7 @@ abstract class API extends CommonGLPI {
     * @return void
     */
    public function initApi() {
-      global $CFG_GLPI, $DB;
+      global $CFG_GLPI;
 
       // Load GLPI configuration
       include_once (GLPI_ROOT . '/inc/includes.php');
@@ -158,13 +163,17 @@ abstract class API extends CommonGLPI {
    }
 
    /**
-    * Set headers according to cross origin ressource sharing
+    * Set headers according to cross origin resource sharing
     *
-    * @param string $verb Http verb (GET, POST, PUT, DELETE, OPTIONS)
+    * @param string $verb Deprecated/Never implemented. HTTP verb (GET, POST, PUT, DELETE, OPTIONS)
     *
     * @return void
     */
-   protected function cors($verb = 'GET') {
+   protected function cors($verb = null) {
+      if ($verb != null) {
+         Toolbox::deprecated("The use of \$verb is was never implemented. "
+               . "Use object property \$verb instead.");
+      }
       if (isset($_SERVER['HTTP_ORIGIN'])) {
          header("Access-Control-Allow-Origin: *");
       }
@@ -267,7 +276,7 @@ abstract class API extends CommonGLPI {
 
 
    /**
-    * Retrieve GLPI Session initialised by initSession function
+    * Retrieve GLPI Session initialized by initSession function
     * Use 'session_token' param in $this->parameters
     *
     * @return void
@@ -297,8 +306,8 @@ abstract class API extends CommonGLPI {
     * Change active entity to the entities_id one.
     *
     * @param array $params array with theses options :
-    *   - 'entities_id': (default 'all') ID of the new active entity ("all" = load all possible entities). Optionnal
-    *   - 'is_recursive': (default false) Also display sub entities of the active entity.  Optionnal
+    *   - 'entities_id': (default 'all') ID of the new active entity ("all" = load all possible entities). Optional
+    *   - 'is_recursive': (default false) Also display sub entities of the active entity.  Optional
     *
     * @return array|bool
     */
@@ -330,7 +339,7 @@ abstract class API extends CommonGLPI {
     * Return all the possible entity of the current logged user (and for current active profile)
     *
     * @param array $params array with theses options :
-    *   - 'is_recursive': (default false) Also display sub entities of the active entity. Optionnal
+    *   - 'is_recursive': (default false) Also display sub entities of the active entity. Optional
     *
     * @return array of entities (with id and name)
     */
@@ -348,15 +357,17 @@ abstract class API extends CommonGLPI {
             $sons = getSonsOf('glpi_entities', $entity['id']);
             foreach ($sons as $entity_id) {
                if ($entity_id != $entity['id']) {
-                  $myentities[] = ['id'   => $entity_id,
-                                   'name' => Dropdown::getDropdownName("glpi_entities",
-                                                                       $entity_id)];
+                  $myentities[] = [
+                     'id'   => $entity_id,
+                     'name' => Dropdown::getDropdownName("glpi_entities", $entity_id)
+                  ];
                }
             }
          }
-         $myentities[] = ['id' => $entity['id'],
-                          'name' => Dropdown::getDropdownName("glpi_entities",
-                                                                   $entity['id'])];
+         $myentities[] = [
+            'id' => $entity['id'],
+            'name' => Dropdown::getDropdownName("glpi_entities", $entity['id'])
+         ];
       }
       return ['myentities' => $myentities];
    }
@@ -377,7 +388,7 @@ abstract class API extends CommonGLPI {
       $this->initEndpoint();
 
       $actives_entities = [];
-      foreach (array_values($_SESSION['glpiactiveentities']) as $active_entity) {
+      foreach ($_SESSION['glpiactiveentities'] as $active_entity) {
          $actives_entities[] = ['id' => $active_entity];
       }
 
@@ -459,7 +470,7 @@ abstract class API extends CommonGLPI {
 
 
    /**
-    * Return the current php $_SESSION
+    * Return the current PHP $_SESSION
     *
     * @return array
     */
@@ -493,22 +504,22 @@ abstract class API extends CommonGLPI {
     * @param string  $itemtype itemtype (class) of object
     * @param integer $id       identifier of object
     * @param array   $params   with theses options :
-    *    - 'expand_dropdowns': Show dropdown's names instead of id. default: false. Optionnal
-    *    - 'get_hateoas':      Show relation of current item in a links attribute. default: true. Optionnal
-    *    - 'get_sha1':         Get a sha1 signature instead of the full answer. default: false. Optionnal
-    *    - 'with_devices':  Only for [Computer, NetworkEquipment, Peripheral, Phone, Printer], Optionnal.
-    *    - 'with_disks':       Only for Computer, retrieve the associated filesystems. Optionnal.
-    *    - 'with_softwares':   Only for Computer, retrieve the associated softwares installations. Optionnal.
-    *    - 'with_connections': Only for Computer, retrieve the associated direct connections (like peripherals and printers) .Optionnal.
-    *    - 'with_networkports':Retrieve all network connections and advanced network informations. Optionnal.
-    *    - 'with_infocoms':    Retrieve financial and administrative informations. Optionnal.
-    *    - 'with_contracts':   Retrieve associated contracts. Optionnal.
-    *    - 'with_documents':   Retrieve associated external documents. Optionnal.
-    *    - 'with_tickets':     Retrieve associated itil tickets. Optionnal.
-    *    - 'with_problems':    Retrieve associated itil problems. Optionnal.
-    *    - 'with_changes':     Retrieve associated itil changes. Optionnal.
-    *    - 'with_notes':       Retrieve Notes (if exists, not all itemtypes have notes). Optionnal.
-    *    - 'with_logs':        Retrieve historical. Optionnal.
+    *    - 'expand_dropdowns': Show dropdown names instead of id. default: false. Optional
+    *    - 'get_hateoas':      Show relation of current item in a links attribute. default: true. Optional
+    *    - 'get_sha1':         Get a SHA1 signature instead of the full answer. default: false. Optional
+    *    - 'with_devices':  Only for [Computer, NetworkEquipment, Peripheral, Phone, Printer], Optional.
+    *    - 'with_disks':       Only for Computer, retrieve the associated filesystems. Optional.
+    *    - 'with_softwares':   Only for Computer, retrieve the associated software installations. Optional.
+    *    - 'with_connections': Only for Computer, retrieve the associated direct connections (like peripherals and printers. Optional.
+    *    - 'with_networkports':Retrieve all network connections and advanced network information. Optional.
+    *    - 'with_infocoms':    Retrieve financial and administrative information. Optional.
+    *    - 'with_contracts':   Retrieve associated contracts. Optional.
+    *    - 'with_documents':   Retrieve associated external documents. Optional.
+    *    - 'with_tickets':     Retrieve associated ITIL tickets. Optional.
+    *    - 'with_problems':    Retrieve associated ITIL problems. Optional.
+    *    - 'with_changes':     Retrieve associated ITIL changes. Optional.
+    *    - 'with_notes':       Retrieve Notes (if exists, not all itemtypes have notes). Optional.
+    *    - 'with_logs':        Retrieve historical. Optional.
     *
     * @return array    fields of found object
     */
@@ -1103,16 +1114,16 @@ abstract class API extends CommonGLPI {
     *
     * @param string  $itemtype   itemtype (class) of object
     * @param array   $params     with theses options :
-    * - 'expand_dropdowns' (default: false): show dropdown's names instead of id. Optionnal
-    * - 'get_hateoas'      (default: true): show relations of items in a links attribute. Optionnal
-    * - 'only_id'          (default: false): keep only id in fields list. Optionnal
+    * - 'expand_dropdowns' (default: false): show dropdown names instead of id. Optional
+    * - 'get_hateoas'      (default: true): show relations of items in a links attribute. Optional
+    * - 'only_id'          (default: false): keep only id in fields list. Optional
     * - 'range'            (default: 0-50): limit the list to start-end attributes
     * - 'sort'             (default: id): sort by the field.
     * - 'order'            (default: ASC): ASC(ending) or DESC(ending).
     * - 'searchText'       (default: NULL): array of filters to pass on the query (with key = field and value the search)
-    * - 'is_deleted'       (default: false): show trashbin. Optionnal
-    * @param integer $totalcount output parameter who receive the total count of the query resulat.
-    *                            As this function paginate results (with a mysql LIMIT),
+    * - 'is_deleted'       (default: false): show trashbin. Optional
+    * @param integer $totalcount output parameter who receive the total count of the query result.
+    *                            As this function paginate results (with a MySQL LIMIT),
     *                            we can have the full range. (default 0)
     *
     * @return array collection of fields
@@ -1246,7 +1257,8 @@ abstract class API extends CommonGLPI {
 
       // filter with entity
       if ($item->isEntityAssign()
-          // some CommonDBChild classes may not have entities_id fields and isEntityAssign still return true (like TicketTemplateMandatoryField)
+          // some CommonDBChild classes may not have entities_id fields
+          // and isEntityAssign still return true (like TicketTemplateMandatoryField)
           && array_key_exists('entities_id', $item->fields)) {
          $where.= " AND (". getEntitiesRestrictRequest("",
                                              $itemtype::getTable(),
@@ -1323,24 +1335,24 @@ abstract class API extends CommonGLPI {
     *                                      [itemtype => 'User',   id => 10],
     *                                      [itemtype => 'User',   id => 11],
     *                                   ]
-    *    - 'expand_dropdowns':  Show dropdown's names instead of id. default: false. Optionnal
-    *    - 'get_hateoas':       Show relation of current item in a links attribute. default: true. Optionnal
-    *    - 'get_sha1':          Get a sha1 signature instead of the full answer. default: false. Optionnal
-    *    - 'with_devices':   Only for [Computer, NetworkEquipment, Peripheral, Phone, Printer], Optionnal.
-    *    - 'with_disks':        Only for Computer, retrieve the associated filesystems. Optionnal.
-    *    - 'with_softwares':    Only for Computer, retrieve the associated softwares installations. Optionnal.
-    *    - 'with_connections':  Only for Computer, retrieve the associated direct connections (like peripherals and printers) .Optionnal.
-    *    - 'with_networkports': Retrieve all network connections and advanced network informations. Optionnal.
-    *    - 'with_infocoms':     Retrieve financial and administrative informations. Optionnal.
-    *    - 'with_contracts':    Retrieve associated contracts. Optionnal.
-    *    - 'with_documents':    Retrieve associated external documents. Optionnal.
-    *    - 'with_tickets':      Retrieve associated itil tickets. Optionnal.
-    *    - 'with_problems':     Retrieve associated itil problems. Optionnal.
-    *    - 'with_changes':      Retrieve associated itil changes. Optionnal.
-    *    - 'with_notes':        Retrieve Notes (if exists, not all itemtypes have notes). Optionnal.
-    *    - 'with_logs':         Retrieve historical. Optionnal.
+    *    - 'expand_dropdowns':  Show dropdown names instead of id. default: false. Optional
+    *    - 'get_hateoas':       Show relation of current item in a links attribute. default: true. Optional
+    *    - 'get_sha1':          Get a SHA1 signature instead of the full answer. default: false. Optional
+    *    - 'with_devices':   Only for [Computer, NetworkEquipment, Peripheral, Phone, Printer], Optional.
+    *    - 'with_disks':        Only for Computer, retrieve the associated filesystems. Optional.
+    *    - 'with_softwares':    Only for Computer, retrieve the associated software installations. Optional.
+    *    - 'with_connections':  Only for Computer, retrieve the associated direct connections (like peripherals and printers) .Optional.
+    *    - 'with_networkports': Retrieve all network connections and advanced network information. Optional.
+    *    - 'with_infocoms':     Retrieve financial and administrative information. Optional.
+    *    - 'with_contracts':    Retrieve associated contracts. Optional.
+    *    - 'with_documents':    Retrieve associated external documents. Optional.
+    *    - 'with_tickets':      Retrieve associated ITIL tickets. Optional.
+    *    - 'with_problems':     Retrieve associated ITIL problems. Optional.
+    *    - 'with_changes':      Retrieve associated ITIL changes. Optional.
+    *    - 'with_notes':        Retrieve Notes (if exists, not all itemtypes have notes). Optional.
+    *    - 'with_logs':         Retrieve historical. Optional.
     *
-    * @return array collection of glpi object's fields
+    * @return array collection of GLPI object's fields
     */
    protected function getMultipleItems($params = []) {
 
@@ -1386,21 +1398,16 @@ abstract class API extends CommonGLPI {
             unset($available_searchtypes['searchopt']);
             $available_searchtypes = array_keys($available_searchtypes);
 
-            $cleaned_soptions[$sID] = ['name'                  => $option['name'],
-                                            'table'                 => $option['table'],
-                                            'field'                 => $option['field'],
-                                            'datatype'              => isset($option['datatype'])
-                                                                       ?$option['datatype']
-                                                                       :"",
-                                            'nosearch'              => isset($option['nosearch'])
-                                                                       ?$option['nosearch']
-                                                                       :false,
-                                            'nodisplay'             => isset($option['nodisplay'])
-                                                                       ?$option['nodisplay']
-                                                                       :false,
-                                            'available_searchtypes' => $available_searchtypes];
-            $cleaned_soptions[$sID]['uid'] = $this->getSearchOptionUniqID($itemtype,
-                                                                               $option);
+            $cleaned_soptions[$sID] = [
+               'name'                  => $option['name'],
+               'table'                 => $option['table'],
+               'field'                 => $option['field'],
+               'datatype'              => isset($option['datatype']) ? $option['datatype'] : "",
+               'nosearch'              => isset($option['nosearch']) ? $option['nosearch'] : false,
+               'nodisplay'             => isset($option['nodisplay']) ? $option['nodisplay'] :false,
+               'available_searchtypes' => $available_searchtypes
+            ];
+            $cleaned_soptions[$sID]['uid'] = $this->getSearchOptionUniqID($itemtype, $option);
          } else {
             $cleaned_soptions[$sID] = $option;
          }
@@ -1419,7 +1426,7 @@ abstract class API extends CommonGLPI {
     *
     * It permits to identify a searchoption with an named index instead a numeric one
     *
-    * @param CommonDBTM $itemtype current itemtype called on ressource listSearchOption
+    * @param CommonDBTM $itemtype current itemtype called on resource listSearchOption
     * @param array      $option   current option to generate an unique id
     *
     * @return string the unique id
@@ -1486,30 +1493,30 @@ abstract class API extends CommonGLPI {
     * @param string $itemtype itemtype (class) of object
     * @param array  $params   with theses options :
     *    - 'criteria': array of criterion object to filter search.
-    *        Optionnal.
+    *        Optional.
     *        Each criterion object must provide :
-    *           - link: (optionnal for 1st element) logical operator in [AND, OR, AND NOT, AND NOT].
+    *           - link: (Optional for 1st element) logical operator in [AND, OR, AND NOT, AND NOT].
     *           - field: id of searchoptions.
     *           - searchtype: type of search in [contains, equals, notequals, lessthan, morethan, under, notunder].
     *           - value : value to search.
-    *    - 'metacriteria' (optionnal): array of metacriterion object to filter search.
-    *                                  Optionnal.
+    *    - 'metacriteria' (Optional): array of metacriterion object to filter search.
+    *                                  Optional.
     *                                  A meta search is a link with another itemtype
-    *                                  (ex: Computer with softwares).
+    *                                  (ex: Computer with software).
     *         Each metacriterion object must provide :
     *            - link: logical operator in [AND, OR, AND NOT, AND NOT]. Mandatory
     *            - itemtype: second itemtype to link.
     *            - field: id of searchoptions.
     *            - searchtype: type of search in [contains, equals, notequals, lessthan, morethan, under, notunder].
     *            - value : value to search.
-    *    - 'sort' :  id of searchoption to sort by (default 1). Optionnal.
-    *    - 'order' : ASC - Ascending sort / DESC Descending sort (default ASC). Optionnal.
+    *    - 'sort' :  id of searchoption to sort by (default 1). Optional.
+    *    - 'order' : ASC - Ascending sort / DESC Descending sort (default ASC). Optional.
     *    - 'range' : a string with a couple of number for start and end of pagination separated by a '-'. Ex : 150-200. (default 0-50)
-    *                Optionnal.
+    *                Optional.
     *    - 'forcedisplay': array of columns to display (default empty = empty use display pref and search criterias).
     *                      Some columns will be always presents (1-id, 2-name, 80-Entity).
-    *                      Optionnal.
-    *    - 'rawdata': boolean for displaying raws data of Search engine of glpi (like sql request, and full searchoptions)
+    *                      Optional.
+    *    - 'rawdata': boolean for displaying raw data of Search engine of GLPI (like SQL request, and full searchoptions)
     *
     * @return array of raw rows from Search class
     */
@@ -1918,9 +1925,9 @@ abstract class API extends CommonGLPI {
     *                Mandatory.
     *                You must provide in each object a key named 'id' to identify item to delete.*
     *    - 'force_purge' : boolean, if itemtype have a trashbin, you can force purge (delete finally).
-    *                      Optionnal.
+    *                      Optional.
     *    - 'history' : boolean, default true, false to disable saving of deletion in global history.
-    *                  Optionnal.
+    *                  Optional.
     *
     * @return boolean|boolean[]
     */
@@ -2048,7 +2055,6 @@ abstract class API extends CommonGLPI {
          } catch (ForgetPasswordException $e) {
             return $this->returnError($e->getMessage());
          } catch (PasswordTooWeakException $e) {
-            implode('\n', $e->getMessages());
             return $this->returnError(implode('\n', $e->getMessages()));
          }
       }
@@ -2108,11 +2114,11 @@ abstract class API extends CommonGLPI {
 
 
    /**
-    * Log usage of the api into glpi historical or log files (defined by api config)
+    * Log usage of the API into GLPI historical or log files (defined by API config)
     *
-    * It stores the ip and the username of the current session.
+    * It stores the IP and the username of the current session.
     *
-    * @param string $endpoint function called by api to log (default '')
+    * @param string $endpoint function called by API to log (default '')
     *
     * @return void
     */
@@ -2146,7 +2152,7 @@ abstract class API extends CommonGLPI {
 
 
    /**
-    * Check that the session_token is provided and match to a valid php session
+    * Check that the session_token is provided and match to a valid PHP session
     *
     * @return boolean
     */
@@ -2167,7 +2173,7 @@ abstract class API extends CommonGLPI {
 
 
    /**
-    * Unlock the current session (readonly) to permit concurrent call
+    * Unlock the current session (read-only) to permit concurrent call
     *
     * @return void
     */
@@ -2231,7 +2237,7 @@ abstract class API extends CommonGLPI {
    /**
     * Show API header
     *
-    * in debug, it add body and some libs (essentialy to colorise markdown)
+    * in debug, it add body and some libs (essentially to colorize markdown)
     * otherwise, it change only Content-Type of the page
     *
     * @param boolean $html  (default false)
@@ -2266,7 +2272,7 @@ abstract class API extends CommonGLPI {
 
 
    /**
-    * Display the API Documentation in Html (parsed from markdown)
+    * Display the API Documentation in HTML (parsed from markdown)
     *
     * @param string $file relative path of documentation file
     *
@@ -2313,11 +2319,11 @@ abstract class API extends CommonGLPI {
 
       // parse fields recursively
       foreach ($fields as $key => &$value) {
-         if (is_array($value)) {
-            $value = self::parseDropdowns($value, $params);
-         }
          if (is_integer($key)) {
             continue;
+         }
+         if (is_array($value)) {
+            $value = self::parseDropdowns($value, $params);
          }
          if (isForeignKeyField($key)) {
             // specific key transformations
@@ -2556,7 +2562,7 @@ abstract class API extends CommonGLPI {
     * Generic function to send a error message and an error code to client
     *
     * @param string  $message         message to send (human readable)(default 'Bad Request')
-    * @param integer $httpcode        http code (see : https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
+    * @param integer $httpcode        HTTP code (see : https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
     *                                      (default 400)
     * @param string  $statuscode      API status (to represent more precisely the current error)
     *                                      (default ERROR)

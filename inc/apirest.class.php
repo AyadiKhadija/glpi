@@ -36,13 +36,6 @@
 
 class APIRest extends API {
 
-   protected $request_uri;
-   protected $url_elements;
-   protected $verb;
-   protected $parameters;
-   protected $debug           = 0;
-   protected $format          = "json";
-
    /**
     *
     * @param integer $nb Unused value
@@ -74,7 +67,7 @@ class APIRest extends API {
    }
 
    /**
-    * Parse url and http body to retrieve :
+    * Parse URL and HTTP body to retrieve :
     *  - HTTP VERB (GET/POST/DELETE/PUT)
     *  - Resource : Rest endpoint
     *  - Identifier
@@ -82,7 +75,7 @@ class APIRest extends API {
     *
     *  And send to method corresponding identified resource
     *
-    * @return mixed json with response or error
+    * @return mixed JSON with response or error
     */
    public function call() {
 
@@ -97,7 +90,7 @@ class APIRest extends API {
       $is_inline_doc = (strlen($resource) == 0) || ($resource == "api");
 
       // Add headers for CORS
-      $this->cors($this->verb);
+      $this->cors();
 
       // retrieve paramaters (in body, query_string, headers)
       $this->parseIncomingParams($is_inline_doc);
@@ -107,9 +100,7 @@ class APIRest extends API {
          $this->debug = $this->parameters['debug'];
          if (empty($this->debug)) {
             $this->debug = 1;
-         }
-
-         if ($this->debug >= 2) {
+         } else if ($this->debug >= 2) {
             $this->showDebug();
          }
       }
@@ -311,9 +302,9 @@ class APIRest extends API {
     *
     * @param integer $index      we'll find itemtype in this index of $this->url_elements
     *                            (default o)
-    * @param boolean $recursive  can we go depper or we trigger an http error if we fail to find itemtype?
+    * @param boolean $recursive  can we go deeper or we trigger an HTTP error if we fail to find itemtype?
     *                            (default true)
-    * @param boolean $all_assets if we can have allasset virtual type (default false)
+    * @param boolean $all_assets if we can have allassets virtual type (default false)
     *
     * @return boolean
     */
@@ -505,8 +496,7 @@ class APIRest extends API {
       foreach ($parameters as $key => &$parameter) {
          if ($parameter === "true") {
             $parameter = true;
-         }
-         if ($parameter === "false") {
+         } else if ($parameter === "false") {
             $parameter = false;
          }
       }
@@ -518,12 +508,12 @@ class APIRest extends API {
 
 
    /**
-    * Generic function to send a message and an http code to client
+    * Generic function to send a message and an HTTP code to client
     *
     * @param string  $response          message or array of data to send
-    * @param integer $httpcode          http code (default 200)
+    * @param integer $httpcode          HTTP code (default 200)
     *                                   (see: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
-    * @param array   $additionalheaders headers to send with http response (must be an array(key => value))
+    * @param array   $additionalheaders headers to send with HTTP response (must be an array(key => value))
     *
     * @return void
     */
@@ -563,7 +553,7 @@ class APIRest extends API {
 
 
    /**
-    * Display the APIRest Documentation in Html (parsed from markdown)
+    * Display the APIRest Documentation in HTML (parsed from markdown)
     *
     * @param string $file relative path of documentation file (default 'apirest.md')
     *
