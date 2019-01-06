@@ -199,13 +199,16 @@ abstract class LevelAgreement extends CommonDBChild {
                                            'min'   => 0]);
       $possible_values = ['minute' => _n('Minute', 'Minutes', Session::getPluralNumber()),
                           'hour'   => _n('Hour', 'Hours', Session::getPluralNumber()),
-                          'day'    => _n('Day', 'Days', Session::getPluralNumber())];
+                          'day'    => _n('Day', 'Days', Session::getPluralNumber()),
+                          'week'   => _n('Week', 'Weeks', Session::getPluralNumber()),
+                          'month'  => _n('Month', 'Months', Session::getPluralNumber())];
       $rand = Dropdown::showFromArray('definition_time', $possible_values,
                                       ['value'     => $this->fields["definition_time"],
                                        'on_change' => 'appearhideendofworking()']);
       echo "\n<script type='text/javascript' >\n";
       echo "function appearhideendofworking() {\n";
-      echo "if ($('#dropdown_definition_time$rand option:selected').val() == 'day') {
+      echo "timedef = $('#dropdown_definition_time$rand option:selected').val();";
+      echo "if (timedef == 'day' || timedef == 'week' || timedef =='month') {
                $('#title_endworkingday').show();
                $('#dropdown_endworkingday').show();
             } else {
@@ -763,6 +766,12 @@ abstract class LevelAgreement extends CommonDBChild {
 
                case 'day' :
                   return sprintf(_n('%d day', '%d days', $values[$field]), $values[$field]);
+
+               case 'week' :
+                  return sprintf(_n('%d week', '%d weeks', $values[$field]), $values[$field]);
+
+               case 'month' :
+                  return sprintf(_n('%d month', '%d months', $values[$field]), $values[$field]);
             }
             break;
 
@@ -812,6 +821,12 @@ abstract class LevelAgreement extends CommonDBChild {
          }
          if ($this->fields['definition_time'] == "day") {
             return $this->fields['number_time'] * DAY_TIMESTAMP;
+         }
+         if ($this->fields['definition_time'] == "week") {
+            return $this->fields['number_time'] * WEEK_TIMESTAMP;
+         }
+         if ($this->fields['definition_time'] == "month") {
+            return $this->fields['number_time'] * MONTH_TIMESTAMP;
          }
       }
       return 0;
