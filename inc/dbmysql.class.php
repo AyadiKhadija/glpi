@@ -214,7 +214,7 @@ class DBmysql {
 
    /**
     * Execute a MySQL query and die
-    * (optionnaly with a message) if it fails
+    * (optionally with a message) if it fails
     *
     * @since 0.84
     * @deprecated 10.0.0
@@ -231,7 +231,7 @@ class DBmysql {
 
    /**
     * Execute a MySQL query and die
-    * (optionnaly with a message) if it fails
+    * (optionally with a message) if it fails
     *
     * @since 10.0.0
     *
@@ -534,7 +534,7 @@ class DBmysql {
     *
     * @param string $path with file full path
     *
-    * @return boolean true if all query are successfull
+    * @return boolean true if all query are successful
     */
    function runFile($path) {
       $DBf_handle = fopen($path, "rt");
@@ -767,7 +767,7 @@ class DBmysql {
    }
 
    /**
-    * Disable table cache globally; usefull for migrations
+    * Disable table cache globally; useful for migrations
     *
     * @return void
     */
@@ -877,7 +877,7 @@ class DBmysql {
 
    /**
     * Insert a row in the database and die
-    * (optionnaly with a message) if it fails
+    * (optionally with a message) if it fails
     *
     * @since 9.3
     *
@@ -888,24 +888,8 @@ class DBmysql {
     * @return mysqli_result|boolean Query result handler
     */
    function insertOrDie($table, $params, $message = '') {
-      $insert = $this->buildInsert($table, $params);
-      $res = $this->rawQuery($insert);
-      if (!$res) {
-         //TRANS: %1$s is the description, %2$s is the query, %3$s is the error message
-         $message = sprintf(
-            __('%1$s - Error during the database query: %2$s - Error is %3$s'),
-            $message,
-            $insert,
-            $this->error()
-         );
-         if (isCommandLine()) {
-            throw new \RuntimeException($message);
-         } else {
-            echo $message . "\n";
-            die(1);
-         }
-      }
-      return $res;
+      $query = $this->buildInsert($table, $params);
+      return $this->rawQueryOrDie($query, $message);
    }
 
    /**
@@ -991,7 +975,7 @@ class DBmysql {
 
    /**
     * Update a row in the database or die
-    * (optionnaly with a message) if it fails
+    * (optionally with a message) if it fails
     *
     * @since 9.3
     *
@@ -1005,24 +989,8 @@ class DBmysql {
     * @return mysqli_result|boolean Query result handler
     */
    function updateOrDie($table, $params, $where, $message = '', array $joins = []) {
-      $update = $this->buildUpdate($table, $params, $where, $joins);
-      $res = $this->rawQuery($update);
-      if (!$res) {
-         //TRANS: %1$s is the description, %2$s is the query, %3$s is the error message
-         $message = sprintf(
-            __('%1$s - Error during the database query: %2$s - Error is %3$s'),
-            $message,
-            $update,
-            $this->error()
-         );
-         if (isCommandLine()) {
-            throw new \RuntimeException($message);
-         } else {
-            echo $message . "\n";
-            die(1);
-         }
-      }
-      return $res;
+      $query = $this->buildUpdate($table, $params, $where, $joins);
+      return $this->rawQueryOrDie($query, $message);
    }
 
    /**
@@ -1098,7 +1066,7 @@ class DBmysql {
 
    /**
     * Delete a row in the database and die
-    * (optionnaly with a message) if it fails
+    * (optionally with a message) if it fails
     *
     * @since 9.3
     *
@@ -1111,25 +1079,8 @@ class DBmysql {
     * @return mysqli_result|boolean Query result handler
     */
    function deleteOrDie($table, $where, $message = '', array $joins = []) {
-      $update = $this->buildDelete($table, $where, $joins);
-      $res = $this->rawQuery($update);
-      if (!$res) {
-         //TRANS: %1$s is the description, %2$s is the query, %3$s is the error message
-         $message = sprintf(
-            __('%1$s - Error during the database query: %2$s - Error is %3$s'),
-            $message,
-            $update,
-            $this->error()
-         );
-         if (isCommandLine()) {
-            throw new \RuntimeException($message);
-         } else {
-            echo $message . "\n";
-            die(1);
-         }
-
-      }
-      return $res;
+      $query = $this->buildDelete($table, $where, $joins);
+      return $this->rawQueryOrDie($query, $message);
    }
 
    /**
@@ -1142,13 +1093,12 @@ class DBmysql {
     * @return mysqli_result|boolean Query result handler
     */
    public function truncate($table) {
-      $result = $this->rawQuery("TRUNCATE $table");
-      return $result;
+      return $this->rawQuery("TRUNCATE $table");
    }
 
    /**
     * Truncate table in the database and die
-    * (optionnaly with a message) if it fails
+    * (optionally with a message) if it fails
     *
     * @since 10.0.0
     *
@@ -1158,25 +1108,7 @@ class DBmysql {
     * @return mysqli_result|boolean Query result handler
     */
    function truncateOrDie($table, $message = '') {
-      $update = $this->buildDelete($table, $where);
-      $res = $this->rawQuery("TRUNCATE $table");
-      if (!$res) {
-         //TRANS: %1$s is the description, %2$s is the query, %3$s is the error message
-         $message = sprintf(
-            __('%1$s - Error during the database query: %2$s - Error is %3$s'),
-            $message,
-            $update,
-            $this->error()
-         );
-         if (isCommandLine()) {
-            throw new \RuntimeException($message);
-         } else {
-            echo $message . "\n";
-            die(1);
-         }
-
-      }
-      return $res;
+      return $this->rawQueryOrDie("TRUNCATE $table", $message);
    }
 
    /**
@@ -1301,7 +1233,7 @@ class DBmysql {
    }
 
    /**
-    * Roolbacks a transaction
+    * Rollbacks a transaction
     *
     * @return boolean
     */
