@@ -392,6 +392,10 @@ $CFG_GLPI["globalsearch_types"]           = ['Computer', 'Contact', 'Contract',
                                              'Budget', 'Certificate', 'Line', 'Datacenter',
                                              'DCRoom', 'Enclosure', 'PDU', 'Rack'];
 
+$CFG_GLPI["maint_types"]                  = ['Computer', 'Monitor', 'NetworkEquipment',
+                                             'Peripheral', 'Phone', 'Printer', 'Enclosure',
+                                             'PDU', 'Rack'];
+
 // New config options which can be missing during migration
 $CFG_GLPI["number_format"]  = 0;
 $CFG_GLPI["decimal_number"] = 2;

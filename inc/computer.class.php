@@ -91,6 +91,7 @@ class Computer extends CommonDBTM {
          ->addStandardTab('Change_Item', $ong, $options)
          ->addStandardTab('Link', $ong, $options)
          ->addStandardTab('Certificate_Item', $ong, $options)
+         ->addStandardTab('Item_MaintenanceSchedule', $ong, $options)
          ->addStandardTab('Lock', $ong, $options)
          ->addStandardTab('Notepad', $ong, $options)
          ->addStandardTab('Reservation', $ong, $options)

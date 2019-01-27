@@ -7,6 +7,8 @@ The present file will list all changes made to the project; according to the
 
 ### Added
 
+ - Maintenance schedules to assets
+
 ### Changed
 
 - Update process is now limited to GLPI 0.80 and above. See upgrade documentation for details.
