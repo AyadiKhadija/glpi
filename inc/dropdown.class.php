@@ -984,7 +984,8 @@ class Dropdown {
              __('Tools') => [
                  'KnowbaseItemCategory' => _n('Knowledge base category',
                                               'Knowledge base categories',
-                                              Session::getPluralNumber())
+                                              Session::getPluralNumber()),
+                 'ITILEventCategory' => ITILEventCategory::getTypeName(Session::getPluralNumber())
              ],
 
              __('Calendar') => [
