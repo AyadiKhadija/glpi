@@ -1366,7 +1366,8 @@ class Html {
 
       $menu['admin']['title']        = __('Administration');
       $menu['admin']['types']        = ['User', 'Group', 'Entity', 'Rule',
-                                             'Profile', 'QueuedNotification', 'Backup', 'Glpi\\Event'];
+                                             'Profile', 'QueuedNotification', 'QueuedWebhook',
+                                             'Backup', 'Glpi\\Event'];
 
       $menu['config']['title']       = __('Setup');
       $menu['config']['types']       = ['CommonDropdown', 'CommonDevice', 'Notification',
