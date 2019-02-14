@@ -31,7 +31,7 @@
  */
 
 /**
- * Update from 9.4 to 10.0
+ * Update from 9.4 to 10.0.0
  *
  * @return bool for success (will die for most error)
 **/
@@ -47,6 +47,43 @@ function update94to100() {
    //TRANS: %s is the number of new version
    $migration->displayTitle(sprintf(__('Update to %s'), '10.0.0'));
    $migration->setVersion('10.0.0');
+
+   //put your update rules here, and drop the line!
+   /** Add main column on displaypreferences */
+   if ($migration->addField(
+         'glpi_displaypreferences',
+         'is_main',
+         'bool',
+         ['value' => 1]
+      )) {
+      $migration->addKey('glpi_displaypreferences', 'is_main');
+      $migration->dropKey('glpi_displaypreferences', 'unicity');
+      $migration->migrationOneTable('glpi_displaypreferences');
+      $migration->addKey(
+         'glpi_displaypreferences',
+         ['users_id', 'itemtype', 'num', 'is_main'],
+         'unicity',
+         'UNIQUE'
+      );
+   }
+   /** /Add main column on displaypreferences */
+
+   /** add display preferences for sub items */
+   $ADDTODISPLAYPREF['Contract'] = [3, 4, 29, 5];
+   $ADDTODISPLAYPREF['Item_Disk'] = [2, 3, 4, 5, 6, 7];
+   $ADDTODISPLAYPREF['Certificate'] = [7, 4, 8, 121, 10, 31];
+   $ADDTODISPLAYPREF['Notepad'] = [200, 201, 202, 203, 204];
+   $ADDTODISPLAYPREF['SoftwareVersion'] = [3, 31, 2, 122, 123, 124];
+   foreach ($ADDTODISPLAYPREF as $type => $tab) {
+      $rank = 1;
+      foreach ($tab as $newval) {
+         $query = "REPLACE INTO `glpi_displaypreferences`
+                           (`itemtype` ,`num` ,`rank` ,`users_id`, `is_main`)
+                     VALUES ('$type', '$newval', '".$rank++."', '0', '0')";
+         $DB->query($query);
+      }
+   }
+   /** /add display preferences for sub items */
 
    //Add webhooks table
    if (!$DB->tableExists('glpi_webhooks')) {
@@ -72,22 +109,23 @@ function update94to100() {
       $query = "CREATE TABLE `glpi_webhooktriggers` (
                  `id` INT(11) NOT NULL,
                  `webhooks_id` INT(11) NOT NULL,
-                 `itemtype` VARCHAR(100) NOT NULL,
+                 `target` VARCHAR(100) NOT NULL,
                  `action` VARCHAR(255) NOT NULL,
                  PRIMARY KEY (`id`),
-                 KEY `webhookaction` (`itemtype`,`webhooks_id`,`action`)
+                 KEY `webhookaction` (`target`,`webhooks_id`,`action`)
                ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
       $DB->queryOrDie($query, "10.0.0 add table glpi_webhooktriggers");
    }
 
+   //Add webhook queue
    if (!$DB->tableExists('glpi_queuedwebhooks')) {
       $query = "CREATE TABLE `glpi_queuedwebhooks` (
                   `id` int(11) NOT NULL AUTO_INCREMENT,
                   `payload` text NOT NULL,
                   `url` varchar(255) NOT NULL,
                   `date_creation` datetime,
-                  `date_send` datetime,
-                  `date_sent` datetime,
+                  `send_date` datetime,
+                  `sent_date` datetime,
                   `sent_try` int(11) NOT NULL DEFAULT '0',
                   `entities_id` int(11) NOT NULL DEFAULT '0',
                   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',

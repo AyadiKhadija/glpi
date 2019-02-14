@@ -2090,7 +2090,7 @@ class Plugin extends CommonDBTM {
     * Get webhook triggers managed by plugins
     *
     * @since 10.0.0
-    * @return Array containing plugin webhook triggers
+    * @return array Array containing plugin webhook triggers
    **/
    static function getWebhookTriggers() {
 

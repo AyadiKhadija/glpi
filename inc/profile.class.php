@@ -1338,7 +1338,10 @@ class Profile extends CommonDBTM {
                             'field'     => 'backup'],
                       ['itemtype'  => 'Log',
                             'label'     => _n('Log', 'Logs', Session::getPluralNumber()),
-                            'field'     => 'logs']];
+                            'field'     => 'logs'],
+                      ['itemtype'  => 'QueuedWebhook',
+                            'label'     => __('Webhook queue'),
+                            'field'     => 'queuedwebhook']];
       $matrix_options['title'] = __('Administration');
       $this->displayRightsChoiceMatrix($rights, $matrix_options);
 

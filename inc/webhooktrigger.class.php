@@ -40,7 +40,8 @@ if (!defined('GLPI_ROOT')) {
  *
  * @since 10.0.0
 **/
-class WebhookTrigger extends CommonDBChild {
+class WebhookTrigger extends CommonDBChild
+{
 
    public $prefix          = '';
    // From CommonDBChild
@@ -51,11 +52,13 @@ class WebhookTrigger extends CommonDBChild {
    // From CommonDBTM
    public $dohistory       = true;
 
-   static function getTable($classname = null) {
+   static function getTable($classname = null)
+   {
       return parent::getTable(__CLASS__);
    }
 
-   static function getTypeName($nb = 0) {
+   static function getTypeName($nb = 0)
+   {
       return _n('Webhook trigger', 'Webhook triggers', $nb);
    }
 
@@ -64,7 +67,8 @@ class WebhookTrigger extends CommonDBChild {
     * @return array Webhook triggers from core and plugins
     * @since 10.0.0
     */
-   static function getTriggerOptions() {
+   static function getTriggerOptions() : array
+   {
       global $CFG_GLPI;
 
       static $triggers = [];
@@ -109,7 +113,8 @@ class WebhookTrigger extends CommonDBChild {
     *
     * @return boolean
     */
-   function showForm($ID, array $options = []) {
+   function showForm($ID, array $options = []) : bool
+   {
       global $CFG_GLPI;
 
       if (isset($options['parent']) && !empty($options['parent'])) {
@@ -172,7 +177,8 @@ class WebhookTrigger extends CommonDBChild {
     *
     * @return void
    **/
-   static function showForWebhook($item) {
+   static function showForWebhook($item)
+   {
       global $DB, $CFG_GLPI;
 
       $ID = $item->fields['id'];

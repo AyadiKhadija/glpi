@@ -1371,8 +1371,8 @@ class Html {
 
       $menu['config']['title']       = __('Setup');
       $menu['config']['types']       = ['CommonDropdown', 'CommonDevice', 'Notification',
-                                        'SLM', 'Config', 'FieldUnicity', 'Crontask', 'Auth',
-                                        'MailCollector', 'Link', 'Plugin', 'Webhook'];
+                                        'Webhook', 'SLM', 'Config', 'FieldUnicity', 'Crontask',
+                                        'Auth', 'MailCollector', 'Link', 'Plugin'];
 
       // Special items
       /*$menu['preference']['title']   = __('My settings');
