@@ -30,6 +30,10 @@
  * ---------------------------------------------------------------------
  */
 
+/**
+ * @since 10.0.0
+ */
+
 include ('../inc/includes.php');
 
 Session::checkRight("webhook", READ);

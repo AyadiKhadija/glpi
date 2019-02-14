@@ -1397,7 +1397,7 @@ class Dropdown {
                                               'on_change'           => $params['on_change'],
                                               'toupdate'            => $params['toupdate'],
                                               'display_emptychoice' => $params['display_emptychoice'],
-                                              'emptylabel'          => $params['emptylabel']
+                                              'emptylabel'          => $params['emptylabel'],
                                               'rand'                => $params['rand']]);
       }
       return 0;

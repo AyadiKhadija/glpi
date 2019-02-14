@@ -39,7 +39,8 @@ if (!defined('GLPI_ROOT')) {
  *
  * @since 10.0.0
 **/
-class Webhook extends CommonDBTM {
+class Webhook extends CommonDBTM
+{
 
    static $rightname = 'webhook';
 
@@ -47,11 +48,13 @@ class Webhook extends CommonDBTM {
 
    //TODO Fix/Add historical for Webhook
 
-   static function getTypeName($nb = 0) {
+   static function getTypeName($nb = 0)
+   {
       return _n('Webhook', 'Webhooks', $nb);
    }
 
-   function defineTabs($options = []) {
+   function defineTabs($options = [])
+   {
 
       $ong = [];
       $this->addDefaultFormTab($ong);
@@ -61,8 +64,8 @@ class Webhook extends CommonDBTM {
       return $ong;
    }
 
-   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-
+   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
+   {
       if (!$withtemplate) {
          switch ($item->getType()) {
             case 'Webhook' :
@@ -73,8 +76,8 @@ class Webhook extends CommonDBTM {
       return '';
    }
 
-   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
-
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
+   {
       if ($item->getType() == __CLASS__) {
          switch ($tabnum) {
             case 2 :
@@ -85,51 +88,60 @@ class Webhook extends CommonDBTM {
       return true;
    }
 
-   public static function canView() {
+   public static function canView()
+   {
       return Session::haveRight(self::$rightname, READ);
    }
 
-   public static function canUpdate() {
+   public static function canUpdate()
+   {
       return Session::haveRight(self::$rightname, UPDATE);
    }
 
-   public static function canCreate() {
+   public static function canCreate()
+   {
       return Session::haveRight(self::$rightname, CREATE);
    }
 
-   public static function canPurge() {
+   public static function canPurge()
+   {
       return Session::haveRight(self::$rightname, PURGE);
    }
 
-   public function canViewItem() {
+   public function canViewItem()
+   {
       if (!$this->checkEntity()) {
          return false;
       }
       return Session::haveRight(self::$rightname, READ);
    }
 
-   public function canUpdateItem() {
+   public function canUpdateItem()
+   {
       if (!$this->checkEntity()) {
          return false;
       }
       return Session::haveRight(self::$rightname, UPDATE);
    }
 
-   public function canCreateItem() {
+   public function canCreateItem()
+   {
       if (!$this->checkEntity()) {
          return false;
       }
       return Session::haveRight(self::$rightname, CREATE);
    }
 
-   public function canPurgeItem() {
+   public function canPurgeItem()
+   {
       if (!$this->checkEntity()) {
          return false;
       }
       return Session::haveRight(self::$rightname, PURGE);
    }
 
-   function cleanDBonPurge() {
+   function cleanDBonPurge()
+   {
       $this->deleteChildrenAndRelationsFromDb(
          [
             WebhookTrigger::class,
@@ -140,7 +152,8 @@ class Webhook extends CommonDBTM {
 
    }
 
-   function getRights($interface = 'central') {
+   function getRights($interface = 'central')
+   {
 
       if ($interface != 'central') {
          return [];
@@ -161,13 +174,14 @@ class Webhook extends CommonDBTM {
     * @return void
     * @since 10.0.0
     */
-   public static function postWebhookAction($item, $action) {
+   public static function postWebhookAction($item, $action)
+   {
       global $DB;
 
       $iterator = $DB->request([
          'SELECT' => [
             'glpi_webhooks.id',
-            'entities_id'
+            'glpi_webhooks.entities_id'
          ],
          'FROM'   => 'glpi_webhooks',
          'LEFT JOIN' => [
@@ -203,7 +217,8 @@ class Webhook extends CommonDBTM {
     *                   - Default is null (Not specified)
     * @return boolean True if the webhook request was successfully queued
    */
-   public function postWebhook($item, $action = null) {
+   public function postWebhook($item, $action = null)
+   {
 
       //TODO Improve link tags or use a seperate system. Maybe add ACTION and FORM_URL tags
       if ($item != null) {
@@ -253,7 +268,8 @@ class Webhook extends CommonDBTM {
     * @param string $payload The JSON webhook payload
     * @return type
     */
-   public static function sendWebhookData(string $url, string $payload) {
+   public static function sendWebhookData(string $url, string $payload)
+   {
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $url);
       curl_setopt($ch, CURLOPT_POST, 1);
@@ -278,7 +294,8 @@ class Webhook extends CommonDBTM {
     * @see CommonDBTM::showFormButtons() For valid options parameter values
     * @return boolean true if user found, false otherwise
     */
-   function showForm($ID, array $options = []) {
+   function showForm($ID, array $options = [])
+   {
 
       if (!self::canViewItem($ID)) {
          return false;

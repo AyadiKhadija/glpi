@@ -36,7 +36,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Update from 9.4 to 10.0
+ * Update from 9.4 to 10.0.0
  *
  * @return bool for success (will die for most error)
 **/
@@ -74,6 +74,11 @@ function update94to100() {
    /** add display preferences for sub items */
    $ADDTODISPLAYPREF['Contract'] = [3, 4, 29, 5];
    $ADDTODISPLAYPREF['Item_Disk'] = [2, 3, 4, 5, 6, 7, 8];
+   /** /Add main column on displaypreferences */
+
+   /** add display preferences for sub items */
+   $ADDTODISPLAYPREF['Contract'] = [3, 4, 29, 5];
+   $ADDTODISPLAYPREF['Item_Disk'] = [2, 3, 4, 5, 6, 7];
    $ADDTODISPLAYPREF['Certificate'] = [7, 4, 8, 121, 10, 31];
    $ADDTODISPLAYPREF['Notepad'] = [200, 201, 202, 203, 204];
    $ADDTODISPLAYPREF['SoftwareVersion'] = [3, 31, 2, 122, 123, 124];
@@ -86,6 +91,7 @@ function update94to100() {
          $DB->query($query);
       }
    }
+   /** /add display preferences for sub items */
 
    //Add over-quota option to software licenses to allow assignment after all alloted licenses are used
    if (!$DB->fieldExists('glpi_softwarelicenses', 'allow_overquota')) {
@@ -170,22 +176,23 @@ function update94to100() {
       $query = "CREATE TABLE `glpi_webhooktriggers` (
                  `id` INT(11) NOT NULL,
                  `webhooks_id` INT(11) NOT NULL,
-                 `itemtype` VARCHAR(100) NOT NULL,
+                 `target` VARCHAR(100) NOT NULL,
                  `action` VARCHAR(255) NOT NULL,
                  PRIMARY KEY (`id`),
-                 KEY `webhookaction` (`itemtype`,`webhooks_id`,`action`)
+                 KEY `webhookaction` (`target`,`webhooks_id`,`action`)
                ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
       $DB->queryOrDie($query, "10.0.0 add table glpi_webhooktriggers");
    }
 
+   //Add webhook queue
    if (!$DB->tableExists('glpi_queuedwebhooks')) {
       $query = "CREATE TABLE `glpi_queuedwebhooks` (
                   `id` int(11) NOT NULL AUTO_INCREMENT,
                   `payload` text NOT NULL,
                   `url` varchar(255) NOT NULL,
                   `date_creation` datetime,
-                  `date_send` datetime,
-                  `date_sent` datetime,
+                  `send_date` datetime,
+                  `sent_date` datetime,
                   `sent_try` int(11) NOT NULL DEFAULT '0',
                   `entities_id` int(11) NOT NULL DEFAULT '0',
                   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
