@@ -1646,4 +1646,186 @@ class Project extends CommonDBTM {
    function showDebug() {
       NotificationEvent::debugEvent($this);
    }
+
+   /**
+    * Display projects for an item
+    *
+    * Will also display projects of linked items
+    *
+    * @param $item CommonDBTM object
+    *
+    * @return nothing (display a table)
+   **/
+   static function showListForItem(CommonDBTM $item) {
+      global $DB, $CFG_GLPI;
+
+      if (!Session::haveRight(self::$rightname, self::READALL)) {
+         return false;
+      }
+
+      if ($item->isNewID($item->getID())) {
+         return false;
+      }
+
+      $restrict         = [];
+      $options['reset'] = 'reset';
+      $restrict['items_id'] = $item->getID();
+      $restrict['itemtype'] = $item->getType();
+
+      // Link to open a new project
+      if ($item->getID()
+          && in_array($item->getType(), $CFG_GLPI['project_asset_types'])
+          && self::canCreate()
+          && !(!empty($withtemplate) && $withtemplate == 2)
+          && (!isset($item->fields['is_template']) || $item->fields['is_template'] == 0)) {
+         echo "<div class='firstbloc'>";
+         Html::showSimpleForm(
+            Project::getFormURL(),
+            '_add_fromitem',
+            __('New project for this item...'),
+            [
+               '_from_itemtype' => $item->getType(),
+               '_from_items_id' => $item->getID(),
+               'entities_id'    => $item->fields['entities_id']
+            ]
+         );
+         echo "</div>";
+      }
+
+      $criteria = self::getCommonCriteria();
+      $criteria['WHERE'] = $restrict + getEntitiesRestrictCriteria(self::getTable());
+      $criteria['LIMIT'] = (int)$_SESSION['glpilist_limit'];
+      $iterator = $DB->request($criteria);
+      $number = count($iterator);
+
+      echo "<div><table class='tab_cadre_fixe'>";
+
+      $colspan = 11;
+      if (count($_SESSION["glpiactiveentities"]) > 1) {
+         $colspan++;
+      }
+      if ($number > 0) {
+
+         Session::initNavigateListItems('Project',
+               //TRANS : %1$s is the itemtype name,
+               //        %2$s is the name of the item (used for headings of a list)
+                                        sprintf(__('%1$s = %2$s'), $item->getTypeName(1),
+                                                $item->getName()));
+
+         echo "<tr><th colspan='$colspan'>";
+
+         //TRANS : %d is the number of projects
+         echo sprintf(_n('Last %d project', 'Last %d projects', $number), $number);
+
+         echo "</th></tr>";
+
+      } else {
+         echo "<tr><th>".__('No project found.')."</th></tr>";
+      }
+      // Ticket list
+      if ($number > 0) {
+         self::commonListHeader(Search::HTML_OUTPUT);
+
+         while ($data = $iterator->next()) {
+            Session::addToNavigateListItems('Project', $data["id"]);
+            self::showShort($data["id"]);
+         }
+         self::commonListHeader(Search::HTML_OUTPUT);
+      }
+
+      echo "</table></div>";
+
+      // Tickets for linked items
+      $linkeditems = $item->getLinkedItems();
+      $restrict = [];
+      if (count($linkeditems)) {
+         foreach ($linkeditems as $ltype => $tab) {
+            foreach ($tab as $lID) {
+               $restrict[] = ['AND' => ['itemtype' => $ltype, 'items_id' => $lID]];
+            }
+         }
+      }
+
+      if (count($restrict)) {
+         $criteria = self::getCommonCriteria();
+         $criteria['WHERE'] = ['OR' => $restrict]
+            + getEntitiesRestrictCriteria(self::getTable());
+         $iterator = $DB->request($criteria);
+         $number = count($iterator);
+
+         echo "<div class='spaced'><table class='tab_cadre_fixe'>";
+         echo "<tr><th colspan='$colspan'>";
+         echo __('Projects on linked items');
+
+         echo "</th></tr>";
+         if ($number > 0) {
+            self::commonListHeader(Search::HTML_OUTPUT);
+
+            while ($data = $iterator->next()) {
+               // Session::addToNavigateListItems(TRACKING_TYPE,$data["id"]);
+               self::showShort($data["id"]);
+            }
+            self::commonListHeader(Search::HTML_OUTPUT);
+         } else {
+            echo "<tr><th>".__('No project found.')."</th></tr>";
+         }
+         echo "</table></div>";
+
+      }
+   }
+
+   /**
+    * Get common request criteria
+    *
+    * @since 10.0.0
+    *
+    * @return array
+    */
+   public static function getCommonCriteria() {
+      $fk = self::getForeignKeyField();
+      $itable = 'glpi_items_projects';
+
+      $table = self::getTable();
+      $criteria = [
+         'SELECT'          => [
+            "$table.*",
+            'glpi_projecttypes.name AS typename'
+         ],
+         'DISTINCT'        => true,
+         'FROM'            => $table,
+         'LEFT JOIN'       => [
+            'glpi_projecttypes'      => [
+               'ON' => [
+                  $table                => 'projecttypes_id',
+                  'glpi_projecttypes'   => 'id'
+               ]
+            ],
+            $itable  => [
+               'ON' => [
+                  $table   => 'id',
+                  $itable  => $fk
+               ]
+            ]
+         ],
+         'ORDERBY'            => "$table.date_mod DESC"
+      ];
+
+      if (count($_SESSION["glpiactiveentities"]) > 1) {
+         $criteria['LEFT JOIN']['glpi_entities'] = [
+            'ON' => [
+               'glpi_entities'   => 'id',
+               $table            => 'entities_id'
+            ]
+         ];
+
+         $criteria['SELECT'] = array_merge(
+            $criteria['SELECT'], [
+               'glpi_entities.completename AS entityname',
+               "$table.entities_id AS entityID"
+            ]
+         );
+      }
+
+      return $criteria;
+   }
 }

@@ -223,7 +223,6 @@ class Item_Project extends CommonDBRelation{
                return self::createTabEntry(_n('Item', 'Items', Session::getPluralNumber()), $nb);
 
             default :
-               // Not used now
                if (Session::haveRight("project", Project::READALL)) {
                   if ($_SESSION['glpishow_count_on_tabs']) {
                      // Direct one
@@ -258,8 +257,8 @@ class Item_Project extends CommonDBRelation{
             break;
 
          default :
-            // Not defined and used now
-            // Project::showListForItem($item);
+            Project::showListForItem($item);
+            break;
       }
       return true;
    }

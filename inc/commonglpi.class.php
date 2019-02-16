@@ -163,6 +163,7 @@ class CommonGLPI {
          'Ticket'             => 'itil_types',
          'Item_Problem'       => 'itil_types',
          'Change_Item'        => 'itil_types',
+         'Item_Project'       => 'project_asset_types',
          'Link'               => 'link_types',
          'Certificate_Item'   => 'certificate_types',
          'Lock'               => 'lock_lockable_objects',
