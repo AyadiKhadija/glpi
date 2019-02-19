@@ -1761,8 +1761,6 @@ class Ticket extends CommonITILObject {
             ]
          );
       }
-
-      parent::post_updateItem();
    }
 
 

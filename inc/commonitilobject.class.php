@@ -1685,7 +1685,6 @@ abstract class CommonITILObject extends CommonDBTM {
 
       // Additional actors
       $this->addAdditionalActors($this->input);
-      parent::post_addItem();
    }
 
 

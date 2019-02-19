@@ -366,8 +366,6 @@ abstract class CommonTreeDropdown extends CommonDropdown {
          Log::history($parent, $this->getType(), $changes, $this->getType(),
                       Log::HISTORY_ADD_SUBITEM);
       }
-
-      parent::post_addItem();
    }
 
 
@@ -428,8 +426,6 @@ abstract class CommonTreeDropdown extends CommonDropdown {
          }
          getAncestorsOf(getTableForItemType($this->getType()), $ID);
       }
-
-      parent::post_updateItem();
    }
 
 
@@ -445,8 +441,6 @@ abstract class CommonTreeDropdown extends CommonDropdown {
          Log::history($parent, $this->getType(), $changes, $this->getType(),
                       Log::HISTORY_DELETE_SUBITEM);
       }
-
-      parent::post_deleteFromDB();
    }
 
 

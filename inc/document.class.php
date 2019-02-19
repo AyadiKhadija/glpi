@@ -297,7 +297,6 @@ class Document extends CommonDBTM {
                              'itemtype'     => $this->input["itemtype"],
                              'items_id'     => $this->input["items_id"]]);
 
-         parent::post_addItem();
          Event::log($this->fields['id'], "documents", 4, "document",
                   //TRANS: %s is the user login
                     sprintf(__('%s adds a link with an item'), $_SESSION["glpiname"]));

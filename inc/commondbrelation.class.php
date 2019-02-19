@@ -758,8 +758,6 @@ abstract class CommonDBRelation extends CommonDBConnexity {
                          static::$log_history_2_add);
          }
       }
-
-      parent::post_addItem();
    }
 
    function post_updateItem($history = 1) {
@@ -855,8 +853,6 @@ abstract class CommonDBRelation extends CommonDBConnexity {
                          static::$log_history_2_add);
          }
       }
-
-      parent::post_updateItem();
    }
 
    function cleanDBonMarkDeleted() {
@@ -937,8 +933,6 @@ abstract class CommonDBRelation extends CommonDBConnexity {
             }
          }
       }
-
-      parent::post_restoreItem();
    }
 
    function post_deleteFromDB() {
@@ -976,8 +970,6 @@ abstract class CommonDBRelation extends CommonDBConnexity {
                          static::$log_history_2_delete);
          }
       }
-
-      parent::post_deleteFromDB();
    }
 
 

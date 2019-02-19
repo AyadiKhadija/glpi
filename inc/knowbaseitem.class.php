@@ -310,8 +310,6 @@ class KnowbaseItem extends CommonDBVisible {
          $kb_item_item = new KnowbaseItem_Item();
          $kb_item_item->add($params);
       }
-
-      parent::post_addItem();
    }
 
 

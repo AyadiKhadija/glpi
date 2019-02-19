@@ -192,8 +192,6 @@ class Profile extends CommonDBTM {
          }
          ///TODO other needed fields
       }
-
-      parent::post_updateItem();
    }
 
 
@@ -213,8 +211,6 @@ class Profile extends CommonDBTM {
             ]
          );
       }
-
-      parent::post_addItem();
    }
 
 
