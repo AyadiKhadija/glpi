@@ -1228,7 +1228,6 @@ class Log extends CommonDBTM {
    **/
    function post_addItem() {
       $_SESSION['glpi_maxhistory'] = $this->fields['id'];
-      parent::post_addItem();
    }
 
 

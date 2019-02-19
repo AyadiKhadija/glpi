@@ -126,8 +126,6 @@ class TicketTemplateHiddenField extends CommonDBChild {
             $a->delete(['id' => $result['id']]);
          }
       }
-
-      parent::post_purgeItem();
    }
 
 

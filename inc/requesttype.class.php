@@ -166,8 +166,6 @@ class RequestType extends CommonDropdown {
             ]
          );
       }
-
-      parent::post_addItem();
    }
 
 
@@ -218,8 +216,6 @@ class RequestType extends CommonDropdown {
             ]
          );
       }
-
-      parent::post_updateItem();
    }
 
 

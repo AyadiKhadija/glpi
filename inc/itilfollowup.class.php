@@ -281,8 +281,6 @@ class ITILFollowup  extends CommonDBChild {
          '',
          $this->fields['id'],
       ];
-
-      parent::post_addItem();
       Log::history($this->getField('items_id'), get_class($parentitem), $changes, $this->getType(),
                    Log::HISTORY_ADD_SUBITEM);
    }
@@ -306,8 +304,6 @@ class ITILFollowup  extends CommonDBChild {
          '',
          $this->fields['id'],
       ];
-
-      parent::post_deleteFromDB();
       Log::history($this->getField(self::$items_id), $this->fields['itemtype'], $changes, $this->getType(),
                    Log::HISTORY_DELETE_SUBITEM);
 
@@ -453,8 +449,6 @@ class ITILFollowup  extends CommonDBChild {
             '',
             $this->fields['id'],
          ];
-
-         parent::post_updateItem();
          Log::history($this->getField('items_id'), $this->fields['itemtype'], $changes, $this->getType(),
                       Log::HISTORY_UPDATE_SUBITEM);
       }

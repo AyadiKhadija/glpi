@@ -1345,7 +1345,6 @@ class CommonDBTM extends CommonGLPI {
     * @return void
    **/
    function post_addItem() {
-      Webhook::postWebhookAction($this, 'add');
    }
 
 
@@ -1614,7 +1613,6 @@ class CommonDBTM extends CommonGLPI {
     * @return void
    **/
    function post_updateItem($history = 1) {
-      Webhook::postWebhookAction($this, 'update');
    }
 
 
@@ -1733,7 +1731,6 @@ class CommonDBTM extends CommonGLPI {
     * @return void
    **/
    function post_deleteItem() {
-      Webhook::postWebhookAction($this, 'delete');
    }
 
 
@@ -1743,7 +1740,6 @@ class CommonDBTM extends CommonGLPI {
     * @return void
    **/
    function post_purgeItem() {
-      Webhook::postWebhookAction($this, 'purge');
    }
 
 
@@ -1898,7 +1894,6 @@ class CommonDBTM extends CommonGLPI {
     * @return void
    **/
    function post_restoreItem() {
-      Webhook::postWebhookAction($this, 'restore');
    }
 
 

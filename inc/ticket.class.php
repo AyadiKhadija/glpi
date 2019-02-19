@@ -1780,8 +1780,6 @@ class Ticket extends CommonITILObject {
          // Redirect to created survey
          Html::redirect(TicketSatisfaction::getFormURLWithID($inquest_id));
       }
-
-      parent::post_updateItem();
    }
 
 
