@@ -34,7 +34,7 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-class ChangeTask extends CommonITILTask {
+class ChangeTask extends ITILTask {
 
    static $rightname = 'task';
 

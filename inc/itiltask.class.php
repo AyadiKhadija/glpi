@@ -34,11 +34,19 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-/// TODO extends it from CommonDBChild
-abstract class CommonITILTask  extends CommonDBTM {
-
+/**
+ * @since 10.0.0
+ */
+class ITILTask  extends CommonDBChild
+{
    // From CommonDBTM
    public $auto_message_on_action = false;
+   static $rightname              = 'task';
+   private $item                  = null;
+
+   static public $log_history_add    = Log::HISTORY_LOG_SIMPLE_MESSAGE;
+   static public $log_history_update = Log::HISTORY_LOG_SIMPLE_MESSAGE;
+   static public $log_history_delete = Log::HISTORY_LOG_SIMPLE_MESSAGE;
 
    const SEEPUBLIC       =    1;
    const UPDATEMY        =    2;
@@ -47,6 +55,8 @@ abstract class CommonITILTask  extends CommonDBTM {
    const ADDALLITEM      = 4096;
    const SEEPRIVATE      = 8192;
 
+   static public $itemtype = 'itemtype';
+   static public $items_id = 'items_id';
 
 
    function getItilObjectItemType() {
@@ -54,12 +64,14 @@ abstract class CommonITILTask  extends CommonDBTM {
    }
 
 
-   function canViewPrivates() {
+   function canViewPrivates()
+   {
       return false;
    }
 
 
-   function canEditAll() {
+   function canEditAll()
+   {
       return false;
    }
 
@@ -71,10 +83,11 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @return object of the concerned item or false on error
    **/
-   function getItem() {
+   function getItem()
+   {
 
       if ($item = getItemForItemtype($this->getItilObjectItemType())) {
-         if ($item->getFromDB($this->fields[$item->getForeignKeyField()])) {
+         if ($item->getFromDB($this->fields[self::$items_id])) {
             return $item;
          }
       }
@@ -87,11 +100,12 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @return boolean
    **/
-   function canReadITILItem() {
+   function canReadITILItem()
+   {
 
       $itemtype = $this->getItilObjectItemType();
       $item     = new $itemtype();
-      if (!$item->can($this->getField($item->getForeignKeyField()), READ)) {
+      if (!$item->can($this->getField(self::$items_id), READ)) {
          return false;
       }
       return true;
@@ -105,11 +119,12 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @return boolean
    **/
-   function canUpdateITILItem() {
+   function canUpdateITILItem()
+   {
 
       $itemtype = $this->getItilObjectItemType();
       $item     = new $itemtype();
-      if (!$item->can($this->getField($item->getForeignKeyField()), UPDATE)) {
+      if (!$item->can($this->getField(self::$items_id), UPDATE)) {
          return false;
       }
       return true;
@@ -121,7 +136,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @param $nb : number of item in the type (default 0)
    **/
-   static function getTypeName($nb = 0) {
+   static function getTypeName($nb = 0)
+   {
       return _n('Task', 'Tasks', $nb);
 
    }
@@ -134,7 +150,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     * @param $values
     * @param $options   array
    **/
-   static function getSpecificValueToDisplay($field, $values, array $options = []) {
+   static function getSpecificValueToDisplay($field, $values, array $options = [])
+   {
 
       if (!is_array($values)) {
          $values = [$field => $values];
@@ -158,7 +175,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @return string
    **/
-   static function getSpecificValueToSelect($field, $name = '', $values = '', array $options = []) {
+   static function getSpecificValueToSelect($field, $name = '', $values = '', array $options = [])
+   {
 
       if (!is_array($values)) {
          $values = [$field => $values];
@@ -173,13 +191,14 @@ abstract class CommonITILTask  extends CommonDBTM {
    }
 
 
-   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
+   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
+   {
 
       if (($item->getType() == $this->getItilObjectItemType())
           && $this->canView()) {
          $nb = 0;
          if ($_SESSION['glpishow_count_on_tabs']) {
-            $restrict = [$item->getForeignKeyField() => $item->getID()];
+            $restrict = [self::$items_id => $item->getID()];
 
             if ($this->maybePrivate()
                 && !$this->canViewPrivates()) {
@@ -196,14 +215,15 @@ abstract class CommonITILTask  extends CommonDBTM {
    }
 
 
-   function post_deleteFromDB() {
+   function post_deleteFromDB()
+   {
       global $CFG_GLPI;
 
       $itemtype = $this->getItilObjectItemType();
       $item     = new $itemtype();
-      $item->getFromDB($this->fields[$item->getForeignKeyField()]);
-      $item->updateActiontime($this->fields[$item->getForeignKeyField()]);
-      $item->updateDateMod($this->fields[$item->getForeignKeyField()]);
+      $item->getFromDB($this->fields[self::$items_id]);
+      $item->updateActiontime($this->fields[self::$items_id]);
+      $item->updateDateMod($this->fields[self::$items_id]);
 
       // Add log entry in the ITIL object
       $changes = [
@@ -211,7 +231,7 @@ abstract class CommonITILTask  extends CommonDBTM {
          '',
          $this->fields['id'],
       ];
-      Log::history($this->getField($item->getForeignKeyField()), $this->getItilObjectItemType(),
+      Log::history($this->getField(self::$items_id), $this->getItilObjectItemType(),
                    $changes, $this->getType(), Log::HISTORY_DELETE_SUBITEM);
 
       if (!isset($this->input['_disablenotif']) && $CFG_GLPI["use_notifications"]) {
@@ -227,7 +247,8 @@ abstract class CommonITILTask  extends CommonDBTM {
    }
 
 
-   function prepareInputForUpdate($input) {
+   function prepareInputForUpdate($input)
+   {
 
       Toolbox::manageBeginAndEndPlanDates($input['plan']);
 
@@ -244,8 +265,8 @@ abstract class CommonITILTask  extends CommonDBTM {
       $itemtype      = $this->getItilObjectItemType();
       $input["_job"] = new $itemtype();
 
-      if (isset($input[$input["_job"]->getForeignKeyField()])
-         && !$input["_job"]->getFromDB($input[$input["_job"]->getForeignKeyField()])) {
+      if (isset($input[self::$items_id])
+         && !$input["_job"]->getFromDB($input[self::$items_id])) {
          return false;
       }
 
@@ -290,7 +311,8 @@ abstract class CommonITILTask  extends CommonDBTM {
    }
 
 
-   function post_updateItem($history = 1) {
+   function post_updateItem($history = 1)
+   {
       global $CFG_GLPI;
 
       if (in_array("begin", $this->updates)) {
@@ -302,8 +324,8 @@ abstract class CommonITILTask  extends CommonDBTM {
       $itemtype    = $this->getItilObjectItemType();
       $item        = new $itemtype();
 
-      if ($item->getFromDB($this->fields[$item->getForeignKeyField()])) {
-         $item->updateDateMod($this->fields[$item->getForeignKeyField()]);
+      if ($item->getFromDB($this->fields[self::$items_id])) {
+         $item->updateDateMod($this->fields[self::$items_id]);
 
          $proceed = count($this->updates);
 
@@ -320,13 +342,13 @@ abstract class CommonITILTask  extends CommonDBTM {
             $update_done = true;
 
             if (in_array("actiontime", $this->updates)) {
-               $item->updateActionTime($this->input[$item->getForeignKeyField()]);
+               $item->updateActionTime($this->input[self::$items_id]);
             }
 
             // change ticket status (from splitted button)
             $itemtype = $this->getItilObjectItemType();
             $this->input['_job'] = new $itemtype();
-            if (!$this->input['_job']->getFromDB($this->input[$this->input['_job']->getForeignKeyField()])) {
+            if (!$this->input['_job']->getFromDB($this->input[self::$items_id])) {
                return false;
             }
             if (isset($this->input['_status'])
@@ -368,13 +390,14 @@ abstract class CommonITILTask  extends CommonDBTM {
             '',
             $this->fields['id'],
          ];
-         Log::history($this->getField($item->getForeignKeyField()), $itemtype, $changes,
+         Log::history($this->getField(self::$items_id), $itemtype, $changes,
                       $this->getType(), Log::HISTORY_UPDATE_SUBITEM);
       }
    }
 
 
-   function prepareInputForAdd($input) {
+   function prepareInputForAdd($input)
+   {
       $itemtype = $this->getItilObjectItemType();
 
       Toolbox::manageBeginAndEndPlanDates($input['plan']);
@@ -397,7 +420,7 @@ abstract class CommonITILTask  extends CommonDBTM {
 
       $input["_job"] = new $itemtype();
 
-      if (!$input["_job"]->getFromDB($input[$input["_job"]->getForeignKeyField()])) {
+      if (!$input["_job"]->getFromDB($input[self::$items_id])) {
          return false;
       }
 
@@ -427,7 +450,8 @@ abstract class CommonITILTask  extends CommonDBTM {
    }
 
 
-   function post_addItem() {
+   function post_addItem()
+   {
       global $CFG_GLPI;
 
       // Add document if needed, without notification
@@ -462,10 +486,10 @@ abstract class CommonITILTask  extends CommonDBTM {
          }
       }
 
-      $this->input["_job"]->updateDateMod($this->input[$this->input["_job"]->getForeignKeyField()]);
+      $this->input["_job"]->updateDateMod($this->input[self::$items_id]);
 
       if (isset($this->input["actiontime"]) && ($this->input["actiontime"] > 0)) {
-         $this->input["_job"]->updateActionTime($this->input[$this->input["_job"]->getForeignKeyField()]);
+         $this->input["_job"]->updateActionTime($this->input[self::$items_id]);
       }
 
       //change status only if input change
@@ -504,13 +528,14 @@ abstract class CommonITILTask  extends CommonDBTM {
          '',
          $this->fields['id'],
       ];
-      Log::history($this->getField($this->input["_job"]->getForeignKeyField()),
+      Log::history($this->getField(self::$items_id),
                    $this->input["_job"]->getTYpe(), $changes, $this->getType(),
                    Log::HISTORY_ADD_SUBITEM);
    }
 
 
-   function post_getEmpty() {
+   function post_getEmpty()
+   {
 
       if ($this->maybePrivate()
           && isset($_SESSION['glpitask_private']) && $_SESSION['glpitask_private']) {
@@ -531,7 +556,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @since 0.84
    **/
-   function cleanDBonPurge() {
+   function cleanDBonPurge()
+   {
 
       $this->deleteChildrenAndRelationsFromDb(
          [
@@ -548,7 +574,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @since 0.85
    **/
-   function getRawName() {
+   function getRawName()
+   {
 
       if (isset($this->fields['taskcategories_id'])) {
          if ($this->fields['taskcategories_id']) {
@@ -561,7 +588,8 @@ abstract class CommonITILTask  extends CommonDBTM {
    }
 
 
-   function rawSearchOptions() {
+   function rawSearchOptions()
+   {
       $tab = [];
 
       $tab[] = [
@@ -646,7 +674,8 @@ abstract class CommonITILTask  extends CommonDBTM {
    /**
     * @since 0.85
    **/
-   static function rawSearchOptionsToAdd($itemtype = null) {
+   static function rawSearchOptionsToAdd($itemtype = null)
+   {
       $task = new static();
       $tab = [];
       $name = _n('Task', 'Tasks', Session::getPluralNumber());
@@ -876,7 +905,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     *@return boolean
    **/
-   function test_valid_date($input) {
+   function test_valid_date($input)
+   {
 
       return (!empty($input["begin"])
               && !empty($input["end"])
@@ -899,7 +929,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @return array of planning item
    **/
-   static function genericPopulatePlanning($itemtype, $options = []) {
+   static function genericPopulatePlanning($itemtype, $options = [])
+   {
       global $DB, $CFG_GLPI;
 
       $interv = [];
@@ -1128,7 +1159,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @return string Output
    **/
-   static function genericGetAlreadyPlannedInformation($itemtype, array $val) {
+   static function genericGetAlreadyPlannedInformation($itemtype, array $val)
+   {
 
       if ($item = getItemForItemtype($itemtype)) {
          $objectitemtype = $item->getItilObjectItemType();
@@ -1156,7 +1188,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @return string Output
    **/
-   static function genericDisplayPlanningItem($itemtype, array $val, $who, $type = "", $complete = 0) {
+   static function genericDisplayPlanningItem($itemtype, array $val, $who, $type = "", $complete = 0)
+   {
       global $CFG_GLPI;
 
       $html = "";
@@ -1229,7 +1262,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     * @param $rand
     * @param $showprivate  (false by default)
    **/
-   function showInObjectSumnary(CommonITILObject $item, $rand, $showprivate = false) {
+   function showInObjectSumnary(CommonITILObject $item, $rand, $showprivate = false)
+   {
       global $CFG_GLPI;
 
       $canedit = (isset($this->fields['can_edit']) && !$this->fields['can_edit']) ? false : $this->canEdit($this->fields['id']);
@@ -1372,7 +1406,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     * @param $options   array
     *     -  parent Object : the object
    **/
-   function showForm($ID, $options = []) {
+   function showForm($ID, $options = [])
+   {
       global $CFG_GLPI;
 
       $rand_template   = mt_rand();
@@ -1694,7 +1729,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @return DBmysqlIterator
     */
-   public static function getTaskList($status, $showgrouptickets, $start = null, $limit = null) {
+   public static function getTaskList($status, $showgrouptickets, $start = null, $limit = null)
+   {
       global $DB;
 
       $prep_req = ['SELECT' => self::getTable() . '.id', 'FROM' => self::getTable()];
@@ -1756,7 +1792,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @return void
     */
-   static function showCentralList($start, $status = 'todo', $showgrouptickets = true) {
+   static function showCentralList($start, $status = 'todo', $showgrouptickets = true)
+   {
       global $CFG_GLPI;
 
       $req = self::getTaskList($status, $showgrouptickets);
@@ -1813,14 +1850,9 @@ abstract class CommonITILTask  extends CommonDBTM {
                   'link'       => 'AND',
                ];
 
-               if ($itemtype == "TicketTask") {
-                  $title = __("Ticket tasks to do");
-               } else if ($itemtype == "ProblemTask") {
-                  $title = __("Problem tasks to do");
-               }
-               echo "<a href=\"".$CFG_GLPI["root_doc"]."/front/ticket.php?".
-                      Toolbox::append_params($options, '&amp;')."\">".
-                      Html::makeTitle($title, $number, $numrows)."</a>";
+               $title = sprintf(__('Tasks to do (%s)'), $itemtype::getTypeName(Session::getPluralNumber()));
+               echo Html::link(Html::makeTitle($title, $number, $numrows),
+                  $itemtype::getFormUrl(true).Toolbox::append_params($options, '&amp;'));
                break;
          }
 
@@ -1857,7 +1889,8 @@ abstract class CommonITILTask  extends CommonDBTM {
     *
     * @return void
     */
-   static function showVeryShort($ID, $itemtype) {
+   static function showVeryShort($ID, $itemtype)
+   {
       global $DB;
 
       $job  = new $itemtype();
@@ -1903,5 +1936,4 @@ abstract class CommonITILTask  extends CommonDBTM {
          echo "<td colspan='6' ><i>".__('No tasks do to.')."</i></td></tr>";
       }
    }
-
 }
