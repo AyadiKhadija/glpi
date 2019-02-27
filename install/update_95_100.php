@@ -211,7 +211,7 @@ function update95to100() {
    if (!$DB->fieldExists('glpi_requesttypes', 'is_event_default')) {
       if ($migration->addField('glpi_requesttypes', 'is_event_default', 'bool')) {
          $migration->addKey('glpi_requesttypes', 'is_event_default');
-         $migration->migrationOneTable('glpi_groups');
+         $migration->migrationOneTable('glpi_requesttypes');
          $otherRequestType = $DB->request([
             'SELECT' => ['id'],
             'FROM' => 'glpi_requesttypes',

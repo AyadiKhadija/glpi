@@ -6227,3 +6227,31 @@ with incorrect shading in some cases */
 .enabled {
    color: green !important;
 }
+
+/** Event management */
+.siem-dashboard {
+   width: 98%;
+   margin: auto;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   .siem-dashboard-card {
+      width: 48%;
+      display: inline-grid;
+      h3 {
+         text-align: center;
+      }
+      #siem-heatmap {
+         width: 100%;
+      }
+   }
+}
+
+@media screen and (max-width: $break_lphones) {
+   .siem-dashboard {
+      width: 100%;
+      .siem-dashboard-card {
+         width: 100%;
+      }
+   }
+}

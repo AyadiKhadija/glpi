@@ -330,14 +330,75 @@ class ITILEvent extends CommonDBTM
    //TODO Implement card based dashboard, have a static view, or rely on a plugin?
    public static function showDashboard()
    {
+      echo "<div class='siem-dashboard'>";
+      echo "<div class='siem-dashboard-card'><h3>".__('Heatmap (Active Events)')."</h3>";
+      self::showHeatmap();
+      echo "</div><div class='siem-dashboard-card'><h3>".__('Active Events')."</h3>";
       self::showList(true);
+      echo "</div><div class='siem-dashboard-card'><h3>".__('Historical Events')."</h3>";
       self::showList();
+      echo "</div></div>";
    }
 
    public static function showHeatmap()
    {
+      global $DB;
       // TODO Feature idea
       // Show a geographic heatmap based on assets with active alerts
+      // Should calculate initial view to be center of all active alerts and set an appropriate zoom level
+      $heat_data = [];
+      $active_events = ITILEvent::getEventData(null);
+
+      while ($event = $active_events->next()) {
+         $item_iterator = $DB->request([
+            'SELECT' => ['itemtype', 'items_id'],
+            'FROM' => Item_ITILEvent::getTable(),
+            'WHERE' => ['itilevents_id' => $event['id']]
+         ]);
+
+         while ($item = $item_iterator->next()) {
+            $itemtable = $item['itemtype']::getTable();
+            $location_iterator = $DB->request([
+               'SELECT' => [
+                  'glpi_locations.latitude',
+                  'glpi_locations.longitude'
+               ],
+               'FROM' => $itemtable,
+               'LEFT JOIN' => [
+                  'glpi_locations' => [
+                     'FKEY' => [
+                        $itemtable        => 'locations_id',
+                        'glpi_locations'  => 'id'
+                     ]
+                  ]
+               ]
+            ]);
+            $location = $location_iterator->next();
+            if ($location) {
+               $heat_data[] = [
+                  $location['latitude'],
+                  $location['longitude'],
+                  ($event['significance'] == ITILEvent::WARNING) ? 0.5 : 1.0
+               ];
+            }
+         }
+      }
+
+      $heat_data = json_encode($heat_data);
+
+      $js = "$(function() {
+               var map = initMap($('#heatmap'), 'siem-heatmap', '400px');
+               _loadMap(map);
+            });
+
+         var _loadMap = function(map_elt) {
+            var heat = L.heatLayer({$heat_data}, {radius: 25}).addTo(map_elt);
+            map_elt.redraw();
+         }
+
+         ";
+         echo Html::scriptBlock($js);
+         echo "<div id='heatmap'></div>";
    }
 
    public static function showEventsByTime()
@@ -466,8 +527,7 @@ class ITILEvent extends CommonDBTM
          }
          echo "</tbody>";
       }
-      echo "</table></div>\n";
-      echo "</div>\n";
+      echo "</table></div>";
       Html::printAjaxPager($header_text, $start, $iterator->count(), '', true, $additional_params);
    }
 
