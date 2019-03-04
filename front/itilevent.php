@@ -38,5 +38,6 @@ Html::header(ITILEvent::getTypeName(Session::getPluralNumber()),
              $_SERVER['PHP_SELF'], 'tools', 'itilevent');
 
 ITILEvent::showDashboard();
+echo Html::manageRefreshPage(2);
 
 Html::footer();

@@ -205,8 +205,15 @@ function update95to100() {
 
    $migration->addConfig([
       'eventwarning_color'    => '#ffb800',
-      'eventexception_color'  => '#ff0000'
+      'eventexception_color'  => '#ff2222'
    ]);
+
+   if (!$DB->fieldExists('glpi_users', 'eventwarning_color')) {
+      $migration->addField('glpi_users', 'eventwarning_color', 'string', ['value' => '#ffb800']);
+   }
+   if (!$DB->fieldExists('glpi_users', 'eventexception_color')) {
+      $migration->addField('glpi_users', 'eventexception_color', 'string', ['value' => '#ff2222']);
+   }
 
    if (!$DB->fieldExists('glpi_requesttypes', 'is_event_default')) {
       if ($migration->addField('glpi_requesttypes', 'is_event_default', 'bool')) {

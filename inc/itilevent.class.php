@@ -270,7 +270,7 @@ class ITILEvent extends CommonDBTM
 
    public static function getActiveStatusArray()
    {
-      return [self::STATUS_NEW];
+      return [self::STATUS_NEW, self::STATUS_REMEDIATING];
    }
 
    public static function getEventData($item, int $start = 0, int $limit = 0, array $sqlfilters = []) : DBmysqlIterator
@@ -325,25 +325,121 @@ class ITILEvent extends CommonDBTM
    //TODO Implement card based dashboard, have a static view, or rely on a plugin?
    public static function showDashboard()
    {
+      echo "<h2 class='center'>".__('Event Management Dashboard')."</h2>";
       echo "<div class='siem-dashboard'>";
-      echo "<div class='siem-dashboard-card'><h3>".__('Heatmap (Active Events)')."</h3><div class='card-content'>";
-      self::showHeatmap();
-      echo "</div></div><div class='siem-dashboard-card'><h3>".__('Active Events')."</h3><div class='card-content'>";
-      self::showList(true);
-      echo "</div></div><div class='siem-dashboard-card'><h3>".__('Historical Events')."</h3><div class='card-content'>";
-      self::showList();
-      echo "</div></div></div>";
+      self::showDashboardCard('count-alerts-day');
+      self::showDashboardCard('count-active-warnings');
+      self::showDashboardCard('count-active-exceptions');
+      self::showDashboardCard('count-new');
+      self::showDashboardCard('count-remediating');
+      self::showDashboardCard('list-historical', ['colspan' => 5]);
+      echo "</div>";
    }
 
-   public static function getDashboardCardContent(string $cardname)
+   public static function getDashboardCardTitle(string $cardname)
    {
       switch ($cardname) {
+         case 'count-alerts-day':
+            return __('Total Alerts (24 hours)');
+         case 'count-active-warnings':
+            return __('Active Warnings');
+         case 'count-active-exceptions':
+            return __('Active Exceptions');
+         case 'count-new':
+            return __('New Events');
+         case 'count-remediating':
+            return __('Remediating Events');
+         case 'list-historical':
+            return __('Historical Events');
          default:
-            $title = Plugin::doHook('getDashboardCardTitle', $cardname);
-            echo "<div class='siem-dashboard-card'><h3>{$title}</h3><div class='card-content'>";
-            echo Plugin::doHook('getDashboardCardContent', $cardname);
-            echo "</div></div>";
+            return $cardname;
       }
+   }
+
+   public static function showDashboardCard(string $cardname, $params = [])
+   {
+      global $DB;
+
+      $p = [
+         'colspan' => 1,
+         'rowspan' => 1
+      ];
+      $p = array_replace($p, $params);
+
+      // Get some event data and cache it
+      $iterator = $DB->request([
+         'SELECT' => [
+            'id',
+            'significance',
+            'status'
+         ],
+         'FROM' => self::getTable(),
+         'WHERE' => [
+            'status'       => self::getActiveStatusArray(),
+            'significance' => [self::WARNING, self::EXCEPTION]
+         ]
+      ]);
+
+      $daily_alerts = $DB->request([
+         'COUNT' => 'cpt',
+         'FROM' => self::getTable(),
+         'WHERE' => [
+            new \QueryExpression("date > DATE_ADD(now(), INTERVAL -1 DAY)"),
+            'significance' => [self::WARNING, self::EXCEPTION]
+         ]
+      ]);
+
+      static $counters = null;
+      if ($counters === null) {
+         $counters = array_fill_keys(['warning', 'exception', 'new', 'remediating'], 0);
+         $counters['daily_alerts'] = $daily_alerts->next()['cpt'];
+         while ($data = $iterator->next()) {
+            if ($data['significance'] == self::WARNING) {
+               $counters['warning'] += 1;
+            } else if ($data['significance'] == self::EXCEPTION) {
+               $counters['exception'] += 1;
+            }
+            if ($data['status'] == self::STATUS_NEW) {
+               $counters['new'] += 1;
+            } else if ($data['status'] == self::STATUS_REMEDIATING) {
+               $counters['remediating'] += 1;
+            }
+         }
+      }
+
+      $title = self::getDashboardCardTitle($cardname);
+      $style = '';
+      if (is_numeric($p['colspan']) && $p['colspan'] > 1) {
+         $style .= '--colspan:'.$p['colspan'];
+      }
+      if (is_numeric($p['rowspan']) && $p['rowspan'] > 1) {
+         $style .= '--rowspan:'.$p['rowspan'];
+      }
+
+      echo "<div class='siem-dashboard-card' style='{$style}'><h3>{$title}</h3><div class='card-content'>";
+      switch ($cardname) {
+         case 'count-alerts-day':
+            echo "<p>".$counters['daily_alerts']."</p>";
+            break;
+         case 'count-active-warnings':
+            echo "<p>".$counters['warning']."</p>";
+            break;
+         case 'count-active-exceptions':
+            echo "<p>".$counters['exception']."</p>";
+            break;
+         case 'count-new':
+            echo "<p>".$counters['new']."</p>";
+            break;
+         case 'count-remediating':
+            echo "<p>".$counters['remediating']."</p>";
+            break;
+         case 'list-historical':
+            self::showList();
+            break;
+         default:
+            echo "<p>".__("Invalid dashboard card")."</p>";
+      }
+      echo "</div></div>";
    }
 
    public static function showHeatmap()
@@ -407,15 +503,12 @@ class ITILEvent extends CommonDBTM
          echo "<div id='heatmap'></div>";
    }
 
-   public static function showEventsByTime()
-   {
-      // TODO Feature idea
-      // Show bar graph illustrating the number events per hour over time
-   }
-
-   public static function showList($activeonly = false, CommonDBTM $item = null)
+   public static function showList($activeonly = false, CommonDBTM $item = null, $display = true)
    {
 
+      if (!$display) {
+         ob_start();
+      }
       $header_text = $activeonly ? __('Active events') : __('Historical events');
       $selftable = self::getTable();
 
@@ -542,6 +635,9 @@ class ITILEvent extends CommonDBTM
       }
       echo "</table></div>";
       Html::printAjaxPager($header_text, $start, $iterator->count(), '', true, $additional_params);
+      if (!$display) {
+         return ob_end_flush();
+      }
    }
 
    /**

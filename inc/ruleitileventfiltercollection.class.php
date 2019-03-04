@@ -40,7 +40,7 @@ class RuleITILEventFilterCollection extends RuleCollection
    // From RuleCollection
    static $rightname             = 'rule_event';
    public $stop_on_first_match   = true;
-   public $menu_option           = 'itilevent';
+   public $menu_option           = 'ruleitileventfilter';
 
 
    /**

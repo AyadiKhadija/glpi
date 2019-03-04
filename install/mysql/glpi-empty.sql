@@ -1379,7 +1379,7 @@ INSERT INTO `glpi_configs` VALUES ('207','core','purge_user_auth_changes','0');
 INSERT INTO `glpi_configs` VALUES ('208','core','purge_plugins','0');
 INSERT INTO `glpi_configs` VALUES ('209','core','display_login_source','1');
 INSERT INTO `glpi_configs` VALUES ('210','core','eventwarning_color','#ffb800');
-INSERT INTO `glpi_configs` VALUES ('211','core','eventexception_color','#ff0000');
+INSERT INTO `glpi_configs` VALUES ('211','core','eventexception_color','#ff2222');
 
 ### Dump table glpi_consumableitems
 
@@ -9000,6 +9000,9 @@ CREATE TABLE `glpi_users` (
   `groups_id` int(11) NOT NULL DEFAULT '0',
   `users_id_supervisor` int(11) NOT NULL DEFAULT '0',
   `timezone` varchar(50) DEFAULT NULL,
+  `eventwarning_color` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `eventexception_color` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+>>>>>>> Rework dashboard
   PRIMARY KEY (`id`),
   UNIQUE KEY `unicityloginauth` (`name`, `authtype`, `auths_id`),
   KEY `firstname` (`firstname`),
