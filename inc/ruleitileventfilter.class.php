@@ -83,8 +83,9 @@ class RuleITILEventFilter extends Rule
       if (count($this->actions)) {
          foreach ($this->actions as $action) {
             switch ($action->fields["action_type"]) {
-               case 'accept':
-                  $output['_accept'] = $action->fields['value'];
+               case 'assign':
+                  $output[$action->fields["field"]] = $action->fields["value"];
+                  break;
             }
          }
       }
@@ -109,6 +110,12 @@ class RuleITILEventFilter extends Rule
       $criterias['name']['field']                           = 'name';
       $criterias['name']['name']                            = __('Name');
       $criterias['name']['linkfield']                       = 'name';
+
+      $criterias['entities_id']['table']                    = 'glpi_entities';
+      $criterias['entities_id']['field']                    = 'name';
+      $criterias['entities_id']['name']                     = __('Entity');
+      $criterias['entities_id']['linkfield']                = 'entities_id';
+      $criterias['entities_id']['type']                     = 'dropdown';
 
       $criterias['itileventcategories_id']['table']         = 'glpi_itileventcategories';
       $criterias['itileventcategories_id']['field']         = 'name';
@@ -144,9 +151,10 @@ class RuleITILEventFilter extends Rule
    function getActions()
    {
       $actions                                  = [];
-      $actions['accept']['name']          = __('Accept');
+      $actions['accept']['name']          = __('Acceptance');
+      $actions['accept']['field']         = '_accept';
       $actions['accept']['type']          = 'yesno';
-      $actions['accept']['force_actions'] = ['accept'];
+      $actions['accept']['force_actions'] = ['assign'];
 
       return $actions;
    }

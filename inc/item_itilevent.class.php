@@ -58,7 +58,7 @@ class Item_ITILEvent extends CommonDBRelation
 
    /**
     * Used for linking items to ITILEvents. The linked item is affected by the event but not the source.
-    * For example, an upstream switch is unresponsive so all downstream switches are affected but not the source.
+    * For example, a VM host is restarted, all guests are also down unless moved to another host.
     */
    const LINK_AFFECTED = 1;
 

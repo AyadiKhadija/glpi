@@ -41,10 +41,6 @@ if (!defined('GLPI_ROOT')) {
 class ITILEvent extends CommonDBTM
 {
 
-   //TODO How should we handle linking to assets? Should the collector do this for us?
-   // We have a 'host' field for this itemtype currently that could be used by it is difficult to distinguish the itemtype
-   //TODO Drop 'host' column/field if no auto-linking is done by core
-
    /**
     * An event that doesn't require any response
     */
@@ -62,7 +58,6 @@ class ITILEvent extends CommonDBTM
 
    //TODO Handle status workflows as described by each status.
    // Try to factorize the workflow as much as possible to make it easy to replace in the future.
-   // Note: Linked events share a correlation UUID and are not linked by foreign key parent/child relations
 
    /**
     * An event that was logged but not acted on. For informational alerts, this is the only valid status.
@@ -118,14 +113,14 @@ class ITILEvent extends CommonDBTM
       // Process event filtering rules
       $rules = new RuleITILEventFilterCollection();
 
-      $input['_import_action'] = 'accept';
+      $input['_accept'] = true;
       $input = $rules->processAllRules($input,
                                        $input,
                                        ['recursive' => true],
                                        ['condition' => RuleITILEvent::ONADD]);
       $input = Toolbox::stripslashes_deep($input);
 
-      if ($input['_import_action'] == 'reject') {
+      if (!$input['_accept']) {
          // Drop the event
          return false;
       } else {
@@ -331,13 +326,24 @@ class ITILEvent extends CommonDBTM
    public static function showDashboard()
    {
       echo "<div class='siem-dashboard'>";
-      echo "<div class='siem-dashboard-card'><h3>".__('Heatmap (Active Events)')."</h3>";
+      echo "<div class='siem-dashboard-card'><h3>".__('Heatmap (Active Events)')."</h3><div class='card-content'>";
       self::showHeatmap();
-      echo "</div><div class='siem-dashboard-card'><h3>".__('Active Events')."</h3>";
+      echo "</div></div><div class='siem-dashboard-card'><h3>".__('Active Events')."</h3><div class='card-content'>";
       self::showList(true);
-      echo "</div><div class='siem-dashboard-card'><h3>".__('Historical Events')."</h3>";
+      echo "</div></div><div class='siem-dashboard-card'><h3>".__('Historical Events')."</h3><div class='card-content'>";
       self::showList();
-      echo "</div></div>";
+      echo "</div></div></div>";
+   }
+
+   public static function getDashboardCardContent(string $cardname)
+   {
+      switch ($cardname) {
+         default:
+            $title = Plugin::doHook('getDashboardCardTitle', $cardname);
+            echo "<div class='siem-dashboard-card'><h3>{$title}</h3><div class='card-content'>";
+            echo Plugin::doHook('getDashboardCardContent', $cardname);
+            echo "</div></div>";
+      }
    }
 
    public static function showHeatmap()
@@ -392,7 +398,7 @@ class ITILEvent extends CommonDBTM
             });
 
          var _loadMap = function(map_elt) {
-            var heat = L.heatLayer({$heat_data}, {radius: 25}).addTo(map_elt);
+            var heat = L.heatLayer({$heat_data}, {radius: 50, max: 1.0}).addTo(map_elt);
             map_elt.redraw();
          }
 
@@ -442,9 +448,12 @@ class ITILEvent extends CommonDBTM
       $header .= "<th>".__('Name')."</th>";
       $header .= "<th>".__('Significance')."</th>";
       $header .= "<th>".__('Date')."</th>";
-      $header .= "<th>".__('Status')."</th>";
+      if (!$activeonly) {
+         $header .= "<th>".__('Status')."</th>";
+      }
       $header .= "<th>".__('Category')."</th>";
       $header .= "<th>".__('Correlation ID')."</th></tr>";
+      $colcount = $activeonly ? 6 : 7;
 
       echo "<thead>";
       echo $header;
@@ -469,16 +478,18 @@ class ITILEvent extends CommonDBTM
          echo "</th>";
          $dateValue = isset($_GET['filters']['date']) ? Html::cleanInputText($_GET['listfilters']['date']) : null;
          echo "<th><input type='date' name='listfilters[date]' value='$dateValue' /></th>";
-         echo "<th>";
-         ITILEvent::dropdownStatus([
-            'name'                  => 'listfilters[status]',
-            'value'                 => '',
-            'values'                => isset($_GET['listfilters']['status']) ?
-                                          $_GET['listfilters']['status'] : [],
-            'multiple'              => true,
-            'width'                 => '100%'
-         ]);
-         echo "</th>";
+         if (!$activeonly) {
+            echo "<th>";
+            ITILEvent::dropdownStatus([
+               'name'                  => 'listfilters[status]',
+               'value'                 => '',
+               'values'                => isset($_GET['listfilters']['status']) ?
+                                             $_GET['listfilters']['status'] : [],
+               'multiple'              => true,
+               'width'                 => '100%'
+            ]);
+            echo "</th>";
+         }
          echo "<th>";
          ITILEventCategory::dropdown([
             'name'                  => 'listfilters[category]',
@@ -493,7 +504,7 @@ class ITILEvent extends CommonDBTM
          echo "</tr>";
       } else {
          echo "<tr>";
-         echo "<th colspan='7'>";
+         echo "<th colspan='{$colcount}'>";
          echo "<a href='#' class='show_list_filters'>" . __('Show filters') . " <span class='fa fa-filter pointer'></span></a>";
          echo "</th>";
          echo "</tr>";
@@ -504,7 +515,7 @@ class ITILEvent extends CommonDBTM
 
       if (!count($iterator)) {
          echo "<tr class='tab_bg_2'>";
-         echo "<td class='center' colspan='7'>".__('No event')."</td></tr>\n";
+         echo "<td class='center' colspan='{$colcount}'>".__('No event')."</td></tr>\n";
       } else {
          echo "<tbody>";
          while ($data = $iterator->next()) {
@@ -520,7 +531,9 @@ class ITILEvent extends CommonDBTM
             //echo "<td class='center'>".substr(nl2br($data['content']), 0, 100)."</td>";
             echo "<td class='center'>".ITILEvent::getSignificanceName($data['significance'])."</td>";
             echo "<td class='center'>".Html::convDateTime($data['date'])."</td>";
-            echo "<td class='center'>".ITILEvent::getStatusName($data['status'])."</td>";
+            if (!$activeonly) {
+               echo "<td class='center'>".ITILEvent::getStatusName($data['status'])."</td>";
+            }
             echo "<td class='center'>".ITILEventCategory::getCategoryName($data['itileventcategories_id'])."</td>";
             echo "<td class='center'>".$data['correlation_uuid']."</td>";
             echo "</tr>\n";

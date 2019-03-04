@@ -325,7 +325,12 @@ class RuleITILEvent extends Rule
       $actions['itileventcategories_id']['linkfield']       = 'itileventcategories_id';
       $actions['itileventcategories_id']['type']            = 'dropdown';
       $actions['itileventcategories_id']['force_actions']   = ['assign', 'assign_correlated'];
-      
+
+      $actions['name']['name']                              = __('Name');
+      $actions['name']['linkfield']                         = 'name';
+      $actions['name']['table']                             = $this->getTable();
+      $actions['name']['force_actions']                     = ['assign', 'assign_correlated'];
+
       $actions['significance']['name']                      = __('Significance');
       $actions['significance']['type']                      = 'dropdown_eventsignificance';
       $actions['significance']['table']                     = $this->getTable();
@@ -342,7 +347,6 @@ class RuleITILEvent extends Rule
    {
 
       $values = parent::getRights();
-      //TRANS: short for : Business rules for ticket (entity parent)
       $values[self::PARENT] = ['short' => __('Parent business'),
                                     'long'  => __('Business rules for event (entity parent)')];
 

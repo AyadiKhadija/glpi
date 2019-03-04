@@ -34,4 +34,4 @@ include ('../inc/includes.php');
 
 $rulecollection = new RuleITILEventCollection($_SESSION['glpiactive_entity']);
 
-include (GLPI_ROOT . "/front/rule.common.form.php");
+include (GLPI_ROOT . '/front/rule.common.form.php');

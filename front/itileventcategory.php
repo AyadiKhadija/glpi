@@ -33,4 +33,4 @@
 include ('../inc/includes.php');
 
 $dropdown = new ITILEventCategory();
-include (GLPI_ROOT . "/front/dropdown.common.php");
+include (GLPI_ROOT . '/front/dropdown.common.php');

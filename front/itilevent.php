@@ -32,7 +32,7 @@
 
 include ('../inc/includes.php');
 
-Session::checkRight("event", READ);
+Session::checkRight('event', READ);
 
 Html::header(ITILEvent::getTypeName(Session::getPluralNumber()),
              $_SERVER['PHP_SELF'], 'tools', 'itilevent');

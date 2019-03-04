@@ -6232,16 +6232,21 @@ with incorrect shading in some cases */
 .siem-dashboard {
    width: 98%;
    margin: auto;
-   display: flex;
-   flex-wrap: wrap;
-   justify-content: space-between;
+   display: grid;
+   --column-count: 2;
+   grid-template-columns: repeat(var(--column-count), 1fr);
+   grid-gap: 2rem;
    .siem-dashboard-card {
-      width: 48%;
-      display: inline-grid;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background-color: #ffffff;
+      box-shadow: 0px 1px 1px #7f7979;
+      border-radius: 3px;
       h3 {
          text-align: center;
       }
-      #siem-heatmap {
+      .card-content {
          width: 100%;
       }
    }
@@ -6249,9 +6254,12 @@ with incorrect shading in some cases */
 
 @media screen and (max-width: $break_lphones) {
    .siem-dashboard {
-      width: 100%;
-      .siem-dashboard-card {
-         width: 100%;
-      }
+      --column-count: 1;
+   }
+}
+
+@media screen and (min-width: 3000px) {
+   .siem-dashboard {
+      --column-count: 3;
    }
 }

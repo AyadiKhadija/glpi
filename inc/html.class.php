@@ -5863,6 +5863,7 @@ class Html {
             $_SESSION['glpi_js_toload'][$name][] = 'public/lib/leaflet.awesome-markers/leaflet.awesome-markers.js';
             $_SESSION['glpi_js_toload'][$name][] = 'lib/leaflet/plugins/leaflet-control-osm-geocoder/Control.OSMGeocoder.js';
             $_SESSION['glpi_js_toload'][$name][] = 'public/lib/leaflet-fullscreen/Leaflet.fullscreen.js';
+            $_SESSION['glpi_js_toload'][$name][] = 'public/lib/leaflet.heat/leaflet-heat.js';
             break;
          case 'list_filters':
             $_SESSION['glpi_js_toload'][$name][] = 'js/list_filters.js';
