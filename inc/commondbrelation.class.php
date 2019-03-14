@@ -932,6 +932,7 @@ abstract class CommonDBRelation extends CommonDBConnexity {
                             static::$log_history_2_unlock);
             }
          }
+
       }
    }
 
@@ -970,6 +971,7 @@ abstract class CommonDBRelation extends CommonDBConnexity {
                          static::$log_history_2_delete);
          }
       }
+
    }
 
 
