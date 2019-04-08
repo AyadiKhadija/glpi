@@ -140,6 +140,11 @@ class RuleITILEventFilter extends Rule
       $criterias['status']['linkfield']                     = 'status';
       $criterias['status']['type']                          = 'dropdown_eventstatus';
 
+      $criterias['logger']['table']                         = 'glpi_itilevents';
+      $criterias['logger']['field']                         = 'logger';
+      $criterias['logger']['name']                          = __('Logger');
+      $criterias['logger']['linkfield']                     = 'logger';
+
       return $criterias;
    }
 

@@ -6228,13 +6228,44 @@ with incorrect shading in some cases */
    color: green !important;
 }
 
+@media screen and (min-width: $break_tablets) {
+   #siem-dashboard {
+      --colcount: 6;
+   }
+}
+
+@media screen and (max-width: $break_tablets) {
+   #siem-dashboard {
+      --colcount: 5;
+   }
+}
+
+@media screen and (max-width: $break_menu) {
+   #siem-dashboard {
+      --colcount: 4;
+   }
+}
+
+@media screen and (max-width: $break_lphones) {
+   #siem-dashboard {
+      --colcount: 3;
+   }
+}
+
+@media screen and (max-width: $break_phones) {
+   #siem-dashboard {
+      --colcount: 2;
+   }
+}
+
 /** Event management */
-.siem-dashboard {
+#siem-dashboard {
    width: 98%;
    margin: auto;
    display: grid;
-   grid-template-columns: repeat(5, 1fr);
+   grid-template-columns: repeat(var(--colcount), 1fr);
    grid-gap: 15px;
+
    .siem-dashboard-card {
       align-items: center;
       justify-content: space-between;
@@ -6247,13 +6278,31 @@ with incorrect shading in some cases */
       grid-area: span var(--rowspan) / span var(--colspan);
       h3 {
          text-align: center;
+         white-space: nowrap;
       }
       .card-content {
          width: 100%;
-         p {
+         > p {
             font-size: 3em;
             text-align: center;
          }
+      }
+   }
+}
+
+#siem-dashboard-toolbar {
+   margin-bottom: 15px !important;
+   padding: 5px !important;
+   overflow: auto;
+
+   .siem-dashboard-options {
+      float: right;
+
+      label {
+         margin-right: 1em;
+      }
+      .select2 {
+         width: 10em !important;
       }
    }
 }

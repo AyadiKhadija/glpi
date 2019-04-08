@@ -1,4 +1,3 @@
-<?php
 /**
  * ---------------------------------------------------------------------
  * GLPI - Gestionnaire Libre de Parc Informatique
@@ -30,17 +29,31 @@
  * ---------------------------------------------------------------------
  */
 
-include ('../inc/includes.php');
+function refreshDashboard(ajax_url) {
+   var form = $('#siem-dashboard-toolbar');
+   var get_data = form.serialize();
+   $.ajax({
+      type: "GET",
+      url: ajax_url,
+      data: get_data,
+      success: function(dashboard_html) {
+         $('#siem-dashboard').replaceWith(dashboard_html);
+         var url = window.location.href.split('?')[0];
+         window.history.replaceState(null, null, url + "?" + get_data);
+      }
+   });
+}
 
-global $CFG_GLPI;
+function toggleEventDetails(row) {
+   var id = $(row).attr('id');
+   var content_row = $("#" + id + "_content");
 
-Session::checkRight('event', READ);
-
-Html::header(ITILEvent::getTypeName(Session::getPluralNumber()),
-             $_SERVER['PHP_SELF'], 'tools', 'itilevent');
-
-ITILEvent::showDashboard();
-$ajax_url = $CFG_GLPI['root_doc']."/ajax/siemdashboard.php";
-echo Html::manageRefreshPage(2, "refreshDashboard(\"{$ajax_url}\");");
-
-Html::footer();
+   if (typeof content_row !== typeof undefined) {
+      var hidden_attr = content_row.attr('hidden');
+      if (typeof hidden_attr !== typeof undefined) {
+         content_row.removeAttr('hidden');
+      } else {
+         content_row.attr('hidden', 'hidden');
+      }
+   }
+}

@@ -144,6 +144,8 @@ function update95to100() {
          `significance` tinyint(4) NOT NULL,
          `correlation_uuid` int(11) DEFAULT NULL,
          `date_mod` datetime DEFAULT NULL,
+         `logger` varchar(255)  COLLATE utf8_unicode_ci DEFAULT NULL COMMENT
+            'Indicates which plugin (or the core) logged this event. Used to delegate translations and other functions',
          PRIMARY KEY (`id`),
          KEY `entities_id` (`entities_id`),
          KEY `name` (`name`),
@@ -152,7 +154,8 @@ function update95to100() {
          KEY `date_creation` (`date_creation`),
          KEY `itileventcategories_id` (`itileventcategories_id`),
          KEY `significance` (`significance`),
-         KEY `correlation_uuid` (`correlation_uuid`)
+         KEY `correlation_uuid` (`correlation_uuid`),
+         KEY `logger` (`logger`)
          ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
       $DB->queryOrDie($query, "10.0.0 add table glpi_itilevents");
    }
@@ -204,15 +207,31 @@ function update95to100() {
    }
 
    $migration->addConfig([
-      'eventwarning_color'    => '#ffb800',
-      'eventexception_color'  => '#ff2222'
+      'eventwarning_color'    => '#ffcc47',
+      'eventexception_color'  => '#ff3a3a'
    ]);
 
    if (!$DB->fieldExists('glpi_users', 'eventwarning_color')) {
-      $migration->addField('glpi_users', 'eventwarning_color', 'string', ['value' => '#ffb800']);
+      $migration->addField('glpi_users', 'eventwarning_color', 'string', ['value' => '#ffcc47']);
    }
    if (!$DB->fieldExists('glpi_users', 'eventexception_color')) {
-      $migration->addField('glpi_users', 'eventexception_color', 'string', ['value' => '#ff2222']);
+      $migration->addField('glpi_users', 'eventexception_color', 'string', ['value' => '#ff3a3a']);
+   }
+
+   if (!$DB->fieldExists('glpi_entities', 'default_event_correlation_time')) {
+      $migration->addField('glpi_entities', 'default_event_correlation_time', 'integer', ['value' => '0']);
+   }
+
+   if (!$DB->fieldExists('glpi_entities', 'default_event_correlation_count')) {
+      $migration->addField('glpi_entities', 'default_event_correlation_count', 'integer', ['value' => '1']);
+   }
+
+   if (!$DB->fieldExists('glpi_entities', 'default_event_correlation_window')) {
+      $migration->addField('glpi_entities', 'default_event_correlation_window', 'integer', ['value' => '0']);
+   }
+
+   if (!$DB->fieldExists('glpi_entities', 'default_event_filter_action')) {
+      $migration->addField('glpi_entities', 'default_event_filter_action', 'bool', ['value' => '0']);
    }
 
    if (!$DB->fieldExists('glpi_requesttypes', 'is_event_default')) {

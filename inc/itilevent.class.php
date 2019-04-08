@@ -110,6 +110,14 @@ class ITILEvent extends CommonDBTM
    {
       $input = parent::prepareInputForAdd($input);
 
+      if (isset($input['content']) && !is_string($input['content'])) {
+         $input['content'] = json_encode($input['content']);
+      }
+
+      if ($input['significance'] < 0 || $input['significance'] > 2) {
+         $input['significance'] = self::INFORMATION;
+      }
+
       // Process event filtering rules
       $rules = new RuleITILEventFilterCollection();
 
@@ -149,18 +157,22 @@ class ITILEvent extends CommonDBTM
    function cleanDBonPurge()
    {
       $this->deleteChildrenAndRelationsFromDb(
-            [
-               Item_ITILEvent::class
-            ]
-         );
+         [
+            Item_ITILEvent::class
+         ]
+      );
 
          parent::cleanDBonPurge();
    }
+
    /**
     * Gets the name of a significance level from the int value
-    * @param int $significance The significance level
-    * @return string The significance level name
+    * 
     * @since 10.0.0
+    * 
+    * @param int $significance The significance level
+    * 
+    * @return string The significance level name
     */
    static function getSignificanceName($significance)
    {
@@ -178,10 +190,13 @@ class ITILEvent extends CommonDBTM
    /**
     * Displays or gets a dropdown menu of significance levels.
     * The default functionality is to display the dropdown.
-    * @param array $options Dropdown options
-    * @see Dropdown::showFromArray()
-    * @return void|string
+    * 
     * @since 10.0.0
+    * 
+    * @param array $options Dropdown options
+    * 
+    * @return void|string
+    * @see Dropdown::showFromArray()
     */
    static function dropdownSignificance(array $options = [])
    {
@@ -209,9 +224,12 @@ class ITILEvent extends CommonDBTM
 
    /**
     * Gets the name of an event status from the int value
-    * @param int $status The event status
-    * @return string The event status name
+    * 
     * @since 10.0.0
+    * 
+    * @param int $status The event status
+    * 
+    * @return string The event status name
     */
    static function getStatusName($status) : string
    {
@@ -236,10 +254,13 @@ class ITILEvent extends CommonDBTM
    /**
     * Displays or gets a dropdown menu of event statuses.
     * The default functionality is to display the dropdown.
-    * @param array $options Dropdown options
-    * @see Dropdown::showFromArray()
-    * @return void|string
+    * 
     * @since 10.0.0
+    * 
+    * @param array $options Dropdown options
+    * 
+    * @return void|string
+    * @see Dropdown::showFromArray()
     */
    static function dropdownStatus(array $options = [])
    {
@@ -268,12 +289,20 @@ class ITILEvent extends CommonDBTM
       return Dropdown::showFromArray($p['name'], $values, $p);
    }
 
+   /**
+    * Get an array of statuses that indicate the alert is still active.
+    *    By default, this includes New, Acknowledged, and Remediating.
+    * 
+    * @since 10.0.0
+    * 
+    * @return array Array of status integers
+    */
    public static function getActiveStatusArray()
    {
-      return [self::STATUS_NEW, self::STATUS_REMEDIATING];
+      return [self::STATUS_NEW, self::STATUS_ACKNOWLEDGED, self::STATUS_REMEDIATING];
    }
 
-   public static function getEventData($item, int $start = 0, int $limit = 0, array $sqlfilters = []) : DBmysqlIterator
+   public static function getEventData($item, int $start = 0, int $limit = 0, array $where = []) : DBmysqlIterator
    {
       global $DB;
 
@@ -307,13 +336,13 @@ class ITILEvent extends CommonDBTM
             ]
          ];
       }
-      if (isset($sqlfilters['category'])) {
+      if (isset($where['category'])) {
          $query['WHERE'][] = [
-            "$eventtable.itileventcategories_id" => $sqlfilters['category']
+            "$eventtable.itileventcategories_id" => $where['category']
          ];
-         unset($sqlfilters['category']);
+         unset($where['category']);
       }
-      $query['WHERE'] = array_merge_recursive($query['WHERE'], $sqlfilters);
+      $query['WHERE'] = array_merge_recursive($query['WHERE'], $where);
       if ($limit) {
          $query['START'] = (int)$start;
          $query['LIMIT'] = (int)$limit;
@@ -322,25 +351,73 @@ class ITILEvent extends CommonDBTM
       return $iterator;
    }
 
-   //TODO Implement card based dashboard, have a static view, or rely on a plugin?
-   public static function showDashboard()
+   public static function showDashboard($cards_only = false)
    {
-      echo "<h2 class='center'>".__('Event Management Dashboard')."</h2>";
-      echo "<div class='siem-dashboard'>";
-      self::showDashboardCard('count-alerts-day');
-      self::showDashboardCard('count-active-warnings');
-      self::showDashboardCard('count-active-exceptions');
-      self::showDashboardCard('count-new');
-      self::showDashboardCard('count-remediating');
-      self::showDashboardCard('list-historical', ['colspan' => 5]);
+      $default_view = [
+         'count-alerts-timerange' => ['timeunit' => isset($_GET['_timerange']) ? $_GET['_timerange'] : HOUR_TIMESTAMP],
+         'count-active-warnings' => [],
+         'count-active-exceptions' => [],
+         'count-new' => [],
+         'count-remediating' => [],
+         'list-historical' => [
+            'timeunit' => isset($_GET['_timerange']) ? $_GET['_timerange'] : HOUR_TIMESTAMP,
+            'colspan' => 'var(--colcount)']
+      ];
+      if (!$cards_only) {
+         echo "<h2 class='center'>".__('Event Management Dashboard')."</h2>";
+         self::showDashboardToolbar();
+      }
+      echo "<div id='siem-dashboard'>";
+      foreach ($default_view as $cardname => $card_params) {
+         if (!is_null($card_params) && is_array($card_params)) {
+            echo self::getDashboardCard($cardname, $card_params);
+         } else {
+            echo self::getDashboardCard($cardname);
+         }
+      }
       echo "</div>";
+   }
+
+   private static function showDashboardToolbar()
+   {
+      global $CFG_GLPI;
+
+      echo "<form id='siem-dashboard-toolbar' class='tab_bg_3'>";
+      echo "<div class='siem-dashboard-options'>";
+
+      echo "<span><label for='_timerange'>".__('Time range')."</label>";
+      $ajax_url = $CFG_GLPI['root_doc']."/ajax/siemdashboard.php";
+      Dropdown::showTimeStamp('_timerange', [
+         'value'     => isset($_GET['_timerange']) ? $_GET['_timerange'] : HOUR_TIMESTAMP,
+         'on_change' => "refreshDashboard(\"{$ajax_url}\");"
+      ]);
+      echo "</span>";
+
+      echo "<span><a href='#' class='fa fa-wrench' title='Configure dashboard'>";
+      echo "<span class='sr-only'>" . __('Configure dashboard')  . "</span>";
+      echo "</a></span>";
+
+      echo "</div></form>";
    }
 
    public static function getDashboardCardTitle(string $cardname)
    {
       switch ($cardname) {
-         case 'count-alerts-day':
-            return __('Total Alerts (24 hours)');
+         case 'count-alerts-timerange':
+            $timerange = isset($_GET['_timerange']) ? $_GET['_timerange'] : HOUR_TIMESTAMP;
+            $timeunits = Toolbox::getTimestampTimeUnits($timerange);
+            $time_string = '';
+            if ($timeunits['day'] > 0) {
+               $time_string .= " {$timeunits['day']} "._n('Day', 'Days', $timeunits['day']);
+            }
+            if ($timeunits['hour'] > 0) {
+               $time_string .= " {$timeunits['hour']} "._n('Hour', 'Hours', $timeunits['hour']);
+            }
+            if ($timeunits['minute'] > 0) {
+               $time_string .= " {$timeunits['minute']} "._n('Minute', 'Minutes', $timeunits['minute']);
+            }
+            $time_string = trim($time_string);
+            return __('Total Alerts')." ({$time_string})";
          case 'count-active-warnings':
             return __('Active Warnings');
          case 'count-active-exceptions':
@@ -356,17 +433,24 @@ class ITILEvent extends CommonDBTM
       }
    }
 
-   public static function showDashboardCard(string $cardname, $params = [])
+   public static function getDashboardCard(string $cardname, array $params = [])
    {
       global $DB;
 
       $p = [
-         'colspan' => 1,
-         'rowspan' => 1
+         'colspan'   => 1,
+         'rowspan'   => 1,
+         'timeunit'  => HOUR_TIMESTAMP
       ];
       $p = array_replace($p, $params);
 
-      // Get some event data and cache it
+      if ($p['timeunit'] > DAY_TIMESTAMP) {
+         $p['timeunit'] = DAY_TIMESTAMP;
+      }
+
+      $global_where = [new \QueryExpression("date > DATE_ADD(now(), INTERVAL -{$p['timeunit']} SECOND)")];
+
+      // Get countable data and cache it (Specific counters without a timeframe)
       $iterator = $DB->request([
          'SELECT' => [
             'id',
@@ -380,19 +464,20 @@ class ITILEvent extends CommonDBTM
          ]
       ]);
 
-      $daily_alerts = $DB->request([
+      // Get all event data from a specific timeframe
+      // Limited to a maximum of a day, but can be offset to provide data from other days
+      $timerange_alerts = $DB->request([
          'COUNT' => 'cpt',
          'FROM' => self::getTable(),
          'WHERE' => [
-            new \QueryExpression("date > DATE_ADD(now(), INTERVAL -1 DAY)"),
             'significance' => [self::WARNING, self::EXCEPTION]
-         ]
+         ] + $global_where
       ]);
 
       static $counters = null;
       if ($counters === null) {
          $counters = array_fill_keys(['warning', 'exception', 'new', 'remediating'], 0);
-         $counters['daily_alerts'] = $daily_alerts->next()['cpt'];
+         $counters['timerange_alerts'] = $timerange_alerts->next()['cpt'];
          while ($data = $iterator->next()) {
             if ($data['significance'] == self::WARNING) {
                $counters['warning'] += 1;
@@ -409,106 +494,176 @@ class ITILEvent extends CommonDBTM
 
       $title = self::getDashboardCardTitle($cardname);
       $style = '';
-      if (is_numeric($p['colspan']) && $p['colspan'] > 1) {
+      if ((is_numeric($p['colspan']) && $p['colspan'] > 1) ||
+            preg_match('/(var\(--)((\w*))[\)]/', $p['colspan'])) {
          $style .= '--colspan:'.$p['colspan'];
       }
-      if (is_numeric($p['rowspan']) && $p['rowspan'] > 1) {
+      if ((is_numeric($p['rowspan']) && $p['rowspan'] > 1) ||
+            preg_match('/(var\(--)((\w*))[\)]/', $p['rowspan'])) {
          $style .= '--rowspan:'.$p['rowspan'];
       }
 
-      echo "<div class='siem-dashboard-card' style='{$style}'><h3>{$title}</h3><div class='card-content'>";
+      $out = '';
+      $out .= "<div class='siem-dashboard-card' style='{$style}'><h3>{$title}</h3><div class='card-content'>";
       switch ($cardname) {
-         case 'count-alerts-day':
-            echo "<p>".$counters['daily_alerts']."</p>";
+         case 'count-alerts-timerange':
+            $out .= "<p>".$counters['timerange_alerts']."</p>";
             break;
          case 'count-active-warnings':
-            echo "<p>".$counters['warning']."</p>";
+            $out .= "<p>".$counters['warning']."</p>";
             break;
          case 'count-active-exceptions':
-            echo "<p>".$counters['exception']."</p>";
+            $out .= "<p>".$counters['exception']."</p>";
             break;
          case 'count-new':
-            echo "<p>".$counters['new']."</p>";
+            $out .= "<p>".$counters['new']."</p>";
             break;
          case 'count-remediating':
-            echo "<p>".$counters['remediating']."</p>";
+            $out .= "<p>".$counters['remediating']."</p>";
             break;
          case 'list-historical':
-            self::showList();
+            $out .= self::showList(false, null, false, $global_where);
             break;
          default:
-            echo "<p>".__("Invalid dashboard card")."</p>";
+            $out .= "<p>".__("Invalid dashboard card")."</p>";
       }
-      echo "</div></div>";
+      $out .= "</div></div>";
+      echo $out;
    }
 
-   public static function showHeatmap()
-   {
-      global $DB;
-      // TODO Feature idea
-      // Show a geographic heatmap based on assets with active alerts
-      // Should calculate initial view to be center of all active alerts and set an appropriate zoom level
-      $heat_data = [];
-      $active_events = ITILEvent::getEventData(null);
+   public static function showListForItem(CommonDBTM $item = null, $display = true, $where = []) {
+      $out = '';
+      $header_text = __('Historical events');
+      $selftable = self::getTable();
 
-      while ($event = $active_events->next()) {
-         $item_iterator = $DB->request([
-            'SELECT' => ['itemtype', 'items_id'],
-            'FROM' => Item_ITILEvent::getTable(),
-            'WHERE' => ['itilevents_id' => $event['id']]
+      if (isset($_GET["start"])) {
+         $start = intval($_GET["start"]);
+      } else {
+         $start = 0;
+      }
+      $sql_filters = self::convertFiltersValuesToSqlCriteria(isset($_GET['listfilters']) ? $_GET['listfilters'] : []);
+      $sql_filters = $sql_filters + $where;
+
+      $iterator = ITILEvent::getEventData($item, $start, $_SESSION['glpilist_limit'], $sql_filters);
+      
+      // Display the pager
+      $additional_params = isset($_GET['listfilters']) ? http_build_query(['listfilters' => $_GET['listfilters']]) : '';
+      $out .= Html::printAjaxPager($header_text, $start, $iterator->count(), '', false, $additional_params);
+
+
+      $out .= "<div class='firstbloc'>";
+
+      $out .= "<table class='tab_cadre_fixehov'><tr>";
+
+      //TODO Find a clean way to show associated items in list entry (Useful for dashboard view)
+      // Should items be grouped together in the same row, or have some sort of expandable information panel
+      // Alternative is to only allow a single item link per Event
+      $header = "<tr><th>".__('ID')."</th>";
+      $header .= "<th>".__('Name')."</th>";
+      $header .= "<th>".__('Significance')."</th>";
+      $header .= "<th>".__('Date')."</th>";
+      $header .= "<th>".__('Status')."</th>";
+      $header .= "<th>".__('Category')."</th>";
+      $header .= "<th>".__('Correlation ID')."</th></tr>";
+      $colcount = 7;
+
+      $out .= "<thead>";
+      $out .= $header;
+      if (isset($_GET['listfilters'])) {
+         $out .= "<tr class='log_history_filter_row'>";
+         $out .= "<th>";
+         $out .= "<input type='hidden' name='listfilters[active]' value='1' />";
+         $out .= "<input type='hidden' name='items_id' value='{$item->getID()}' />";
+         $out .= "</th>";
+         $out .= "<th>";
+         $out .= Html::input('listfilters[name]');
+         $out .= "</th>";
+         $out .= "<th>";
+         $out .= ITILEvent::dropdownSignificance([
+            'name'                  => 'listfilters[significance]',
+            'value'                 => '',
+            'values'                => isset($_GET['listfilters']['significance']) ?
+                                          $_GET['listfilters']['significance'] : [],
+            'multiple'              => true,
+            'width'                 => '100%',
+            'display'               => false
          ]);
-
-         while ($item = $item_iterator->next()) {
-            $itemtable = $item['itemtype']::getTable();
-            $location_iterator = $DB->request([
-               'SELECT' => [
-                  'glpi_locations.latitude',
-                  'glpi_locations.longitude'
-               ],
-               'FROM' => $itemtable,
-               'LEFT JOIN' => [
-                  'glpi_locations' => [
-                     'FKEY' => [
-                        $itemtable        => 'locations_id',
-                        'glpi_locations'  => 'id'
-                     ]
-                  ]
-               ]
-            ]);
-            $location = $location_iterator->next();
-            if ($location) {
-               $heat_data[] = [
-                  $location['latitude'],
-                  $location['longitude'],
-                  ($event['significance'] == ITILEvent::WARNING) ? 0.5 : 1.0
-               ];
-            }
-         }
+         $out .= "</th>";
+         $dateValue = isset($_GET['filters']['date']) ? Html::cleanInputText($_GET['listfilters']['date']) : null;
+         $out .= "<th><input type='date' name='listfilters[date]' value='$dateValue' /></th>";
+         $out .= "<th>";
+         $out .= ITILEvent::dropdownStatus([
+            'name'                  => 'listfilters[status]',
+            'value'                 => '',
+            'values'                => isset($_GET['listfilters']['status']) ?
+                                          $_GET['listfilters']['status'] : [],
+            'multiple'              => true,
+            'width'                 => '100%',
+            'display'               => false
+         ]);
+         $out .= "</th>";
+         $out .= "<th>";
+         $out .= ITILEventCategory::dropdown([
+            'name'                  => 'listfilters[category]',
+            'value'                 => '',
+            'values'                => isset($_GET['listfilters']['category']) ?
+                                          $_GET['listfilters']['category'] : [],
+            'multiple'              => true,
+            'width'                 => '100%',
+            'comments'              => false,
+            'display'               => false
+         ]);
+         $out .= "</th>";
+         $out .= "</tr>";
+      } else {
+         $out .= "<tr>";
+         $out .= "<th colspan='{$colcount}'>";
+         $out .= "<a href='#' class='show_list_filters'>" . __('Show filters') . " <span class='fa fa-filter pointer'></span></a>";
+         $out .= "</th>";
+         $out .= "</tr>";
       }
+      $out .= "</thead>";
 
-      $heat_data = json_encode($heat_data);
+      $out .= "<tfoot>$header</tfoot>";
 
-      $js = "$(function() {
-               var map = initMap($('#heatmap'), 'siem-heatmap', '400px');
-               _loadMap(map);
-            });
-
-         var _loadMap = function(map_elt) {
-            var heat = L.heatLayer({$heat_data}, {radius: 50, max: 1.0}).addTo(map_elt);
-            map_elt.redraw();
+      if (!count($iterator)) {
+         $out .= "<tr class='tab_bg_2'>";
+         $out .= "<td class='center' colspan='{$colcount}'>".__('No event')."</td></tr>\n";
+      } else {
+         $out .= "<tbody>";
+         while ($data = $iterator->next()) {
+            $style = '';
+            if ($data['significance'] == ITILEvent::WARNING) {
+               $style = "style='background-color: {$_SESSION['glpieventwarning_color']}'";
+            } else if ($data['significance'] == ITILEvent::EXCEPTION) {
+               $style = "style='background-color: {$_SESSION['glpieventexception_color']}'";
+            }
+            $out .= "<tr class='tab_bg_2' $style>";
+            $out .= "<td class='center'>".$data['id']."</td>";
+            $out .= "<td class='center'>".$data['name']."</td>";
+            //echo "<td class='center'>".substr(nl2br($data['content']), 0, 100)."</td>";
+            $out .= "<td class='center'>".ITILEvent::getSignificanceName($data['significance'])."</td>";
+            $out .= "<td class='center'>".Html::convDateTime($data['date'])."</td>";
+            $out .= "<td class='center'>".ITILEvent::getStatusName($data['status'])."</td>";
+            $out .= "<td class='center'>".ITILEventCategory::getCategoryName($data['itileventcategories_id'])."</td>";
+            $out .= "<td class='center'>".$data['correlation_uuid']."</td>";
+            $out .= "</tr>\n";
          }
-
-         ";
-         echo Html::scriptBlock($js);
-         echo "<div id='heatmap'></div>";
+         $out .= "</tbody>";
+      }
+      $out .= "</table></div>";
+      $out .= Html::printAjaxPager($header_text, $start, $iterator->count(), '', false, $additional_params);
+      if (!$display) {
+         return $out;
+      } else {
+         echo $out;
+      }
    }
 
-   public static function showList($activeonly = false, CommonDBTM $item = null, $display = true)
+   public static function showList($activeonly = false, CommonDBTM $item = null, $display = true, $where = [])
    {
 
-      if (!$display) {
-         ob_start();
-      }
+      $out = '';
       $header_text = $activeonly ? __('Active events') : __('Historical events');
       $selftable = self::getTable();
 
@@ -522,17 +677,18 @@ class ITILEvent extends CommonDBTM
          $sql_filters['status'] = self::getActiveStatusArray();
          $sql_filters['NOT']['significance'] = self::INFORMATION;
       }
+      $sql_filters = $sql_filters + $where;
 
       $iterator = ITILEvent::getEventData($item, $start, $_SESSION['glpilist_limit'], $sql_filters);
       
       // Display the pager
       $additional_params = isset($_GET['listfilters']) ? http_build_query(['listfilters' => $_GET['listfilters']]) : '';
-      Html::printAjaxPager($header_text, $start, $iterator->count(), '', true, $additional_params);
+      $out .= Html::printAjaxPager($header_text, $start, $iterator->count(), '', false, $additional_params);
 
 
-      echo "<div class='firstbloc'>";
+      $out .= "<div class='firstbloc'>";
 
-      echo "<table class='tab_cadre_fixehov'><tr>";
+      $out .= "<table class='tab_cadre_fixehov'><tr>";
 
       //TODO Find a clean way to show associated items in list entry (Useful for dashboard view)
       // Should items be grouped together in the same row, or have some sort of expandable information panel
@@ -541,76 +697,19 @@ class ITILEvent extends CommonDBTM
       $header .= "<th>".__('Name')."</th>";
       $header .= "<th>".__('Significance')."</th>";
       $header .= "<th>".__('Date')."</th>";
-      if (!$activeonly) {
-         $header .= "<th>".__('Status')."</th>";
-      }
+      $header .= "<th>".__('Status')."</th>";
       $header .= "<th>".__('Category')."</th>";
       $header .= "<th>".__('Correlation ID')."</th></tr>";
-      $colcount = $activeonly ? 6 : 7;
+      $colcount = 8;
 
-      echo "<thead>";
-      echo $header;
-      if (isset($_GET['listfilters'])) {
-         echo "<tr class='log_history_filter_row'>";
-         echo "<th>";
-         echo "<input type='hidden' name='listfilters[active]' value='1' />";
-         echo "<input type='hidden' name='items_id' value='{$item->getID()}' />";
-         echo "</th>";
-         echo "<th>";
-         echo Html::input('listfilters[name]');
-         echo "</th>";
-         echo "<th>";
-         ITILEvent::dropdownSignificance([
-            'name'                  => 'listfilters[significance]',
-            'value'                 => '',
-            'values'                => isset($_GET['listfilters']['significance']) ?
-                                          $_GET['listfilters']['significance'] : [],
-            'multiple'              => true,
-            'width'                 => '100%'
-         ]);
-         echo "</th>";
-         $dateValue = isset($_GET['filters']['date']) ? Html::cleanInputText($_GET['listfilters']['date']) : null;
-         echo "<th><input type='date' name='listfilters[date]' value='$dateValue' /></th>";
-         if (!$activeonly) {
-            echo "<th>";
-            ITILEvent::dropdownStatus([
-               'name'                  => 'listfilters[status]',
-               'value'                 => '',
-               'values'                => isset($_GET['listfilters']['status']) ?
-                                             $_GET['listfilters']['status'] : [],
-               'multiple'              => true,
-               'width'                 => '100%'
-            ]);
-            echo "</th>";
-         }
-         echo "<th>";
-         ITILEventCategory::dropdown([
-            'name'                  => 'listfilters[category]',
-            'value'                 => '',
-            'values'                => isset($_GET['listfilters']['category']) ?
-                                          $_GET['listfilters']['category'] : [],
-            'multiple'              => true,
-            'width'                 => '100%',
-            'comments'              => false
-         ]);
-         echo "</th>";
-         echo "</tr>";
-      } else {
-         echo "<tr>";
-         echo "<th colspan='{$colcount}'>";
-         echo "<a href='#' class='show_list_filters'>" . __('Show filters') . " <span class='fa fa-filter pointer'></span></a>";
-         echo "</th>";
-         echo "</tr>";
-      }
-      echo "</thead>";
-
-      echo "<tfoot>$header</tfoot>";
+      $out .= "<thead>$header</thead>";
+      $out .= "<tfoot>$header</tfoot>";
 
       if (!count($iterator)) {
-         echo "<tr class='tab_bg_2'>";
-         echo "<td class='center' colspan='{$colcount}'>".__('No event')."</td></tr>\n";
+         $out .= "<tr class='tab_bg_2'>";
+         $out .= "<td class='center' colspan='{$colcount}'>".__('No event')."</td></tr>\n";
       } else {
-         echo "<tbody>";
+         $out .= "<tbody>";
          while ($data = $iterator->next()) {
             $style = '';
             if ($data['significance'] == ITILEvent::WARNING) {
@@ -618,25 +717,35 @@ class ITILEvent extends CommonDBTM
             } else if ($data['significance'] == ITILEvent::EXCEPTION) {
                $style = "style='background-color: {$_SESSION['glpieventexception_color']}'";
             }
-            echo "<tr class='tab_bg_2' $style>";
-            echo "<td class='center'>".$data['id']."</td>";
-            echo "<td class='center'>".$data['name']."</td>";
+            $out .= "<tr id='itilevent_{$data['id']}' class='tab_bg_2' $style onclick='toggleEventDetails(this);'>";
+            $out .= "<td class='center'>".$data['id']."</td>";
+            $out .= "<td class='center'>".$data['name']."</td>";
             //echo "<td class='center'>".substr(nl2br($data['content']), 0, 100)."</td>";
-            echo "<td class='center'>".ITILEvent::getSignificanceName($data['significance'])."</td>";
-            echo "<td class='center'>".Html::convDateTime($data['date'])."</td>";
-            if (!$activeonly) {
-               echo "<td class='center'>".ITILEvent::getStatusName($data['status'])."</td>";
+            $out .= "<td class='center'>".ITILEvent::getSignificanceName($data['significance'])."</td>";
+            $out .= "<td class='center'>".Html::convDateTime($data['date'])."</td>";
+            $out .= "<td class='center'>".ITILEvent::getStatusName($data['status'])."</td>";
+            $out .= "<td class='center'>".ITILEventCategory::getCategoryName($data['itileventcategories_id'])."</td>";
+            $out .= "<td class='center'>".$data['correlation_uuid']."</td>";
+            $out .= "</tr>\n";
+
+            $out .= "<tr id='itilevent_{$data['id']}_content' class='tab_bg_2' $style hidden='hidden'>";
+            $out .= "<td colspan='{$colcount}'>";
+            $content = '';
+            $content_json = self::getEventProperties($data['content'], $data['logger']);
+            foreach ($content_json as $property) {
+               $content .= "<p>{$property['name']}: {$property['value']}</p>";
             }
-            echo "<td class='center'>".ITILEventCategory::getCategoryName($data['itileventcategories_id'])."</td>";
-            echo "<td class='center'>".$data['correlation_uuid']."</td>";
-            echo "</tr>\n";
+            $out .= $content;
+            $out .= "</td></tr>\n";
          }
-         echo "</tbody>";
+         $out .= "</tbody>";
       }
-      echo "</table></div>";
-      Html::printAjaxPager($header_text, $start, $iterator->count(), '', true, $additional_params);
+      $out .= "</table></div>";
+      $out .= Html::printAjaxPager($header_text, $start, $iterator->count(), '', false, $additional_params);
       if (!$display) {
-         return ob_end_flush();
+         return $out;
+      } else {
+         echo $out;
       }
    }
 
@@ -699,7 +808,7 @@ class ITILEvent extends CommonDBTM
    }
 
    /**
-    * Update all events with the same correlaiton UUID (exclusive)
+    * Update all events with the same correlation UUID (exclusive)
     * 
     * @param array $params Query parameters ([:field name => field value)
     * @param array $where  WHERE clause
@@ -716,5 +825,65 @@ class ITILEvent extends CommonDBTM
       ] + $where;
 
       $DB->update(self::getTable(), $params, $where);
+   }
+
+   /**
+    * 
+    * @param string $name
+    * @param string $logger
+    * @return string
+    */
+   public static function getLocalizedEventName(string $name, $logger) {
+      if ($logger !== null) {
+         if (file_exists(GLPI_ROOT . "/plugins/$logger/hook.php")) {
+            include_once(GLPI_ROOT . "/plugins/$logger/hook.php");
+         }
+         if (is_callable('translateEventName')) {
+            return call_user_func('translateEventName', $name);
+         }
+      }
+      return $name;
+   }
+
+   /**
+    * Get an associative array of event properties from the content JSON field
+    * 
+    * @param boolean $translate Attempt to translate the event properties.
+    * @return array Associative array of event properties
+    * @since 10.0.0
+    */
+   public static function getEventProperties(string $content, $logger, bool $translate = true)
+   {
+      if ($content !== null) {
+         $properties = json_decode($content, true);
+      } else {
+         return [];
+      }
+      if ($properties == null) {
+         return [];
+      }
+
+      $props = [];
+      foreach ($properties as $key => $value) {
+         $props[$key] = [
+            'name'   => $key, // Potentially localized property name
+            'value'  => $value // Property value
+         ];
+      }
+
+      if ($translate) {
+         if ($logger !== null) {
+            if (file_exists(GLPI_ROOT . "/plugins/$logger/hook.php")) {
+               include_once(GLPI_ROOT . "/plugins/$logger/hook.php");
+            }
+            if (is_callable('translateEventProperties')) {
+               call_user_func('translateEventProperties', $props);
+            }
+         } else {
+            Glpi\Event::translateEventProperties($props);
+         }
+      }
+
+      return $props;
    }
 }

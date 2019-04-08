@@ -1651,6 +1651,7 @@ class Dropdown {
       $params['display']             = true;
       $params['display_emptychoice'] = true;
       $params['width']               = '80%';
+      $params['on_change']           = '';
 
       if (is_array($options) && count($options)) {
          foreach ($options as $key => $val) {
@@ -1745,7 +1746,8 @@ class Dropdown {
                                             'width'               => $params['width'],
                                             'display_emptychoice' => $params['display_emptychoice'],
                                             'rand'                => $params['rand'],
-                                            'emptylabel'          => $params['emptylabel']]);
+                                            'emptylabel'          => $params['emptylabel'],
+                                            'on_change'           => $params['on_change']]);
    }
 
 

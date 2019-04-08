@@ -106,7 +106,8 @@ class Entity extends CommonTreeDropdown {
                                                    'max_closedate', 'tickettemplates_id'],
                                           'event' => ['default_event_correlation_time',
                                                       'default_event_correlation_count',
-                                                      'default_event_correlation_window']];
+                                                      'default_event_correlation_window',
+                                                      'default_event_filter_action']];
 
 
    /**
@@ -2075,6 +2076,13 @@ class Entity extends CommonTreeDropdown {
          'max'    => DAY_TIMESTAMP,
          'display_emptychoice' => true
       ]);
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Default event filter action')."</td>";
+      echo "<td>";
+      Dropdown::showFromArray('default_event_filter_action', [__('Drop'), __('Accept')], [
+         'value'  => $entity->fields['default_event_filter_action']]);
       echo "</td></tr>";
 
       Plugin::doHook("post_item_form", ['item' => $entity, 'options' => &$options]);

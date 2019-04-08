@@ -2992,6 +2992,10 @@ CREATE TABLE `glpi_entities` (
   `date_mod` timestamp NULL DEFAULT NULL,
   `date_creation` timestamp NULL DEFAULT NULL,
   `autofill_decommission_date` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-2',
+  `default_event_correlation_time` int(11) NOT NULL DEFAULT '0',
+  `default_event_correlation_count` int(11) NOT NULL DEFAULT '1',
+  `default_event_correlation_window` int(11) NOT NULL DEFAULT '0',
+  `default_event_filter_action` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unicity` (`entities_id`,`name`),
   KEY `entities_id` (`entities_id`),
@@ -9706,6 +9710,7 @@ CREATE TABLE `glpi_itilfollowups` (
   KEY `sourceof_items_id` (`sourceof_items_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- Event Management
 DROP TABLE IF EXISTS `glpi_itilevents`;
 CREATE TABLE `glpi_itilevents` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -9720,6 +9725,7 @@ CREATE TABLE `glpi_itilevents` (
   `significance` tinyint(4) NOT NULL,
   `correlation_uuid` int(11) DEFAULT NULL,
   `date_mod` datetime DEFAULT NULL,
+  `logger` varchar(255)  COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Indicates which plugin (or the core) logged this event. Used to delegate translations and other functions',
   PRIMARY KEY (`id`),
   KEY `entities_id` (`entities_id`),
   KEY `name` (`name`),
@@ -9728,7 +9734,8 @@ CREATE TABLE `glpi_itilevents` (
   KEY `date_creation` (`date_creation`),
   KEY `itileventcategories_id` (`itileventcategories_id`),
   KEY `significance` (`significance`),
-  KEY `correlation_uuid` (`correlation_uuid`)
+  KEY `correlation_uuid` (`correlation_uuid`),
+  KEY `logger` (`logger`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP TABLE IF EXISTS `glpi_items_itilevents`;
@@ -9770,3 +9777,4 @@ CREATE TABLE `glpi_itileventcategories` (
   `date_creation` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+-- /Event Management

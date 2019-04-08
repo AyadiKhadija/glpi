@@ -489,7 +489,8 @@ $CFG_GLPI['javascript'] = [
    'tools'     => [
       'project'      => ['gantt'],
       'knowbaseitem' => ['tinymce', 'jstree'],
-      'reminder'     => ['tinymce']
+      'reminder'     => ['tinymce'],
+      'itilevent'    => ['siem']
    ],
    'management' => [
       'datacenter'       => [

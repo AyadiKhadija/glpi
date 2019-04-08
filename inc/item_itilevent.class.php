@@ -58,7 +58,7 @@ class Item_ITILEvent extends CommonDBRelation
 
    /**
     * Used for linking items to ITILEvents. The linked item is affected by the event but not the source.
-    * For example, a VM host is restarted, all guests are also down unless moved to another host.
+    * For example: a VM host is restarted, all guests are also down unless moved to another host.
     */
    const LINK_AFFECTED = 1;
 
@@ -244,7 +244,6 @@ class Item_ITILEvent extends CommonDBRelation
    **/
    static function showForItem(CommonDBTM $item, $withtemplate = 0)
    {
-      ITILEvent::showList(true, $item);
-      ITILEvent::showList(false, $item);
+      ITILEvent::showListForItem($item);
    }
 }
