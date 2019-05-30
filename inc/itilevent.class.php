@@ -102,8 +102,64 @@ class ITILEvent extends CommonDBTM
       return _n('Event', 'Events', $nb);
    }
 
+   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
+   {
+
+      if (!$withtemplate) {
+         $nb = 0;
+         switch ($item->getType()) {
+            case 'ITILEvent' :
+               if (($_SESSION["glpiactiveprofile"]["helpdesk_hardware"] != 0)
+                   && (count($_SESSION["glpiactiveprofile"]["helpdesk_item_type"]) > 0)) {
+                  if ($_SESSION['glpishow_count_on_tabs']) {
+                     $nb = countElementsInTable('glpi_items_itilevents',
+                                                ['AND' => ['itilevents_id' => $item->getID() ],
+                                                   ['itemtype' => $_SESSION["glpiactiveprofile"]["helpdesk_item_type"]]
+                                                ]);
+                  }
+                  return self::createTabEntry(_n('Item', 'Items', Session::getPluralNumber()), $nb);
+               }
+            default:
+               return self::createTabEntry('Event Management');
+         }
+      }
+      return '';
+   }
+
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
+   {
+
+      switch ($item->getType()) {
+         case 'ITILEvent' :
+            self::showForITILEvent($item);
+            break;
+         default:
+            self::showEventManagementTab($item);
+            break;
+      }
+      return true;
+   }
+
    static function getForbiddenActionsForMenu() {
       return ['add'];
+   }
+
+   static function getAdditionalMenuContent() {
+
+      $menu['itilevent']['title'] = static::getTypeName(Session::getPluralNumber());
+      $menu['itilevent']['page']  = static::getDashboardURL(false);
+
+      $menu['itilevent']['options']['ITILEventHost']['title'] = __('Hosts');
+      $menu['itilevent']['options']['ITILEventHost']['page'] = ITILEventHost::getSearchURL(false);
+      $menu['itilevent']['options']['ITILEventHost']['links']['search'] = ITILEventHost::getSearchURL(false);
+      $menu['itilevent']['options']['ITILEventHost']['links']['add'] = ITILEventHost::getFormURL(false);
+
+      $menu['itilevent']['options']['ITILEventService']['title'] = __('Services');
+      $menu['itilevent']['options']['ITILEventService']['page'] = ITILEventService::getSearchURL(false);
+      $menu['itilevent']['options']['ITILEventService']['links']['search'] = ITILEventService::getSearchURL(false);
+      $menu['itilevent']['options']['ITILEventService']['links']['add'] = ITILEventService::getFormURL(false);
+
+      return $menu;
    }
 
    function prepareInputForAdd($input)
@@ -138,27 +194,20 @@ class ITILEvent extends CommonDBTM
 
    function post_addItem()
    {
-      // Associate items
-      if (isset($this->input['_items'])) {
-         $item_itilevent = new Item_ITILEvent();
-         foreach ($this->input['_items'] as $item) {
-            $item_itilevent->add([
-               'itilevents_id'   => $this->getID(),
-               'itemtype'        => $item['itemtype'],
-               'items_id'        => $item['items_id'],
-               'link'            => isset($item['link']) ? $item['link'] : Item_ITILEvent::LINK_SOURCE
-            ]);
-         }
+      if (isset($this->input['_services_id'])) {
+         
+      } else if (isset($this->input['_hosts_id'])) {
+         
       }
 
-      if (!isset($this->input['correlation_uuid']) && !isset($this->fields['correlation_uuid'])) {
-         // Create a new correlation UUID in case one isn't assigned by the correlation engine
-         $this->fields['correlation_uuid'] = uniqid();
+      if (!isset($this->input['correlation_id']) && !isset($this->fields['correlation_id'])) {
+         // Create a new correlation ID in case one isn't assigned by the correlation engine
+         $this->fields['correlation_id'] = uniqid(true);
       }
 
       $this->update([
          'id'                 => $this->getID(),
-         'correlation_uuid'   => $this->fields['correlation_uuid']
+         'correlation_id'   => $this->fields['correlation_id']
       ]);
 
       // Process event business rules. Only used for correlation, notifications, and tracking
@@ -176,7 +225,8 @@ class ITILEvent extends CommonDBTM
    {
       $this->deleteChildrenAndRelationsFromDb(
          [
-            Item_ITILEvent::class
+            Item_ITILEvent::class,
+            Itil_ITILEvent::class
          ]
       );
 
@@ -317,7 +367,7 @@ class ITILEvent extends CommonDBTM
     */
    public static function getActiveStatusArray()
    {
-      return [self::STATUS_NEW, self::STATUS_ACKNOWLEDGED, self::STATUS_REMEDIATING];
+      return [self::STATUS_NEW, self::STATUS_ACKNOWLEDGED, self::STATUS_REMEDIATING, self::STATUS_MONITORING];
    }
 
    /**
@@ -379,181 +429,205 @@ class ITILEvent extends CommonDBTM
       $iterator = $DB->request($query);
       return $iterator;
    }
+   
+   /**
+    * Gets the dashboard card definition with the specified name.
+    * If no name is provided, all card definitions are returned.
+    *
+    * A card definition contains at minimum:
+    *    title - The title shown on the card
+    *    type  - The type of data shown. This changes how the data is formatted
+    *    query - The query needed to get the data
+    * Optional data includes:
+    *    extra_card_classes - Extra html classes to add to the card (Ex: Use bg-warning to change the style)
+    *
+    * @since 10.0.0
+    * @param string $name The name of the dashboard card.
+    * @return array The dashboard card definition(s).
+    */
+   public static function getDashboardCardDefinition($name = null) {
+      static $countsbyactivestatus = null;
 
-   public static function getDashboardToolbar()
-   {
-      global $CFG_GLPI;
+      if (!$countsbyactivestatus) {
+         $countsbyactivestatus = [
+            new QueryExpression("COUNT(CASE WHEN `status` LIKE '0' THEN 1 END) AS count-new"),
+            new QueryExpression("COUNT(CASE WHEN `status` LIKE '1' THEN 1 END) AS count-acknowledged"),
+            new QueryExpression("COUNT(CASE WHEN `status` LIKE '2' THEN 1 END) AS count-remediating"),
+            new QueryExpression("COUNT(CASE WHEN `status` LIKE '3' THEN 1 END) AS count-monitoring")
+         ];
+      }
 
-      $out = "<form id='siem-dashboard-toolbar' class='tab_bg_3'>";
-      $out .= "<div class='siem-dashboard-options'>";
+      $allcards = null;
+      if (!$allcards) {
+         $allcards = [
+            'count-all-total' => [
+               'title'  => __('Total Events'),
+               'type'   => 'counter',
+               'query'  => [
+                  'SELECT' => [
+                     'COUNT'  => 'id AS cpt'
+                  ],
+                  'FROM'   => self::getTable()
+               ]
+            ],
+            'count-information-today' => [
+               'title'  => __('Information Events Today'),
+               'type'   => 'counter',
+               'query'  => [
+                  'SELECT' => [
+                     'COUNT'  => 'id AS cpt'
+                  ],
+                  'FROM'   => self::getTable(),
+                  'WHERE'  => [
+                     "DATE(`date_creation`)" => new QueryExpression('CURDATE()'),
+                     'significance'          => self::INFORMATION
+                  ]
+               ]
+            ],
+            'count-warnings-today' => [
+               'title'              => __('Warning Events Today'),
+               'type'               => 'counter',
+               'extra_card_classes' => 'bg-warning',
+               'query'              => [
+                  'SELECT' => [
+                     'COUNT'  => 'id AS cpt'
+                  ],
+                  'FROM'   => self::getTable(),
+                  'WHERE'  => [
+                     "DATE(`date_creation`)" => new QueryExpression('CURDATE()'),
+                     'significance'          => self::WARNING
+                  ]
+               ]
+            ],
+            'count-exceptions-today' => [
+               'title'              => __('Exception Events Today'),
+               'type'               => 'counter',
+               'extra_card_classes' => 'bg-danger',
+               'query'              => [
+                  'SELECT' => [
+                     'COUNT'  => 'id AS cpt'
+                  ],
+                  'FROM'   => self::getTable(),
+                  'WHERE'  => [
+                     "DATE(`date_creation`)" => new QueryExpression('CURDATE()'),
+                     'significance'          => self::EXCEPTION
+                  ]
+               ]
+            ],
+            'summary-active-warnings' => [
+               'title'  => __('Summary of Active Warnings'),
+               'type'   => 'table',
+               'query'  => [
+                  'SELECT' => $countsbyactivestatus,
+                  'FROM'   => self::getTable(),
+                  'WHERE'  => [
+                     'significance' => self::WARNING,
+                     'status'       => self::getActiveStatusArray()
+                  ]
+               ],
+               'headers'   => [self::getStatusName(0), self::getStatusName(1),
+                  self::getStatusName(2), self::getStatusName(3)],
+               'fields'    => ['count-new', 'count-acknowledged', 'count-remediating',
+                  'count-monitoring']
+            ],
+            'summary-active-exceptions' => [
+               'title'              => __('Summary of Active Exceptions'),
+               'type'               => 'table',
+               'query'              => [
+                  'SELECT' => $countsbyactivestatus,
+                  'FROM'   => self::getTable(),
+                  'WHERE'  => [
+                     'significance' => self::EXCEPTION,
+                     'status'       => self::getActiveStatusArray()
+                  ]
+               ],
+               'headers'   => [self::getStatusName(0), self::getStatusName(1),
+                  self::getStatusName(2), self::getStatusName(3)],
+               'fields'    => ['count-new', 'count-acknowledged', 'count-remediating',
+                  'count-monitoring']
+            ],
+            'count-active-warnings' => [
+               'title'              => __('Active Warnings'),
+               'type'               => 'counter',
+               'extra_card_classes' => 'bg-warning',
+               'query'              => [
+                  'SELECT' => [
+                     'COUNT'  => 'id AS cpt'
+                  ],
+                  'FROM'   => self::getTable(),
+                  'WHERE'  => [
+                     'significance' => self::WARNING,
+                     'status'       => self::getActiveStatusArray()
+                  ]
+               ]
+            ],
+            'count-active-exceptions' => [
+               'title'              => __('Active Exceptions'),
+               'type'               => 'counter',
+               'extra_card_classes' => 'bg-danger',
+               'query'              => [
+                  'SELECT' => [
+                     'COUNT'  => 'id AS cpt'
+                  ],
+                  'FROM'   => self::getTable(),
+                  'WHERE'  => [
+                     'significance' => self::EXCEPTION,
+                     'status'       => self::getActiveStatusArray()
+                  ]
+               ]
+            ],
+         ];
+      }
 
-      $out .= "<span><label for='_timerange'>".__('Time range')."</label>";
-      $ajax_url = $CFG_GLPI['root_doc']."/ajax/siemdashboard.php";
-      $out .= Dropdown::showTimeStamp('_timerange', [
-         'value'     => isset($_GET['_timerange']) ? $_GET['_timerange'] : HOUR_TIMESTAMP,
-         'on_change' => "refreshDashboard(\"{$ajax_url}\");",
-         'display'   => false
-      ]);
-      $out .= "</span>";
-
-      $out .= "<span><a href='#' class='fa fa-filter' title='Filter' onclick='toggleEventFilter();'>";
-      $out .= "<span class='sr-only'>" . __('Filter')  . "</span>";
-      $out .= "</a></span>";
-
-      $out .= "<span><a href='#' class='fa fa-wrench' title='Configure dashboard'>";
-      $out .= "<span class='sr-only'>" . __('Configure dashboard')  . "</span>";
-      $out .= "</a></span>";
-
-      $out .= "</div></form>";
-      return $out;
+      if ($name) {
+         return isset($allcards[$name]) ? $allcards[$name] : null;
+      } else {
+         return $allcards;
+      }
    }
 
    /**
-    * Get the title for the specified dashboard card
+    * Get the dashboard card specified by the given name.
+    *
+    * The resulting data is generated from the card definition.
+    * The query is removed and the value is retrieved and formatted based on the type.
     *
     * @since 10.0.0
-    *
-    * @param string $cardname The name of the dashboard card
-    * @return string The card title
+    * @param string $name The name of the dashboard card.
+    * @return array The dashboard card data.
+    * @see ITILEvent::getDashboardCardDefinition()
     */
-   public static function getDashboardCardTitle(string $cardname)
+   public static function getDashboardCard(string $name)
    {
-      switch ($cardname) {
-         case 'count-alerts-timerange':
-            $timerange = isset($_GET['_timerange']) ? $_GET['_timerange'] : HOUR_TIMESTAMP;
-            $timeunits = Toolbox::getTimestampTimeUnits($timerange);
-            $time_string = '';
-            if ($timeunits['day'] > 0) {
-               $time_string .= sprintf(_n('%d day', '%d days', $timeunits['day']), $timeunits['day']) . ' ';
-            }
-            if ($timeunits['hour'] > 0) {
-               $time_string .= sprintf(_n('%d hour', '%d hour', $timeunits['hour']), $timeunits['hour']) . ' ';
-            }
-            if ($timeunits['minute'] > 0) {
-               $time_string .= sprintf(_n('%d minute', '%d minute', $timeunits['minute']), $timeunits['minute']);
-            }
-            $time_string = trim($time_string);
-            return __('Total Alerts')." ({$time_string})";
-         case 'count-active-warnings':
-            return __('Active Warnings');
-         case 'count-active-exceptions':
-            return __('Active Exceptions');
-         case 'count-new':
-            return __('New Events');
-         case 'count-remediating':
-            return __('Remediating Events');
-         case 'list-historical':
-            return __('Historical Events');
-         default:
-            return $cardname;
-      }
-   }
-
-   public static function getDashboardCardData(string $cardname, array $params = []) {
       global $DB;
 
-      $card = [
-         'header'             => '',
-         'extra_card_classes' => '',
-         'value'              => '',
-         'type'               => 'counter'
-      ];
-      $p = [
-         'colspan'      => 1,
-         'rowspan'      => 1,
-         'timeunit'     => HOUR_TIMESTAMP,
-         'timerange'    => HOUR_TIMESTAMP,
-      ];
-      $p = array_replace($p, $params);
-
-      if ($p['timerange'] > DAY_TIMESTAMP) {
-         $p['timerange'] = DAY_TIMESTAMP;
+      //TODO Cache dashboard card values?
+      $definition = self::getDashboardCardDefinition($name);
+      if (!$definition) {
+         // Return invalid card
+         return [
+            'title'     => $name,
+            'type'      => 'invalid',
+            'value'     => __('Invalid Card')
+         ];
       }
 
-      $global_where = [new \QueryExpression("date > DATE_ADD(now(), INTERVAL -{$p['timerange']} SECOND)")];
-
-      // Get countable data and cache it (Specific counters without a timeframe)
-      $iterator = $DB->request([
-         'SELECT' => [
-            'id',
-            'significance',
-            'status'
-         ],
-         'FROM' => self::getTable(),
-         'WHERE' => [
-            'status'       => self::getActiveStatusArray(),
-            'significance' => [self::WARNING, self::EXCEPTION]
-         ]
-      ]);
-
-      // Get all event data from a specific timeframe
-      // Limited to a maximum of a day, but can be offset to provide data from other days
-      $timerange_alerts = $DB->request([
-         'COUNT' => 'cpt',
-         'FROM' => self::getTable(),
-         'WHERE' => [
-            'significance' => [self::WARNING, self::EXCEPTION]
-         ] + $global_where
-      ]);
-
-      static $counters = null;
-      if ($counters === null) {
-         $counters = array_fill_keys(['warning', 'exception', 'new', 'remediating'], 0);
-         $counters['timerange_alerts'] = $timerange_alerts->next()['cpt'];
-         while ($data = $iterator->next()) {
-            if ($data['significance'] == self::WARNING) {
-               $counters['warning'] += 1;
-            } else if ($data['significance'] == self::EXCEPTION) {
-               $counters['exception'] += 1;
-            }
-            if ($data['status'] == self::STATUS_NEW) {
-               $counters['new'] += 1;
-            } else if ($data['status'] == self::STATUS_REMEDIATING) {
-               $counters['remediating'] += 1;
-            }
+      if (isset($definition['query'])) {
+         $iterator = $DB->request($definition['query']);
+         // Format the returned data based on the card type
+         switch ($definition['type']) {
+            case 'counter':
+               $definition['value'] = $iterator->next()['cpt'];
+               if (!is_numeric($definition['value'])) {
+                  $definition['value'] = 0;
+               }
+               break;
+            default:
+               $definition['value'] = '';
          }
+         unset($definition['query']);
       }
-
-      $card['header'] = self::getDashboardCardTitle($cardname);
-
-      switch ($cardname) {
-         case 'count-alerts-timerange':
-            $card['type'] = 'counter';
-            $card['value'] = $counters['timerange_alerts'];
-            break;
-         case 'count-active-warnings':
-            $card['type'] = 'counter';
-            $card['extra_card_classes'] = 'bg-warning';
-            $card['value'] = $counters['warning'];
-            break;
-         case 'count-active-exceptions':
-            $card['type'] = 'counter';
-            $card['extra_card_classes'] = 'bg-danger';
-            $card['value'] = $counters['exception'];
-            break;
-         case 'count-new':
-            $card['type'] = 'counter';
-            $card['value'] = $counters['new'];
-            break;
-         case 'count-remediating':
-            $card['type'] = 'counter';
-            $card['extra_card_classes'] = 'bg-info';
-            $card['value'] = $counters['remediating'];
-            break;
-         case 'list-historical':
-            $card['type'] = 'list';
-            $card['value'] = self::showList([
-               'where'  => $global_where,
-               'display'   => false
-            ]);
-            break;
-         case 'timeseries-new':
-            break;
-         default:
-            $card['type'] = 'invalid';
-            $card['value'] = __("Invalid dashboard card");
-      }
-      return $card;
+      return $definition;
    }
 
    public static function showListForItem(CommonDBTM $item = null, $display = true, $where = []) {
@@ -678,7 +752,7 @@ class ITILEvent extends CommonDBTM
             $out .= "<td class='center'>".Html::convDateTime($data['date'])."</td>";
             $out .= "<td class='center'>".ITILEvent::getStatusName($data['status'])."</td>";
             $out .= "<td class='center'>".ITILEventCategory::getCategoryName($data['itileventcategories_id'])."</td>";
-            $out .= "<td class='center'>".$data['correlation_uuid']."</td>";
+            $out .= "<td class='center'>".$data['correlation_id']."</td>";
             $out .= "</tr>\n";
 
             $out .= "<tr id='itilevent_{$data['id']}_content' class='tab_bg_2' $style hidden='hidden'>";
@@ -775,7 +849,7 @@ class ITILEvent extends CommonDBTM
             $out .= "<td class='center'><time>".Html::convDateTime($data['date'], null, true)."</time></td>";
             $out .= "<td class='center'>".ITILEvent::getStatusName($data['status'])."</td>";
             $out .= "<td class='center'>".ITILEventCategory::getCategoryName($data['itileventcategories_id'])."</td>";
-            $out .= "<td class='center'>".$data['correlation_uuid']."</td>";
+            $out .= "<td class='center'>".$data['correlation_id']."</td>";
             $out .= "</tr>\n";
 
             $out .= "<tr id='itilevent_{$data['id']}_content' class='tab_bg_2' $style hidden='hidden'>";
@@ -845,7 +919,7 @@ class ITILEvent extends CommonDBTM
       $query = [
          'FROM' => self::getTable(),
          'WHERE' => [
-            'correlation_uuid' => $this->fields['correlation_uuid']
+            'correlation_id' => $this->fields['correlation_id']
          ]
       ];
       if ($exclusive) {
@@ -874,7 +948,7 @@ class ITILEvent extends CommonDBTM
          'NOT' => [
             'id' => $this->getID()
          ],
-         'correlation_uuid' => $this->fields['correlation_uuid']
+         'correlation_id' => $this->fields['correlation_id']
       ] + $where;
 
       if ($exclusive) {
@@ -987,7 +1061,7 @@ class ITILEvent extends CommonDBTM
          $tracking_id = $tracking->add([
             'name'               => $this->fields['name'],
             'content'            => $content,
-            '_correlation_uuid'  => $this->fields['correlation_uuid']
+            '_correlation_id'    => $this->fields['correlation_id']
          ]);
 
          if (!$tracking_id) {
@@ -1100,7 +1174,7 @@ class ITILEvent extends CommonDBTM
       $tab[] = [
          'id'                 => '4',
          'table'              => $this->getTable(),
-         'field'              => 'correlation_uuid',
+         'field'              => 'correlation_id',
          'name'               => __('Correlation ID'),
          'datatype'           => 'string',
       ];
@@ -1173,5 +1247,84 @@ class ITILEvent extends CommonDBTM
       ];
 
       return $tab;
+   }
+
+   /**
+    * Get the dashboard page URL for the current class
+    *
+    * @since 10.0.0
+    *
+    * @param $full path or relative one (true by default)
+   **/
+   static function getDashboardURL($full = true) {
+      global $CFG_GLPI, $router;
+
+      if ($router != null) {
+         $page = $router->pathFor('itilevent-dashboard');
+         return $page;
+      }
+
+      $dir = ($full ? $CFG_GLPI['root_doc'] : '');
+
+      // ITILEvents are only compatible with the new UI
+      return "$dir/front/central.php";
+   }
+
+      static function showEventManagementTab(CommonDBTM $item) {
+      global $DB;
+
+      $eventhost = new ITILEventHost();
+      $eventservice = new ITILEventService();
+      $matchinghosts = $eventhost->find(['items_id' => $item->getID(), 'itemtype' => $item::getType()], [], 1);
+      $has_host = (count($matchinghosts) == 1);
+      $matchingservices = [];
+      $has_services = false;
+      if (!$has_host) {
+         $has_services = false;
+      } else {
+         //$matchingservices = $eventservice->find(['hosts_id' => $matchinghosts[0]]);
+         $has_services = (count($matchingservices) > 0);
+      }
+      $out = "<div id='event-management-tab'>";
+
+      if (!$has_host && !$has_services) {
+         $out .= "<div class='alert alert-warning'>" . __('This host is not monitored by any plugin') . "</div>";
+         echo $out;
+         return;
+      } elseif (!$has_services) {
+         //$out .= "<div class='alert alert-warning'>" . __('No services on this host are monitored by any plugin') . "</div>";
+      }
+
+      // Hook up to service/host status and localize
+      $out .= "<div>Host is degraded</div>";
+
+      $servicestatuses = "<table class='tab_cadre_fixe'><thead><tr><th colspan='4'>Services</th></tr><tr><th>Name</th><th>Warnings</th><th>Exceptions</th><th>Latest event</th></tr></thead><tbody>";
+      foreach($matchingservices as $service) {
+         $eventservice->getFromDB($service['id']);
+         //$servicestatuses .= "<tr id='service_{$service['id']}'>";
+         
+         //$servicestatuses .= "</tr>";
+         //$servicestatuses .= "<tr id='service_{$service['id']}_content'>";
+         
+         //$servicestatuses .= "</tr>";
+      }
+
+      $out .= $servicestatuses;
+
+      $historical = "<table class='tab_cadre_fixehov'><thead>";
+      $historical .= "<tr><th colspan='7'>Historical</th></tr><tr><th></th>";
+      $historical .= "<th>".__('Name')."</th>";
+      $historical .= "<th>".__('Significance')."</th>";
+      $historical .= "<th>".__('Date')."</th>";
+      $historical .= "<th>".__('Status')."</th>";
+      $historical .= "<th>".__('Category')."</th>";
+      $historical .= "<th>".__('Correlation ID')."</th></tr></thead><tbody>";
+
+      
+
+      $historical .= "</table>";
+
+      $out .= $historical;
+      echo $out;
    }
 }

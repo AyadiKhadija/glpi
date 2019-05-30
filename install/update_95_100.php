@@ -142,10 +142,13 @@ function update95to100() {
          `date_creation` datetime DEFAULT NULL,
          `itileventcategories_id` int(11),
          `significance` tinyint(4) NOT NULL,
-         `correlation_uuid` int(11) DEFAULT NULL,
+         `correlation_uuid` VARCHAR(13) DEFAULT NULL,
          `date_mod` datetime DEFAULT NULL,
          `logger` varchar(255)  COLLATE utf8_unicode_ci DEFAULT NULL COMMENT
             'Indicates which plugin (or the core) logged this event. Used to delegate translations and other functions',
+         `urgency` int(11) NOT NULL DEFAULT '1',
+         `impact` int(11) NOT NULL DEFAULT '1',
+         `priority` int(11) NOT NULL DEFAULT '1',
          PRIMARY KEY (`id`),
          KEY `entities_id` (`entities_id`),
          KEY `name` (`name`),
@@ -204,6 +207,67 @@ function update95to100() {
       PRIMARY KEY (`id`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
       $DB->queryOrDie($query, "10.0.0 add table glpi_itileventcategories");
+   }
+
+   if (!$DB->tableExists('glpi_itileventhosts')) {
+      $query = "CREATE TABLE `glpi_itileventhosts` (
+      `id` int(11) NOT NULL,
+      `itemtype` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+      `items_id` int(11) NOT NULL,
+      PRIMARY KEY (`id`),
+      UNIQUE KEY `unicity` (`items_id`,`itemtype`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+      $DB->queryOrDie($query, "10.0.0 add table glpi_itileventhosts");
+   }
+
+   if (!$DB->tableExists('glpi_itileventservices')) {
+      $query = "CREATE TABLE `glpi_itileventservices` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `hosts_id` int(11) NOT NULL DEFAULT -1,
+      `itileventservicetemplates_id` int(11) NOT NULL,
+      PRIMARY KEY (`id`),
+      KEY `itileventservicetemplates_id` (`itileventservicetemplates_id`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+      $DB->queryOrDie($query, "10.0.0 add table glpi_itileventservices");
+   }
+
+   if (!$DB->tableExists('glpi_itileventservicetemplates')) {
+      $query = "CREATE TABLE `glpi_itileventservicetemplates` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+      `comment` text COLLATE utf8_unicode_ci DEFAULT NULL,
+      `links_id` int(11) DEFAULT NULL,
+      `priority` tinyint(3) NOT NULL DEFAULT 3,
+      `calendars_id` int(11) DEFAULT NULL,
+      `notificationinterval` int(11) DEFAULT NULL,
+      PRIMARY KEY (`id`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+      $DB->queryOrDie($query, "10.0.0 add table glpi_itileventservicetemplates");
+   }
+
+   if (!$DB->tableExists('glpi_itils_scheduleddowntimes')) {
+      $query = "CREATE TABLE `glpi_itils_scheduleddowntimes` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `scheduleddowntimes_id` int(11) NOT NULL,
+      `itemtype` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+      `items_id` int(11) NOT NULL,
+      PRIMARY KEY (`id`),
+      UNIQUE KEY `unicity` (`items_id`,`itemtype`,`scheduleddowntimes_id`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+      $DB->queryOrDie($query, "10.0.0 add table glpi_itils_scheduleddowntimes");
+   }
+
+   if (!$DB->tableExists('glpi_scheduleddowntime')) {
+      $query = "CREATE TABLE `glpi_scheduleddowntime` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `comment` text COLLATE utf8_unicode_ci DEFAULT NULL,
+      `is_service` tinyint(1) NOT NULL DEFAULT 0,
+      `items_id_target` int(11) NOT NULL,
+      `begin_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+      `end_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+      PRIMARY KEY (`id`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+      $DB->queryOrDie($query, "10.0.0 add table glpi_scheduleddowntime");
    }
 
    $migration->addConfig([
