@@ -59,7 +59,6 @@ class NotificationTargetITILEvent extends NotificationTarget {
       $this->data['##event.action##']           = $options[$event];
       $this->data['##event.name##']             = $options['name'];
       $this->data['##event.content##']          = $options['content'];
-      $this->data['##event.category##']         = ITILEventCategory::getCategoryName($options['itileventcategories_id'], true);
       $this->data['##event.status##']           = ITILEvent::getStatusName($options['status']);
       $this->data['##event.significance##']     = ITILEvent::getSignificanceName($options['significance']);
       $this->data['##event.correlation_id##'] = $options['correlation_id'];

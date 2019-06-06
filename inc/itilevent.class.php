@@ -146,7 +146,7 @@ class ITILEvent extends CommonDBTM
 
    static function getAdditionalMenuContent() {
 
-      $menu['itilevent']['title'] = static::getTypeName(Session::getPluralNumber());
+      $menu['itilevent']['title'] = __('Event Management');
       $menu['itilevent']['page']  = static::getDashboardURL(false);
 
       $menu['itilevent']['options']['ITILEventHost']['title'] = __('Hosts');
@@ -388,6 +388,7 @@ class ITILEvent extends CommonDBTM
       $eventtable = self::getTable();
 
       $query = [
+         'SELECT' => ["$eventtable.*"],
          'FROM' => $eventtable,
          'WHERE' => [],
          'ORDERBY' => ['date DESC']
@@ -399,33 +400,25 @@ class ITILEvent extends CommonDBTM
             case 'Change' :
             case 'Problem' :
                $itemeventtable = Itil_ITILEvent::getTable();
-            default :
-               $itemeventtable = Item_ITILEvent::getTable();
+               $query['WHERE'][] = [
+                  "{$itemeventtable}.itemtype" => $item->getType(),
+                  "{$itemeventtable}.items_id" => $item->getID()
+               ];
+               break;
+            case 'ITILEventHost' :
+            case 'ITILEventService' :
+               $query = array_merge_recursive($query, $item->getEventRestrictCriteria());
+               break;
          }
-         $query['WHERE'][] = [
-            "{$itemeventtable}.itemtype" => $item->getType(),
-            "{$itemeventtable}.items_id" => $item->getID()
-         ];
-         $query['LEFT JOIN'] = [
-            $itemeventtable => [
-               'FKEY' => [
-                  $eventtable       => 'id',
-                  $itemeventtable   => 'itilevents_id'
-               ]
-            ]
-         ];
+
       }
-      if (isset($where['category'])) {
-         $query['WHERE'][] = [
-            "$eventtable.itileventcategories_id" => $where['category']
-         ];
-         unset($where['category']);
-      }
+
       $query['WHERE'] = array_merge_recursive($query['WHERE'], $where);
       if ($limit) {
          $query['START'] = (int)$start;
          $query['LIMIT'] = (int)$limit;
       }
+
       $iterator = $DB->request($query);
       return $iterator;
    }
@@ -576,6 +569,34 @@ class ITILEvent extends CommonDBTM
                   ]
                ]
             ],
+            'count-hosts' => [
+               'title'              => __('Monitored Hosts'),
+               'type'               => 'counter',
+               'query'              => [
+                  'SELECT' => [
+                     'COUNT'  => 'id AS cpt'
+                  ],
+                  'FROM'   => ITILEventHost::getTable(),
+                  'WHERE'  => [
+                     'NOT' => [
+                        'itileventservices_id_availability' => null
+                     ]
+                  ]
+               ]
+            ],
+            'count-services' => [
+               'title'              => __('Monitored Services'),
+               'type'               => 'counter',
+               'query'              => [
+                  'SELECT' => [
+                     'COUNT'  => 'id AS cpt'
+                  ],
+                  'FROM'   => ITILEventService::getTable(),
+                  'WHERE'  => [
+                     'is_active' => 1
+                  ]
+               ]
+            ],
          ];
       }
 
@@ -662,9 +683,8 @@ class ITILEvent extends CommonDBTM
       $header .= "<th>".__('Significance')."</th>";
       $header .= "<th>".__('Date')."</th>";
       $header .= "<th>".__('Status')."</th>";
-      $header .= "<th>".__('Category')."</th>";
       $header .= "<th>".__('Correlation ID')."</th></tr>";
-      $colcount = 7;
+      $colcount = 6;
 
       $out .= "<thead>";
       $out .= $header;
@@ -698,18 +718,6 @@ class ITILEvent extends CommonDBTM
                                           $_GET['listfilters']['status'] : [],
             'multiple'              => true,
             'width'                 => '100%',
-            'display'               => false
-         ]);
-         $out .= "</th>";
-         $out .= "<th>";
-         $out .= ITILEventCategory::dropdown([
-            'name'                  => 'listfilters[category]',
-            'value'                 => '',
-            'values'                => isset($_GET['listfilters']['category']) ?
-                                          $_GET['listfilters']['category'] : [],
-            'multiple'              => true,
-            'width'                 => '100%',
-            'comments'              => false,
             'display'               => false
          ]);
          $out .= "</th>";
@@ -751,7 +759,6 @@ class ITILEvent extends CommonDBTM
             $out .= "<td class='center'>".ITILEvent::getSignificanceName($data['significance'])."</td>";
             $out .= "<td class='center'>".Html::convDateTime($data['date'])."</td>";
             $out .= "<td class='center'>".ITILEvent::getStatusName($data['status'])."</td>";
-            $out .= "<td class='center'>".ITILEventCategory::getCategoryName($data['itileventcategories_id'])."</td>";
             $out .= "<td class='center'>".$data['correlation_id']."</td>";
             $out .= "</tr>\n";
 
@@ -815,9 +822,8 @@ class ITILEvent extends CommonDBTM
       $header .= "<th>".__('Name')."</th>";
       $header .= "<th>".__('Date')."</th>";
       $header .= "<th>".__('Status')."</th>";
-      $header .= "<th>".__('Category')."</th>";
       $header .= "<th>".__('Correlation ID')."</th></tr>";
-      $colcount = 8;
+      $colcount = 7;
 
       $out .= "<thead>$header</thead>";
       $out .= "<tfoot>$header</tfoot>";
@@ -848,7 +854,6 @@ class ITILEvent extends CommonDBTM
             $out .= "<td class='center'>".$data['name']."</td>";
             $out .= "<td class='center'><time>".Html::convDateTime($data['date'], null, true)."</time></td>";
             $out .= "<td class='center'>".ITILEvent::getStatusName($data['status'])."</td>";
-            $out .= "<td class='center'>".ITILEventCategory::getCategoryName($data['itileventcategories_id'])."</td>";
             $out .= "<td class='center'>".$data['correlation_id']."</td>";
             $out .= "</tr>\n";
 
@@ -897,11 +902,6 @@ class ITILEvent extends CommonDBTM
       if (isset($filters['significance']) && !empty($filters['significance'])) {
          $sql_filters['significance'] = $filters['significance'];
       }
-
-      if (isset($filters['category']) && !empty($filters['category'])) {
-         $sql_filters['category'] = $filters['category'];
-      }
-
       return $sql_filters;
    }
 
@@ -1006,6 +1006,7 @@ class ITILEvent extends CommonDBTM
       }
 
       $props = [];
+
       foreach ($properties as $key => $value) {
          $props[$key] = [
             'name'   => $key, // Potentially localized property name
@@ -1015,7 +1016,10 @@ class ITILEvent extends CommonDBTM
 
       if ($p['translate']) {
          if ($logger !== null) {
-            $props = Plugin::doOneHook($logger, 'translateEventProperties', $props);
+            $props_t = Plugin::doOneHook($logger, 'translateEventProperties', $props);
+            if ($props_t) {
+               $props = $props_t;
+            }
          } else {
             Glpi\Event::translateEventProperties($props);
          }
@@ -1188,14 +1192,6 @@ class ITILEvent extends CommonDBTM
       ];
 
       $tab[] = [
-         'id'                 => '7',
-         'table'              => 'glpi_itileventcategories',
-         'field'              => 'completename',
-         'name'               => __('Category'),
-         'datatype'           => 'dropdown'
-      ];
-
-      $tab[] = [
          'id'                 => '16',
          'table'              => $this->getTable(),
          'field'              => 'content',
@@ -1270,8 +1266,14 @@ class ITILEvent extends CommonDBTM
       return "$dir/front/central.php";
    }
 
-      static function showEventManagementTab(CommonDBTM $item) {
-      global $DB;
+   static function showEventManagementTab(CommonDBTM $item) {
+      global $DB, $PLUGIN_HOOKS;
+
+      if (isset($_GET["start"])) {
+         $start = intval($_GET["start"]);
+      } else {
+         $start = 0;
+      }
 
       $eventhost = new ITILEventHost();
       $eventservice = new ITILEventService();
@@ -1282,49 +1284,122 @@ class ITILEvent extends CommonDBTM
       if (!$has_host) {
          $has_services = false;
       } else {
-         //$matchingservices = $eventservice->find(['hosts_id' => $matchinghosts[0]]);
+         $eventhost->getFromDB($matchinghosts[0]['id']);
+         $matchingservices = $eventservice->find(['hosts_id' => $matchinghosts[0]]);
          $has_services = (count($matchingservices) > 0);
       }
-      $out = "<div id='event-management-tab'>";
 
       if (!$has_host && !$has_services) {
-         $out .= "<div class='alert alert-warning'>" . __('This host is not monitored by any plugin') . "</div>";
-         echo $out;
+         echo "<div class='alert alert-warning'>" . __('This host is not monitored by any plugin') . "</div>";
+         Html::showSimpleForm(ITILEventHost::getFormURL(),
+               'add', __('Enable monitoring'),
+               ['itemtype' => $item->getType(),
+               'items_id' => $item->getID()]);
          return;
-      } elseif (!$has_services) {
-         //$out .= "<div class='alert alert-warning'>" . __('No services on this host are monitored by any plugin') . "</div>";
+      } else if (!$has_services) {
+         echo "<div class='alert alert-warning'>" . __('No services on this host are monitored by any plugin') . "</div>";
+      } else if (!$eventhost->getAvailabilityService()) {
+         echo "<div class='alert alert-warning'>" . __('No host availability service set') . "</div>";
       }
 
-      // Hook up to service/host status and localize
-      $out .= "<div>Host is degraded</div>";
+      $out = $eventhost->getHostInfoDisplay();
 
-      $servicestatuses = "<table class='tab_cadre_fixe'><thead><tr><th colspan='4'>Services</th></tr><tr><th>Name</th><th>Warnings</th><th>Exceptions</th><th>Latest event</th></tr></thead><tbody>";
+      $servicestatuses = "<table class='tab_cadre_fixe'><thead><tr><th colspan='4'>Services</th></tr>";
+      $servicestatuses .= "<tr><th>" . __('Status') . "</th>";
+      $servicestatuses .= "<th>" . __('Name') . "</th>";
+      $servicestatuses .= "<th>" . __('Last status change') . "</th>";
+      $servicestatuses .= "<th>" . __('Latest event') . "</th></tr></thead><tbody>";
       foreach($matchingservices as $service) {
          $eventservice->getFromDB($service['id']);
-         //$servicestatuses .= "<tr id='service_{$service['id']}'>";
-         
-         //$servicestatuses .= "</tr>";
-         //$servicestatuses .= "<tr id='service_{$service['id']}_content'>";
-         
-         //$servicestatuses .= "</tr>";
+         $status = ITILEventService::getStatusName($eventservice->fields['status']);
+         $status_since_diff = Toolbox::getHumanReadableTimeDiff($eventservice->fields['status_since']);
+         $latest_event = '';
+         $servicestatuses .= "<tr id='service_{$service['id']}'>";
+         $servicestatuses .= "<td>{$status}</td>";
+         $servicestatuses .= "<td>{$eventservice->fields['name']}</td>";
+         $servicestatuses .= "<td>{$status_since_diff}</td>";
+         $servicestatuses .= "<td>{$latest_event}</td>";
+         $servicestatuses .= "</tr>";
       }
 
       $out .= $servicestatuses;
 
-      $historical = "<table class='tab_cadre_fixehov'><thead>";
-      $historical .= "<tr><th colspan='7'>Historical</th></tr><tr><th></th>";
+      $iterator = ITILEvent::getEventData($eventhost, $start, $_SESSION['glpilist_limit']);
+
+      $historical = Html::printAjaxPager('', $start, $iterator->count(), '', false);
+      $historical .= "<table class='tab_cadre_fixehov'><thead>";
+      $historical .= "<tr><th colspan='6'>Historical</th></tr><tr><th></th>";
       $historical .= "<th>".__('Name')."</th>";
       $historical .= "<th>".__('Significance')."</th>";
       $historical .= "<th>".__('Date')."</th>";
       $historical .= "<th>".__('Status')."</th>";
-      $historical .= "<th>".__('Category')."</th>";
       $historical .= "<th>".__('Correlation ID')."</th></tr></thead><tbody>";
 
-      
+      if (!is_null($iterator)) {
+         $temp_service = new ITILEventService();
+         while ($data = $iterator->next()) {
+            $style = '';
+            $icon = 'fas fa-info-circle';
+            $active = in_array($data['status'], self::getActiveStatusArray());
+            $temp_service->getFromDB($data['itileventservices_id']);
+            $localized_name = self::getLocalizedEventName($data['name'], $temp_service->fields['logger']);
+            if ($data['significance'] == ITILEvent::WARNING) {
+               if ($active) {
+                  $style = "style='background-color: {$_SESSION['glpieventwarning_color']}'";
+               }
+               $icon = 'fas fa-exclamation-triangle';
+            } else if ($data['significance'] == ITILEvent::EXCEPTION) {
+               if ($active) {
+                  $style = "style='background-color: {$_SESSION['glpieventexception_color']}'";
+               }
+               $icon = 'fas fa-exclamation-circle';
+            }
+            $historical .= "<tr id='itilevent_{$data['id']}' class='tab_bg_2' $style onclick='toggleEventDetails(this);'>";
+            $historical .= "<td class='center'><i class='{$icon} fa-lg' title='".
+                  ITILEvent::getSignificanceName($data['significance'])."'/></td>";
+            $historical .= "<td>{$localized_name}</td>";
+            $historical .= "<td>" . self::getSignificanceName($data['significance']) . "</td>";
+            $historical .= "<td>{$data['date']}</td>";
+            $historical .= "<td>" . self::getStatusName($data['status']) . "</td>";
+            $historical .= "<td>{$data['correlation_id']}</td>";
+            $historical .= "<td></td></tr>";
+            $historical .= "<tr id='itilevent_{$data['id']}_content' class='tab_bg_2' $style hidden='hidden'>";
+            $historical .= "<td colspan='6'><p>";
+            $historical .= self::getEventProperties($data['content'], $temp_service->fields['logger'], [
+               'format' => 'pretty'
+            ]);
+            $historical .= "</p></td></tr>\n";
+         }
+      }
 
-      $historical .= "</table>";
+      $historical .= "</tbody></table>";
+      $historical .= Html::printAjaxPager('', $start, $iterator->count(), '', false);
 
       $out .= $historical;
       echo $out;
+   }
+
+   public static function getReportList() {
+      return [
+        'downtime_by_entity'     => __('Downtime by entity'),
+        'downtime_by_location'   => __('Downtime by location'),
+        'downtime_by_itemtype'   => __('Downtime by host type'),
+      ];
+   }
+
+   public static function archiveOldEvents() {
+      $p = [
+         'max-age-informational'    => 30 * DAY_TIMESTAMP,
+         'max-age-warning'          => 60 * DAY_TIMESTAMP,
+         'max-age-exception'        => 60 * DAY_TIMESTAMP,
+         'archive-resolved-only'    => true,
+         'archive-full-correlated'  => true,
+         'archive-correlate-mode'   => 'max',
+         'keep-tracking'            => true,
+         'archive-location'         => GLPI_DUMP_DIR,
+         'keep-last-events'         => 5 // Always keep last 5 events for each service/host
+      ];
+
+      
    }
 }

@@ -47,7 +47,7 @@ class ScheduledDowntime extends CommonDBTM {
       return _n('Scheduled Downtime', 'Scheduled Downtimes', $nb);
    }
 
-   public static function isHostScheduledDown(int $hosts_id) {
+   public static function isHostScheduledDown(int $hosts_id) : bool {
       global $DB;
 
       $downtimetable = self::getTable();
@@ -73,7 +73,7 @@ class ScheduledDowntime extends CommonDBTM {
       return $iterator->next()['cpt'] > 0;
    }
 
-   public static function isServiceScheduledDown(int $services_id) {
+   public static function isServiceScheduledDown(int $services_id) : bool {
       global $DB;
 
       $service = new ITILEventService();

@@ -1050,7 +1050,7 @@ class Main extends AbstractController implements ControllerInterface
     *
     * @return void
     *
-     * @Glpi\Annotation\Route(name="itilevent-dashboard", pattern="/ITILEvent/dashboard")
+     * @Glpi\Annotation\Route(name="itilevent-dashboard", pattern="/ITILEvent/dashboard[/{fullscreen:fullscreen}]")
     */
     public function siemDashboard(Request $request, Response $response, array $args)
     {
@@ -1059,6 +1059,8 @@ class Main extends AbstractController implements ControllerInterface
         $itemtype = 'ITILEvent';
         $layout = [
            [
+              'count-hosts',
+              'count-services',
               'count-active-warnings',
               'count-active-exceptions',
               'count-all-total'
@@ -1082,6 +1084,7 @@ class Main extends AbstractController implements ControllerInterface
 
         $params = [
             'page_title'   => __('Event Dashboard'),
+            'fullscreen'   => isset($args['fullscreen']),
             'itemtype'     => $itemtype,
             'item'         => new $itemtype(),
             'dashboard'    => [

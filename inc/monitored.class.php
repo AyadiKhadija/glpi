@@ -35,42 +35,32 @@ if (!defined('GLPI_ROOT')) {
 }
 
 /**
- * ITILEventCategory class.
- * A category for an ITILEvent
- * @since 10.0.0
-**/
-class ITILEventCategory extends CommonTreeDropdown
-{
+ * Trait for shared functions between Event Management hosts and services
+ **/
+trait Monitored {
 
-   // From CommonDBTM
-   public $dohistory          = true;
-   public $can_be_translated  = true;
+   /**
+    * 
+    */
+   public abstract function isFlapping() : bool;
 
-   static $rightname          = 'event';
+   /**
+    * 
+    */
+   public static abstract function getStatusName() : string;
 
-   static function getTypeName($nb = 0)
-   {
-      return _n('Event category', 'Event categories', $nb);
-   }
+   /**
+    * 
+    */
+   public abstract function isScheduledDown() : bool;
 
-   function cleanDBonPurge()
-   {
-      Rule::cleanForItemCriteria($this);
-   }
+   /**
+    * 
+    */
+   public abstract function getHostName() : string;
 
-   static public function getCategoryName($category_id, $full = true) {
-      global $DB;
-
-      $iterator = $DB->request([
-         'SELECT' => [$full ? 'completename' : 'name'],
-         'FROM' => self::getTable(),
-         'WHERE' => [
-            'id' => $category_id
-         ]
-      ]);
-      if ($iterator->count()) {
-         return $iterator->next()[$full ? 'completename' : 'name'];
-      }
-      return '';
-   }
+   /**
+    * 
+    */
+   public abstract function getEventRestrictCriteria() : array;
 }
