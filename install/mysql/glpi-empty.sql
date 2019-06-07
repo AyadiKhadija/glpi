@@ -1378,8 +1378,6 @@ INSERT INTO `glpi_configs` VALUES ('206','core','purge_all','0');
 INSERT INTO `glpi_configs` VALUES ('207','core','purge_user_auth_changes','0');
 INSERT INTO `glpi_configs` VALUES ('208','core','purge_plugins','0');
 INSERT INTO `glpi_configs` VALUES ('209','core','display_login_source','1');
-INSERT INTO `glpi_configs` VALUES ('210','core','eventwarning_color','#ffb800');
-INSERT INTO `glpi_configs` VALUES ('211','core','eventexception_color','#ff2222');
 
 ### Dump table glpi_consumableitems
 
@@ -9007,8 +9005,6 @@ CREATE TABLE `glpi_users` (
   `groups_id` int(11) NOT NULL DEFAULT '0',
   `users_id_supervisor` int(11) NOT NULL DEFAULT '0',
   `timezone` varchar(50) DEFAULT NULL,
-  `eventwarning_color` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `eventexception_color` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unicityloginauth` (`name`, `authtype`, `auths_id`),
   KEY `firstname` (`firstname`),
@@ -9715,46 +9711,24 @@ CREATE TABLE `glpi_itilfollowups` (
 -- Event Management
 DROP TABLE IF EXISTS `glpi_itilevents`;
 CREATE TABLE `glpi_itilevents` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `entities_id` int(11) NOT NULL DEFAULT '0',
-  `is_recursive` tinyint(1) NOT NULL DEFAULT '0',
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(3) NOT NULL DEFAULT '0',
   `date` datetime DEFAULT NULL,
   `content` longtext COLLATE utf8_unicode_ci,
   `date_creation` timestamp NULL DEFAULT NULL,
-  `itileventcategories_id` int(11),
   `significance` tinyint(3) NOT NULL,
-  `correlation_uuid` VARCHAR(31) DEFAULT NULL,
+  `correlation_id` VARCHAR(23) DEFAULT NULL,
   `date_mod` timestamp NULL DEFAULT NULL,
-  `logger` varchar(255)  COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Indicates which plugin (or the core) logged this event. Used to delegate translations and other functions',
-  `urgency` int(11) NOT NULL DEFAULT '1',
-  `impact` int(11) NOT NULL DEFAULT '1',
-  `priority` int(11) NOT NULL DEFAULT '1',
+  `itileventservices_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `entities_id` (`entities_id`),
   KEY `name` (`name`),
   KEY `status` (`status`),
   KEY `date` (`date`),
   KEY `date_creation` (`date_creation`),
-  KEY `itileventcategories_id` (`itileventcategories_id`),
   KEY `significance` (`significance`),
-  KEY `correlation_uuid` (`correlation_uuid`),
-  KEY `logger` (`logger`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-DROP TABLE IF EXISTS `glpi_items_itilevents`;
-CREATE TABLE `glpi_items_itilevents` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `itemtype` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `items_id` int(11) NOT NULL,
-  `itilevents_id` int(11) NOT NULL,
-  `link` tinyint(3) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `itemtype` (`itemtype`),
-  KEY `item_id` (`items_id`),
-  KEY `item` (`itemtype`,`items_id`),
-  KEY `itilevents_id` (`itilevents_id`)
+  KEY `correlation_id` (`correlation_id`),
+  KEY `itileventservices_id` (`itileventservices_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP TABLE IF EXISTS `glpi_itils_itilevents`;
@@ -9762,24 +9736,7 @@ CREATE TABLE `glpi_itils_itilevents` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `itemtype` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `items_id` int(11) NOT NULL DEFAULT '0',
-  `itilevents_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-DROP TABLE IF EXISTS `glpi_itileventcategories`;
-CREATE TABLE `glpi_itileventcategories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `entities_id` int(11) NOT NULL DEFAULT '0',
-  `is_recursive` tinyint(1) NOT NULL DEFAULT '0',
-  `itileventcategories_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `completename` text COLLATE utf8_unicode_ci,
-  `comment` text COLLATE utf8_unicode_ci,
-  `level` int(11) NOT NULL,
-  `ancestors_cache` longtext COLLATE utf8_unicode_ci,
-  `sons_cache` longtext COLLATE utf8_unicode_ci,
-  `date_mod` timestamp NULL DEFAULT NULL,
-  `date_creation` timestamp NULL DEFAULT NULL,
+  `itilevents_id` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -9788,8 +9745,12 @@ CREATE TABLE `glpi_itileventhosts` (
   `id` int(11) NOT NULL,
   `itemtype` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `items_id` int(11) NOT NULL,
+  `itileventservices_id_availability` int(11) DEFAULT NULL,
+  `date_mod` timestamp NULL DEFAULT NULL,
+  `date_creation` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unicity` (`items_id`,`itemtype`)
+  UNIQUE KEY `unicity` (`items_id`,`itemtype`),
+  KEY `is_flapping` (`is_flapping`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP TABLE IF EXISTS `glpi_itileventservices`;
@@ -9797,8 +9758,18 @@ CREATE TABLE `glpi_itileventservices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `hosts_id` int(11) NOT NULL DEFAULT -1,
   `itileventservicetemplates_id` int(11) NOT NULL,
+  `last_check` timestamp NULL DEFAULT NULL,
+  `status` tinyint(3) NOT NULL DEFAULT '2',
+  `status_since` timestamp NULL DEFAULT NULL,
+  `is_flapping` tinyint(1) NOT NULL DEFAULT '0',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `is_volatile` tinyint(1) NOT NULL DEFAULT '0',
+  `date_mod` timestamp NULL DEFAULT NULL,
+  `date_creation` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `itileventservicetemplates_id` (`itileventservicetemplates_id`)
+  KEY `itileventservicetemplates_id` (`itileventservicetemplates_id`),
+  KEY `hosts_id` (`hosts_id`),
+  KEY `is_flapping` (`is_flapping`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP TABLE IF EXISTS `glpi_itileventservicetemplates`;
@@ -9810,6 +9781,12 @@ CREATE TABLE `glpi_itileventservicetemplates` (
   `priority` tinyint(3) NOT NULL DEFAULT 3,
   `calendars_id` int(11) DEFAULT NULL,
   `notificationinterval` int(11) DEFAULT NULL,
+  `check_interval` int(11) DEFAULT NULL COMMENT 'Ignored when check_mode is passive',
+  `use_flap_detection` tinyint(1) NOT NULL DEFAULT '0',
+  `check_mode` tinyint(3) NOT NULL DEFAULT '0',
+  `logger` varchar(255)  COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Indicates which plugin (or the core) logged this event. Used to delegate translations and other functions',
+  `date_mod` timestamp NULL DEFAULT NULL,
+  `date_creation` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -9831,6 +9808,8 @@ CREATE TABLE `glpi_scheduleddowntime` (
   `items_id_target` int(11) NOT NULL,
   `begin_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `end_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_mod` timestamp NULL DEFAULT NULL,
+  `date_creation` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- /Event Management
