@@ -70,34 +70,6 @@ class Itil_ITILEvent extends CommonDBRelation
       return parent::canCreateItem();
    }
 
-   function post_addItem()
-   {
-      $event = new ITILEvent();
-      $input  = [
-         'id'              => $this->fields['itilevents_id'],
-         'date_creation'   => $_SESSION["glpi_currenttime"],
-         'date_mod'        => $_SESSION["glpi_currenttime"],
-      ];
-
-      $event->update($input);
-      parent::post_addItem();
-   }
-
-   function post_purgeItem()
-   {
-
-      $event = new ITILEvent();
-      $input  = [
-         'id'              => $this->fields['itilevents_id'],
-         'date_creation'   => $_SESSION["glpi_currenttime"],
-         'date_mod'        => $_SESSION["glpi_currenttime"],
-      ];
-
-      $event->update($input);
-
-      parent::post_purgeItem();
-   }
-
    function prepareInputForAdd($input)
    {
 

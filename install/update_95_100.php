@@ -190,12 +190,14 @@ function update95to100() {
       `status_since` timestamp NULL DEFAULT NULL,
       `is_flapping` tinyint(1) NOT NULL DEFAULT '0',
       `is_active` tinyint(1) NOT NULL DEFAULT '1',
+      `is_acknowledged` tinyint(1) NOT NULL DEFAULT '0',
       `date_mod` timestamp NULL DEFAULT NULL,
       `date_creation` timestamp NULL DEFAULT NULL,
       PRIMARY KEY (`id`),
       KEY `itileventservicetemplates_id` (`itileventservicetemplates_id`),
       KEY `hosts_id` (`hosts_id`),
-      KEY `is_flapping` (`is_flapping`)
+      KEY `is_flapping` (`is_flapping`),
+      KEY `is_acknowledged` (`is_acknowledged`),
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
       $DB->queryOrDie($query, "10.0.0 add table glpi_itileventservices");
    }
@@ -239,6 +241,7 @@ function update95to100() {
       `comment` text COLLATE utf8_unicode_ci DEFAULT NULL,
       `is_service` tinyint(1) NOT NULL DEFAULT 0,
       `items_id_target` int(11) NOT NULL,
+      `is_fixed` tinyint(1) NOT NULL DEFAULT 1,
       `begin_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
       `end_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
       `date_mod` timestamp NULL DEFAULT NULL,

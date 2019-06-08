@@ -166,6 +166,11 @@ class ITILEvent extends CommonDBTM
    {
       $input = parent::prepareInputForAdd($input);
 
+      // All events must be associated to a service or have a service id of -1 for internal
+      if (!isset($input['itileventservice_id']) && $input['itileventservice_id'] != -1) {
+         return false;
+      }
+
       if (isset($input['content']) && !is_string($input['content'])) {
          $input['content'] = json_encode($input['content']);
       }
@@ -194,11 +199,6 @@ class ITILEvent extends CommonDBTM
 
    function post_addItem()
    {
-      if (isset($this->input['_services_id'])) {
-         
-      } else if (isset($this->input['_hosts_id'])) {
-         
-      }
 
       if (!isset($this->input['correlation_id']) && !isset($this->fields['correlation_id'])) {
          // Create a new correlation ID in case one isn't assigned by the correlation engine
@@ -218,6 +218,55 @@ class ITILEvent extends CommonDBTM
       $this->update([
          'id' => $this->getID()
       ] + $input);
+
+      $service = new ITILEventService();
+      if ($this->fields['itileventservices_id'] >= 0 &&
+            $service->getFromDB($this->fields['itileventservices_id'])) {
+         // Trigger any needed service events
+         $last_status = $service->fields['status'];
+         $significance = $this->fields['significance'];
+
+         // Check downtime
+         $in_downtime = $service->isScheduledDown();
+         if (!$service->fields['is_volatile']) {
+            // Check problem status transition
+            if ($significance !== self::INFORMATION && $last_status === ITILEventService::STATUS_OK) {
+               if (!$in_downtime) {
+                  // Update service to reflect the problem state
+                  $service->update([
+                     'id'        => $service->getID(),
+                     '_problem'  => true
+                  ]);
+               }
+            }
+            // Check recovery status transition
+            if ($significance === self::INFORMATION && $last_status !== ITILEventService::STATUS_OK) {
+               if ($in_downtime) {
+                  // Auto-end downtimes if they are not fixed
+                  $downtime = new ScheduledDowntime();
+                  $downtimes = ScheduledDowntime::getForHostOrService($this->fields['itileventservices_id']);
+                  while ($data = $downtimes->next()) {
+                     if ($data['is_fixed'] == 0) {
+                        $downtime->update([
+                           'id'        => $data['id'],
+                           '_cancel'   => true
+                        ]);
+                     }
+                  }
+               } else {
+                  // Update service to reflect the recovery state
+                  $service->update([
+                     'id'           => $service->getID(),
+                     '_recovery'    => true
+                  ]);
+               }
+            }
+            // Check flapping state
+         } else {
+            
+         }
+      }
+     
       parent::post_addItem();
    }
 

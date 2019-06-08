@@ -30,6 +30,9 @@
  * ---------------------------------------------------------------------
 */
 
+use Glpi\Event\ScheduledDowntimeEvent;
+use Glpi\EventDispatcher\EventDispatcher;
+
 /**
  * ScheduledDowntime class.
  * This represents a period of time when a host or service will be down and all alerts during that time can be ignored.
@@ -47,65 +50,62 @@ class ScheduledDowntime extends CommonDBTM {
       return _n('Scheduled Downtime', 'Scheduled Downtimes', $nb);
    }
 
-   public static function isHostScheduledDown(int $hosts_id) : bool {
+   public static function getForHostOrService(int $items_id, bool $is_service = 1, array $params = []) : DBmysqlIterator {
       global $DB;
+
+      $p = [
+         'start'     => $_SESSION['glpi_currenttime'],
+         'end'       => $_SESSION['glpi_currenttime']
+      ];
+      $p = array_replace($p, $params);
 
       $downtimetable = self::getTable();
-      $now = $_SESSION['glpi_currenttime'];
+      $monitoredtable = $is_service ? ITILEventService::getTable() : ITILEventHost::getTable();
 
-      $iterator = $DB->request([
-         'SELECT' => [
-            'COUNT'  => ['glpi_scheduleddowntimes.id AS cpt']
-         ],
-         'FROM'   => $downtimetable,
-         'LEFT JOIN' => [
-            ITILEventHost::getTable()  => 'id',
-            $downtimetable             => 'items_id_target'
-         ],
-         'WHERE'  => [
-            "$downtimetable.items_id_target" => $hosts_id,
-            "$downtimetable.is_service"      => 1,
-            $now  => ['<=', 'end_date'],
-            $now  => ['>=', 'begin_date']
-         ]
-      ]);
+      $where = [
+         "$downtimetable.items_id_target" => $items_id_target,
+         "$downtimetable.is_service"      => $is_service
+      ];
 
-      return $iterator->next()['cpt'] > 0;
-   }
-
-   public static function isServiceScheduledDown(int $services_id) : bool {
-      global $DB;
-
-      $service = new ITILEventService();
-      $service->getFromDB($services_id);
-
-      if ($service->fields['hosts_id'] >= 0) {
-         // If the host is scheduled to be down, the service is too
-         if (self::isHostScheduledDown($service->fields['hosts_id'])) {
-            return true;
-         }
+      if (!is_null($p['start'])) {
+         $where[$p['start']] = ['>=', 'begin_date'];
+      }
+      if (!is_null($p['end'])) {
+         $where[$p['end']] = ['<=', 'end_date'];
       }
 
-      $downtimetable = self::getTable();
-      $now = $_SESSION['glpi_currenttime'];
-
       $iterator = $DB->request([
-         'SELECT' => [
-            'COUNT'  => ['glpi_scheduleddowntimes.id AS cpt']
-         ],
          'FROM'   => $downtimetable,
          'LEFT JOIN' => [
-            ITILEventService::getTable()  => 'id',
-            $downtimetable                => 'items_id_target'
+            $monitoredtable   => 'id',
+            $downtimetable    => 'items_id_target'
          ],
-         'WHERE'  => [
-            "$downtimetable.items_id_target" => $services_id,
-            "$downtimetable.is_service"      => 1,
-            $now  => ['<=', 'end_date'],
-            $now  => ['>=', 'begin_date']
-         ]
+         'WHERE'  => $where
       ]);
 
-      return $iterator->next()['cpt'] > 0;
+      return $iterator;
+   }
+
+   public function prepareInputForUpdate($input): array {
+      if (isset($input['_cancel'])) {
+         $input['end_date'] = $_SESSION['glpi_currenttime'];
+      }
+   }
+
+   public function post_updateItem($history = 1): void {
+      if (isset($this->input['_cancel'])) {
+         $this->dispatchScheduledDowntimeEvent('scheduleddowntime.cancel');
+      }
+   }
+
+   public function dispatchScheduledDowntimeEvent(string $eventName) {
+      global $CONTAINER;
+
+      if (!isset($CONTAINER) || !$CONTAINER->has(EventDispatcher::class)) {
+         return;
+      }
+
+      $dispatcher = $CONTAINER->get(EventDispatcher::class);
+      $dispatcher->dispatcher($eventName, new ScheduledDowntimeEvent($this));
    }
 }

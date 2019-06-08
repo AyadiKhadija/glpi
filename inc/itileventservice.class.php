@@ -30,6 +30,9 @@
  * ---------------------------------------------------------------------
 */
 
+use Glpi\Event\ITILEventServiceEvent;
+use Glpi\EventDispatcher\EventDispatcher;
+
 /**
  * ITILEventService class.
  * This represents a software, service, or metric on a host device that is able to be monitored.
@@ -80,12 +83,8 @@ class ITILEventService extends CommonDBTM {
    }
 
    public function isScheduledDown() : bool {
-      return ScheduledDowntime::isServiceScheduledDown($this->getID());
-   }
-
-   public function getActiveAlerts() {
-      global $DB;
-
+      $iterator = ScheduledDowntime::getForHostOrService($this->getID(), 1);
+      return $iterator->count() > 0;
    }
 
    public function isHostless() : bool {
@@ -188,5 +187,16 @@ class ITILEventService extends CommonDBTM {
       }
       $out .= '</tbody></table></div>';
       return $out;
+   }
+
+   public function dispatchITILEventServiceEvent(string $eventName) {
+      global $CONTAINER;
+
+      if (!isset($CONTAINER) || !$CONTAINER->has(EventDispatcher::class)) {
+         return;
+      }
+
+      $dispatcher = $CONTAINER->get(EventDispatcher::class);
+      $dispatcher->dispatcher($eventName, new ITILEventServiceEvent($this));
    }
 }
