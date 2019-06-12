@@ -127,34 +127,24 @@ class ProfileRight extends CommonDBChild {
       $appCache = Toolbox::getAppCache();
       $appCache->set('all_possible_rights', []);
 
-      $ok = true;
-
       $iterator = $DB->request([
           'SELECT'   => ['id'],
           'FROM'     => Profile::getTable()
       ]);
 
       $stmt = null;
+      $columns = ['profiles_id', 'name'];
+      $values = [];
       while ($profile = $iterator->next()) {
-         $profiles_id = $profile['id'];
          foreach ($rights as $name) {
-            $params = [
-               'profiles_id'  => $profiles_id,
-               'name'         => $name
+            $values[] = [
+               $profile['id'],
+               $name
             ];
-
-            if ($stmt === null) {
-               $stmt = $DB->prepare($DB->buildInsert(self::getTable(), $params));
-            }
-
-            $res = $stmt->execute($params);
-
-            if (!$res) {
-               $ok = false;
-            }
          }
       }
-      return $ok;
+      $res = $DB->insertBulk(self::getTable(), $columns, $values);
+      return ($res != false);
    }
 
 
