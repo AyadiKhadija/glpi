@@ -27,6 +27,7 @@ The present file will list all changes made to the project; according to the
 
 - Added `DB::truncate()` to replace raw SQL queries
 - `DB::fieldExists()` does not check table existence anymore.
+- Added `DB::insertBulk` to allow bulk inserts with PDO.
 
 #### Deprecated
 

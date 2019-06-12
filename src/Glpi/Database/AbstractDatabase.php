@@ -1575,4 +1575,95 @@ abstract class AbstractDatabase
     {
         return 0;
     }
+
+    /**
+     * Builds a bulk insert statement
+     *
+     * @since 10.0.0
+     * @param \QueryExpression|string $table  Table name
+     * @param array                   $keys Array of column names
+     * @param array                   $params Array of arrays of values.
+     *                                    This will be replaced with an associative array for a PDO statement
+     * @return string
+     */
+    public function buildInsertBulk($table, array $columns, array &$params): string
+    {
+        $query = "INSERT INTO " . $this->quoteName($table) . " (";
+        $fields = [];
+        $keys   = [];
+        foreach ($columns as $column) {
+            $fields[] = $this->quoteName($column);
+        }
+        $newparams = [];
+        foreach ($params as $rowkey => $row) {
+            $row_keys = [];
+            foreach ($row as $arrkey => $value) {
+                if ($value instanceof \QueryExpression) {
+                    $row_keys[] = $value->getValue();
+                } else {
+                    $pdo_placeholder = ":{$columns[$arrkey]}_$rowkey";
+                    $row_keys[] = $pdo_placeholder;
+                    $newparams[$pdo_placeholder] = $value;
+                }
+            }
+            $keys[] = $row_keys;
+        }
+        $params = $newparams;
+        
+        $query .= implode(', ', $fields) . ") VALUES ";
+        foreach ($keys as $rowkey => $rowvalues) {
+            $query .= '('.implode(',', $rowvalues).'),';
+        }
+        $query = rtrim($query, ',');
+        return $query;
+    }
+
+    /**
+     * Insert a row in the database
+     *
+     * @since 10.0.0
+     * @param string $table  Table name
+     * @param array  $params Query parameters ([field name => field value)
+     * @return PDOStatement|boolean
+     */
+    public function insertBulk(string $table, array $columns, array $values)
+    {
+        $result = $this->rawQuery(
+            $this->buildInsertBulk($table, $columns, $values),
+            $values
+        );
+        return $result;
+    }
+
+    /**
+     * Insert a row in the database and die
+     * (optionally with a message) if it fails
+     *
+     * @since 10.0.0
+     * @param string      $table   Table name
+     * @param array       $params  Query parameters ([field name => field value)
+     * @param string|null $message Explanation of query
+     * @return PDOStatement
+     */
+    public function insertBulkOrDie(string $table, array $columns, array $values, $message = null): PDOStatement
+    {
+        $insert = $this->buildInsertBulk($table, $columns, $values);
+        $res = $this->rawQuery($insert, $values);
+        if (!$res) {
+           //TRANS: %1$s is the description, %2$s is the query, %3$s is the error message
+            $message = sprintf(
+                __('%1$s - Error during the database query: %2$s - Error is %3$s'),
+                $message,
+                $insert,
+                $this->error()
+            );
+            if (isCommandLine()) {
+                throw new \RuntimeException($message);
+            } else {
+                echo $message . "\n";
+                die(1);
+            }
+        }
+        return $res;
+    }
 }
