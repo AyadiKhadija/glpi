@@ -52,7 +52,6 @@ function createTables() {
           ],
           'date' => [
               'type' => 'timestamp',
-              'default_value' => 'current_timestamp()',
           ],
       ],
       'KEYS' => [
@@ -2596,7 +2595,6 @@ function createTables() {
           ],
           'date' => [
               'type' => 'timestamp',
-              'default_value' => 'current_timestamp()',
           ],
           'state' => [
               'type' => 'integer',
@@ -9733,7 +9731,6 @@ function createTables() {
           ],
           'date' => [
               'type' => 'timestamp',
-              'default_value' => 'current_timestamp()',
           ],
           'subject' => [
               'type' => 'text',
@@ -9783,7 +9780,6 @@ function createTables() {
           ],
           'date_mod' => [
               'type' => 'timestamp',
-              'default_value' => 'current_timestamp()',
               'comment' => 'Timestamp of the lock',
           ],
       ],
