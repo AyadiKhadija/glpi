@@ -7827,10 +7827,12 @@ function createTables() {
               'date_mod' => ['date_mod'],
               'begin_date' => ['begin_date'],
               'end_date' => ['end_date'],
+          ],
+          'FULLTEXT' => [
               'fulltext' => ['name', 'answer'],
               'name' => ['name'],
               'answer' => ['answer'],
-          ],
+          ]
       ]
    ];
 
@@ -8043,10 +8045,12 @@ function createTables() {
           'KEY' => [
               'item' => ['knowbaseitems_id', 'language'],
               'users_id' => ['users_id'],
+          ],
+          'FULLTEXT' => [
               'fulltext' => ['name', 'answer'],
               'name' => ['name'],
               'answer' => ['answer'],
-          ],
+          ]
       ]
    ];
 
