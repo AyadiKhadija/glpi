@@ -65,9 +65,9 @@ function createTables() {
               'date' => ['date'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_apiclients'] = [
+   $tables['glpi_apiclients'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -121,9 +121,9 @@ function createTables() {
               'is_active' => ['is_active'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_authldapreplicates'] = [
+   $tables['glpi_authldapreplicates'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -148,9 +148,9 @@ function createTables() {
               'authldaps_id' => ['authldaps_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_authldaps'] = [
+   $tables['glpi_authldaps'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -307,9 +307,9 @@ function createTables() {
               'sync_field' => ['sync_field'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_authmails'] = [
+   $tables['glpi_authmails'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -341,9 +341,9 @@ function createTables() {
               'is_active' => ['is_active'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_autoupdatesystems'] = [
+   $tables['glpi_autoupdatesystems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -361,9 +361,9 @@ function createTables() {
               'name' => ['name'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_blacklistedmailcontents'] = [
+   $tables['glpi_blacklistedmailcontents'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -393,9 +393,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_blacklists'] = [
+   $tables['glpi_blacklists'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -430,9 +430,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_budgets'] = [
+   $tables['glpi_budgets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -501,9 +501,9 @@ function createTables() {
               'budgettypes_id' => ['budgettypes_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_budgettypes'] = [
+   $tables['glpi_budgettypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -531,9 +531,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_businesscriticities'] = [
+   $tables['glpi_businesscriticities'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -585,9 +585,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_calendars'] = [
+   $tables['glpi_calendars'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -626,9 +626,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_calendars_holidays'] = [
+   $tables['glpi_calendars_holidays'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -649,9 +649,9 @@ function createTables() {
               'holidays_id' => ['holidays_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_calendarsegments'] = [
+   $tables['glpi_calendarsegments'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -686,9 +686,9 @@ function createTables() {
               'day' => ['day'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_cartridgeitems'] = [
+   $tables['glpi_cartridgeitems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -755,9 +755,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_cartridgeitems_printermodels'] = [
+   $tables['glpi_cartridgeitems_printermodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -778,9 +778,9 @@ function createTables() {
               'cartridgeitems_id' => ['cartridgeitems_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_cartridgeitemtypes'] = [
+   $tables['glpi_cartridgeitemtypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -808,9 +808,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_cartridges'] = [
+   $tables['glpi_cartridges'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -858,9 +858,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_certificates'] = [
+   $tables['glpi_certificates'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -978,9 +978,9 @@ function createTables() {
               'date_mod' => ['date_mod'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_certificates_items'] = [
+   $tables['glpi_certificates_items'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -990,7 +990,7 @@ function createTables() {
           ],
           'items_id' => [
               'type' => 'integer',
-              'comment' => 'RELATION to various tables, according to itemtype (id)',
+              'comment' => 'RELATION to various $tables, according to itemtype (id)',
           ],
           'itemtype' => [
               'type' => 'varchar(100)',
@@ -1019,9 +1019,9 @@ function createTables() {
               'date_mod' => ['date_mod'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_certificatetypes'] = [
+   $tables['glpi_certificatetypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1057,9 +1057,9 @@ function createTables() {
               'date_mod' => ['date_mod'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_changecosts'] = [
+   $tables['glpi_changecosts'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1118,9 +1118,9 @@ function createTables() {
               'budgets_id' => ['budgets_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_changes'] = [
+   $tables['glpi_changes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1251,9 +1251,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_changes_groups'] = [
+   $tables['glpi_changes_groups'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1278,9 +1278,9 @@ function createTables() {
               'group' => ['groups_id', 'type'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_changes_items'] = [
+   $tables['glpi_changes_items'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1305,9 +1305,9 @@ function createTables() {
               'item' => ['itemtype', 'items_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_changes_problems'] = [
+   $tables['glpi_changes_problems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1328,9 +1328,9 @@ function createTables() {
               'problems_id' => ['problems_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_changes_suppliers'] = [
+   $tables['glpi_changes_suppliers'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1361,9 +1361,9 @@ function createTables() {
               'group' => ['suppliers_id', 'type'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_changes_tickets'] = [
+   $tables['glpi_changes_tickets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1384,9 +1384,9 @@ function createTables() {
               'tickets_id' => ['tickets_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_changes_users'] = [
+   $tables['glpi_changes_users'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1417,9 +1417,9 @@ function createTables() {
               'user' => ['users_id', 'type'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_changetasks'] = [
+   $tables['glpi_changetasks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1500,9 +1500,9 @@ function createTables() {
               'is_private' => ['is_private'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_changevalidations'] = [
+   $tables['glpi_changevalidations'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1557,9 +1557,9 @@ function createTables() {
               'status' => ['status'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_computerantiviruses'] = [
+   $tables['glpi_computerantiviruses'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1620,9 +1620,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_computermodels'] = [
+   $tables['glpi_computermodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1680,9 +1680,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_computers'] = [
+   $tables['glpi_computers'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1803,9 +1803,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_computers_items'] = [
+   $tables['glpi_computers_items'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1838,9 +1838,9 @@ function createTables() {
               'is_dynamic' => ['is_dynamic'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_computers_softwarelicenses'] = [
+   $tables['glpi_computers_softwarelicenses'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1867,9 +1867,9 @@ function createTables() {
               'is_dynamic' => ['is_dynamic'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_computers_softwareversions'] = [
+   $tables['glpi_computers_softwareversions'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1914,9 +1914,9 @@ function createTables() {
               'date_install' => ['date_install'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_computertypes'] = [
+   $tables['glpi_computertypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -1944,9 +1944,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_computervirtualmachines'] = [
+   $tables['glpi_computervirtualmachines'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2016,9 +2016,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_configs'] = [
+   $tables['glpi_configs'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2041,9 +2041,9 @@ function createTables() {
               'unicity' => ['context', 'name'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_consumableitems'] = [
+   $tables['glpi_consumableitems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2114,9 +2114,9 @@ function createTables() {
               'otherserial' => ['otherserial'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_consumableitemtypes'] = [
+   $tables['glpi_consumableitemtypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2144,9 +2144,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_consumables'] = [
+   $tables['glpi_consumables'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2193,9 +2193,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_contacts'] = [
+   $tables['glpi_contacts'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2275,9 +2275,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_contacts_suppliers'] = [
+   $tables['glpi_contacts_suppliers'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2298,9 +2298,9 @@ function createTables() {
               'contacts_id' => ['contacts_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_contacttypes'] = [
+   $tables['glpi_contacttypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2328,9 +2328,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_contractcosts'] = [
+   $tables['glpi_contractcosts'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2378,9 +2378,9 @@ function createTables() {
               'budgets_id' => ['budgets_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_contracts'] = [
+   $tables['glpi_contracts'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2494,9 +2494,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_contracts_items'] = [
+   $tables['glpi_contracts_items'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2523,9 +2523,9 @@ function createTables() {
               'item' => ['itemtype', 'items_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_contracts_suppliers'] = [
+   $tables['glpi_contracts_suppliers'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2546,9 +2546,9 @@ function createTables() {
               'contracts_id' => ['contracts_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_contracttypes'] = [
+   $tables['glpi_contracttypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2576,9 +2576,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_crontasklogs'] = [
+   $tables['glpi_crontasklogs'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2629,9 +2629,9 @@ function createTables() {
               'crontasklogs_id_state' => ['crontasklogs_id', 'state'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_crontasks'] = [
+   $tables['glpi_crontasks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2718,9 +2718,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_datacenters'] = [
+   $tables['glpi_datacenters'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2758,9 +2758,9 @@ function createTables() {
               'is_deleted' => ['is_deleted'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_dcrooms'] = [
+   $tables['glpi_dcrooms'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2813,9 +2813,9 @@ function createTables() {
               'is_deleted' => ['is_deleted'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicebatteries'] = [
+   $tables['glpi_devicebatteries'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2872,9 +2872,9 @@ function createTables() {
               'devicebatterytypes_id' => ['devicebatterytypes_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicebatterymodels'] = [
+   $tables['glpi_devicebatterymodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2896,9 +2896,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicebatterytypes'] = [
+   $tables['glpi_devicebatterytypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2926,9 +2926,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicecasemodels'] = [
+   $tables['glpi_devicecasemodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -2950,9 +2950,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicecases'] = [
+   $tables['glpi_devicecases'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3001,9 +3001,9 @@ function createTables() {
               'devicecasemodels_id' => ['devicecasemodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicecasetypes'] = [
+   $tables['glpi_devicecasetypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3031,9 +3031,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicecontrolmodels'] = [
+   $tables['glpi_devicecontrolmodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3055,9 +3055,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicecontrols'] = [
+   $tables['glpi_devicecontrols'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3109,9 +3109,9 @@ function createTables() {
               'devicecontrolmodels_id' => ['devicecontrolmodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicedrivemodels'] = [
+   $tables['glpi_devicedrivemodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3133,9 +3133,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicedrives'] = [
+   $tables['glpi_devicedrives'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3191,9 +3191,9 @@ function createTables() {
               'devicedrivemodels_id' => ['devicedrivemodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicefirmwaremodels'] = [
+   $tables['glpi_devicefirmwaremodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3215,9 +3215,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicefirmwares'] = [
+   $tables['glpi_devicefirmwares'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3273,9 +3273,9 @@ function createTables() {
               'devicefirmwaretypes_id' => ['devicefirmwaretypes_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicefirmwaretypes'] = [
+   $tables['glpi_devicefirmwaretypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3303,9 +3303,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicegenericmodels'] = [
+   $tables['glpi_devicegenericmodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3327,9 +3327,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicegenerics'] = [
+   $tables['glpi_devicegenerics'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3386,9 +3386,9 @@ function createTables() {
               'devicegenericmodels_id' => ['devicegenericmodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicegenerictypes'] = [
+   $tables['glpi_devicegenerictypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3406,9 +3406,9 @@ function createTables() {
               'name' => ['name'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicegraphiccardmodels'] = [
+   $tables['glpi_devicegraphiccardmodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3430,9 +3430,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicegraphiccards'] = [
+   $tables['glpi_devicegraphiccards'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3488,9 +3488,9 @@ function createTables() {
               'devicegraphiccardmodels_id' => ['devicegraphiccardmodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_deviceharddrivemodels'] = [
+   $tables['glpi_deviceharddrivemodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3512,9 +3512,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_deviceharddrives'] = [
+   $tables['glpi_deviceharddrives'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3572,9 +3572,9 @@ function createTables() {
               'deviceharddrivemodels_id' => ['deviceharddrivemodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicememories'] = [
+   $tables['glpi_devicememories'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3629,9 +3629,9 @@ function createTables() {
               'devicememorymodels_id' => ['devicememorymodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicememorymodels'] = [
+   $tables['glpi_devicememorymodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3653,9 +3653,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicememorytypes'] = [
+   $tables['glpi_devicememorytypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3683,9 +3683,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicemotherboardmodels'] = [
+   $tables['glpi_devicemotherboardmodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3707,9 +3707,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicemotherboards'] = [
+   $tables['glpi_devicemotherboards'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3757,9 +3757,9 @@ function createTables() {
               'devicemotherboardmodels_id' => ['devicemotherboardmodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicenetworkcardmodels'] = [
+   $tables['glpi_devicenetworkcardmodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3781,9 +3781,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicenetworkcards'] = [
+   $tables['glpi_devicenetworkcards'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3834,9 +3834,9 @@ function createTables() {
               'devicenetworkcardmodels_id' => ['devicenetworkcardmodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicepcimodels'] = [
+   $tables['glpi_devicepcimodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3858,9 +3858,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicepcis'] = [
+   $tables['glpi_devicepcis'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3909,9 +3909,9 @@ function createTables() {
               'devicepcimodels_id' => ['devicepcimodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicepowersupplies'] = [
+   $tables['glpi_devicepowersupplies'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3963,9 +3963,9 @@ function createTables() {
               'devicepowersupplymodels_id' => ['devicepowersupplymodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicepowersupplymodels'] = [
+   $tables['glpi_devicepowersupplymodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -3987,9 +3987,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_deviceprocessormodels'] = [
+   $tables['glpi_deviceprocessormodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4011,9 +4011,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_deviceprocessors'] = [
+   $tables['glpi_deviceprocessors'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4072,9 +4072,9 @@ function createTables() {
               'deviceprocessormodels_id' => ['deviceprocessormodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicesensormodels'] = [
+   $tables['glpi_devicesensormodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4096,9 +4096,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicesensors'] = [
+   $tables['glpi_devicesensors'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4153,9 +4153,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicesensortypes'] = [
+   $tables['glpi_devicesensortypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4173,9 +4173,9 @@ function createTables() {
               'name' => ['name'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicesimcards'] = [
+   $tables['glpi_devicesimcards'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4226,9 +4226,9 @@ function createTables() {
               'manufacturers_id' => ['manufacturers_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicesimcardtypes'] = [
+   $tables['glpi_devicesimcardtypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4257,9 +4257,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicesoundcardmodels'] = [
+   $tables['glpi_devicesoundcardmodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4281,9 +4281,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_devicesoundcards'] = [
+   $tables['glpi_devicesoundcards'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4331,9 +4331,9 @@ function createTables() {
               'devicesoundcardmodels_id' => ['devicesoundcardmodels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_displaypreferences'] = [
+   $tables['glpi_displaypreferences'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4369,9 +4369,9 @@ function createTables() {
               'is_main' => ['is_main'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_documentcategories'] = [
+   $tables['glpi_documentcategories'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4417,9 +4417,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_documents'] = [
+   $tables['glpi_documents'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4496,9 +4496,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_documents_items'] = [
+   $tables['glpi_documents_items'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4541,9 +4541,9 @@ function createTables() {
               'users_id' => ['users_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_documenttypes'] = [
+   $tables['glpi_documenttypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4588,9 +4588,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_domains'] = [
+   $tables['glpi_domains'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4624,9 +4624,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_dropdowntranslations'] = [
+   $tables['glpi_dropdowntranslations'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4661,9 +4661,9 @@ function createTables() {
               'field' => ['field'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_enclosuremodels'] = [
+   $tables['glpi_enclosuremodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4721,9 +4721,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_enclosures'] = [
+   $tables['glpi_enclosures'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -4806,10 +4806,10 @@ function createTables() {
               'manufacturers_id' => ['manufacturers_id'],
           ],
       ]
-  ];
+   ];
 
-  // glpi_entities does not have an AUTO_INCREMENT 'id' field
-  $tables['glpi_entities'] = [
+   // glpi_entities does not have an AUTO_INCREMENT 'id' field
+   $tables['glpi_entities'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'integer',
@@ -5067,9 +5067,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_entities_knowbaseitems'] = [
+   $tables['glpi_entities_knowbaseitems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5092,9 +5092,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_entities_reminders'] = [
+   $tables['glpi_entities_reminders'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5117,9 +5117,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_entities_rssfeeds'] = [
+   $tables['glpi_entities_rssfeeds'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5142,9 +5142,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_events'] = [
+   $tables['glpi_events'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5177,9 +5177,9 @@ function createTables() {
               'item' => ['type', 'items_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_fieldblacklists'] = [
+   $tables['glpi_fieldblacklists'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5226,9 +5226,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_fieldunicities'] = [
+   $tables['glpi_fieldunicities'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5279,9 +5279,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_filesystems'] = [
+   $tables['glpi_filesystems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5309,9 +5309,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_fqdns'] = [
+   $tables['glpi_fqdns'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5351,9 +5351,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_groups'] = [
+   $tables['glpi_groups'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5455,9 +5455,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_groups_knowbaseitems'] = [
+   $tables['glpi_groups_knowbaseitems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5485,9 +5485,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_groups_problems'] = [
+   $tables['glpi_groups_problems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5512,9 +5512,9 @@ function createTables() {
               'group' => ['groups_id', 'type'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_groups_reminders'] = [
+   $tables['glpi_groups_reminders'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5542,9 +5542,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_groups_rssfeeds'] = [
+   $tables['glpi_groups_rssfeeds'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5572,9 +5572,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_groups_tickets'] = [
+   $tables['glpi_groups_tickets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5599,9 +5599,9 @@ function createTables() {
               'group' => ['groups_id', 'type'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_groups_users'] = [
+   $tables['glpi_groups_users'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5633,9 +5633,9 @@ function createTables() {
               'is_userdelegate' => ['is_userdelegate'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_holidays'] = [
+   $tables['glpi_holidays'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5683,9 +5683,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_infocoms'] = [
+   $tables['glpi_infocoms'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5809,9 +5809,9 @@ function createTables() {
               'businesscriticities_id' => ['businesscriticities_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_interfacetypes'] = [
+   $tables['glpi_interfacetypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5839,9 +5839,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_ipaddresses'] = [
+   $tables['glpi_ipaddresses'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5905,9 +5905,9 @@ function createTables() {
               'mainitem' => ['mainitemtype', 'mainitems_id', 'is_deleted'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_ipaddresses_ipnetworks'] = [
+   $tables['glpi_ipaddresses_ipnetworks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -5929,9 +5929,9 @@ function createTables() {
               'ipaddresses_id' => ['ipaddresses_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_ipnetworks'] = [
+   $tables['glpi_ipnetworks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6051,9 +6051,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_ipnetworks_vlans'] = [
+   $tables['glpi_ipnetworks_vlans'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6071,9 +6071,9 @@ function createTables() {
               'link' => ['ipnetworks_id', 'vlans_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicebatteries'] = [
+   $tables['glpi_items_devicebatteries'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6130,9 +6130,9 @@ function createTables() {
               'otherserial' => ['otherserial'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicecases'] = [
+   $tables['glpi_items_devicecases'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6187,9 +6187,9 @@ function createTables() {
               'states_id' => ['states_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicecontrols'] = [
+   $tables['glpi_items_devicecontrols'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6248,9 +6248,9 @@ function createTables() {
               'states_id' => ['states_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicedrives'] = [
+   $tables['glpi_items_devicedrives'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6309,9 +6309,9 @@ function createTables() {
               'states_id' => ['states_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicefirmwares'] = [
+   $tables['glpi_items_devicefirmwares'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6364,9 +6364,9 @@ function createTables() {
               'otherserial' => ['otherserial'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicegenerics'] = [
+   $tables['glpi_items_devicegenerics'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6419,9 +6419,9 @@ function createTables() {
               'otherserial' => ['otherserial'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicegraphiccards'] = [
+   $tables['glpi_items_devicegraphiccards'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6484,9 +6484,9 @@ function createTables() {
               'states_id' => ['states_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_deviceharddrives'] = [
+   $tables['glpi_items_deviceharddrives'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6549,9 +6549,9 @@ function createTables() {
               'states_id' => ['states_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicememories'] = [
+   $tables['glpi_items_devicememories'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6614,9 +6614,9 @@ function createTables() {
               'states_id' => ['states_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicemotherboards'] = [
+   $tables['glpi_items_devicemotherboards'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6671,9 +6671,9 @@ function createTables() {
               'states_id' => ['states_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicenetworkcards'] = [
+   $tables['glpi_items_devicenetworkcards'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6736,9 +6736,9 @@ function createTables() {
               'states_id' => ['states_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicepcis'] = [
+   $tables['glpi_items_devicepcis'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6797,9 +6797,9 @@ function createTables() {
               'states_id' => ['states_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicepowersupplies'] = [
+   $tables['glpi_items_devicepowersupplies'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6854,9 +6854,9 @@ function createTables() {
               'states_id' => ['states_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_deviceprocessors'] = [
+   $tables['glpi_items_deviceprocessors'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6929,9 +6929,9 @@ function createTables() {
               'states_id' => ['states_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicesensors'] = [
+   $tables['glpi_items_devicesensors'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -6984,9 +6984,9 @@ function createTables() {
               'otherserial' => ['otherserial'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicesimcards'] = [
+   $tables['glpi_items_devicesimcards'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7067,9 +7067,9 @@ function createTables() {
               'lines_id' => ['lines_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_devicesoundcards'] = [
+   $tables['glpi_items_devicesoundcards'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7128,9 +7128,9 @@ function createTables() {
               'states_id' => ['states_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_disks'] = [
+   $tables['glpi_items_disks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7208,9 +7208,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_enclosures'] = [
+   $tables['glpi_items_enclosures'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7244,9 +7244,9 @@ function createTables() {
               'relation' => ['enclosures_id', 'itemtype', 'items_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_operatingsystems'] = [
+   $tables['glpi_items_operatingsystems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7322,9 +7322,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_problems'] = [
+   $tables['glpi_items_problems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7349,9 +7349,9 @@ function createTables() {
               'item' => ['itemtype', 'items_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_projects'] = [
+   $tables['glpi_items_projects'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7376,9 +7376,9 @@ function createTables() {
               'item' => ['itemtype', 'items_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_racks'] = [
+   $tables['glpi_items_racks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7426,9 +7426,9 @@ function createTables() {
               'relation' => ['racks_id', 'itemtype', 'items_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_items_tickets'] = [
+   $tables['glpi_items_tickets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7452,9 +7452,9 @@ function createTables() {
               'tickets_id' => ['tickets_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_itilcategories'] = [
+   $tables['glpi_itilcategories'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7551,9 +7551,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_itilfollowups'] = [
+   $tables['glpi_itilfollowups'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7620,9 +7620,9 @@ function createTables() {
               'sourceof_items_id' => ['sourceof_items_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_itils_projects'] = [
+   $tables['glpi_itils_projects'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7647,9 +7647,9 @@ function createTables() {
               'projects_id' => ['projects_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_itilsolutions'] = [
+   $tables['glpi_itilsolutions'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7722,9 +7722,9 @@ function createTables() {
               'itilfollowups_id' => ['itilfollowups_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_knowbaseitemcategories'] = [
+   $tables['glpi_knowbaseitemcategories'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7778,9 +7778,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_knowbaseitems'] = [
+   $tables['glpi_knowbaseitems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7834,9 +7834,9 @@ function createTables() {
               'answer' => ['answer'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_knowbaseitems_comments'] = [
+   $tables['glpi_knowbaseitems_comments'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7873,9 +7873,9 @@ function createTables() {
       'KEYS' => [
           'PRIMARY' => 'id',
       ]
-  ];
+   ];
 
-  $tables['glpi_knowbaseitems_items'] = [
+   $tables['glpi_knowbaseitems_items'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7913,9 +7913,9 @@ function createTables() {
               'item' => ['itemtype', 'items_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_knowbaseitems_profiles'] = [
+   $tables['glpi_knowbaseitems_profiles'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7943,9 +7943,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_knowbaseitems_revisions'] = [
+   $tables['glpi_knowbaseitems_revisions'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -7987,9 +7987,9 @@ function createTables() {
               'revision' => ['revision'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_knowbaseitems_users'] = [
+   $tables['glpi_knowbaseitems_users'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8008,9 +8008,9 @@ function createTables() {
               'users_id' => ['users_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_knowbaseitemtranslations'] = [
+   $tables['glpi_knowbaseitemtranslations'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8050,9 +8050,9 @@ function createTables() {
               'answer' => ['answer'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_lineoperators'] = [
+   $tables['glpi_lineoperators'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8100,9 +8100,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_lines'] = [
+   $tables['glpi_lines'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8167,9 +8167,9 @@ function createTables() {
               'lineoperators_id' => ['lineoperators_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_linetypes'] = [
+   $tables['glpi_linetypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8197,9 +8197,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_links'] = [
+   $tables['glpi_links'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8241,9 +8241,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_links_itemtypes'] = [
+   $tables['glpi_links_itemtypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8266,9 +8266,9 @@ function createTables() {
               'links_id' => ['links_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_locations'] = [
+   $tables['glpi_locations'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8352,9 +8352,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_logs'] = [
+   $tables['glpi_logs'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8401,9 +8401,9 @@ function createTables() {
               'id_search_option' => ['id_search_option'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_mailcollectors'] = [
+   $tables['glpi_mailcollectors'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8466,9 +8466,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_manufacturers'] = [
+   $tables['glpi_manufacturers'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8496,9 +8496,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_monitormodels'] = [
+   $tables['glpi_monitormodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8556,9 +8556,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_monitors'] = [
+   $tables['glpi_monitors'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8694,9 +8694,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_monitortypes'] = [
+   $tables['glpi_monitortypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8724,9 +8724,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_netpoints'] = [
+   $tables['glpi_netpoints'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8762,9 +8762,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkaliases'] = [
+   $tables['glpi_networkaliases'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8793,9 +8793,9 @@ function createTables() {
               'networknames_id' => ['networknames_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkequipmentmodels'] = [
+   $tables['glpi_networkequipmentmodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8853,9 +8853,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkequipments'] = [
+   $tables['glpi_networkequipments'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -8970,9 +8970,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkequipmenttypes'] = [
+   $tables['glpi_networkequipmenttypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9000,9 +9000,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkinterfaces'] = [
+   $tables['glpi_networkinterfaces'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9020,9 +9020,9 @@ function createTables() {
               'name' => ['name'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networknames'] = [
+   $tables['glpi_networknames'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9076,9 +9076,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkportaggregates'] = [
+   $tables['glpi_networkportaggregates'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9109,9 +9109,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkportaliases'] = [
+   $tables['glpi_networkportaliases'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9142,9 +9142,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkportdialups'] = [
+   $tables['glpi_networkportdialups'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9171,9 +9171,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkportethernets'] = [
+   $tables['glpi_networkportethernets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9220,9 +9220,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkportfiberchannels'] = [
+   $tables['glpi_networkportfiberchannels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9268,9 +9268,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkportlocals'] = [
+   $tables['glpi_networkportlocals'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9297,9 +9297,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkports'] = [
+   $tables['glpi_networkports'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9362,9 +9362,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkports_networkports'] = [
+   $tables['glpi_networkports_networkports'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9385,9 +9385,9 @@ function createTables() {
               'networkports_id_2' => ['networkports_id_2'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkports_vlans'] = [
+   $tables['glpi_networkports_vlans'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9411,9 +9411,9 @@ function createTables() {
               'vlans_id' => ['vlans_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networkportwifis'] = [
+   $tables['glpi_networkportwifis'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9464,9 +9464,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_networks'] = [
+   $tables['glpi_networks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9494,9 +9494,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_notepads'] = [
+   $tables['glpi_notepads'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9536,9 +9536,9 @@ function createTables() {
               'users_id' => ['users_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_notifications'] = [
+   $tables['glpi_notifications'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9588,9 +9588,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_notifications_notificationtemplates'] = [
+   $tables['glpi_notifications_notificationtemplates'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9619,9 +9619,9 @@ function createTables() {
               'mode' => ['mode'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_notificationtargets'] = [
+   $tables['glpi_notificationtargets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9643,9 +9643,9 @@ function createTables() {
               'notifications_id' => ['notifications_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_notificationtemplates'] = [
+   $tables['glpi_notificationtemplates'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9682,9 +9682,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_notificationtemplatetranslations'] = [
+   $tables['glpi_notificationtemplatetranslations'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9713,9 +9713,9 @@ function createTables() {
               'notificationtemplates_id' => ['notificationtemplates_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_notimportedemails'] = [
+   $tables['glpi_notimportedemails'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9756,9 +9756,9 @@ function createTables() {
               'mailcollectors_id' => ['mailcollectors_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_objectlocks'] = [
+   $tables['glpi_objectlocks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9773,7 +9773,7 @@ function createTables() {
               'type' => 'integer',
               'default_value' => null,
               'no_default' => true,
-              'comment' => 'RELATION to various tables, according to itemtype (ID)',
+              'comment' => 'RELATION to various $tables, according to itemtype (ID)',
           ],
           'users_id' => [
               'type' => 'integer',
@@ -9793,9 +9793,9 @@ function createTables() {
               'item' => ['itemtype', 'items_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_olalevelactions'] = [
+   $tables['glpi_olalevelactions'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9819,9 +9819,9 @@ function createTables() {
               'olalevels_id' => ['olalevels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_olalevelcriterias'] = [
+   $tables['glpi_olalevelcriterias'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9847,9 +9847,9 @@ function createTables() {
               'condition' => ['condition'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_olalevels'] = [
+   $tables['glpi_olalevels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9892,9 +9892,9 @@ function createTables() {
               'olas_id' => ['olas_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_olalevels_tickets'] = [
+   $tables['glpi_olalevels_tickets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9920,9 +9920,9 @@ function createTables() {
               'olalevels_id' => ['olalevels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_olas'] = [
+   $tables['glpi_olas'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -9978,9 +9978,9 @@ function createTables() {
               'slms_id' => ['slms_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_operatingsystemarchitectures'] = [
+   $tables['glpi_operatingsystemarchitectures'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10008,9 +10008,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_operatingsystemeditions'] = [
+   $tables['glpi_operatingsystemeditions'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10036,9 +10036,9 @@ function createTables() {
               'name' => ['name'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_operatingsystemkernels'] = [
+   $tables['glpi_operatingsystemkernels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10064,9 +10064,9 @@ function createTables() {
               'name' => ['name'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_operatingsystemkernelversions'] = [
+   $tables['glpi_operatingsystemkernelversions'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10096,9 +10096,9 @@ function createTables() {
               'operatingsystemkernels_id' => ['operatingsystemkernels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_operatingsystems'] = [
+   $tables['glpi_operatingsystems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10126,9 +10126,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_operatingsystemservicepacks'] = [
+   $tables['glpi_operatingsystemservicepacks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10156,9 +10156,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_operatingsystemversions'] = [
+   $tables['glpi_operatingsystemversions'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10186,9 +10186,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_pdumodels'] = [
+   $tables['glpi_pdumodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10248,9 +10248,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_pdus'] = [
+   $tables['glpi_pdus'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10330,9 +10330,9 @@ function createTables() {
               'pdutypes_id' => ['pdutypes_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_pdus_plugs'] = [
+   $tables['glpi_pdus_plugs'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10362,9 +10362,9 @@ function createTables() {
               'pdus_id' => ['pdus_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_pdus_racks'] = [
+   $tables['glpi_pdus_racks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10403,9 +10403,9 @@ function createTables() {
               'pdus_id' => ['pdus_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_pdutypes'] = [
+   $tables['glpi_pdutypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10441,9 +10441,9 @@ function createTables() {
               'date_mod' => ['date_mod'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_peripheralmodels'] = [
+   $tables['glpi_peripheralmodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10501,9 +10501,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_peripherals'] = [
+   $tables['glpi_peripherals'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10615,9 +10615,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_peripheraltypes'] = [
+   $tables['glpi_peripheraltypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10645,9 +10645,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_phonemodels'] = [
+   $tables['glpi_phonemodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10679,9 +10679,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_phonepowersupplies'] = [
+   $tables['glpi_phonepowersupplies'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10709,9 +10709,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_phones'] = [
+   $tables['glpi_phones'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10836,9 +10836,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_phonetypes'] = [
+   $tables['glpi_phonetypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10866,9 +10866,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_planningrecalls'] = [
+   $tables['glpi_planningrecalls'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10904,9 +10904,9 @@ function createTables() {
               'when' => ['when'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_plugins'] = [
+   $tables['glpi_plugins'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10946,9 +10946,9 @@ function createTables() {
               'state' => ['state'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_plugs'] = [
+   $tables['glpi_plugs'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -10976,9 +10976,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_printermodels'] = [
+   $tables['glpi_printermodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11010,9 +11010,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_printers'] = [
+   $tables['glpi_printers'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11153,9 +11153,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_printertypes'] = [
+   $tables['glpi_printertypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11183,9 +11183,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_problemcosts'] = [
+   $tables['glpi_problemcosts'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11240,9 +11240,9 @@ function createTables() {
               'budgets_id' => ['budgets_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_problems'] = [
+   $tables['glpi_problems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11359,9 +11359,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_problems_suppliers'] = [
+   $tables['glpi_problems_suppliers'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11392,9 +11392,9 @@ function createTables() {
               'group' => ['suppliers_id', 'type'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_problems_tickets'] = [
+   $tables['glpi_problems_tickets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11415,9 +11415,9 @@ function createTables() {
               'tickets_id' => ['tickets_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_problems_users'] = [
+   $tables['glpi_problems_users'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11448,9 +11448,9 @@ function createTables() {
               'user' => ['users_id', 'type'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_problemtasks'] = [
+   $tables['glpi_problemtasks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11531,9 +11531,9 @@ function createTables() {
               'is_private' => ['is_private'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_profilerights'] = [
+   $tables['glpi_profilerights'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11554,9 +11554,9 @@ function createTables() {
               'unicity' => ['profiles_id', 'name'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_profiles'] = [
+   $tables['glpi_profiles'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11616,9 +11616,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_profiles_reminders'] = [
+   $tables['glpi_profiles_reminders'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11646,9 +11646,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_profiles_rssfeeds'] = [
+   $tables['glpi_profiles_rssfeeds'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11676,9 +11676,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_profiles_users'] = [
+   $tables['glpi_profiles_users'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11710,9 +11710,9 @@ function createTables() {
               'is_dynamic' => ['is_dynamic'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_projectcosts'] = [
+   $tables['glpi_projectcosts'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11760,9 +11760,9 @@ function createTables() {
               'budgets_id' => ['budgets_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_projects'] = [
+   $tables['glpi_projects'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11877,9 +11877,9 @@ function createTables() {
               'is_template' => ['is_template'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_projectstates'] = [
+   $tables['glpi_projectstates'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -11914,9 +11914,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_projecttasks'] = [
+   $tables['glpi_projecttasks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12020,9 +12020,9 @@ function createTables() {
               'is_milestone' => ['is_milestone'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_projecttasks_tickets'] = [
+   $tables['glpi_projecttasks_tickets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12043,9 +12043,9 @@ function createTables() {
               'projects_id' => ['projecttasks_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_projecttaskteams'] = [
+   $tables['glpi_projecttaskteams'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12070,9 +12070,9 @@ function createTables() {
               'item' => ['itemtype', 'items_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_projecttasktemplates'] = [
+   $tables['glpi_projecttasktemplates'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12168,9 +12168,9 @@ function createTables() {
               'is_milestone' => ['is_milestone'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_projecttasktypes'] = [
+   $tables['glpi_projecttasktypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12198,9 +12198,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_projectteams'] = [
+   $tables['glpi_projectteams'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12225,9 +12225,9 @@ function createTables() {
               'item' => ['itemtype', 'items_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_projecttypes'] = [
+   $tables['glpi_projecttypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12255,9 +12255,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_queuednotifications'] = [
+   $tables['glpi_queuednotifications'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12349,9 +12349,9 @@ function createTables() {
               'mode' => ['mode'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_rackmodels'] = [
+   $tables['glpi_rackmodels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12381,9 +12381,9 @@ function createTables() {
               'product_number' => ['product_number'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_racks'] = [
+   $tables['glpi_racks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12501,9 +12501,9 @@ function createTables() {
               'dcrooms_id' => ['dcrooms_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_racktypes'] = [
+   $tables['glpi_racktypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12539,9 +12539,9 @@ function createTables() {
               'date_mod' => ['date_mod'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_registeredids'] = [
+   $tables['glpi_registeredids'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12572,9 +12572,9 @@ function createTables() {
               'device_type' => ['device_type'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_reminders'] = [
+   $tables['glpi_reminders'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12636,9 +12636,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_reminders_users'] = [
+   $tables['glpi_reminders_users'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12657,9 +12657,9 @@ function createTables() {
               'users_id' => ['users_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_requesttypes'] = [
+   $tables['glpi_requesttypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12718,9 +12718,9 @@ function createTables() {
               'is_itilfollowup' => ['is_itilfollowup'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_reservationitems'] = [
+   $tables['glpi_reservationitems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12760,9 +12760,9 @@ function createTables() {
               'is_deleted' => ['is_deleted'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_reservations'] = [
+   $tables['glpi_reservations'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12798,9 +12798,9 @@ function createTables() {
               'resagroup' => ['reservationitems_id', 'group'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_rssfeeds'] = [
+   $tables['glpi_rssfeeds'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12851,9 +12851,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_rssfeeds_users'] = [
+   $tables['glpi_rssfeeds_users'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12872,9 +12872,9 @@ function createTables() {
               'users_id' => ['users_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_ruleactions'] = [
+   $tables['glpi_ruleactions'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12900,9 +12900,9 @@ function createTables() {
               'field_value' => ['field', 'value'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_rulecriterias'] = [
+   $tables['glpi_rulecriterias'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12928,9 +12928,9 @@ function createTables() {
               'condition' => ['condition'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_rulerightparameters'] = [
+   $tables['glpi_rulerightparameters'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -12961,9 +12961,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_rules'] = [
+   $tables['glpi_rules'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13026,9 +13026,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_savedsearches'] = [
+   $tables['glpi_savedsearches'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13096,9 +13096,9 @@ function createTables() {
               'do_count' => ['do_count'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_savedsearches_alerts'] = [
+   $tables['glpi_savedsearches_alerts'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13143,9 +13143,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_savedsearches_users'] = [
+   $tables['glpi_savedsearches_users'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13171,9 +13171,9 @@ function createTables() {
               'savedsearches_id' => ['savedsearches_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_slalevelactions'] = [
+   $tables['glpi_slalevelactions'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13197,9 +13197,9 @@ function createTables() {
               'slalevels_id' => ['slalevels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_slalevelcriterias'] = [
+   $tables['glpi_slalevelcriterias'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13225,9 +13225,9 @@ function createTables() {
               'condition' => ['condition'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_slalevels'] = [
+   $tables['glpi_slalevels'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13270,9 +13270,9 @@ function createTables() {
               'slas_id' => ['slas_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_slalevels_tickets'] = [
+   $tables['glpi_slalevels_tickets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13298,9 +13298,9 @@ function createTables() {
               'slalevels_id' => ['slalevels_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_slas'] = [
+   $tables['glpi_slas'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13356,9 +13356,9 @@ function createTables() {
               'slms_id' => ['slms_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_slms'] = [
+   $tables['glpi_slms'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13398,9 +13398,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_softwarecategories'] = [
+   $tables['glpi_softwarecategories'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13433,9 +13433,9 @@ function createTables() {
               'softwarecategories_id' => ['softwarecategories_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_softwarelicenses'] = [
+   $tables['glpi_softwarelicenses'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13568,9 +13568,9 @@ function createTables() {
               'allow_overquota' => ['allow_overquota'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_softwarelicensetypes'] = [
+   $tables['glpi_softwarelicensetypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13620,9 +13620,9 @@ function createTables() {
               'softwarelicensetypes_id' => ['softwarelicensetypes_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_softwares'] = [
+   $tables['glpi_softwares'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13717,9 +13717,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_softwareversions'] = [
+   $tables['glpi_softwareversions'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13767,9 +13767,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_solutiontemplates'] = [
+   $tables['glpi_solutiontemplates'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13812,9 +13812,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_solutiontypes'] = [
+   $tables['glpi_solutiontypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13851,9 +13851,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_ssovariables'] = [
+   $tables['glpi_ssovariables'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -13881,9 +13881,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_states'] = [
+   $tables['glpi_states'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14000,9 +14000,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_suppliers'] = [
+   $tables['glpi_suppliers'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14076,9 +14076,9 @@ function createTables() {
               'is_active' => ['is_active'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_suppliers_tickets'] = [
+   $tables['glpi_suppliers_tickets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14110,9 +14110,9 @@ function createTables() {
               'group' => ['suppliers_id', 'type'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_suppliertypes'] = [
+   $tables['glpi_suppliertypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14140,9 +14140,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_taskcategories'] = [
+   $tables['glpi_taskcategories'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14208,9 +14208,9 @@ function createTables() {
               'knowbaseitemcategories_id' => ['knowbaseitemcategories_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_tasktemplates'] = [
+   $tables['glpi_tasktemplates'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14271,9 +14271,9 @@ function createTables() {
               'groups_id_tech' => ['groups_id_tech'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_ticketcosts'] = [
+   $tables['glpi_ticketcosts'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14328,9 +14328,9 @@ function createTables() {
               'budgets_id' => ['budgets_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_ticketrecurrents'] = [
+   $tables['glpi_ticketrecurrents'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14385,9 +14385,9 @@ function createTables() {
               'next_creation_date' => ['next_creation_date'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_tickets'] = [
+   $tables['glpi_tickets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14561,9 +14561,9 @@ function createTables() {
               'olalevels_id_ttr' => ['olalevels_id_ttr'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_tickets_tickets'] = [
+   $tables['glpi_tickets_tickets'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14585,9 +14585,9 @@ function createTables() {
               'unicity' => ['tickets_id_1', 'tickets_id_2'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_tickets_users'] = [
+   $tables['glpi_tickets_users'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14619,9 +14619,9 @@ function createTables() {
               'user' => ['users_id', 'type'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_ticketsatisfactions'] = [
+   $tables['glpi_ticketsatisfactions'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14655,9 +14655,9 @@ function createTables() {
               'tickets_id' => ['tickets_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_tickettasks'] = [
+   $tables['glpi_tickettasks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14739,9 +14739,9 @@ function createTables() {
               'tasktemplates_id' => ['tasktemplates_id'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_tickettemplatehiddenfields'] = [
+   $tables['glpi_tickettemplatehiddenfields'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14759,9 +14759,9 @@ function createTables() {
               'unicity' => ['tickettemplates_id', 'num'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_tickettemplatemandatoryfields'] = [
+   $tables['glpi_tickettemplatemandatoryfields'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14779,9 +14779,9 @@ function createTables() {
               'unicity' => ['tickettemplates_id', 'num'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_tickettemplatepredefinedfields'] = [
+   $tables['glpi_tickettemplatepredefinedfields'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14802,9 +14802,9 @@ function createTables() {
               'tickettemplates_id_id_num' => ['tickettemplates_id', 'num'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_tickettemplates'] = [
+   $tables['glpi_tickettemplates'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14830,9 +14830,9 @@ function createTables() {
               'is_recursive' => ['is_recursive'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_ticketvalidations'] = [
+   $tables['glpi_ticketvalidations'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14883,9 +14883,9 @@ function createTables() {
               'status' => ['status'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_transfers'] = [
+   $tables['glpi_transfers'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -14994,9 +14994,9 @@ function createTables() {
               'date_mod' => ['date_mod'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_usercategories'] = [
+   $tables['glpi_usercategories'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -15024,9 +15024,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_useremails'] = [
+   $tables['glpi_useremails'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -15055,9 +15055,9 @@ function createTables() {
               'is_dynamic' => ['is_dynamic'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_users'] = [
+   $tables['glpi_users'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -15384,9 +15384,9 @@ function createTables() {
               'users_id_supervisor' => ['users_id_supervisor'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_usertitles'] = [
+   $tables['glpi_usertitles'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -15414,9 +15414,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_virtualmachinestates'] = [
+   $tables['glpi_virtualmachinestates'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -15445,9 +15445,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_virtualmachinesystems'] = [
+   $tables['glpi_virtualmachinesystems'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -15476,9 +15476,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_virtualmachinetypes'] = [
+   $tables['glpi_virtualmachinetypes'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -15507,9 +15507,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_vlans'] = [
+   $tables['glpi_vlans'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -15548,9 +15548,9 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  $tables['glpi_wifinetworks'] = [
+   $tables['glpi_wifinetworks'] = [
       'FIELDS' => [
           'id' => [
               'type' => 'autoincrement',
@@ -15593,11 +15593,11 @@ function createTables() {
               'date_creation' => ['date_creation'],
           ],
       ]
-  ];
+   ];
 
-  foreach ($tables as $table_name => $tabledata) {
-     $DB->createOrDie($table_name, $tabledata['FIELDS'], $tabledata['KEYS']);
-  }
+   foreach ($tables as $table_name => $tabledata) {
+      $DB->createOrDie($table_name, $tabledata['FIELDS'], $tabledata['KEYS']);
+   }
 }
 
 function insertData() {
@@ -15612,9 +15612,9 @@ function insertData() {
       'ipv4_range_start'  => new \QueryExpression("INET_ATON('127.0.0.1')"), //TODO postgres
       'ipv4_range_end'    => new \QueryExpression("INET_ATON('127.0.0.1')"), //TODO postgres
       'ipv6'              => '::1'
-  ];
+   ];
 
-  $tables['glpi_blacklists'] =[
+   $tables['glpi_blacklists'] =[
       [
           'id'      => 1,
           'type'    => 1,
@@ -15636,9 +15636,9 @@ function insertData() {
           'name'    => 'empty MAC',
           'value'   => ''
       ]
-  ];
+   ];
 
-  $tables['glpi_calendars'] = [
+   $tables['glpi_calendars'] = [
       [
           'id'               => 1,
           'name'             => 'Default',
@@ -15647,21 +15647,21 @@ function insertData() {
           'comment'          => 'Default calendar',
           'cache_duration'   => '[0,43200,43200,43200,43200,43200,0]'
       ]
-  ];
+   ];
 
-  for ($i = 1; $i < 6; ++$i) {
-     $tables['glpi_calendarsegments'][] = [
-        'id'            => $i,
-        'calendars_id'  => 1,
-        'entities_id'   => 0,
-        'is_recursive'  => 0,
-        'day'           => $i,
-        'begin'         => '08:00:00',
-        'end'           => '20:00:00'
-     ];
-  }
+   for ($i = 1; $i < 6; ++$i) {
+      $tables['glpi_calendarsegments'][] = [
+          'id'            => $i,
+          'calendars_id'  => 1,
+          'entities_id'   => 0,
+          'is_recursive'  => 0,
+          'day'           => $i,
+          'begin'         => '08:00:00',
+          'end'           => '20:00:00'
+      ];
+   }
 
-  $default_prefs = [
+   $default_prefs = [
      'version' => 'FILLED AT INSTALL',
      'show_jobs_at_login' => '0',
      'cut' => '250',
@@ -15861,16 +15861,17 @@ function insertData() {
      'purge_user_auth_changes' => '0',
      'purge_plugins' => '0',
      'display_login_source' => '1'
-  ];
+   ];
 
-  foreach ($default_prefs as $name => $value) {
-     $tables['glpi_configs'][] = [
-        'context'   => 'core',
-        'name'      => $name,
-        'value'     => $value
-     ];
-  }
-  $tables['glpi_crontasks'] = [
+   foreach ($default_prefs as $name => $value) {
+      $tables['glpi_configs'][] = [
+          'context'   => 'core',
+          'name'      => $name,
+          'value'     => $value
+      ];
+   }
+
+   $tables['glpi_crontasks'] = [
       [
           'id'            => 2,
           'itemtype'      => 'CartridgeItem',
@@ -16172,23 +16173,23 @@ function insertData() {
           'lastrun'       => '2014-06-18 08:02:00',
           'logs_lifetime' => 30
       ]
-  ];
+   ];
 
-  $tables['glpi_devicememorytypes'] = [
+   $tables['glpi_devicememorytypes'] = [
       ['id' => 1, 'name' => 'EDO'],
       ['id' => 2, 'name' => 'DDR'],
       ['id' => 3, 'name' => 'SDRAM'],
       ['id' => 4, 'name' => 'SDRAM-2'],
-  ];
+   ];
 
-  $tables['glpi_devicesimcardtypes'] = [
+   $tables['glpi_devicesimcardtypes'] = [
       ['id' => 1, 'name' => 'Full SIM'],
       ['id' => 2, 'name' => 'Mini SIM'],
       ['id' => 3, 'name' => 'Micro SIM'],
       ['id' => 4, 'name' => 'Nano SIM'],
-  ];
+   ];
 
-  $tables['glpi_displaypreferences'] = [
+   $tables['glpi_displaypreferences'] = [
      [
          'itemtype' => 'Computer',
          'num'      => '4',
@@ -17507,9 +17508,9 @@ function insertData() {
         'rank'      => '1',
         'is_main'   => 0
      ]
-  ];
+   ];
 
-  $tables['glpi_documenttypes'] = [
+   $tables['glpi_documenttypes'] = [
      [
         'id'  => 1,
         'name'   => 'JPEG',
@@ -17871,9 +17872,9 @@ function insertData() {
         'ext'    => 'svg',
         'icon'   => 'svg-dist.png'
      ]
-  ];
+   ];
 
-  $tables['glpi_entities'] = [
+   $tables['glpi_entities'] = [
      [
         'id'                                   => 0,
         'name'                                 => __('Root entity'),
@@ -17917,9 +17918,9 @@ function insertData() {
         'suppliers_as_private'                 => 0,
         'enable_custom_css'                    => 0
      ]
-  ];
+   ];
 
-  $tables['glpi_filesystems'] = [
+   $tables['glpi_filesystems'] = [
       ['id' => 1, 'name'  => 'ext'],
       ['id' => 2, 'name'  => 'ext2'],
       ['id' => 3, 'name'  => 'ext3'],
@@ -17940,9 +17941,9 @@ function insertData() {
       ['id' => 18, 'name'  => 'UFS'],
       ['id' => 19, 'name'  => 'XFS'],
       ['id' => 20, 'name'  => 'ZFS']
-  ];
+   ];
 
-  $tables['glpi_interfacetypes'] = [
+   $tables['glpi_interfacetypes'] = [
      ['id' => 1, 'name' => 'IDE'],
      ['id' => 2, 'name' => 'SATA'],
      ['id' => 3, 'name' => 'SCSI'],
@@ -17951,9 +17952,9 @@ function insertData() {
      ['id' => 6, 'name' => 'PCI'],
      ['id' => 7, 'name' => 'PCIe'],
      ['id' => 8, 'name' => 'PCI-X']
-  ];
+   ];
 
-  $tables['glpi_notifications'] = [
+   $tables['glpi_notifications'] = [
       [
         'id'           => 1,
         'name'         => 'Alert Tickets not closed',
@@ -18424,9 +18425,9 @@ function insertData() {
         'is_recursive' => 1,
         'is_active'    => 1
       ]
-  ];
+   ];
 
-  $tables['glpi_notifications_notificationtemplates'] = [
+   $tables['glpi_notifications_notificationtemplates'] = [
      [
         'id'                       => 1,
         'notifications_id'         => '1',
@@ -18763,9 +18764,9 @@ function insertData() {
         'mode'                     =>  'mailing',
         'notificationtemplates_id' =>  25
      ]
-  ];
+   ];
 
-  $tables['glpi_notificationtargets'] = [
+   $tables['glpi_notificationtargets'] = [
      [
         'id'                 => '1',
         'items_id'           => '3',
@@ -19412,9 +19413,9 @@ function insertData() {
         'type'               => '1',
         'notifications_id'   => '66'
      ]
-  ];
+   ];
 
-  $tables['glpi_notificationtemplates'] = [
+   $tables['glpi_notificationtemplates'] = [
      [
         'id'        => '1',
         'name'      => 'MySQL Synchronization',
@@ -19516,810 +19517,696 @@ function insertData() {
         'name'      => 'Certificates',
         'itemtype'  => 'Certificate'
      ]
-  ];
+   ];
 
-  $tables['glpi_notificationtemplatetranslations'] = [
-     [
-        'id'                       => '1',
-        'notificationtemplates_id' => '1',
-        'language'                 => '',
-        'subject'                  => '##lang.dbconnection.title##',
-        'content_text'             => '##lang.dbconnection.delay## : ##dbconnection.delay##',
-        'content_html'             => '&lt;p&gt;##lang.dbconnection.delay## : ##dbconnection.delay##&lt;/p&gt;'
-     ], [
-        'id'                       => '2',
-        'notificationtemplates_id' => '2',
-        'language'                 => '',
-        'subject'                  => '##reservation.action##',
-        'content_text'             => '======================================================================
-  ##lang.reservation.user##: ##reservation.user##
-  ##lang.reservation.item.name##: ##reservation.itemtype## - ##reservation.item.name##
-  ##IFreservation.tech## ##lang.reservation.tech## ##reservation.tech## ##ENDIFreservation.tech##
-  ##lang.reservation.begin##: ##reservation.begin##
-  ##lang.reservation.end##: ##reservation.end##
-  ##lang.reservation.comment##: ##reservation.comment##
-  ======================================================================',
-        'content_html'             => '&lt;!-- description{ color: inherit; background: #ebebeb;border-style: solid;border-color: #8d8d8d; border-width: 0px 1px 1px 0px; } --&gt;
-  &lt;p&gt;&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.reservation.user##:&lt;/span&gt;##reservation.user##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.reservation.item.name##:&lt;/span&gt;##reservation.itemtype## - ##reservation.item.name##&lt;br /&gt;##IFreservation.tech## ##lang.reservation.tech## ##reservation.tech####ENDIFreservation.tech##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.reservation.begin##:&lt;/span&gt; ##reservation.begin##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.reservation.end##:&lt;/span&gt;##reservation.end##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.reservation.comment##:&lt;/span&gt; ##reservation.comment##&lt;/p&gt;'
-     ], [
-        'id'                       => '3',
-        'notificationtemplates_id' => '3',
-        'language'                 => '',
-        'subject'                  => '##reservation.action##  ##reservation.entity##',
-        'content_text'             => '##lang.reservation.entity## : ##reservation.entity##
-
-
-  ##FOREACHreservations##
-  ##lang.reservation.itemtype## : ##reservation.itemtype##
-
-   ##lang.reservation.item## : ##reservation.item##
-
-   ##reservation.url##
-
-   ##ENDFOREACHreservations##',
-        'content_html'             => '&lt;p&gt;##lang.reservation.entity## : ##reservation.entity## &lt;br /&gt; &lt;br /&gt;
-  ##FOREACHreservations## &lt;br /&gt;##lang.reservation.itemtype## :  ##reservation.itemtype##&lt;br /&gt;
-   ##lang.reservation.item## :  ##reservation.item##&lt;br /&gt; &lt;br /&gt;
-   &lt;a href="##reservation.url##"&gt; ##reservation.url##&lt;/a&gt;&lt;br /&gt;
-   ##ENDFOREACHreservations##&lt;/p&gt;'
-     ], [
-        'id'                       => '4',
-        'notificationtemplates_id' => '4',
-        'language'                 => '',
-        'subject'                  => '##ticket.action## ##ticket.title##',
-        'content_text'             => ' ##IFticket.storestatus=5##
-   ##lang.ticket.url## : ##ticket.urlapprove##
-   ##lang.ticket.autoclosewarning##
-   ##lang.ticket.solvedate## : ##ticket.solvedate##
-   ##lang.ticket.solution.type## : ##ticket.solution.type##
-   ##lang.ticket.solution.description## : ##ticket.solution.description## ##ENDIFticket.storestatus##
-   ##ELSEticket.storestatus## ##lang.ticket.url## : ##ticket.url## ##ENDELSEticket.storestatus##
-
+   $tables['glpi_notificationtemplatetranslations'] = [
+   [
+      'id'                       => '1',
+      'notificationtemplates_id' => '1',
+      'language'                 => '',
+      'subject'                  => '##lang.dbconnection.title##',
+      'content_text'             => '##lang.dbconnection.delay## : ##dbconnection.delay##',
+      'content_html'             => '&lt;p&gt;##lang.dbconnection.delay## : ##dbconnection.delay##&lt;/p&gt;'
+   ], [
+      'id'                       => '2',
+      'notificationtemplates_id' => '2',
+      'language'                 => '',
+      'subject'                  => '##reservation.action##',
+      'content_text'             => '======================================================================
+   ##lang.reservation.user##: ##reservation.user##
+   ##lang.reservation.item.name##: ##reservation.itemtype## - ##reservation.item.name##
+   ##IFreservation.tech## ##lang.reservation.tech## ##reservation.tech## ##ENDIFreservation.tech##
+   ##lang.reservation.begin##: ##reservation.begin##
+   ##lang.reservation.end##: ##reservation.end##
+   ##lang.reservation.comment##: ##reservation.comment##
+   ======================================================================',
+         'content_html'             => '&lt;!-- description{ color: inherit; background: #ebebeb;border-style: solid;border-color: #8d8d8d; border-width: 0px 1px 1px 0px; } --&gt;
+   &lt;p&gt;&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.reservation.user##:&lt;/span&gt;##reservation.user##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.reservation.item.name##:&lt;/span&gt;##reservation.itemtype## - ##reservation.item.name##&lt;br /&gt;##IFreservation.tech## ##lang.reservation.tech## ##reservation.tech####ENDIFreservation.tech##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.reservation.begin##:&lt;/span&gt; ##reservation.begin##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.reservation.end##:&lt;/span&gt;##reservation.end##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.reservation.comment##:&lt;/span&gt; ##reservation.comment##&lt;/p&gt;'
+      ], [
+         'id'                       => '3',
+         'notificationtemplates_id' => '3',
+         'language'                 => '',
+         'subject'                  => '##reservation.action##  ##reservation.entity##',
+         'content_text'             => '##lang.reservation.entity## : ##reservation.entity##
+   ##FOREACHreservations##
+   ##lang.reservation.itemtype## : ##reservation.itemtype##
+    ##lang.reservation.item## : ##reservation.item##
+    ##reservation.url##
+    ##ENDFOREACHreservations##',
+         'content_html'             => '&lt;p&gt;##lang.reservation.entity## : ##reservation.entity## &lt;br /&gt; &lt;br /&gt;
+   ##FOREACHreservations## &lt;br /&gt;##lang.reservation.itemtype## :  ##reservation.itemtype##&lt;br /&gt;
+    ##lang.reservation.item## :  ##reservation.item##&lt;br /&gt; &lt;br /&gt;
+    &lt;a href="##reservation.url##"&gt; ##reservation.url##&lt;/a&gt;&lt;br /&gt;
+    ##ENDFOREACHreservations##&lt;/p&gt;'
+      ], [
+         'id'                       => '4',
+         'notificationtemplates_id' => '4',
+         'language'                 => '',
+         'subject'                  => '##ticket.action## ##ticket.title##',
+         'content_text'             => ' ##IFticket.storestatus=5##
+    ##lang.ticket.url## : ##ticket.urlapprove##
+    ##lang.ticket.autoclosewarning##
+    ##lang.ticket.solvedate## : ##ticket.solvedate##
+    ##lang.ticket.solution.type## : ##ticket.solution.type##
+    ##lang.ticket.solution.description## : ##ticket.solution.description## ##ENDIFticket.storestatus##
+    ##ELSEticket.storestatus## ##lang.ticket.url## : ##ticket.url## ##ENDELSEticket.storestatus##
+    ##lang.ticket.description##
+    ##lang.ticket.title## : ##ticket.title##
+    ##lang.ticket.authors## : ##IFticket.authors## ##ticket.authors## ##ENDIFticket.authors## ##ELSEticket.authors##--##ENDELSEticket.authors##
+    ##lang.ticket.creationdate## : ##ticket.creationdate##
+    ##lang.ticket.closedate## : ##ticket.closedate##
+    ##lang.ticket.requesttype## : ##ticket.requesttype##
+   ##lang.ticket.item.name## :
+   ##FOREACHitems##
+    ##IFticket.itemtype##
+     ##ticket.itemtype## - ##ticket.item.name##
+     ##IFticket.item.model## ##lang.ticket.item.model## : ##ticket.item.model## ##ENDIFticket.item.model##
+     ##IFticket.item.serial## ##lang.ticket.item.serial## : ##ticket.item.serial## ##ENDIFticket.item.serial##
+     ##IFticket.item.otherserial## ##lang.ticket.item.otherserial## : ##ticket.item.otherserial## ##ENDIFticket.item.otherserial##
+    ##ENDIFticket.itemtype##
+   ##ENDFOREACHitems##
+   ##IFticket.assigntousers## ##lang.ticket.assigntousers## : ##ticket.assigntousers## ##ENDIFticket.assigntousers##
+    ##lang.ticket.status## : ##ticket.status##
+   ##IFticket.assigntogroups## ##lang.ticket.assigntogroups## : ##ticket.assigntogroups## ##ENDIFticket.assigntogroups##
+    ##lang.ticket.urgency## : ##ticket.urgency##
+    ##lang.ticket.impact## : ##ticket.impact##
+    ##lang.ticket.priority## : ##ticket.priority##
+   ##IFticket.user.email## ##lang.ticket.user.email## : ##ticket.user.email ##ENDIFticket.user.email##
+   ##IFticket.category## ##lang.ticket.category## : ##ticket.category## ##ENDIFticket.category## ##ELSEticket.category## ##lang.ticket.nocategoryassigned## ##ENDELSEticket.category##
+    ##lang.ticket.content## : ##ticket.content##
+    ##IFticket.storestatus=6##
+    ##lang.ticket.solvedate## : ##ticket.solvedate##
+    ##lang.ticket.solution.type## : ##ticket.solution.type##
+    ##lang.ticket.solution.description## : ##ticket.solution.description##
+    ##ENDIFticket.storestatus##
+    ##lang.ticket.numberoffollowups## : ##ticket.numberoffollowups##
+   ##FOREACHfollowups##
+    [##followup.date##] ##lang.followup.isprivate## : ##followup.isprivate##
+    ##lang.followup.author## ##followup.author##
+    ##lang.followup.description## ##followup.description##
+    ##lang.followup.date## ##followup.date##
+    ##lang.followup.requesttype## ##followup.requesttype##
+   ##ENDFOREACHfollowups##
+    ##lang.ticket.numberoftasks## : ##ticket.numberoftasks##
+   ##FOREACHtasks##
+    [##task.date##] ##lang.task.isprivate## : ##task.isprivate##
+    ##lang.task.author## ##task.author##
+    ##lang.task.description## ##task.description##
+    ##lang.task.time## ##task.time##
+    ##lang.task.category## ##task.category##
+   ##ENDFOREACHtasks##',
+         'content_html'                => '<!-- description{ color: inherit; background: #ebebeb; border-style: solid;border-color: #8d8d8d; border-width: 0px 1px 1px 0px; }    -->
+   <div>##IFticket.storestatus=5##</div>
+   <div>##lang.ticket.url## : <a href="##ticket.urlapprove##">##ticket.urlapprove##</a> <strong>&#160;</strong></div>
+   <div><strong>##lang.ticket.autoclosewarning##</strong></div>
+   <div><span style="color: #888888;"><strong><span style="text-decoration: underline;">##lang.ticket.solvedate##</span></strong></span> : ##ticket.solvedate##<br /><span style="text-decoration: underline; color: #888888;"><strong>##lang.ticket.solution.type##</strong></span> : ##ticket.solution.type##<br /><span style="text-decoration: underline; color: #888888;"><strong>##lang.ticket.solution.description##</strong></span> : ##ticket.solution.description## ##ENDIFticket.storestatus##</div>
+   <div>##ELSEticket.storestatus## ##lang.ticket.url## : <a href="##ticket.url##">##ticket.url##</a> ##ENDELSEticket.storestatus##</div>
+   <p class="description b"><strong>##lang.ticket.description##</strong></p>
+   <p><span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.title##</span>&#160;:##ticket.title## <br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.authors##</span>&#160;:##IFticket.authors## ##ticket.authors## ##ENDIFticket.authors##    ##ELSEticket.authors##--##ENDELSEticket.authors## <br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.creationdate##</span>&#160;:##ticket.creationdate## <br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.closedate##</span>&#160;:##ticket.closedate## <br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.requesttype##</span>&#160;:##ticket.requesttype##<br />
+   <br /><span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.item.name##</span>&#160;:
+   <p>##FOREACHitems##</p>
+   <div class="description b">##IFticket.itemtype## ##ticket.itemtype##&#160;- ##ticket.item.name## ##IFticket.item.model## ##lang.ticket.item.model## : ##ticket.item.model## ##ENDIFticket.item.model## ##IFticket.item.serial## ##lang.ticket.item.serial## : ##ticket.item.serial## ##ENDIFticket.item.serial## ##IFticket.item.otherserial## ##lang.ticket.item.otherserial## : ##ticket.item.otherserial## ##ENDIFticket.item.otherserial## ##ENDIFticket.itemtype## </div><br />
+   <p>##ENDFOREACHitems##</p>
+   ##IFticket.assigntousers## <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.assigntousers##</span>&#160;: ##ticket.assigntousers## ##ENDIFticket.assigntousers##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;">##lang.ticket.status## </span>&#160;: ##ticket.status##<br /> ##IFticket.assigntogroups## <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.assigntogroups##</span>&#160;: ##ticket.assigntogroups## ##ENDIFticket.assigntogroups##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.urgency##</span>&#160;: ##ticket.urgency##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.impact##</span>&#160;: ##ticket.impact##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.priority##</span>&#160;: ##ticket.priority## <br /> ##IFticket.user.email##<span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.user.email##</span>&#160;: ##ticket.user.email ##ENDIFticket.user.email##    <br /> ##IFticket.category##<span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;">##lang.ticket.category## </span>&#160;:##ticket.category## ##ENDIFticket.category## ##ELSEticket.category## ##lang.ticket.nocategoryassigned## ##ENDELSEticket.category##    <br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.content##</span>&#160;: ##ticket.content##</p>
+   <br />##IFticket.storestatus=6##<br /><span style="text-decoration: underline;"><strong><span style="color: #888888;">##lang.ticket.solvedate##</span></strong></span> : ##ticket.solvedate##<br /><span style="color: #888888;"><strong><span style="text-decoration: underline;">##lang.ticket.solution.type##</span></strong></span> : ##ticket.solution.type##<br /><span style="text-decoration: underline; color: #888888;"><strong>##lang.ticket.solution.description##</strong></span> : ##ticket.solution.description##<br />##ENDIFticket.storestatus##</p>
+   <div class="description b">##lang.ticket.numberoffollowups##&#160;: ##ticket.numberoffollowups##</div>
+   <p>##FOREACHfollowups##</p>
+   <div class="description b"><br /> <strong> [##followup.date##] <em>##lang.followup.isprivate## : ##followup.isprivate## </em></strong><br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.author## </span> ##followup.author##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.description## </span> ##followup.description##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.date## </span> ##followup.date##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.requesttype## </span> ##followup.requesttype##</div>
+   <p>##ENDFOREACHfollowups##</p>
+   <div class="description b">##lang.ticket.numberoftasks##&#160;: ##ticket.numberoftasks##</div>
+   <p>##FOREACHtasks##</p>
+   <div class="description b"><br /> <strong> [##task.date##] <em>##lang.task.isprivate## : ##task.isprivate## </em></strong><br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.task.author##</span> ##task.author##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.task.description##</span> ##task.description##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.task.time##</span> ##task.time##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.task.category##</span> ##task.category##</div>
+   <p>##ENDFOREACHtasks##</p>'
+      ], [
+         'id'                       => '5',
+         'notificationtemplates_id' => '12',
+         'language'                 => '',
+         'subject'                  => '##contract.action##  ##contract.entity##',
+         'content_text'             => '##lang.contract.entity## : ##contract.entity##
+   ##FOREACHcontracts##
+   ##lang.contract.name## : ##contract.name##
+   ##lang.contract.number## : ##contract.number##
+   ##lang.contract.time## : ##contract.time##
+   ##IFcontract.type####lang.contract.type## : ##contract.type####ENDIFcontract.type##
+   ##contract.url##
+   ##ENDFOREACHcontracts##',
+         'content_html'             => '&lt;p&gt;##lang.contract.entity## : ##contract.entity##&lt;br /&gt;
+   &lt;br /&gt;##FOREACHcontracts##&lt;br /&gt;##lang.contract.name## :
+   ##contract.name##&lt;br /&gt;
+   ##lang.contract.number## : ##contract.number##&lt;br /&gt;
+   ##lang.contract.time## : ##contract.time##&lt;br /&gt;
+   ##IFcontract.type####lang.contract.type## : ##contract.type##
+   ##ENDIFcontract.type##&lt;br /&gt;
+   &lt;a href="##contract.url##"&gt;
+   ##contract.url##&lt;/a&gt;&lt;br /&gt;
+   ##ENDFOREACHcontracts##&lt;/p&gt;'
+      ], [
+         'id'                       => '6',
+         'notificationtemplates_id' => '5',
+         'language'                 => '',
+         'subject'                  => '##ticket.action## ##ticket.title##',
+         'content_text'             => '##lang.ticket.url## : ##ticket.url##
    ##lang.ticket.description##
-
-   ##lang.ticket.title## : ##ticket.title##
-   ##lang.ticket.authors## : ##IFticket.authors## ##ticket.authors## ##ENDIFticket.authors## ##ELSEticket.authors##--##ENDELSEticket.authors##
-   ##lang.ticket.creationdate## : ##ticket.creationdate##
-   ##lang.ticket.closedate## : ##ticket.closedate##
-   ##lang.ticket.requesttype## : ##ticket.requesttype##
-  ##lang.ticket.item.name## :
-
-  ##FOREACHitems##
-
+   ##lang.ticket.title##  :##ticket.title##
+   ##lang.ticket.authors##  :##IFticket.authors##
+   ##ticket.authors## ##ENDIFticket.authors##
+   ##ELSEticket.authors##--##ENDELSEticket.authors##
+   ##IFticket.category## ##lang.ticket.category##  :##ticket.category##
+   ##ENDIFticket.category## ##ELSEticket.category##
+   ##lang.ticket.nocategoryassigned## ##ENDELSEticket.category##
+   ##lang.ticket.content##  : ##ticket.content##
    ##IFticket.itemtype##
-    ##ticket.itemtype## - ##ticket.item.name##
-    ##IFticket.item.model## ##lang.ticket.item.model## : ##ticket.item.model## ##ENDIFticket.item.model##
-    ##IFticket.item.serial## ##lang.ticket.item.serial## : ##ticket.item.serial## ##ENDIFticket.item.serial##
-    ##IFticket.item.otherserial## ##lang.ticket.item.otherserial## : ##ticket.item.otherserial## ##ENDIFticket.item.otherserial##
-   ##ENDIFticket.itemtype##
-
-  ##ENDFOREACHitems##
-  ##IFticket.assigntousers## ##lang.ticket.assigntousers## : ##ticket.assigntousers## ##ENDIFticket.assigntousers##
-   ##lang.ticket.status## : ##ticket.status##
-  ##IFticket.assigntogroups## ##lang.ticket.assigntogroups## : ##ticket.assigntogroups## ##ENDIFticket.assigntogroups##
-   ##lang.ticket.urgency## : ##ticket.urgency##
-   ##lang.ticket.impact## : ##ticket.impact##
-   ##lang.ticket.priority## : ##ticket.priority##
-  ##IFticket.user.email## ##lang.ticket.user.email## : ##ticket.user.email ##ENDIFticket.user.email##
-  ##IFticket.category## ##lang.ticket.category## : ##ticket.category## ##ENDIFticket.category## ##ELSEticket.category## ##lang.ticket.nocategoryassigned## ##ENDELSEticket.category##
-   ##lang.ticket.content## : ##ticket.content##
-   ##IFticket.storestatus=6##
-
-   ##lang.ticket.solvedate## : ##ticket.solvedate##
-   ##lang.ticket.solution.type## : ##ticket.solution.type##
-   ##lang.ticket.solution.description## : ##ticket.solution.description##
-   ##ENDIFticket.storestatus##
-   ##lang.ticket.numberoffollowups## : ##ticket.numberoffollowups##
-
-  ##FOREACHfollowups##
-
-   [##followup.date##] ##lang.followup.isprivate## : ##followup.isprivate##
-   ##lang.followup.author## ##followup.author##
-   ##lang.followup.description## ##followup.description##
-   ##lang.followup.date## ##followup.date##
-   ##lang.followup.requesttype## ##followup.requesttype##
-
-  ##ENDFOREACHfollowups##
-   ##lang.ticket.numberoftasks## : ##ticket.numberoftasks##
-
-  ##FOREACHtasks##
-
-   [##task.date##] ##lang.task.isprivate## : ##task.isprivate##
-   ##lang.task.author## ##task.author##
-   ##lang.task.description## ##task.description##
-   ##lang.task.time## ##task.time##
-   ##lang.task.category## ##task.category##
-
-  ##ENDFOREACHtasks##',
-        'content_html'                => '<!-- description{ color: inherit; background: #ebebeb; border-style: solid;border-color: #8d8d8d; border-width: 0px 1px 1px 0px; }    -->
-  <div>##IFticket.storestatus=5##</div>
-  <div>##lang.ticket.url## : <a href="##ticket.urlapprove##">##ticket.urlapprove##</a> <strong>&#160;</strong></div>
-  <div><strong>##lang.ticket.autoclosewarning##</strong></div>
-  <div><span style="color: #888888;"><strong><span style="text-decoration: underline;">##lang.ticket.solvedate##</span></strong></span> : ##ticket.solvedate##<br /><span style="text-decoration: underline; color: #888888;"><strong>##lang.ticket.solution.type##</strong></span> : ##ticket.solution.type##<br /><span style="text-decoration: underline; color: #888888;"><strong>##lang.ticket.solution.description##</strong></span> : ##ticket.solution.description## ##ENDIFticket.storestatus##</div>
-  <div>##ELSEticket.storestatus## ##lang.ticket.url## : <a href="##ticket.url##">##ticket.url##</a> ##ENDELSEticket.storestatus##</div>
-  <p class="description b"><strong>##lang.ticket.description##</strong></p>
-  <p><span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.title##</span>&#160;:##ticket.title## <br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.authors##</span>&#160;:##IFticket.authors## ##ticket.authors## ##ENDIFticket.authors##    ##ELSEticket.authors##--##ENDELSEticket.authors## <br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.creationdate##</span>&#160;:##ticket.creationdate## <br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.closedate##</span>&#160;:##ticket.closedate## <br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.requesttype##</span>&#160;:##ticket.requesttype##<br />
-  <br /><span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.item.name##</span>&#160;:
-  <p>##FOREACHitems##</p>
-  <div class="description b">##IFticket.itemtype## ##ticket.itemtype##&#160;- ##ticket.item.name## ##IFticket.item.model## ##lang.ticket.item.model## : ##ticket.item.model## ##ENDIFticket.item.model## ##IFticket.item.serial## ##lang.ticket.item.serial## : ##ticket.item.serial## ##ENDIFticket.item.serial## ##IFticket.item.otherserial## ##lang.ticket.item.otherserial## : ##ticket.item.otherserial## ##ENDIFticket.item.otherserial## ##ENDIFticket.itemtype## </div><br />
-  <p>##ENDFOREACHitems##</p>
-  ##IFticket.assigntousers## <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.assigntousers##</span>&#160;: ##ticket.assigntousers## ##ENDIFticket.assigntousers##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;">##lang.ticket.status## </span>&#160;: ##ticket.status##<br /> ##IFticket.assigntogroups## <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.assigntogroups##</span>&#160;: ##ticket.assigntogroups## ##ENDIFticket.assigntogroups##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.urgency##</span>&#160;: ##ticket.urgency##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.impact##</span>&#160;: ##ticket.impact##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.priority##</span>&#160;: ##ticket.priority## <br /> ##IFticket.user.email##<span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.user.email##</span>&#160;: ##ticket.user.email ##ENDIFticket.user.email##    <br /> ##IFticket.category##<span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;">##lang.ticket.category## </span>&#160;:##ticket.category## ##ENDIFticket.category## ##ELSEticket.category## ##lang.ticket.nocategoryassigned## ##ENDELSEticket.category##    <br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.ticket.content##</span>&#160;: ##ticket.content##</p>
-  <br />##IFticket.storestatus=6##<br /><span style="text-decoration: underline;"><strong><span style="color: #888888;">##lang.ticket.solvedate##</span></strong></span> : ##ticket.solvedate##<br /><span style="color: #888888;"><strong><span style="text-decoration: underline;">##lang.ticket.solution.type##</span></strong></span> : ##ticket.solution.type##<br /><span style="text-decoration: underline; color: #888888;"><strong>##lang.ticket.solution.description##</strong></span> : ##ticket.solution.description##<br />##ENDIFticket.storestatus##</p>
-  <div class="description b">##lang.ticket.numberoffollowups##&#160;: ##ticket.numberoffollowups##</div>
-  <p>##FOREACHfollowups##</p>
-  <div class="description b"><br /> <strong> [##followup.date##] <em>##lang.followup.isprivate## : ##followup.isprivate## </em></strong><br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.author## </span> ##followup.author##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.description## </span> ##followup.description##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.date## </span> ##followup.date##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.requesttype## </span> ##followup.requesttype##</div>
-  <p>##ENDFOREACHfollowups##</p>
-  <div class="description b">##lang.ticket.numberoftasks##&#160;: ##ticket.numberoftasks##</div>
-  <p>##FOREACHtasks##</p>
-  <div class="description b"><br /> <strong> [##task.date##] <em>##lang.task.isprivate## : ##task.isprivate## </em></strong><br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.task.author##</span> ##task.author##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.task.description##</span> ##task.description##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.task.time##</span> ##task.time##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.task.category##</span> ##task.category##</div>
-  <p>##ENDFOREACHtasks##</p>'
-     ], [
-        'id'                       => '5',
-        'notificationtemplates_id' => '12',
-        'language'                 => '',
-        'subject'                  => '##contract.action##  ##contract.entity##',
-        'content_text'             => '##lang.contract.entity## : ##contract.entity##
-
-  ##FOREACHcontracts##
-  ##lang.contract.name## : ##contract.name##
-  ##lang.contract.number## : ##contract.number##
-  ##lang.contract.time## : ##contract.time##
-  ##IFcontract.type####lang.contract.type## : ##contract.type####ENDIFcontract.type##
-  ##contract.url##
-  ##ENDFOREACHcontracts##',
-        'content_html'             => '&lt;p&gt;##lang.contract.entity## : ##contract.entity##&lt;br /&gt;
-  &lt;br /&gt;##FOREACHcontracts##&lt;br /&gt;##lang.contract.name## :
-  ##contract.name##&lt;br /&gt;
-  ##lang.contract.number## : ##contract.number##&lt;br /&gt;
-  ##lang.contract.time## : ##contract.time##&lt;br /&gt;
-  ##IFcontract.type####lang.contract.type## : ##contract.type##
-  ##ENDIFcontract.type##&lt;br /&gt;
-  &lt;a href="##contract.url##"&gt;
-  ##contract.url##&lt;/a&gt;&lt;br /&gt;
-  ##ENDFOREACHcontracts##&lt;/p&gt;'
-     ], [
-        'id'                       => '6',
-        'notificationtemplates_id' => '5',
-        'language'                 => '',
-        'subject'                  => '##ticket.action## ##ticket.title##',
-        'content_text'             => '##lang.ticket.url## : ##ticket.url##
-
-  ##lang.ticket.description##
-
-
-  ##lang.ticket.title##  :##ticket.title##
-
-  ##lang.ticket.authors##  :##IFticket.authors##
-  ##ticket.authors## ##ENDIFticket.authors##
-  ##ELSEticket.authors##--##ENDELSEticket.authors##
-
-  ##IFticket.category## ##lang.ticket.category##  :##ticket.category##
-  ##ENDIFticket.category## ##ELSEticket.category##
-  ##lang.ticket.nocategoryassigned## ##ENDELSEticket.category##
-
-  ##lang.ticket.content##  : ##ticket.content##
-  ##IFticket.itemtype##
-  ##lang.ticket.item.name##  : ##ticket.itemtype## - ##ticket.item.name##
-  ##ENDIFticket.itemtype##',
-         'content_html'               => '&lt;div&gt;##lang.ticket.url## : &lt;a href="##ticket.url##"&gt;
-  ##ticket.url##&lt;/a&gt;&lt;/div&gt;
-  &lt;div class="description b"&gt;
-  ##lang.ticket.description##&lt;/div&gt;
-  &lt;p&gt;&lt;span
-  style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
-  ##lang.ticket.title##&lt;/span&gt;&#160;:##ticket.title##
-  &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
-  ##lang.ticket.authors##&lt;/span&gt;
-  ##IFticket.authors## ##ticket.authors##
-  ##ENDIFticket.authors##
-  ##ELSEticket.authors##--##ENDELSEticket.authors##
-  &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;&#160
-  ;&lt;/span&gt;&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; &lt;/span&gt;
-  ##IFticket.category##&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
-  ##lang.ticket.category## &lt;/span&gt;&#160;:##ticket.category##
-  ##ENDIFticket.category## ##ELSEticket.category##
-  ##lang.ticket.nocategoryassigned## ##ENDELSEticket.category##
-  &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
-  ##lang.ticket.content##&lt;/span&gt;&#160;:
-  ##ticket.content##&lt;br /&gt;##IFticket.itemtype##
-  &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
-  ##lang.ticket.item.name##&lt;/span&gt;&#160;:
-  ##ticket.itemtype## - ##ticket.item.name##
-  ##ENDIFticket.itemtype##&lt;/p&gt;'
-     ], [
-        'id'                       => '15',
-        'notificationtemplates_id' => '15',
-        'language'                 => '',
-        'subject'                  => '##lang.unicity.action##',
-        'content_text'             => '##lang.unicity.entity## : ##unicity.entity##
-
-  ##lang.unicity.itemtype## : ##unicity.itemtype##
-
-  ##lang.unicity.message## : ##unicity.message##
-
-  ##lang.unicity.action_user## : ##unicity.action_user##
-
-  ##lang.unicity.action_type## : ##unicity.action_type##
-
-  ##lang.unicity.date## : ##unicity.date##',
-        'content_html'             => '&lt;p&gt;##lang.unicity.entity## : ##unicity.entity##&lt;/p&gt;
-  &lt;p&gt;##lang.unicity.itemtype## : ##unicity.itemtype##&lt;/p&gt;
-  &lt;p&gt;##lang.unicity.message## : ##unicity.message##&lt;/p&gt;
-  &lt;p&gt;##lang.unicity.action_user## : ##unicity.action_user##&lt;/p&gt;
-  &lt;p&gt;##lang.unicity.action_type## : ##unicity.action_type##&lt;/p&gt;
-  &lt;p&gt;##lang.unicity.date## : ##unicity.date##&lt;/p&gt;'
-     ], [
-        'id'                       => '7',
-        'notificationtemplates_id' => '7',
-        'language'                 => '',
-        'subject'                  => '##ticket.action## ##ticket.title##',
-        'content_text'             => '##FOREACHvalidations##
-
-  ##IFvalidation.storestatus=2##
-  ##validation.submission.title##
-  ##lang.validation.commentsubmission## : ##validation.commentsubmission##
-  ##ENDIFvalidation.storestatus##
-  ##ELSEvalidation.storestatus## ##validation.answer.title## ##ENDELSEvalidation.storestatus##
-
-  ##lang.ticket.url## : ##ticket.urlvalidation##
-
-  ##IFvalidation.status## ##lang.validation.status## : ##validation.status## ##ENDIFvalidation.status##
-  ##IFvalidation.commentvalidation##
-  ##lang.validation.commentvalidation## : ##validation.commentvalidation##
-  ##ENDIFvalidation.commentvalidation##
-  ##ENDFOREACHvalidations##',
-        'content_html'             => '&lt;div&gt;##FOREACHvalidations##&lt;/div&gt;
-  &lt;p&gt;##IFvalidation.storestatus=2##&lt;/p&gt;
-  &lt;div&gt;##validation.submission.title##&lt;/div&gt;
-  &lt;div&gt;##lang.validation.commentsubmission## : ##validation.commentsubmission##&lt;/div&gt;
-  &lt;div&gt;##ENDIFvalidation.storestatus##&lt;/div&gt;
-  &lt;div&gt;##ELSEvalidation.storestatus## ##validation.answer.title## ##ENDELSEvalidation.storestatus##&lt;/div&gt;
-  &lt;div&gt;&lt;/div&gt;
-  &lt;div&gt;
-  &lt;div&gt;##lang.ticket.url## : &lt;a href="##ticket.urlvalidation##"&gt; ##ticket.urlvalidation## &lt;/a&gt;&lt;/div&gt;
-  &lt;/div&gt;
-  &lt;p&gt;##IFvalidation.status## ##lang.validation.status## : ##validation.status## ##ENDIFvalidation.status##
-  &lt;br /&gt; ##IFvalidation.commentvalidation##&lt;br /&gt; ##lang.validation.commentvalidation## :
-  &#160; ##validation.commentvalidation##&lt;br /&gt; ##ENDIFvalidation.commentvalidation##
-  &lt;br /&gt;##ENDFOREACHvalidations##&lt;/p&gt;'
-     ], [
-        'id'                       => '8',
-        'notificationtemplates_id' => '6',
-        'language'                 => '',
-        'subject'                  => '##ticket.action## ##ticket.entity##',
-        'content_text'             => '##lang.ticket.entity## : ##ticket.entity##
-
-  ##FOREACHtickets##
-
-  ##lang.ticket.title## : ##ticket.title##
-   ##lang.ticket.status## : ##ticket.status##
-
-   ##ticket.url##
-   ##ENDFOREACHtickets##',
-        'content_html'             => '&lt;table class="tab_cadre" border="1" cellspacing="2" cellpadding="3"&gt;
-  &lt;tbody&gt;
-  &lt;tr&gt;
-  &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.authors##&lt;/span&gt;&lt;/td&gt;
-  &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.title##&lt;/span&gt;&lt;/td&gt;
-  &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.priority##&lt;/span&gt;&lt;/td&gt;
-  &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.status##&lt;/span&gt;&lt;/td&gt;
-  &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.attribution##&lt;/span&gt;&lt;/td&gt;
-  &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.creationdate##&lt;/span&gt;&lt;/td&gt;
-  &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.content##&lt;/span&gt;&lt;/td&gt;
-  &lt;/tr&gt;
-  ##FOREACHtickets##
-  &lt;tr&gt;
-  &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##ticket.authors##&lt;/span&gt;&lt;/td&gt;
-  &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;&lt;a href="##ticket.url##"&gt;##ticket.title##&lt;/a&gt;&lt;/span&gt;&lt;/td&gt;
-  &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##ticket.priority##&lt;/span&gt;&lt;/td&gt;
-  &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##ticket.status##&lt;/span&gt;&lt;/td&gt;
-  &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##IFticket.assigntousers####ticket.assigntousers##&lt;br /&gt;##ENDIFticket.assigntousers####IFticket.assigntogroups##&lt;br /&gt;##ticket.assigntogroups## ##ENDIFticket.assigntogroups####IFticket.assigntosupplier##&lt;br /&gt;##ticket.assigntosupplier## ##ENDIFticket.assigntosupplier##&lt;/span&gt;&lt;/td&gt;
-  &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##ticket.creationdate##&lt;/span&gt;&lt;/td&gt;
-  &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##ticket.content##&lt;/span&gt;&lt;/td&gt;
-  &lt;/tr&gt;
-  ##ENDFOREACHtickets##
-  &lt;/tbody&gt;
-  &lt;/table&gt;'
-     ], [
-        'id'                       => '9',
-        'notificationtemplates_id' => '9',
-        'language'                 => '',
-        'subject'                  => '##consumable.action##  ##consumable.entity##',
-        'content_text'             => '##lang.consumable.entity## : ##consumable.entity##
-
-
-  ##FOREACHconsumables##
-  ##lang.consumable.item## : ##consumable.item##
-
-
-  ##lang.consumable.reference## : ##consumable.reference##
-
-  ##lang.consumable.remaining## : ##consumable.remaining##
-
-  ##consumable.url##
-
-  ##ENDFOREACHconsumables##',
-        'content_html'                => '&lt;p&gt;
-  ##lang.consumable.entity## : ##consumable.entity##
-  &lt;br /&gt; &lt;br /&gt;##FOREACHconsumables##
-  &lt;br /&gt;##lang.consumable.item## : ##consumable.item##&lt;br /&gt;
-  &lt;br /&gt;##lang.consumable.reference## : ##consumable.reference##&lt;br /&gt;
-  ##lang.consumable.remaining## : ##consumable.remaining##&lt;br /&gt;
-  &lt;a href="##consumable.url##"&gt; ##consumable.url##&lt;/a&gt;&lt;br /&gt;
-     ##ENDFOREACHconsumables##&lt;/p&gt;'
-     ], [
-        'id'                       => '10',
-        'notificationtemplates_id' => '8',
-        'language'                 => '',
-        'subject'                  => '##cartridge.action##  ##cartridge.entity##',
-        'content_text'             => '##lang.cartridge.entity## : ##cartridge.entity##
-
-
-  ##FOREACHcartridges##
-  ##lang.cartridge.item## : ##cartridge.item##
-
-
-  ##lang.cartridge.reference## : ##cartridge.reference##
-
-  ##lang.cartridge.remaining## : ##cartridge.remaining##
-
-  ##cartridge.url##
-   ##ENDFOREACHcartridges##',
-        'content_html'             => '&lt;p&gt;##lang.cartridge.entity## : ##cartridge.entity##
-  &lt;br /&gt; &lt;br /&gt;##FOREACHcartridges##
-  &lt;br /&gt;##lang.cartridge.item## :
-  ##cartridge.item##&lt;br /&gt; &lt;br /&gt;
-  ##lang.cartridge.reference## :
-  ##cartridge.reference##&lt;br /&gt;
-  ##lang.cartridge.remaining## :
-  ##cartridge.remaining##&lt;br /&gt;
-  &lt;a href="##cartridge.url##"&gt;
-  ##cartridge.url##&lt;/a&gt;&lt;br /&gt;
-  ##ENDFOREACHcartridges##&lt;/p&gt;'
-     ], [
-        'id'                       => '11',
-        'notificationtemplates_id' => '10',
-        'language'                 => '',
-        'subject'                  => '##infocom.action##  ##infocom.entity##',
-        'content_text'             => '##lang.infocom.entity## : ##infocom.entity##
-
-
-  ##FOREACHinfocoms##
-
-  ##lang.infocom.itemtype## : ##infocom.itemtype##
-
-  ##lang.infocom.item## : ##infocom.item##
-
-
-  ##lang.infocom.expirationdate## : ##infocom.expirationdate##
-
-  ##infocom.url##
-   ##ENDFOREACHinfocoms##',
-        'content_html'             => '&lt;p&gt;##lang.infocom.entity## : ##infocom.entity##
-  &lt;br /&gt; &lt;br /&gt;##FOREACHinfocoms##
-  &lt;br /&gt;##lang.infocom.itemtype## : ##infocom.itemtype##&lt;br /&gt;
-  ##lang.infocom.item## : ##infocom.item##&lt;br /&gt; &lt;br /&gt;
-  ##lang.infocom.expirationdate## : ##infocom.expirationdate##
-  &lt;br /&gt; &lt;a href="##infocom.url##"&gt;
-  ##infocom.url##&lt;/a&gt;&lt;br /&gt;
-  ##ENDFOREACHinfocoms##&lt;/p&gt;'
-     ], [
-        'id'                       => '12',
-        'notificationtemplates_id' => '11',
-        'language'                 => '',
-        'subject'                  => '##license.action##  ##license.entity##',
-        'content_text'             => '##lang.license.entity## : ##license.entity##
-
-  ##FOREACHlicenses##
-
-  ##lang.license.item## : ##license.item##
-
-  ##lang.license.serial## : ##license.serial##
-
-  ##lang.license.expirationdate## : ##license.expirationdate##
-
-  ##license.url##
-   ##ENDFOREACHlicenses##',
-        'content_html'             => '&lt;p&gt;
-  ##lang.license.entity## : ##license.entity##&lt;br /&gt;
-  ##FOREACHlicenses##
-  &lt;br /&gt;##lang.license.item## : ##license.item##&lt;br /&gt;
-  ##lang.license.serial## : ##license.serial##&lt;br /&gt;
-  ##lang.license.expirationdate## : ##license.expirationdate##
-  &lt;br /&gt; &lt;a href="##license.url##"&gt; ##license.url##
-  &lt;/a&gt;&lt;br /&gt; ##ENDFOREACHlicenses##&lt;/p&gt;'
-     ], [
-        'id'                       => '13',
-        'notificationtemplates_id' => '13',
-        'language'                 => '',
-        'subject'                  => '##user.action##',
-        'content_text'             => '##user.realname## ##user.firstname##
-
-  ##lang.passwordforget.information##
-
-  ##lang.passwordforget.link## ##user.passwordforgeturl##',
-        'content_html'             => '&lt;p&gt;&lt;strong&gt;##user.realname## ##user.firstname##&lt;/strong&gt;&lt;/p&gt;
-  &lt;p&gt;##lang.passwordforget.information##&lt;/p&gt;
-  &lt;p&gt;##lang.passwordforget.link## &lt;a title="##user.passwordforgeturl##" href="##user.passwordforgeturl##"&gt;##user.passwordforgeturl##&lt;/a&gt;&lt;/p&gt;'
-     ], [
-        'id'                       => '14',
-        'notificationtemplates_id' => '14',
-        'language'                 => '',
-        'subject'                  => '##ticket.action## ##ticket.title##',
-        'content_text'             => '##lang.ticket.title## : ##ticket.title##
-
-  ##lang.ticket.closedate## : ##ticket.closedate##
-
-  ##lang.satisfaction.text## ##ticket.urlsatisfaction##',
-        'content_html'             =>'&lt;p&gt;##lang.ticket.title## : ##ticket.title##&lt;/p&gt;
-  &lt;p&gt;##lang.ticket.closedate## : ##ticket.closedate##&lt;/p&gt;
-  &lt;p&gt;##lang.satisfaction.text## &lt;a href="##ticket.urlsatisfaction##"&gt;##ticket.urlsatisfaction##&lt;/a&gt;&lt;/p&gt;'
-     ], [
-        'id'                       => '16',
-        'notificationtemplates_id' => '16',
-        'language'                 => '',
-        'subject'                  => '##crontask.action##',
-        'content_text'             => '##lang.crontask.warning##
-
-  ##FOREACHcrontasks##
-   ##crontask.name## : ##crontask.description##
-
-  ##ENDFOREACHcrontasks##',
-        'content_html'             => '&lt;p&gt;##lang.crontask.warning##&lt;/p&gt;
-  &lt;p&gt;##FOREACHcrontasks## &lt;br /&gt;&lt;a href="##crontask.url##"&gt;##crontask.name##&lt;/a&gt; : ##crontask.description##&lt;br /&gt; &lt;br /&gt;##ENDFOREACHcrontasks##&lt;/p&gt;'
-     ], [
-        'id'                       => '17',
-        'notificationtemplates_id' => '17',
-        'language'                 => '',
-        'subject'                  => '##problem.action## ##problem.title##',
-        'content_text'             => '##IFproblem.storestatus=5##
-   ##lang.problem.url## : ##problem.urlapprove##
-   ##lang.problem.solvedate## : ##problem.solvedate##
-   ##lang.problem.solution.type## : ##problem.solution.type##
-   ##lang.problem.solution.description## : ##problem.solution.description## ##ENDIFproblem.storestatus##
-   ##ELSEproblem.storestatus## ##lang.problem.url## : ##problem.url## ##ENDELSEproblem.storestatus##
-
-   ##lang.problem.description##
-
-   ##lang.problem.title##  :##problem.title##
-   ##lang.problem.authors##  :##IFproblem.authors## ##problem.authors## ##ENDIFproblem.authors## ##ELSEproblem.authors##--##ENDELSEproblem.authors##
-   ##lang.problem.creationdate##  :##problem.creationdate##
-   ##IFproblem.assigntousers## ##lang.problem.assigntousers##  : ##problem.assigntousers## ##ENDIFproblem.assigntousers##
-   ##lang.problem.status##  : ##problem.status##
-   ##IFproblem.assigntogroups## ##lang.problem.assigntogroups##  : ##problem.assigntogroups## ##ENDIFproblem.assigntogroups##
-   ##lang.problem.urgency##  : ##problem.urgency##
-   ##lang.problem.impact##  : ##problem.impact##
-   ##lang.problem.priority## : ##problem.priority##
-  ##IFproblem.category## ##lang.problem.category##  :##problem.category## ##ENDIFproblem.category## ##ELSEproblem.category## ##lang.problem.nocategoryassigned## ##ENDELSEproblem.category##
-   ##lang.problem.content##  : ##problem.content##
-
-  ##IFproblem.storestatus=6##
-   ##lang.problem.solvedate## : ##problem.solvedate##
-   ##lang.problem.solution.type## : ##problem.solution.type##
-   ##lang.problem.solution.description## : ##problem.solution.description##
-  ##ENDIFproblem.storestatus##
-   ##lang.problem.numberoffollowups## : ##problem.numberoffollowups##
-
-  ##FOREACHfollowups##
-
-   [##followup.date##] ##lang.followup.isprivate## : ##followup.isprivate##
-   ##lang.followup.author## ##followup.author##
-   ##lang.followup.description## ##followup.description##
-   ##lang.followup.date## ##followup.date##
-   ##lang.followup.requesttype## ##followup.requesttype##
-
-  ##ENDFOREACHfollowups##
-   ##lang.problem.numberoftickets## : ##problem.numberoftickets##
-
-  ##FOREACHtickets##
-   [##ticket.date##] ##lang.problem.title## : ##ticket.title##
-   ##lang.problem.content## ##ticket.content##
-
-  ##ENDFOREACHtickets##
-   ##lang.problem.numberoftasks## : ##problem.numberoftasks##
-
-  ##FOREACHtasks##
-   [##task.date##]
-   ##lang.task.author## ##task.author##
-   ##lang.task.description## ##task.description##
-   ##lang.task.time## ##task.time##
-   ##lang.task.category## ##task.category##
-
-  ##ENDFOREACHtasks##
-  ',
-        'content_html'             => '&lt;p&gt;##IFproblem.storestatus=5##&lt;/p&gt;
-  &lt;div&gt;##lang.problem.url## : &lt;a href="##problem.urlapprove##"&gt;##problem.urlapprove##&lt;/a&gt;&lt;/div&gt;
-  &lt;div&gt;&lt;span style="color: #888888;"&gt;&lt;strong&gt;&lt;span style="text-decoration: underline;"&gt;##lang.problem.solvedate##&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt; : ##problem.solvedate##&lt;br /&gt;&lt;span style="text-decoration: underline; color: #888888;"&gt;&lt;strong&gt;##lang.problem.solution.type##&lt;/strong&gt;&lt;/span&gt; : ##problem.solution.type##&lt;br /&gt;&lt;span style="text-decoration: underline; color: #888888;"&gt;&lt;strong&gt;##lang.problem.solution.description##&lt;/strong&gt;&lt;/span&gt; : ##problem.solution.description## ##ENDIFproblem.storestatus##&lt;/div&gt;
-  &lt;div&gt;##ELSEproblem.storestatus## ##lang.problem.url## : &lt;a href="##problem.url##"&gt;##problem.url##&lt;/a&gt; ##ENDELSEproblem.storestatus##&lt;/div&gt;
-  &lt;p class="description b"&gt;&lt;strong&gt;##lang.problem.description##&lt;/strong&gt;&lt;/p&gt;
-  &lt;p&gt;&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.title##&lt;/span&gt;&#160;:##problem.title## &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.authors##&lt;/span&gt;&#160;:##IFproblem.authors## ##problem.authors## ##ENDIFproblem.authors##    ##ELSEproblem.authors##--##ENDELSEproblem.authors## &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.creationdate##&lt;/span&gt;&#160;:##problem.creationdate## &lt;br /&gt; ##IFproblem.assigntousers## &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.assigntousers##&lt;/span&gt;&#160;: ##problem.assigntousers## ##ENDIFproblem.assigntousers##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.problem.status## &lt;/span&gt;&#160;: ##problem.status##&lt;br /&gt; ##IFproblem.assigntogroups## &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.assigntogroups##&lt;/span&gt;&#160;: ##problem.assigntogroups## ##ENDIFproblem.assigntogroups##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.urgency##&lt;/span&gt;&#160;: ##problem.urgency##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.impact##&lt;/span&gt;&#160;: ##problem.impact##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.priority##&lt;/span&gt; : ##problem.priority## &lt;br /&gt;##IFproblem.category##&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.problem.category## &lt;/span&gt;&#160;:##problem.category##  ##ENDIFproblem.category## ##ELSEproblem.category##  ##lang.problem.nocategoryassigned## ##ENDELSEproblem.category##    &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.content##&lt;/span&gt;&#160;: ##problem.content##&lt;/p&gt;
-  &lt;p&gt;##IFproblem.storestatus=6##&lt;br /&gt;&lt;span style="text-decoration: underline;"&gt;&lt;strong&gt;&lt;span style="color: #888888;"&gt;##lang.problem.solvedate##&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt; : ##problem.solvedate##&lt;br /&gt;&lt;span style="color: #888888;"&gt;&lt;strong&gt;&lt;span style="text-decoration: underline;"&gt;##lang.problem.solution.type##&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt; : ##problem.solution.type##&lt;br /&gt;&lt;span style="text-decoration: underline; color: #888888;"&gt;&lt;strong&gt;##lang.problem.solution.description##&lt;/strong&gt;&lt;/span&gt; : ##problem.solution.description##&lt;br /&gt;##ENDIFproblem.storestatus##&lt;/p&gt;
-  <div class="description b">##lang.problem.numberoffollowups##&#160;: ##problem.numberoffollowups##</div>
-  <p>##FOREACHfollowups##</p>
-  <div class="description b"><br /> <strong> [##followup.date##] <em>##lang.followup.isprivate## : ##followup.isprivate## </em></strong><br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.author## </span> ##followup.author##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.description## </span> ##followup.description##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.date## </span> ##followup.date##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.requesttype## </span> ##followup.requesttype##</div>
-  <p>##ENDFOREACHfollowups##</p>
-  &lt;div class="description b"&gt;##lang.problem.numberoftickets##&#160;: ##problem.numberoftickets##&lt;/div&gt;
-  &lt;p&gt;##FOREACHtickets##&lt;/p&gt;
-  &lt;div&gt;&lt;strong&gt; [##ticket.date##] &lt;em&gt;##lang.problem.title## : &lt;a href="##ticket.url##"&gt;##ticket.title## &lt;/a&gt;&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; &lt;/span&gt;&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.problem.content## &lt;/span&gt; ##ticket.content##
-  &lt;p&gt;##ENDFOREACHtickets##&lt;/p&gt;
-  &lt;div class="description b"&gt;##lang.problem.numberoftasks##&#160;: ##problem.numberoftasks##&lt;/div&gt;
-  &lt;p&gt;##FOREACHtasks##&lt;/p&gt;
-  &lt;div class="description b"&gt;&lt;strong&gt;[##task.date##] &lt;/strong&gt;&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.author##&lt;/span&gt; ##task.author##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.description##&lt;/span&gt; ##task.description##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.time##&lt;/span&gt; ##task.time##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.category##&lt;/span&gt; ##task.category##&lt;/div&gt;
-  &lt;p&gt;##ENDFOREACHtasks##&lt;/p&gt;
-  &lt;/div&gt;'
-     ], [
-        'id'                       => '18',
-        'notificationtemplates_id' => '18',
-        'language'                 => '',
-        'subject'                  => '##recall.action##: ##recall.item.name##',
-        'content_text'             => '##recall.action##: ##recall.item.name##
-
-  ##recall.item.content##
-
-  ##lang.recall.planning.begin##: ##recall.planning.begin##
-  ##lang.recall.planning.end##: ##recall.planning.end##
-  ##lang.recall.planning.state##: ##recall.planning.state##
-  ##lang.recall.item.private##: ##recall.item.private##',
-        'content_html'             => '&lt;p&gt;##recall.action##: &lt;a href="##recall.item.url##"&gt;##recall.item.name##&lt;/a&gt;&lt;/p&gt;
-  &lt;p&gt;##recall.item.content##&lt;/p&gt;
-  &lt;p&gt;##lang.recall.planning.begin##: ##recall.planning.begin##&lt;br /&gt;##lang.recall.planning.end##: ##recall.planning.end##&lt;br /&gt;##lang.recall.planning.state##: ##recall.planning.state##&lt;br /&gt;##lang.recall.item.private##: ##recall.item.private##&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-  &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;'
-     ], [
-        'id'                       => '19',
-        'notificationtemplates_id' => '19',
-        'language'                 => '',
-        'subject'                  => '##change.action## ##change.title##',
-        'content_text'             => '##IFchange.storestatus=5##
-   ##lang.change.url## : ##change.urlapprove##
-   ##lang.change.solvedate## : ##change.solvedate##
-   ##lang.change.solution.type## : ##change.solution.type##
-   ##lang.change.solution.description## : ##change.solution.description## ##ENDIFchange.storestatus##
-   ##ELSEchange.storestatus## ##lang.change.url## : ##change.url## ##ENDELSEchange.storestatus##
-
-   ##lang.change.description##
-
-   ##lang.change.title##  :##change.title##
-   ##lang.change.authors##  :##IFchange.authors## ##change.authors## ##ENDIFchange.authors## ##ELSEchange.authors##--##ENDELSEchange.authors##
-   ##lang.change.creationdate##  :##change.creationdate##
-   ##IFchange.assigntousers## ##lang.change.assigntousers##  : ##change.assigntousers## ##ENDIFchange.assigntousers##
-   ##lang.change.status##  : ##change.status##
-   ##IFchange.assigntogroups## ##lang.change.assigntogroups##  : ##change.assigntogroups## ##ENDIFchange.assigntogroups##
-   ##lang.change.urgency##  : ##change.urgency##
-   ##lang.change.impact##  : ##change.impact##
-   ##lang.change.priority## : ##change.priority##
-  ##IFchange.category## ##lang.change.category##  :##change.category## ##ENDIFchange.category## ##ELSEchange.category## ##lang.change.nocategoryassigned## ##ENDELSEchange.category##
-   ##lang.change.content##  : ##change.content##
-
-  ##IFchange.storestatus=6##
-   ##lang.change.solvedate## : ##change.solvedate##
-   ##lang.change.solution.type## : ##change.solution.type##
-   ##lang.change.solution.description## : ##change.solution.description##
-  ##ENDIFchange.storestatus##
-   ##lang.change.numberoffollowups## : ##change.numberoffollowups##
-
-  ##FOREACHfollowups##
-
-   [##followup.date##] ##lang.followup.isprivate## : ##followup.isprivate##
-   ##lang.followup.author## ##followup.author##
-   ##lang.followup.description## ##followup.description##
-   ##lang.followup.date## ##followup.date##
-   ##lang.followup.requesttype## ##followup.requesttype##
-
-  ##ENDFOREACHfollowups##
-   ##lang.change.numberofproblems## : ##change.numberofproblems##
-
-  ##FOREACHproblems##
-   [##problem.date##] ##lang.change.title## : ##problem.title##
-   ##lang.change.content## ##problem.content##
-
-  ##ENDFOREACHproblems##
-   ##lang.change.numberoftasks## : ##change.numberoftasks##
-
-  ##FOREACHtasks##
-   [##task.date##]
-   ##lang.task.author## ##task.author##
-   ##lang.task.description## ##task.description##
-   ##lang.task.time## ##task.time##
-   ##lang.task.category## ##task.category##
-
-  ##ENDFOREACHtasks##
-  ',
-        'content_html'             => '&lt;p&gt;##IFchange.storestatus=5##&lt;/p&gt;
-  &lt;div&gt;##lang.change.url## : &lt;a href="##change.urlapprove##"&gt;##change.urlapprove##&lt;/a&gt;&lt;/div&gt;
-  &lt;div&gt;&lt;span style="color: #888888;"&gt;&lt;strong&gt;&lt;span style="text-decoration: underline;"&gt;##lang.change.solvedate##&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt; : ##change.solvedate##&lt;br /&gt;&lt;span style="text-decoration: underline; color: #888888;"&gt;&lt;strong&gt;##lang.change.solution.type##&lt;/strong&gt;&lt;/span&gt; : ##change.solution.type##&lt;br /&gt;&lt;span style="text-decoration: underline; color: #888888;"&gt;&lt;strong&gt;##lang.change.solution.description##&lt;/strong&gt;&lt;/span&gt; : ##change.solution.description## ##ENDIFchange.storestatus##&lt;/div&gt;
-  &lt;div&gt;##ELSEchange.storestatus## ##lang.change.url## : &lt;a href="##change.url##"&gt;##change.url##&lt;/a&gt; ##ENDELSEchange.storestatus##&lt;/div&gt;
-  &lt;p class="description b"&gt;&lt;strong&gt;##lang.change.description##&lt;/strong&gt;&lt;/p&gt;
-  &lt;p&gt;&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.title##&lt;/span&gt;&#160;:##change.title## &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.authors##&lt;/span&gt;&#160;:##IFchange.authors## ##change.authors## ##ENDIFchange.authors##    ##ELSEchange.authors##--##ENDELSEchange.authors## &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.creationdate##&lt;/span&gt;&#160;:##change.creationdate## &lt;br /&gt; ##IFchange.assigntousers## &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.assigntousers##&lt;/span&gt;&#160;: ##change.assigntousers## ##ENDIFchange.assigntousers##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.change.status## &lt;/span&gt;&#160;: ##change.status##&lt;br /&gt; ##IFchange.assigntogroups## &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.assigntogroups##&lt;/span&gt;&#160;: ##change.assigntogroups## ##ENDIFchange.assigntogroups##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.urgency##&lt;/span&gt;&#160;: ##change.urgency##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.impact##&lt;/span&gt;&#160;: ##change.impact##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.priority##&lt;/span&gt; : ##change.priority## &lt;br /&gt;##IFchange.category##&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.change.category## &lt;/span&gt;&#160;:##change.category##  ##ENDIFchange.category## ##ELSEchange.category##  ##lang.change.nocategoryassigned## ##ENDELSEchange.category##    &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.content##&lt;/span&gt;&#160;: ##change.content##&lt;/p&gt;
-  &lt;p&gt;##IFchange.storestatus=6##&lt;br /&gt;&lt;span style="text-decoration: underline;"&gt;&lt;strong&gt;&lt;span style="color: #888888;"&gt;##lang.change.solvedate##&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt; : ##change.solvedate##&lt;br /&gt;&lt;span style="color: #888888;"&gt;&lt;strong&gt;&lt;span style="text-decoration: underline;"&gt;##lang.change.solution.type##&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt; : ##change.solution.type##&lt;br /&gt;&lt;span style="text-decoration: underline; color: #888888;"&gt;&lt;strong&gt;##lang.change.solution.description##&lt;/strong&gt;&lt;/span&gt; : ##change.solution.description##&lt;br /&gt;##ENDIFchange.storestatus##&lt;/p&gt;
-  <div class="description b">##lang.change.numberoffollowups##&#160;: ##change.numberoffollowups##</div>
-  <p>##FOREACHfollowups##</p>
-  <div class="description b"><br /> <strong> [##followup.date##] <em>##lang.followup.isprivate## : ##followup.isprivate## </em></strong><br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.author## </span> ##followup.author##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.description## </span> ##followup.description##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.date## </span> ##followup.date##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.requesttype## </span> ##followup.requesttype##</div>
-  <p>##ENDFOREACHfollowups##</p>
-  &lt;div class="description b"&gt;##lang.change.numberofproblems##&#160;: ##change.numberofproblems##&lt;/div&gt;
-  &lt;p&gt;##FOREACHproblems##&lt;/p&gt;
-  &lt;div&gt;&lt;strong&gt; [##problem.date##] &lt;em&gt;##lang.change.title## : &lt;a href="##problem.url##"&gt;##problem.title## &lt;/a&gt;&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; &lt;/span&gt;&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.change.content## &lt;/span&gt; ##problem.content##
-  &lt;p&gt;##ENDFOREACHproblems##&lt;/p&gt;
-  &lt;div class="description b"&gt;##lang.change.numberoftasks##&#160;: ##change.numberoftasks##&lt;/div&gt;
-  &lt;p&gt;##FOREACHtasks##&lt;/p&gt;
-  &lt;div class="description b"&gt;&lt;strong&gt;[##task.date##] &lt;/strong&gt;&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.author##&lt;/span&gt; ##task.author##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.description##&lt;/span&gt; ##task.description##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.time##&lt;/span&gt; ##task.time##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.category##&lt;/span&gt; ##task.category##&lt;/div&gt;
-  &lt;p&gt;##ENDFOREACHtasks##&lt;/p&gt;
-  &lt;/div&gt;'
-     ], [
-        'id'                       => '20',
-        'notificationtemplates_id' => '20',
-        'language'                 => '',
-        'subject'                  => '##mailcollector.action##',
-        'content_text'             => '##FOREACHmailcollectors##
-  ##lang.mailcollector.name## : ##mailcollector.name##
-  ##lang.mailcollector.errors## : ##mailcollector.errors##
-  ##mailcollector.url##
-  ##ENDFOREACHmailcollectors##',
-        'content_html'             => '&lt;p&gt;##FOREACHmailcollectors##&lt;br /&gt;##lang.mailcollector.name## : ##mailcollector.name##&lt;br /&gt; ##lang.mailcollector.errors## : ##mailcollector.errors##&lt;br /&gt;&lt;a href="##mailcollector.url##"&gt;##mailcollector.url##&lt;/a&gt;&lt;br /&gt; ##ENDFOREACHmailcollectors##&lt;/p&gt;
-  &lt;p&gt;&lt;/p&gt;'
-     ], [
-        'id'                       => '21',
-        'notificationtemplates_id' => '21',
-        'language'                 => '',
-        'subject'                  => '##project.action## ##project.name## ##project.code##',
-        'content_text'             => '##lang.project.url## : ##project.url##
-
-  ##lang.project.description##
-
-  ##lang.project.name## : ##project.name##
-  ##lang.project.code## : ##project.code##
-  ##lang.project.manager## : ##project.manager##
-  ##lang.project.managergroup## : ##project.managergroup##
-  ##lang.project.creationdate## : ##project.creationdate##
-  ##lang.project.priority## : ##project.priority##
-  ##lang.project.state## : ##project.state##
-  ##lang.project.type## : ##project.type##
-  ##lang.project.description## : ##project.description##
-
-  ##lang.project.numberoftasks## : ##project.numberoftasks##
-
-
-
-  ##FOREACHtasks##
-
-  [##task.creationdate##]
-  ##lang.task.name## : ##task.name##
-  ##lang.task.state## : ##task.state##
-  ##lang.task.type## : ##task.type##
-  ##lang.task.percent## : ##task.percent##
-  ##lang.task.description## : ##task.description##
-
-  ##ENDFOREACHtasks##',
-        'content_html'             => '&lt;p&gt;##lang.project.url## : &lt;a href="##project.url##"&gt;##project.url##&lt;/a&gt;&lt;/p&gt;
-  &lt;p&gt;&lt;strong&gt;##lang.project.description##&lt;/strong&gt;&lt;/p&gt;
-  &lt;p&gt;##lang.project.name## : ##project.name##&lt;br /&gt;##lang.project.code## : ##project.code##&lt;br /&gt; ##lang.project.manager## : ##project.manager##&lt;br /&gt;##lang.project.managergroup## : ##project.managergroup##&lt;br /&gt; ##lang.project.creationdate## : ##project.creationdate##&lt;br /&gt;##lang.project.priority## : ##project.priority## &lt;br /&gt;##lang.project.state## : ##project.state##&lt;br /&gt;##lang.project.type## : ##project.type##&lt;br /&gt;##lang.project.description## : ##project.description##&lt;/p&gt;
-  &lt;p&gt;##lang.project.numberoftasks## : ##project.numberoftasks##&lt;/p&gt;
-  &lt;div&gt;
-  &lt;p&gt;##FOREACHtasks##&lt;/p&gt;
-  &lt;div&gt;&lt;strong&gt;[##task.creationdate##] &lt;/strong&gt;&lt;br /&gt; ##lang.task.name## : ##task.name##&lt;br /&gt;##lang.task.state## : ##task.state##&lt;br /&gt;##lang.task.type## : ##task.type##&lt;br /&gt;##lang.task.percent## : ##task.percent##&lt;br /&gt;##lang.task.description## : ##task.description##&lt;/div&gt;
-  &lt;p&gt;##ENDFOREACHtasks##&lt;/p&gt;
-  &lt;/div&gt;'
-     ], [
-        'id'                       => '22',
-        'notificationtemplates_id' => '22',
-        'language'                 => '',
-        'subject'                  => '##projecttask.action## ##projecttask.name##',
-        'content_text'             => '##lang.projecttask.url## : ##projecttask.url##
-
-  ##lang.projecttask.description##
-
-  ##lang.projecttask.name## : ##projecttask.name##
-  ##lang.projecttask.project## : ##projecttask.project##
-  ##lang.projecttask.creationdate## : ##projecttask.creationdate##
-  ##lang.projecttask.state## : ##projecttask.state##
-  ##lang.projecttask.type## : ##projecttask.type##
-  ##lang.projecttask.description## : ##projecttask.description##
-
-  ##lang.projecttask.numberoftasks## : ##projecttask.numberoftasks##
-
-
-
-  ##FOREACHtasks##
-
-  [##task.creationdate##]
-  ##lang.task.name## : ##task.name##
-  ##lang.task.state## : ##task.state##
-  ##lang.task.type## : ##task.type##
-  ##lang.task.percent## : ##task.percent##
-  ##lang.task.description## : ##task.description##
-
-  ##ENDFOREACHtasks##',
-        'content_html'                => '&lt;p&gt;##lang.projecttask.url## : &lt;a href="##projecttask.url##"&gt;##projecttask.url##&lt;/a&gt;&lt;/p&gt;
-  &lt;p&gt;&lt;strong&gt;##lang.projecttask.description##&lt;/strong&gt;&lt;/p&gt;
-  &lt;p&gt;##lang.projecttask.name## : ##projecttask.name##&lt;br /&gt;##lang.projecttask.project## : &lt;a href="##projecttask.projecturl##"&gt;##projecttask.project##&lt;/a&gt;&lt;br /&gt;##lang.projecttask.creationdate## : ##projecttask.creationdate##&lt;br /&gt;##lang.projecttask.state## : ##projecttask.state##&lt;br /&gt;##lang.projecttask.type## : ##projecttask.type##&lt;br /&gt;##lang.projecttask.description## : ##projecttask.description##&lt;/p&gt;
-  &lt;p&gt;##lang.projecttask.numberoftasks## : ##projecttask.numberoftasks##&lt;/p&gt;
-  &lt;div&gt;
-  &lt;p&gt;##FOREACHtasks##&lt;/p&gt;
-  &lt;div&gt;&lt;strong&gt;[##task.creationdate##] &lt;/strong&gt;&lt;br /&gt;##lang.task.name## : ##task.name##&lt;br /&gt;##lang.task.state## : ##task.state##&lt;br /&gt;##lang.task.type## : ##task.type##&lt;br /&gt;##lang.task.percent## : ##task.percent##&lt;br /&gt;##lang.task.description## : ##task.description##&lt;/div&gt;
-  &lt;p&gt;##ENDFOREACHtasks##&lt;/p&gt;
-  &lt;/div&gt;'
-     ], [
-        'id'                       => '23',
-        'notificationtemplates_id' => '23',
-        'language'                 => '',
-        'subject'                  => '##objectlock.action##',
-        'content_text'             => '##objectlock.type## ###objectlock.id## - ##objectlock.name##
-
-        ##lang.objectlock.url##
-        ##objectlock.url##
-
-        ##lang.objectlock.date_mod##
-        ##objectlock.date_mod##
-
-        Hello ##objectlock.lockedby.firstname##,
-        Could go to this item and unlock it for me?
-        Thank you,
-        Regards,
-        ##objectlock.requester.firstname##',
-        'content_html'             => '&lt;table&gt;
-        &lt;tbody&gt;
-        &lt;tr&gt;&lt;th colspan="2"&gt;&lt;a href="##objectlock.url##"&gt;##objectlock.type## ###objectlock.id## - ##objectlock.name##&lt;/a&gt;&lt;/th&gt;&lt;/tr&gt;
-        &lt;tr&gt;
-        &lt;td&gt;##lang.objectlock.url##&lt;/td&gt;
-        &lt;td&gt;##objectlock.url##&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;tr&gt;
-        &lt;td&gt;##lang.objectlock.date_mod##&lt;/td&gt;
-        &lt;td&gt;##objectlock.date_mod##&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;/tbody&gt;
-        &lt;/table&gt;
-        &lt;p&gt;&lt;span style="font-size: small;"&gt;Hello ##objectlock.lockedby.firstname##,&lt;br /&gt;Could go to this item and unlock it for me?&lt;br /&gt;Thank you,&lt;br /&gt;Regards,&lt;br /&gt;##objectlock.requester.firstname## ##objectlock.requester.lastname##&lt;/span&gt;&lt;/p&gt;'
-     ], [
-        'id'                       => '24',
-        'notificationtemplates_id' => '24',
-        'language'                 => '',
-        'subject'                  => '##savedsearch.action## ##savedsearch.name##',
-        'content_text'             => '##savedsearch.type## ###savedsearch.id## - ##savedsearch.name##
-
-        ##savedsearch.message##
-
-        ##lang.savedsearch.url##
-        ##savedsearch.url##
-
-        Regards,',
-        'content_html'             => '&lt;table&gt;
-        &lt;tbody&gt;
-        &lt;tr&gt;&lt;th colspan="2"&gt;&lt;a href="##savedsearch.url##"&gt;##savedsearch.type## ###savedsearch.id## - ##savedsearch.name##&lt;/a&gt;&lt;/th&gt;&lt;/tr&gt;
-        &lt;tr&gt;&lt;td colspan="2"&gt;&lt;a href="##savedsearch.url##"&gt;##savedsearch.message##&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
-        &lt;tr&gt;
-        &lt;td&gt;##lang.savedsearch.url##&lt;/td&gt;
-        &lt;td&gt;##savedsearch.url##&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;/tbody&gt;
-        &lt;/table&gt;
-        &lt;p&gt;&lt;span style="font-size: small;"&gt;Hello &lt;br /&gt;Regards,&lt;/span&gt;&lt;/p&gt;'
-     ], [
-        'id'                       => '25',
-        'notificationtemplates_id' => '25',
-        'language'                 => '',
-        'subject'                  => '##certificate.action##  ##certificate.entity##',
-        'content_text'             => '##lang.certificate.entity## : ##certificate.entity##
-
-  ##FOREACHcertificates##
-
-  ##lang.certificate.serial## : ##certificate.serial##
-
-  ##lang.certificate.expirationdate## : ##certificate.expirationdate##
-
-  ##certificate.url##
-   ##ENDFOREACHcertificates##',
-        'content_html'             => '&lt;p&gt;
-  ##lang.certificate.entity## : ##certificate.entity##&lt;br /&gt;
-  ##FOREACHcertificates##
-  &lt;br /&gt;##lang.certificate.name## : ##certificate.name##&lt;br /&gt;
-  ##lang.certificate.serial## : ##certificate.serial##&lt;br /&gt;
-  ##lang.certificate.expirationdate## : ##certificate.expirationdate##
-  &lt;br /&gt; &lt;a href="##certificate.url##"&gt; ##certificate.url##
-  &lt;/a&gt;&lt;br /&gt; ##ENDFOREACHcertificates##&lt;/p&gt;'
-     ]
-  ];
-
-  $tables['glpi_profilerights'] = [
+   ##lang.ticket.item.name##  : ##ticket.itemtype## - ##ticket.item.name##
+   ##ENDIFticket.itemtype##',
+          'content_html'               => '&lt;div&gt;##lang.ticket.url## : &lt;a href="##ticket.url##"&gt;
+   ##ticket.url##&lt;/a&gt;&lt;/div&gt;
+   &lt;div class="description b"&gt;
+   ##lang.ticket.description##&lt;/div&gt;
+   &lt;p&gt;&lt;span
+   style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
+   ##lang.ticket.title##&lt;/span&gt;&#160;:##ticket.title##
+   &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
+   ##lang.ticket.authors##&lt;/span&gt;
+   ##IFticket.authors## ##ticket.authors##
+   ##ENDIFticket.authors##
+   ##ELSEticket.authors##--##ENDELSEticket.authors##
+   &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;&#160
+   ;&lt;/span&gt;&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; &lt;/span&gt;
+   ##IFticket.category##&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
+   ##lang.ticket.category## &lt;/span&gt;&#160;:##ticket.category##
+   ##ENDIFticket.category## ##ELSEticket.category##
+   ##lang.ticket.nocategoryassigned## ##ENDELSEticket.category##
+   &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
+   ##lang.ticket.content##&lt;/span&gt;&#160;:
+   ##ticket.content##&lt;br /&gt;##IFticket.itemtype##
+   &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
+   ##lang.ticket.item.name##&lt;/span&gt;&#160;:
+   ##ticket.itemtype## - ##ticket.item.name##
+   ##ENDIFticket.itemtype##&lt;/p&gt;'
+      ], [
+         'id'                       => '15',
+         'notificationtemplates_id' => '15',
+         'language'                 => '',
+         'subject'                  => '##lang.unicity.action##',
+         'content_text'             => '##lang.unicity.entity## : ##unicity.entity##
+   ##lang.unicity.itemtype## : ##unicity.itemtype##
+   ##lang.unicity.message## : ##unicity.message##
+   ##lang.unicity.action_user## : ##unicity.action_user##
+   ##lang.unicity.action_type## : ##unicity.action_type##
+   ##lang.unicity.date## : ##unicity.date##',
+         'content_html'             => '&lt;p&gt;##lang.unicity.entity## : ##unicity.entity##&lt;/p&gt;
+   &lt;p&gt;##lang.unicity.itemtype## : ##unicity.itemtype##&lt;/p&gt;
+   &lt;p&gt;##lang.unicity.message## : ##unicity.message##&lt;/p&gt;
+   &lt;p&gt;##lang.unicity.action_user## : ##unicity.action_user##&lt;/p&gt;
+   &lt;p&gt;##lang.unicity.action_type## : ##unicity.action_type##&lt;/p&gt;
+   &lt;p&gt;##lang.unicity.date## : ##unicity.date##&lt;/p&gt;'
+      ], [
+         'id'                       => '7',
+         'notificationtemplates_id' => '7',
+         'language'                 => '',
+         'subject'                  => '##ticket.action## ##ticket.title##',
+         'content_text'             => '##FOREACHvalidations##
+   ##IFvalidation.storestatus=2##
+   ##validation.submission.title##
+   ##lang.validation.commentsubmission## : ##validation.commentsubmission##
+   ##ENDIFvalidation.storestatus##
+   ##ELSEvalidation.storestatus## ##validation.answer.title## ##ENDELSEvalidation.storestatus##
+   ##lang.ticket.url## : ##ticket.urlvalidation##
+   ##IFvalidation.status## ##lang.validation.status## : ##validation.status## ##ENDIFvalidation.status##
+   ##IFvalidation.commentvalidation##
+   ##lang.validation.commentvalidation## : ##validation.commentvalidation##
+   ##ENDIFvalidation.commentvalidation##
+   ##ENDFOREACHvalidations##',
+         'content_html'             => '&lt;div&gt;##FOREACHvalidations##&lt;/div&gt;
+   &lt;p&gt;##IFvalidation.storestatus=2##&lt;/p&gt;
+   &lt;div&gt;##validation.submission.title##&lt;/div&gt;
+   &lt;div&gt;##lang.validation.commentsubmission## : ##validation.commentsubmission##&lt;/div&gt;
+   &lt;div&gt;##ENDIFvalidation.storestatus##&lt;/div&gt;
+   &lt;div&gt;##ELSEvalidation.storestatus## ##validation.answer.title## ##ENDELSEvalidation.storestatus##&lt;/div&gt;
+   &lt;div&gt;&lt;/div&gt;
+   &lt;div&gt;
+   &lt;div&gt;##lang.ticket.url## : &lt;a href="##ticket.urlvalidation##"&gt; ##ticket.urlvalidation## &lt;/a&gt;&lt;/div&gt;
+   &lt;/div&gt;
+   &lt;p&gt;##IFvalidation.status## ##lang.validation.status## : ##validation.status## ##ENDIFvalidation.status##
+   &lt;br /&gt; ##IFvalidation.commentvalidation##&lt;br /&gt; ##lang.validation.commentvalidation## :
+   &#160; ##validation.commentvalidation##&lt;br /&gt; ##ENDIFvalidation.commentvalidation##
+   &lt;br /&gt;##ENDFOREACHvalidations##&lt;/p&gt;'
+      ], [
+         'id'                       => '8',
+         'notificationtemplates_id' => '6',
+         'language'                 => '',
+         'subject'                  => '##ticket.action## ##ticket.entity##',
+         'content_text'             => '##lang.ticket.entity## : ##ticket.entity##
+   ##FOREACHtickets##
+   ##lang.ticket.title## : ##ticket.title##
+    ##lang.ticket.status## : ##ticket.status##
+    ##ticket.url##
+    ##ENDFOREACHtickets##',
+         'content_html'             => '&lt;table class="tab_cadre" border="1" cellspacing="2" cellpadding="3"&gt;
+   &lt;tbody&gt;
+   &lt;tr&gt;
+   &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.authors##&lt;/span&gt;&lt;/td&gt;
+   &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.title##&lt;/span&gt;&lt;/td&gt;
+   &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.priority##&lt;/span&gt;&lt;/td&gt;
+   &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.status##&lt;/span&gt;&lt;/td&gt;
+   &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.attribution##&lt;/span&gt;&lt;/td&gt;
+   &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.creationdate##&lt;/span&gt;&lt;/td&gt;
+   &lt;td style="text-align: left;" width="auto" bgcolor="#cccccc"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##lang.ticket.content##&lt;/span&gt;&lt;/td&gt;
+   &lt;/tr&gt;
+   ##FOREACHtickets##
+   &lt;tr&gt;
+   &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##ticket.authors##&lt;/span&gt;&lt;/td&gt;
+   &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;&lt;a href="##ticket.url##"&gt;##ticket.title##&lt;/a&gt;&lt;/span&gt;&lt;/td&gt;
+   &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##ticket.priority##&lt;/span&gt;&lt;/td&gt;
+   &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##ticket.status##&lt;/span&gt;&lt;/td&gt;
+   &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##IFticket.assigntousers####ticket.assigntousers##&lt;br /&gt;##ENDIFticket.assigntousers####IFticket.assigntogroups##&lt;br /&gt;##ticket.assigntogroups## ##ENDIFticket.assigntogroups####IFticket.assigntosupplier##&lt;br /&gt;##ticket.assigntosupplier## ##ENDIFticket.assigntosupplier##&lt;/span&gt;&lt;/td&gt;
+   &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##ticket.creationdate##&lt;/span&gt;&lt;/td&gt;
+   &lt;td width="auto"&gt;&lt;span style="font-size: 11px; text-align: left;"&gt;##ticket.content##&lt;/span&gt;&lt;/td&gt;
+   &lt;/tr&gt;
+   ##ENDFOREACHtickets##
+   &lt;/tbody&gt;
+   &lt;/table&gt;'
+      ], [
+         'id'                       => '9',
+         'notificationtemplates_id' => '9',
+         'language'                 => '',
+         'subject'                  => '##consumable.action##  ##consumable.entity##',
+         'content_text'             => '##lang.consumable.entity## : ##consumable.entity##
+   ##FOREACHconsumables##
+   ##lang.consumable.item## : ##consumable.item##
+   ##lang.consumable.reference## : ##consumable.reference##
+   ##lang.consumable.remaining## : ##consumable.remaining##
+   ##consumable.url##
+   ##ENDFOREACHconsumables##',
+         'content_html'                => '&lt;p&gt;
+   ##lang.consumable.entity## : ##consumable.entity##
+   &lt;br /&gt; &lt;br /&gt;##FOREACHconsumables##
+   &lt;br /&gt;##lang.consumable.item## : ##consumable.item##&lt;br /&gt;
+   &lt;br /&gt;##lang.consumable.reference## : ##consumable.reference##&lt;br /&gt;
+   ##lang.consumable.remaining## : ##consumable.remaining##&lt;br /&gt;
+   &lt;a href="##consumable.url##"&gt; ##consumable.url##&lt;/a&gt;&lt;br /&gt;
+      ##ENDFOREACHconsumables##&lt;/p&gt;'
+      ], [
+         'id'                       => '10',
+         'notificationtemplates_id' => '8',
+         'language'                 => '',
+         'subject'                  => '##cartridge.action##  ##cartridge.entity##',
+         'content_text'             => '##lang.cartridge.entity## : ##cartridge.entity##
+   ##FOREACHcartridges##
+   ##lang.cartridge.item## : ##cartridge.item##
+   ##lang.cartridge.reference## : ##cartridge.reference##
+   ##lang.cartridge.remaining## : ##cartridge.remaining##
+   ##cartridge.url##
+    ##ENDFOREACHcartridges##',
+         'content_html'             => '&lt;p&gt;##lang.cartridge.entity## : ##cartridge.entity##
+   &lt;br /&gt; &lt;br /&gt;##FOREACHcartridges##
+   &lt;br /&gt;##lang.cartridge.item## :
+   ##cartridge.item##&lt;br /&gt; &lt;br /&gt;
+   ##lang.cartridge.reference## :
+   ##cartridge.reference##&lt;br /&gt;
+   ##lang.cartridge.remaining## :
+   ##cartridge.remaining##&lt;br /&gt;
+   &lt;a href="##cartridge.url##"&gt;
+   ##cartridge.url##&lt;/a&gt;&lt;br /&gt;
+   ##ENDFOREACHcartridges##&lt;/p&gt;'
+      ], [
+         'id'                       => '11',
+         'notificationtemplates_id' => '10',
+         'language'                 => '',
+         'subject'                  => '##infocom.action##  ##infocom.entity##',
+         'content_text'             => '##lang.infocom.entity## : ##infocom.entity##
+   ##FOREACHinfocoms##
+   ##lang.infocom.itemtype## : ##infocom.itemtype##
+   ##lang.infocom.item## : ##infocom.item##
+   ##lang.infocom.expirationdate## : ##infocom.expirationdate##
+   ##infocom.url##
+    ##ENDFOREACHinfocoms##',
+         'content_html'             => '&lt;p&gt;##lang.infocom.entity## : ##infocom.entity##
+   &lt;br /&gt; &lt;br /&gt;##FOREACHinfocoms##
+   &lt;br /&gt;##lang.infocom.itemtype## : ##infocom.itemtype##&lt;br /&gt;
+   ##lang.infocom.item## : ##infocom.item##&lt;br /&gt; &lt;br /&gt;
+   ##lang.infocom.expirationdate## : ##infocom.expirationdate##
+   &lt;br /&gt; &lt;a href="##infocom.url##"&gt;
+   ##infocom.url##&lt;/a&gt;&lt;br /&gt;
+   ##ENDFOREACHinfocoms##&lt;/p&gt;'
+      ], [
+         'id'                       => '12',
+         'notificationtemplates_id' => '11',
+         'language'                 => '',
+         'subject'                  => '##license.action##  ##license.entity##',
+         'content_text'             => '##lang.license.entity## : ##license.entity##
+   ##FOREACHlicenses##
+   ##lang.license.item## : ##license.item##
+   ##lang.license.serial## : ##license.serial##
+   ##lang.license.expirationdate## : ##license.expirationdate##
+   ##license.url##
+    ##ENDFOREACHlicenses##',
+         'content_html'             => '&lt;p&gt;
+   ##lang.license.entity## : ##license.entity##&lt;br /&gt;
+   ##FOREACHlicenses##
+   &lt;br /&gt;##lang.license.item## : ##license.item##&lt;br /&gt;
+   ##lang.license.serial## : ##license.serial##&lt;br /&gt;
+   ##lang.license.expirationdate## : ##license.expirationdate##
+   &lt;br /&gt; &lt;a href="##license.url##"&gt; ##license.url##
+   &lt;/a&gt;&lt;br /&gt; ##ENDFOREACHlicenses##&lt;/p&gt;'
+      ], [
+         'id'                       => '13',
+         'notificationtemplates_id' => '13',
+         'language'                 => '',
+         'subject'                  => '##user.action##',
+         'content_text'             => '##user.realname## ##user.firstname##
+   ##lang.passwordforget.information##
+   ##lang.passwordforget.link## ##user.passwordforgeturl##',
+         'content_html'             => '&lt;p&gt;&lt;strong&gt;##user.realname## ##user.firstname##&lt;/strong&gt;&lt;/p&gt;
+   &lt;p&gt;##lang.passwordforget.information##&lt;/p&gt;
+   &lt;p&gt;##lang.passwordforget.link## &lt;a title="##user.passwordforgeturl##" href="##user.passwordforgeturl##"&gt;##user.passwordforgeturl##&lt;/a&gt;&lt;/p&gt;'
+      ], [
+         'id'                       => '14',
+         'notificationtemplates_id' => '14',
+         'language'                 => '',
+         'subject'                  => '##ticket.action## ##ticket.title##',
+         'content_text'             => '##lang.ticket.title## : ##ticket.title##
+   ##lang.ticket.closedate## : ##ticket.closedate##
+   ##lang.satisfaction.text## ##ticket.urlsatisfaction##',
+         'content_html'             =>'&lt;p&gt;##lang.ticket.title## : ##ticket.title##&lt;/p&gt;
+   &lt;p&gt;##lang.ticket.closedate## : ##ticket.closedate##&lt;/p&gt;
+   &lt;p&gt;##lang.satisfaction.text## &lt;a href="##ticket.urlsatisfaction##"&gt;##ticket.urlsatisfaction##&lt;/a&gt;&lt;/p&gt;'
+      ], [
+         'id'                       => '16',
+         'notificationtemplates_id' => '16',
+         'language'                 => '',
+         'subject'                  => '##crontask.action##',
+         'content_text'             => '##lang.crontask.warning##
+   ##FOREACHcrontasks##
+    ##crontask.name## : ##crontask.description##
+   ##ENDFOREACHcrontasks##',
+         'content_html'             => '&lt;p&gt;##lang.crontask.warning##&lt;/p&gt;
+   &lt;p&gt;##FOREACHcrontasks## &lt;br /&gt;&lt;a href="##crontask.url##"&gt;##crontask.name##&lt;/a&gt; : ##crontask.description##&lt;br /&gt; &lt;br /&gt;##ENDFOREACHcrontasks##&lt;/p&gt;'
+      ], [
+         'id'                       => '17',
+         'notificationtemplates_id' => '17',
+         'language'                 => '',
+         'subject'                  => '##problem.action## ##problem.title##',
+         'content_text'             => '##IFproblem.storestatus=5##
+    ##lang.problem.url## : ##problem.urlapprove##
+    ##lang.problem.solvedate## : ##problem.solvedate##
+    ##lang.problem.solution.type## : ##problem.solution.type##
+    ##lang.problem.solution.description## : ##problem.solution.description## ##ENDIFproblem.storestatus##
+    ##ELSEproblem.storestatus## ##lang.problem.url## : ##problem.url## ##ENDELSEproblem.storestatus##
+    ##lang.problem.description##
+    ##lang.problem.title##  :##problem.title##
+    ##lang.problem.authors##  :##IFproblem.authors## ##problem.authors## ##ENDIFproblem.authors## ##ELSEproblem.authors##--##ENDELSEproblem.authors##
+    ##lang.problem.creationdate##  :##problem.creationdate##
+    ##IFproblem.assigntousers## ##lang.problem.assigntousers##  : ##problem.assigntousers## ##ENDIFproblem.assigntousers##
+    ##lang.problem.status##  : ##problem.status##
+    ##IFproblem.assigntogroups## ##lang.problem.assigntogroups##  : ##problem.assigntogroups## ##ENDIFproblem.assigntogroups##
+    ##lang.problem.urgency##  : ##problem.urgency##
+    ##lang.problem.impact##  : ##problem.impact##
+    ##lang.problem.priority## : ##problem.priority##
+   ##IFproblem.category## ##lang.problem.category##  :##problem.category## ##ENDIFproblem.category## ##ELSEproblem.category## ##lang.problem.nocategoryassigned## ##ENDELSEproblem.category##
+    ##lang.problem.content##  : ##problem.content##
+   ##IFproblem.storestatus=6##
+    ##lang.problem.solvedate## : ##problem.solvedate##
+    ##lang.problem.solution.type## : ##problem.solution.type##
+    ##lang.problem.solution.description## : ##problem.solution.description##
+   ##ENDIFproblem.storestatus##
+    ##lang.problem.numberoffollowups## : ##problem.numberoffollowups##
+   ##FOREACHfollowups##
+    [##followup.date##] ##lang.followup.isprivate## : ##followup.isprivate##
+    ##lang.followup.author## ##followup.author##
+    ##lang.followup.description## ##followup.description##
+    ##lang.followup.date## ##followup.date##
+    ##lang.followup.requesttype## ##followup.requesttype##
+   ##ENDFOREACHfollowups##
+    ##lang.problem.numberoftickets## : ##problem.numberoftickets##
+   ##FOREACHtickets##
+    [##ticket.date##] ##lang.problem.title## : ##ticket.title##
+    ##lang.problem.content## ##ticket.content##
+   ##ENDFOREACHtickets##
+    ##lang.problem.numberoftasks## : ##problem.numberoftasks##
+   ##FOREACHtasks##
+    [##task.date##]
+    ##lang.task.author## ##task.author##
+    ##lang.task.description## ##task.description##
+    ##lang.task.time## ##task.time##
+    ##lang.task.category## ##task.category##
+   ##ENDFOREACHtasks##
+   ',
+         'content_html'             => '&lt;p&gt;##IFproblem.storestatus=5##&lt;/p&gt;
+   &lt;div&gt;##lang.problem.url## : &lt;a href="##problem.urlapprove##"&gt;##problem.urlapprove##&lt;/a&gt;&lt;/div&gt;
+   &lt;div&gt;&lt;span style="color: #888888;"&gt;&lt;strong&gt;&lt;span style="text-decoration: underline;"&gt;##lang.problem.solvedate##&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt; : ##problem.solvedate##&lt;br /&gt;&lt;span style="text-decoration: underline; color: #888888;"&gt;&lt;strong&gt;##lang.problem.solution.type##&lt;/strong&gt;&lt;/span&gt; : ##problem.solution.type##&lt;br /&gt;&lt;span style="text-decoration: underline; color: #888888;"&gt;&lt;strong&gt;##lang.problem.solution.description##&lt;/strong&gt;&lt;/span&gt; : ##problem.solution.description## ##ENDIFproblem.storestatus##&lt;/div&gt;
+   &lt;div&gt;##ELSEproblem.storestatus## ##lang.problem.url## : &lt;a href="##problem.url##"&gt;##problem.url##&lt;/a&gt; ##ENDELSEproblem.storestatus##&lt;/div&gt;
+   &lt;p class="description b"&gt;&lt;strong&gt;##lang.problem.description##&lt;/strong&gt;&lt;/p&gt;
+   &lt;p&gt;&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.title##&lt;/span&gt;&#160;:##problem.title## &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.authors##&lt;/span&gt;&#160;:##IFproblem.authors## ##problem.authors## ##ENDIFproblem.authors##    ##ELSEproblem.authors##--##ENDELSEproblem.authors## &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.creationdate##&lt;/span&gt;&#160;:##problem.creationdate## &lt;br /&gt; ##IFproblem.assigntousers## &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.assigntousers##&lt;/span&gt;&#160;: ##problem.assigntousers## ##ENDIFproblem.assigntousers##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.problem.status## &lt;/span&gt;&#160;: ##problem.status##&lt;br /&gt; ##IFproblem.assigntogroups## &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.assigntogroups##&lt;/span&gt;&#160;: ##problem.assigntogroups## ##ENDIFproblem.assigntogroups##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.urgency##&lt;/span&gt;&#160;: ##problem.urgency##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.impact##&lt;/span&gt;&#160;: ##problem.impact##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.priority##&lt;/span&gt; : ##problem.priority## &lt;br /&gt;##IFproblem.category##&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.problem.category## &lt;/span&gt;&#160;:##problem.category##  ##ENDIFproblem.category## ##ELSEproblem.category##  ##lang.problem.nocategoryassigned## ##ENDELSEproblem.category##    &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.problem.content##&lt;/span&gt;&#160;: ##problem.content##&lt;/p&gt;
+   &lt;p&gt;##IFproblem.storestatus=6##&lt;br /&gt;&lt;span style="text-decoration: underline;"&gt;&lt;strong&gt;&lt;span style="color: #888888;"&gt;##lang.problem.solvedate##&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt; : ##problem.solvedate##&lt;br /&gt;&lt;span style="color: #888888;"&gt;&lt;strong&gt;&lt;span style="text-decoration: underline;"&gt;##lang.problem.solution.type##&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt; : ##problem.solution.type##&lt;br /&gt;&lt;span style="text-decoration: underline; color: #888888;"&gt;&lt;strong&gt;##lang.problem.solution.description##&lt;/strong&gt;&lt;/span&gt; : ##problem.solution.description##&lt;br /&gt;##ENDIFproblem.storestatus##&lt;/p&gt;
+   <div class="description b">##lang.problem.numberoffollowups##&#160;: ##problem.numberoffollowups##</div>
+   <p>##FOREACHfollowups##</p>
+   <div class="description b"><br /> <strong> [##followup.date##] <em>##lang.followup.isprivate## : ##followup.isprivate## </em></strong><br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.author## </span> ##followup.author##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.description## </span> ##followup.description##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.date## </span> ##followup.date##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.requesttype## </span> ##followup.requesttype##</div>
+   <p>##ENDFOREACHfollowups##</p>
+   &lt;div class="description b"&gt;##lang.problem.numberoftickets##&#160;: ##problem.numberoftickets##&lt;/div&gt;
+   &lt;p&gt;##FOREACHtickets##&lt;/p&gt;
+   &lt;div&gt;&lt;strong&gt; [##ticket.date##] &lt;em&gt;##lang.problem.title## : &lt;a href="##ticket.url##"&gt;##ticket.title## &lt;/a&gt;&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; &lt;/span&gt;&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.problem.content## &lt;/span&gt; ##ticket.content##
+   &lt;p&gt;##ENDFOREACHtickets##&lt;/p&gt;
+   &lt;div class="description b"&gt;##lang.problem.numberoftasks##&#160;: ##problem.numberoftasks##&lt;/div&gt;
+   &lt;p&gt;##FOREACHtasks##&lt;/p&gt;
+   &lt;div class="description b"&gt;&lt;strong&gt;[##task.date##] &lt;/strong&gt;&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.author##&lt;/span&gt; ##task.author##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.description##&lt;/span&gt; ##task.description##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.time##&lt;/span&gt; ##task.time##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.category##&lt;/span&gt; ##task.category##&lt;/div&gt;
+   &lt;p&gt;##ENDFOREACHtasks##&lt;/p&gt;
+   &lt;/div&gt;'
+      ], [
+         'id'                       => '18',
+         'notificationtemplates_id' => '18',
+         'language'                 => '',
+         'subject'                  => '##recall.action##: ##recall.item.name##',
+         'content_text'             => '##recall.action##: ##recall.item.name##
+   ##recall.item.content##
+   ##lang.recall.planning.begin##: ##recall.planning.begin##
+   ##lang.recall.planning.end##: ##recall.planning.end##
+   ##lang.recall.planning.state##: ##recall.planning.state##
+   ##lang.recall.item.private##: ##recall.item.private##',
+         'content_html'             => '&lt;p&gt;##recall.action##: &lt;a href="##recall.item.url##"&gt;##recall.item.name##&lt;/a&gt;&lt;/p&gt;
+   &lt;p&gt;##recall.item.content##&lt;/p&gt;
+   &lt;p&gt;##lang.recall.planning.begin##: ##recall.planning.begin##&lt;br /&gt;##lang.recall.planning.end##: ##recall.planning.end##&lt;br /&gt;##lang.recall.planning.state##: ##recall.planning.state##&lt;br /&gt;##lang.recall.item.private##: ##recall.item.private##&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+   &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;'
+      ], [
+         'id'                       => '19',
+         'notificationtemplates_id' => '19',
+         'language'                 => '',
+         'subject'                  => '##change.action## ##change.title##',
+         'content_text'             => '##IFchange.storestatus=5##
+    ##lang.change.url## : ##change.urlapprove##
+    ##lang.change.solvedate## : ##change.solvedate##
+    ##lang.change.solution.type## : ##change.solution.type##
+    ##lang.change.solution.description## : ##change.solution.description## ##ENDIFchange.storestatus##
+    ##ELSEchange.storestatus## ##lang.change.url## : ##change.url## ##ENDELSEchange.storestatus##
+    ##lang.change.description##
+    ##lang.change.title##  :##change.title##
+    ##lang.change.authors##  :##IFchange.authors## ##change.authors## ##ENDIFchange.authors## ##ELSEchange.authors##--##ENDELSEchange.authors##
+    ##lang.change.creationdate##  :##change.creationdate##
+    ##IFchange.assigntousers## ##lang.change.assigntousers##  : ##change.assigntousers## ##ENDIFchange.assigntousers##
+    ##lang.change.status##  : ##change.status##
+    ##IFchange.assigntogroups## ##lang.change.assigntogroups##  : ##change.assigntogroups## ##ENDIFchange.assigntogroups##
+    ##lang.change.urgency##  : ##change.urgency##
+    ##lang.change.impact##  : ##change.impact##
+    ##lang.change.priority## : ##change.priority##
+   ##IFchange.category## ##lang.change.category##  :##change.category## ##ENDIFchange.category## ##ELSEchange.category## ##lang.change.nocategoryassigned## ##ENDELSEchange.category##
+    ##lang.change.content##  : ##change.content##
+   ##IFchange.storestatus=6##
+    ##lang.change.solvedate## : ##change.solvedate##
+    ##lang.change.solution.type## : ##change.solution.type##
+    ##lang.change.solution.description## : ##change.solution.description##
+   ##ENDIFchange.storestatus##
+    ##lang.change.numberoffollowups## : ##change.numberoffollowups##
+   ##FOREACHfollowups##
+    [##followup.date##] ##lang.followup.isprivate## : ##followup.isprivate##
+    ##lang.followup.author## ##followup.author##
+    ##lang.followup.description## ##followup.description##
+    ##lang.followup.date## ##followup.date##
+    ##lang.followup.requesttype## ##followup.requesttype##
+   ##ENDFOREACHfollowups##
+    ##lang.change.numberofproblems## : ##change.numberofproblems##
+   ##FOREACHproblems##
+    [##problem.date##] ##lang.change.title## : ##problem.title##
+    ##lang.change.content## ##problem.content##
+   ##ENDFOREACHproblems##
+    ##lang.change.numberoftasks## : ##change.numberoftasks##
+   ##FOREACHtasks##
+    [##task.date##]
+    ##lang.task.author## ##task.author##
+    ##lang.task.description## ##task.description##
+    ##lang.task.time## ##task.time##
+    ##lang.task.category## ##task.category##
+   ##ENDFOREACHtasks##
+   ',
+         'content_html'             => '&lt;p&gt;##IFchange.storestatus=5##&lt;/p&gt;
+   &lt;div&gt;##lang.change.url## : &lt;a href="##change.urlapprove##"&gt;##change.urlapprove##&lt;/a&gt;&lt;/div&gt;
+   &lt;div&gt;&lt;span style="color: #888888;"&gt;&lt;strong&gt;&lt;span style="text-decoration: underline;"&gt;##lang.change.solvedate##&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt; : ##change.solvedate##&lt;br /&gt;&lt;span style="text-decoration: underline; color: #888888;"&gt;&lt;strong&gt;##lang.change.solution.type##&lt;/strong&gt;&lt;/span&gt; : ##change.solution.type##&lt;br /&gt;&lt;span style="text-decoration: underline; color: #888888;"&gt;&lt;strong&gt;##lang.change.solution.description##&lt;/strong&gt;&lt;/span&gt; : ##change.solution.description## ##ENDIFchange.storestatus##&lt;/div&gt;
+   &lt;div&gt;##ELSEchange.storestatus## ##lang.change.url## : &lt;a href="##change.url##"&gt;##change.url##&lt;/a&gt; ##ENDELSEchange.storestatus##&lt;/div&gt;
+   &lt;p class="description b"&gt;&lt;strong&gt;##lang.change.description##&lt;/strong&gt;&lt;/p&gt;
+   &lt;p&gt;&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.title##&lt;/span&gt;&#160;:##change.title## &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.authors##&lt;/span&gt;&#160;:##IFchange.authors## ##change.authors## ##ENDIFchange.authors##    ##ELSEchange.authors##--##ENDELSEchange.authors## &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.creationdate##&lt;/span&gt;&#160;:##change.creationdate## &lt;br /&gt; ##IFchange.assigntousers## &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.assigntousers##&lt;/span&gt;&#160;: ##change.assigntousers## ##ENDIFchange.assigntousers##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.change.status## &lt;/span&gt;&#160;: ##change.status##&lt;br /&gt; ##IFchange.assigntogroups## &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.assigntogroups##&lt;/span&gt;&#160;: ##change.assigntogroups## ##ENDIFchange.assigntogroups##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.urgency##&lt;/span&gt;&#160;: ##change.urgency##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.impact##&lt;/span&gt;&#160;: ##change.impact##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.priority##&lt;/span&gt; : ##change.priority## &lt;br /&gt;##IFchange.category##&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.change.category## &lt;/span&gt;&#160;:##change.category##  ##ENDIFchange.category## ##ELSEchange.category##  ##lang.change.nocategoryassigned## ##ENDELSEchange.category##    &lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.change.content##&lt;/span&gt;&#160;: ##change.content##&lt;/p&gt;
+   &lt;p&gt;##IFchange.storestatus=6##&lt;br /&gt;&lt;span style="text-decoration: underline;"&gt;&lt;strong&gt;&lt;span style="color: #888888;"&gt;##lang.change.solvedate##&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt; : ##change.solvedate##&lt;br /&gt;&lt;span style="color: #888888;"&gt;&lt;strong&gt;&lt;span style="text-decoration: underline;"&gt;##lang.change.solution.type##&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt; : ##change.solution.type##&lt;br /&gt;&lt;span style="text-decoration: underline; color: #888888;"&gt;&lt;strong&gt;##lang.change.solution.description##&lt;/strong&gt;&lt;/span&gt; : ##change.solution.description##&lt;br /&gt;##ENDIFchange.storestatus##&lt;/p&gt;
+   <div class="description b">##lang.change.numberoffollowups##&#160;: ##change.numberoffollowups##</div>
+   <p>##FOREACHfollowups##</p>
+   <div class="description b"><br /> <strong> [##followup.date##] <em>##lang.followup.isprivate## : ##followup.isprivate## </em></strong><br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.author## </span> ##followup.author##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.description## </span> ##followup.description##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.date## </span> ##followup.date##<br /> <span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"> ##lang.followup.requesttype## </span> ##followup.requesttype##</div>
+   <p>##ENDFOREACHfollowups##</p>
+   &lt;div class="description b"&gt;##lang.change.numberofproblems##&#160;: ##change.numberofproblems##&lt;/div&gt;
+   &lt;p&gt;##FOREACHproblems##&lt;/p&gt;
+   &lt;div&gt;&lt;strong&gt; [##problem.date##] &lt;em&gt;##lang.change.title## : &lt;a href="##problem.url##"&gt;##problem.title## &lt;/a&gt;&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; &lt;/span&gt;&lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;##lang.change.content## &lt;/span&gt; ##problem.content##
+   &lt;p&gt;##ENDFOREACHproblems##&lt;/p&gt;
+   &lt;div class="description b"&gt;##lang.change.numberoftasks##&#160;: ##change.numberoftasks##&lt;/div&gt;
+   &lt;p&gt;##FOREACHtasks##&lt;/p&gt;
+   &lt;div class="description b"&gt;&lt;strong&gt;[##task.date##] &lt;/strong&gt;&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.author##&lt;/span&gt; ##task.author##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.description##&lt;/span&gt; ##task.description##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.time##&lt;/span&gt; ##task.time##&lt;br /&gt; &lt;span style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt; ##lang.task.category##&lt;/span&gt; ##task.category##&lt;/div&gt;
+   &lt;p&gt;##ENDFOREACHtasks##&lt;/p&gt;
+   &lt;/div&gt;'
+      ], [
+         'id'                       => '20',
+         'notificationtemplates_id' => '20',
+         'language'                 => '',
+         'subject'                  => '##mailcollector.action##',
+         'content_text'             => '##FOREACHmailcollectors##
+   ##lang.mailcollector.name## : ##mailcollector.name##
+   ##lang.mailcollector.errors## : ##mailcollector.errors##
+   ##mailcollector.url##
+   ##ENDFOREACHmailcollectors##',
+         'content_html'             => '&lt;p&gt;##FOREACHmailcollectors##&lt;br /&gt;##lang.mailcollector.name## : ##mailcollector.name##&lt;br /&gt; ##lang.mailcollector.errors## : ##mailcollector.errors##&lt;br /&gt;&lt;a href="##mailcollector.url##"&gt;##mailcollector.url##&lt;/a&gt;&lt;br /&gt; ##ENDFOREACHmailcollectors##&lt;/p&gt;
+   &lt;p&gt;&lt;/p&gt;'
+      ], [
+         'id'                       => '21',
+         'notificationtemplates_id' => '21',
+         'language'                 => '',
+         'subject'                  => '##project.action## ##project.name## ##project.code##',
+         'content_text'             => '##lang.project.url## : ##project.url##
+   ##lang.project.description##
+   ##lang.project.name## : ##project.name##
+   ##lang.project.code## : ##project.code##
+   ##lang.project.manager## : ##project.manager##
+   ##lang.project.managergroup## : ##project.managergroup##
+   ##lang.project.creationdate## : ##project.creationdate##
+   ##lang.project.priority## : ##project.priority##
+   ##lang.project.state## : ##project.state##
+   ##lang.project.type## : ##project.type##
+   ##lang.project.description## : ##project.description##
+   ##lang.project.numberoftasks## : ##project.numberoftasks##
+   ##FOREACHtasks##
+   [##task.creationdate##]
+   ##lang.task.name## : ##task.name##
+   ##lang.task.state## : ##task.state##
+   ##lang.task.type## : ##task.type##
+   ##lang.task.percent## : ##task.percent##
+   ##lang.task.description## : ##task.description##
+   ##ENDFOREACHtasks##',
+         'content_html'             => '&lt;p&gt;##lang.project.url## : &lt;a href="##project.url##"&gt;##project.url##&lt;/a&gt;&lt;/p&gt;
+   &lt;p&gt;&lt;strong&gt;##lang.project.description##&lt;/strong&gt;&lt;/p&gt;
+   &lt;p&gt;##lang.project.name## : ##project.name##&lt;br /&gt;##lang.project.code## : ##project.code##&lt;br /&gt; ##lang.project.manager## : ##project.manager##&lt;br /&gt;##lang.project.managergroup## : ##project.managergroup##&lt;br /&gt; ##lang.project.creationdate## : ##project.creationdate##&lt;br /&gt;##lang.project.priority## : ##project.priority## &lt;br /&gt;##lang.project.state## : ##project.state##&lt;br /&gt;##lang.project.type## : ##project.type##&lt;br /&gt;##lang.project.description## : ##project.description##&lt;/p&gt;
+   &lt;p&gt;##lang.project.numberoftasks## : ##project.numberoftasks##&lt;/p&gt;
+   &lt;div&gt;
+   &lt;p&gt;##FOREACHtasks##&lt;/p&gt;
+   &lt;div&gt;&lt;strong&gt;[##task.creationdate##] &lt;/strong&gt;&lt;br /&gt; ##lang.task.name## : ##task.name##&lt;br /&gt;##lang.task.state## : ##task.state##&lt;br /&gt;##lang.task.type## : ##task.type##&lt;br /&gt;##lang.task.percent## : ##task.percent##&lt;br /&gt;##lang.task.description## : ##task.description##&lt;/div&gt;
+   &lt;p&gt;##ENDFOREACHtasks##&lt;/p&gt;
+   &lt;/div&gt;'
+      ], [
+         'id'                       => '22',
+         'notificationtemplates_id' => '22',
+         'language'                 => '',
+         'subject'                  => '##projecttask.action## ##projecttask.name##',
+         'content_text'             => '##lang.projecttask.url## : ##projecttask.url##
+   ##lang.projecttask.description##
+   ##lang.projecttask.name## : ##projecttask.name##
+   ##lang.projecttask.project## : ##projecttask.project##
+   ##lang.projecttask.creationdate## : ##projecttask.creationdate##
+   ##lang.projecttask.state## : ##projecttask.state##
+   ##lang.projecttask.type## : ##projecttask.type##
+   ##lang.projecttask.description## : ##projecttask.description##
+   ##lang.projecttask.numberoftasks## : ##projecttask.numberoftasks##
+   ##FOREACHtasks##
+   [##task.creationdate##]
+   ##lang.task.name## : ##task.name##
+   ##lang.task.state## : ##task.state##
+   ##lang.task.type## : ##task.type##
+   ##lang.task.percent## : ##task.percent##
+   ##lang.task.description## : ##task.description##
+   ##ENDFOREACHtasks##',
+         'content_html'                => '&lt;p&gt;##lang.projecttask.url## : &lt;a href="##projecttask.url##"&gt;##projecttask.url##&lt;/a&gt;&lt;/p&gt;
+   &lt;p&gt;&lt;strong&gt;##lang.projecttask.description##&lt;/strong&gt;&lt;/p&gt;
+   &lt;p&gt;##lang.projecttask.name## : ##projecttask.name##&lt;br /&gt;##lang.projecttask.project## : &lt;a href="##projecttask.projecturl##"&gt;##projecttask.project##&lt;/a&gt;&lt;br /&gt;##lang.projecttask.creationdate## : ##projecttask.creationdate##&lt;br /&gt;##lang.projecttask.state## : ##projecttask.state##&lt;br /&gt;##lang.projecttask.type## : ##projecttask.type##&lt;br /&gt;##lang.projecttask.description## : ##projecttask.description##&lt;/p&gt;
+   &lt;p&gt;##lang.projecttask.numberoftasks## : ##projecttask.numberoftasks##&lt;/p&gt;
+   &lt;div&gt;
+   &lt;p&gt;##FOREACHtasks##&lt;/p&gt;
+   &lt;div&gt;&lt;strong&gt;[##task.creationdate##] &lt;/strong&gt;&lt;br /&gt;##lang.task.name## : ##task.name##&lt;br /&gt;##lang.task.state## : ##task.state##&lt;br /&gt;##lang.task.type## : ##task.type##&lt;br /&gt;##lang.task.percent## : ##task.percent##&lt;br /&gt;##lang.task.description## : ##task.description##&lt;/div&gt;
+   &lt;p&gt;##ENDFOREACHtasks##&lt;/p&gt;
+   &lt;/div&gt;'
+      ], [
+         'id'                       => '23',
+         'notificationtemplates_id' => '23',
+         'language'                 => '',
+         'subject'                  => '##objectlock.action##',
+         'content_text'             => '##objectlock.type## ###objectlock.id## - ##objectlock.name##
+         ##lang.objectlock.url##
+         ##objectlock.url##
+         ##lang.objectlock.date_mod##
+         ##objectlock.date_mod##
+         Hello ##objectlock.lockedby.firstname##,
+         Could go to this item and unlock it for me?
+         Thank you,
+         Regards,
+         ##objectlock.requester.firstname##',
+         'content_html'             => '&lt;table&gt;
+         &lt;tbody&gt;
+         &lt;tr&gt;&lt;th colspan="2"&gt;&lt;a href="##objectlock.url##"&gt;##objectlock.type## ###objectlock.id## - ##objectlock.name##&lt;/a&gt;&lt;/th&gt;&lt;/tr&gt;
+         &lt;tr&gt;
+         &lt;td&gt;##lang.objectlock.url##&lt;/td&gt;
+         &lt;td&gt;##objectlock.url##&lt;/td&gt;
+         &lt;/tr&gt;
+         &lt;tr&gt;
+         &lt;td&gt;##lang.objectlock.date_mod##&lt;/td&gt;
+         &lt;td&gt;##objectlock.date_mod##&lt;/td&gt;
+         &lt;/tr&gt;
+         &lt;/tbody&gt;
+         &lt;/table&gt;
+         &lt;p&gt;&lt;span style="font-size: small;"&gt;Hello ##objectlock.lockedby.firstname##,&lt;br /&gt;Could go to this item and unlock it for me?&lt;br /&gt;Thank you,&lt;br /&gt;Regards,&lt;br /&gt;##objectlock.requester.firstname## ##objectlock.requester.lastname##&lt;/span&gt;&lt;/p&gt;'
+      ], [
+         'id'                       => '24',
+         'notificationtemplates_id' => '24',
+         'language'                 => '',
+         'subject'                  => '##savedsearch.action## ##savedsearch.name##',
+         'content_text'             => '##savedsearch.type## ###savedsearch.id## - ##savedsearch.name##
+         ##savedsearch.message##
+         ##lang.savedsearch.url##
+         ##savedsearch.url##
+         Regards,',
+         'content_html'             => '&lt;table&gt;
+         &lt;tbody&gt;
+         &lt;tr&gt;&lt;th colspan="2"&gt;&lt;a href="##savedsearch.url##"&gt;##savedsearch.type## ###savedsearch.id## - ##savedsearch.name##&lt;/a&gt;&lt;/th&gt;&lt;/tr&gt;
+         &lt;tr&gt;&lt;td colspan="2"&gt;&lt;a href="##savedsearch.url##"&gt;##savedsearch.message##&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+         &lt;tr&gt;
+         &lt;td&gt;##lang.savedsearch.url##&lt;/td&gt;
+         &lt;td&gt;##savedsearch.url##&lt;/td&gt;
+         &lt;/tr&gt;
+         &lt;/tbody&gt;
+         &lt;/table&gt;
+         &lt;p&gt;&lt;span style="font-size: small;"&gt;Hello &lt;br /&gt;Regards,&lt;/span&gt;&lt;/p&gt;'
+      ], [
+         'id'                       => '25',
+         'notificationtemplates_id' => '25',
+         'language'                 => '',
+         'subject'                  => '##certificate.action##  ##certificate.entity##',
+         'content_text'             => '##lang.certificate.entity## : ##certificate.entity##
+   ##FOREACHcertificates##
+   ##lang.certificate.serial## : ##certificate.serial##
+   ##lang.certificate.expirationdate## : ##certificate.expirationdate##
+   ##certificate.url##
+    ##ENDFOREACHcertificates##',
+         'content_html'             => '&lt;p&gt;
+   ##lang.certificate.entity## : ##certificate.entity##&lt;br /&gt;
+   ##FOREACHcertificates##
+   &lt;br /&gt;##lang.certificate.name## : ##certificate.name##&lt;br /&gt;
+   ##lang.certificate.serial## : ##certificate.serial##&lt;br /&gt;
+   ##lang.certificate.expirationdate## : ##certificate.expirationdate##
+   &lt;br /&gt; &lt;a href="##certificate.url##"&gt; ##certificate.url##
+   &lt;/a&gt;&lt;br /&gt; ##ENDFOREACHcertificates##&lt;/p&gt;'
+      ]
+   ];
+
+   $tables['glpi_profilerights'] = [
      [
         'profiles_id'  => '1',
         'name'         => 'computer',
@@ -22849,9 +22736,9 @@ function insertData() {
         'name'         => 'global_validation',
         'rights'       => '0'
      ]
-  ];
+   ];
 
-  $tables['glpi_profiles'] = [
+   $tables['glpi_profiles'] = [
      [
         'id'                       => '1',
         'name'                     => 'Self-Service',
@@ -22978,9 +22865,9 @@ function insertData() {
                          "8":{"1":0,"9":0,"10":0,"7":0,"4":0,"11":0,"12":0,"5":0,"6":0},
                          "6":{"1":0,"9":0,"10":0,"7":0,"4":0,"11":0,"12":0,"5":0,"8":0}}'
      ]
-  ];
+   ];
 
-  $tables['glpi_profiles_users'] = [
+   $tables['glpi_profiles_users'] = [
      [
         'id'           => '2',
         'users_id'     => '2',
@@ -23010,9 +22897,9 @@ function insertData() {
         'is_recursive' => '1',
         'is_dynamic'   => '0'
      ]
-  ];
+   ];
 
-  $tables['glpi_projectstates'] = [
+   $tables['glpi_projectstates'] = [
      [
         'id'           => '1',
         'name'         => 'New',
@@ -23029,9 +22916,9 @@ function insertData() {
         'color'        => '#ff0000',
         'is_finished'  => '1'
      ]
-  ];
+   ];
 
-  $tables['glpi_requesttypes'] = [
+   $tables['glpi_requesttypes'] = [
      [
         'id'                       => '1',
         'name'                     => 'Helpdesk',
@@ -23075,9 +22962,9 @@ function insertData() {
         'is_mail_default'          => '0',
         'is_mailfollowup_default'  => '0'
      ]
-  ];
+   ];
 
-  $tables['glpi_ruleactions'] = [
+   $tables['glpi_ruleactions'] = [
      [
         'id'           => '6',
         'rules_id'     => '6',
@@ -23139,9 +23026,9 @@ function insertData() {
         'field'        => '_affect_user_by_regex',
         'value'        => '#0'
      ]
-  ];
+   ];
 
-  $tables['glpi_rulecriterias'] = [
+   $tables['glpi_rulecriterias'] = [
       [
           'id'         => 9,
           'rules_id'   => 6,
@@ -23263,9 +23150,9 @@ function insertData() {
           'condition'  => 6,
           'pattern'    => '/(.*)/'
       ]
-  ];
+   ];
 
-  $tables['glpi_rulerightparameters'] = [
+   $tables['glpi_rulerightparameters'] = [
      [
         'id'     => 1,
         'name'   => '(LDAP)Organization',
@@ -23319,9 +23206,9 @@ function insertData() {
         'name'   => '(LDAP) MemberOf',
         'value'  => 'memberof'
      ]
-  ];
+   ];
 
-  $tables['glpi_rules'] = [
+   $tables['glpi_rules'] = [
      [
         'id'           => '2',
         'sub_type'     => 'RuleRight',
@@ -23433,27 +23320,27 @@ function insertData() {
         'uuid'         => 'fbeb1115-7a37b143-5a3a6fc1b073e1.16257440',
         'condition'    => '3'
      ]
-  ];
+   ];
 
-  $tables['glpi_softwarecategories'] = [
+   $tables['glpi_softwarecategories'] = [
      [
          'id'             => '1',
          'name'           => 'FUSION',
          'completename'   => 'FUSION',
          'level'          => '1'
      ]
-  ];
+   ];
 
-  $tables['glpi_softwarelicensetypes'] = [
+   $tables['glpi_softwarelicensetypes'] = [
      [
         'id'           => 1,
         'name'         => 'OEM',
         'is_recursive' => 1,
         'completename' => 'OEM'
      ]
-  ];
+   ];
 
-  $tables['glpi_ssovariables'] = [
+   $tables['glpi_ssovariables'] = [
      [
         'id'     => 1,
         'name'   => 'HTTP_AUTH_USER'
@@ -23473,26 +23360,26 @@ function insertData() {
         'id'     => 6,
         'name'   => 'HTTP_REMOTE_USER'
      ]
-  ];
+   ];
 
-  $tables['glpi_tickettemplates'] = [
+   $tables['glpi_tickettemplates'] = [
      [
         'id'           => 1,
         'name'         => 'Default',
         'entities_id'  => 0,
         'is_recursive' => 1
      ]
-  ];
+   ];
 
-  $tables['glpi_tickettemplatemandatoryfields'] = [
+   $tables['glpi_tickettemplatemandatoryfields'] = [
      [
         'id'                 => 1,
         'tickettemplates_id' => 1,
         'num'                => 21
      ]
-  ];
+   ];
 
-  $tables['glpi_transfers'] = [
+   $tables['glpi_transfers'] = [
      [
         'id'                 => '1',
         'name'               => 'complete',
@@ -23526,9 +23413,9 @@ function insertData() {
         'keep_consumable'    => 1,
         'keep_disk'          => 1,
      ]
-  ];
+   ];
 
-  $tables['glpi_users'] = [
+   $tables['glpi_users'] = [
      [
         'id'           => '2',
         'name'         => 'glpi',
@@ -23558,13 +23445,13 @@ function insertData() {
         'list_limit'   => '20',
         'authtype'     => '1'
      ]
-  ];
+   ];
 
-  $tables['glpi_devicefirmwaretypes'] = [
+   $tables['glpi_devicefirmwaretypes'] = [
      ['id' => '1', 'name' => 'BIOS'],
      ['id' => '2', 'name' => 'UEFI'],
      ['id' => '3', 'name' => 'Firmware']
-  ];
+   ];
 
    foreach ($tables as $table => $data) {
       $stmt = $DB->prepare($DB->buildInsert($table, $data[0]));
