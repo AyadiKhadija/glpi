@@ -167,13 +167,28 @@ class MySql extends \GLPITestCase {
       global $DB;
 
       $fields = [
-         'id'              => "int(11) NOT NULL AUTO_INCREMENT",
-         'tickets_id'      => "int(11) NOT NULL DEFAULT '0'",
-         'type'            => "int(11) NOT NULL DEFAULT '1'",
-         'date_begin'      => "TIMESTAMP NULL DEFAULT NULL",
-         'date_answered'   => "TIMESTAMP NULL DEFAULT NULL",
-         'satisfaction'    => "int(11) NOT NULL DEFAULT '0'",
-         'comment'         => "TEXT COLLATE utf8_unicode_ci DEFAULT NULL",
+         'id'              => [
+            'type'   => 'autoincrement'
+         ],
+         'tickets_id'      => [
+            'type'   => 'integer'
+         ],
+         'type'            => [
+            'type'            => 'integer',
+            'default_value'   => '1'
+         ],
+         'date_begin'      => [
+            'type'   => 'timestamp'
+         ],
+         'date_answered'   => [
+            'type'   => 'timestamp'
+         ],
+         'satisfaction'    => [
+            'type'   => 'integer'
+         ],
+         'comment'         => [
+            'type'   => 'text'
+         ]
       ];
       $keys = [
          'PRIMARY'   => 'id',
@@ -187,9 +202,9 @@ class MySql extends \GLPITestCase {
       $built = $DB->buildCreate('glpi_test', $fields, $keys);
 
       $expected = "CREATE TABLE IF NOT EXISTS glpi_test ";
-      $expected .= "(`id` int(11) NOT NULL AUTO_INCREMENT, `tickets_id` int(11) NOT NULL DEFAULT '0', ";
-      $expected .= "`type` int(11) NOT NULL DEFAULT '1', `date_begin` TIMESTAMP NULL DEFAULT NULL, ";
-      $expected .= "`date_answered` TIMESTAMP NULL DEFAULT NULL, `satisfaction` int(11) NOT NULL DEFAULT '0', ";
+      $expected .= "(`id` INT(11) NOT NULL AUTO_INCREMENT, `tickets_id` INT(11) NOT NULL DEFAULT '0', ";
+      $expected .= "`type` INT(11) NOT NULL DEFAULT '1', `date_begin` TIMESTAMP NULL DEFAULT NULL, ";
+      $expected .= "`date_answered` TIMESTAMP NULL DEFAULT NULL, `satisfaction` INT(11) NOT NULL DEFAULT '0', ";
       $expected .= "`comment` TEXT COLLATE utf8_unicode_ci DEFAULT NULL,  PRIMARY KEY (`id`), KEY `type` (`type`), ";
       $expected .= "UNIQUE KEY `tickets_id` (`tickets_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
       $this->string($built)->isIdenticalTo($expected);

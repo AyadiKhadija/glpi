@@ -222,131 +222,11 @@ class Migration {
 
 
    /**
-    * Define field's format
-    *
-    * @param string  $type          can be bool, char, string, integer, date, datetime, text, longtext or autoincrement
-    * @param string  $default_value new field's default value,
-    *                               if a specific default value needs to be used
-    * @param boolean $nodefault     No default value (false by default)
-    *
-    * @return string
-   **/
-   private function fieldFormat($type, $default_value, $nodefault = false) {
-
-      $format = '';
-      switch ($type) {
-         case 'bool' :
-            $format = "TINYINT(1) NOT NULL";
-            if (!$nodefault) {
-               if (is_null($default_value)) {
-                  $format .= " DEFAULT '0'";
-               } else if (in_array($default_value, ['0', '1'])) {
-                  $format .= " DEFAULT '$default_value'";
-               } else {
-                  trigger_error(__('default_value must be 0 or 1'), E_USER_ERROR);
-               }
-            }
-            break;
-
-         case 'char' :
-            $format = "CHAR(1)";
-            if (!$nodefault) {
-               if (is_null($default_value)) {
-                  $format .= " DEFAULT NULL";
-               } else {
-                  $format .= " NOT NULL DEFAULT '$default_value'";
-               }
-            }
-            break;
-
-         case 'string' :
-            $format = "VARCHAR(255) COLLATE utf8_unicode_ci";
-            if (!$nodefault) {
-               if (is_null($default_value)) {
-                  $format .= " DEFAULT NULL";
-               } else {
-                  $format .= " NOT NULL DEFAULT '$default_value'";
-               }
-            }
-            break;
-
-         case 'integer' :
-            $format = "INT(11) NOT NULL";
-            if (!$nodefault) {
-               if (is_null($default_value)) {
-                  $format .= " DEFAULT '0'";
-               } else if (is_numeric($default_value)) {
-                  $format .= " DEFAULT '$default_value'";
-               } else {
-                  trigger_error(__('default_value must be numeric'), E_USER_ERROR);
-               }
-            }
-            break;
-
-         case 'date' :
-            $format = "DATE";
-            if (!$nodefault) {
-               if (is_null($default_value)) {
-                  $format.= " DEFAULT NULL";
-               } else {
-                  $format.= " DEFAULT '$default_value'";
-               }
-            }
-            break;
-
-         case 'datetime' :
-            $format = "DATETIME";
-            if (!$nodefault) {
-               if (is_null($default_value)) {
-                  $format.= " DEFAULT NULL";
-               } else {
-                  $format.= " DEFAULT '$default_value'";
-               }
-            }
-            break;
-
-         case 'text' :
-            $format = "TEXT COLLATE utf8_unicode_ci";
-            if (!$nodefault) {
-               if (is_null($default_value)) {
-                  $format.= " DEFAULT NULL";
-               } else {
-                  $format.= " NOT NULL DEFAULT '$default_value'";
-               }
-            }
-            break;
-
-         case 'longtext' :
-            $format = "LONGTEXT COLLATE utf8_unicode_ci";
-            if (!$nodefault) {
-               if (is_null($default_value)) {
-                  $format .= " DEFAULT NULL";
-               } else {
-                  $format .= " NOT NULL DEFAULT '$default_value'";
-               }
-            }
-            break;
-
-         // for plugins
-         case 'autoincrement' :
-            $format = "INT(11) NOT NULL AUTO_INCREMENT";
-            break;
-
-         default :
-            // for compatibility with old 0.80 migrations
-            $format = $type;
-            break;
-      }
-      return $format;
-   }
-
-
-   /**
     * Add a new GLPI normalized field
     *
     * @param string $table   Table name
     * @param string $field   Field name
-    * @param string $type    Field type, @see Migration::fieldFormat()
+    * @param string $type    Field type, @see DB::fieldFormat()
     * @param array  $options Options:
     *                         - update    : if not empty = value of $field (must be protected)
     *                         - condition : array of where conditions, if needed
@@ -381,7 +261,12 @@ class Migration {
          $params['condition'] = [new \QueryExpression($params['condition'])];
       }
 
-      $format = $this->fieldFormat($type, $params['value'], $params['nodefault']);
+      try {
+         $format = $DB->fieldFormat($type, $params['value'], $params['nodefault']);
+      } catch (RuntimeException $e) {
+         trigger_error($e->getMessage(), $e->getCode());
+         $format = '';
+      }
 
       if (!empty($params['comment'])) {
          $params['comment'] = " COMMENT '".addslashes($params['comment'])."'";
@@ -423,7 +308,7 @@ class Migration {
     * @param string $table    Table name
     * @param string $oldfield Old name of the field
     * @param string $newfield New name of the field
-    * @param string $type     Field type, @see Migration::fieldFormat()
+    * @param string $type     Field type, @see DB::fieldFormat()
     * @param array  $options  Options:
     *                         - default_value new field's default value, if a specific default value needs to be used
     *                         - comment comment to be added during field creation
@@ -444,7 +329,12 @@ class Migration {
          }
       }
 
-      $format = $this->fieldFormat($type, $params['value'], $params['nodefault']);
+      try {
+         $format = $DB->fieldFormat($type, $params['value'], $params['nodefault']);
+      } catch (RuntimeException $e) {
+         trigger_error($e->getMessage(), $e->getCode());
+         $format = '';
+      }
 
       if ($params['comment']) {
          $params['comment'] = " COMMENT '".addslashes($params['comment'])."'";

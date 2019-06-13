@@ -1615,14 +1615,21 @@ abstract class AbstractDatabase
      * @return string
      * @throws \RuntimeException
      */
-    public function buildCreate(string $table, array $fields = [], array $keys = [])
+    public function buildCreate(string $table, array $fields = [], array $keys = []): string
     {
         $query = "CREATE TABLE IF NOT EXISTS $table (";
         if (!count($fields)) {
             throw new \RuntimeException('Cannot run an CREATE TABLE query without at least one column!');
         }
         foreach ($fields as $name => $params) {
-            $query .= "`$name` $params, ";
+            $p = [
+               'default_value'   => null,
+               'no_default'      => false
+            ];
+            $p = array_replace($p, $params);
+            $field_format = $this->fieldFormat($p['type'], $p['default_value'], $p['no_default']);
+            $comment = isset($p['comment']) ? (" COMMENT " . $this->quoteValue($p['comment'])) : '';
+            $query .= "`$name` {$field_format}{$comment}, ";
         }
         foreach ($keys as $keytype => $keyarray) {
             $type = '';
@@ -1698,5 +1705,135 @@ abstract class AbstractDatabase
     {
         $query = $this->buildCreate($table, $fields, $keys);
         return $this->rawQueryOrDie($query, $message);
+    }
+
+    /**
+     * Define field's format
+     *
+     * @param string  $type          can be bool, char, string, integer, date, datetime, text, longtext or autoincrement
+     * @param string  $default_value new field's default value,
+     *                               if a specific default value needs to be used
+     * @param boolean $nodefault     No default value (false by default)
+     *
+     * @return string
+     */
+    public function fieldFormat(string $type, $default_value, bool $nodefault = false): string
+    {
+        $format = '';
+        switch ($type) {
+            case 'bool':
+                $format = "TINYINT(1) NOT NULL";
+                if (!$nodefault) {
+                    if (is_null($default_value)) {
+                        $format .= " DEFAULT '0'";
+                    } else if (in_array($default_value, ['0', '1'])) {
+                        $format .= " DEFAULT '$default_value'";
+                    } else {
+                        throw new \RuntimeException(__('default_value must be 0 or 1'), E_USER_ERROR);
+                    }
+                }
+                break;
+
+            case 'char':
+                $format = "CHAR(1)";
+                if (!$nodefault) {
+                    if (is_null($default_value)) {
+                        $format .= " DEFAULT NULL";
+                    } else {
+                        $format .= " NOT NULL DEFAULT '$default_value'";
+                    }
+                }
+                break;
+
+            case 'string':
+                $format = "VARCHAR(255) COLLATE utf8_unicode_ci";
+                if (!$nodefault) {
+                    if (is_null($default_value)) {
+                        $format .= " DEFAULT NULL";
+                    } else {
+                        $format .= " NOT NULL DEFAULT '$default_value'";
+                    }
+                }
+                break;
+
+            case 'integer':
+                $format = "INT(11) NOT NULL";
+                if (!$nodefault) {
+                    if (is_null($default_value)) {
+                        $format .= " DEFAULT '0'";
+                    } else if (is_numeric($default_value)) {
+                        $format .= " DEFAULT '$default_value'";
+                    } else {
+                        throw new \RuntimeException(__('default_value must be numeric'), E_USER_ERROR);
+                    }
+                }
+                break;
+
+            case 'date':
+                $format = "DATE";
+                if (!$nodefault) {
+                    if (is_null($default_value)) {
+                        $format.= " DEFAULT NULL";
+                    } else {
+                        $format.= " DEFAULT '$default_value'";
+                    }
+                }
+                break;
+
+            case 'datetime':
+                $format = "DATETIME";
+                if (!$nodefault) {
+                    if (is_null($default_value)) {
+                        $format.= " DEFAULT NULL";
+                    } else {
+                        $format.= " DEFAULT '$default_value'";
+                    }
+                }
+                break;
+
+            case 'timestamp':
+                $format = "TIMESTAMP";
+                if (!$nodefault) {
+                    if (is_null($default_value)) {
+                        $format.= " NULL DEFAULT NULL";
+                    } else {
+                        $format.= " DEFAULT '$default_value'";
+                    }
+                }
+                break;
+
+            case 'text':
+                $format = "TEXT COLLATE utf8_unicode_ci";
+                if (!$nodefault) {
+                    if (is_null($default_value)) {
+                        $format.= " DEFAULT NULL";
+                    } else {
+                        $format.= " NOT NULL DEFAULT '$default_value'";
+                    }
+                }
+                break;
+
+            case 'longtext':
+                $format = "LONGTEXT COLLATE utf8_unicode_ci";
+                if (!$nodefault) {
+                    if (is_null($default_value)) {
+                        $format .= " DEFAULT NULL";
+                    } else {
+                        $format .= " NOT NULL DEFAULT '$default_value'";
+                    }
+                }
+                break;
+
+            // for plugins
+            case 'autoincrement':
+                $format = "INT(11) NOT NULL AUTO_INCREMENT";
+                break;
+
+            default:
+                // for compatibility with old 0.80 migrations
+                $format = $type;
+                break;
+        }
+        return $format;
     }
 }
