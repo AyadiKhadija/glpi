@@ -2652,7 +2652,7 @@ function createTables() {
               'comment' => 'second between launch',
           ],
           'param' => [
-              'type' => 'integer',
+              'type' => 'int(11)',
               'default_value' => null,
               'comment' => 'task specify parameter',
           ],
