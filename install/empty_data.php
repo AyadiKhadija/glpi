@@ -5440,8 +5440,8 @@ function createTables() {
               'ldap_field' => ['ldap_field'],
               'entities_id' => ['entities_id'],
               'date_mod' => ['date_mod'],
-              'ldap_value' => ['ldap_value'],
-              'ldap_group_dn' => ['ldap_group_dn'],
+              'ldap_value' => ['ldap_value' => 200],
+              'ldap_group_dn' => ['ldap_group_dn' => 200],
               'groups_id' => ['groups_id'],
               'is_requester' => ['is_requester'],
               'is_watcher' => ['is_watcher'],
@@ -12893,7 +12893,7 @@ function createTables() {
           'PRIMARY' => 'id',
           'KEY' => [
               'rules_id' => ['rules_id'],
-              'field_value' => ['field', 'value'],
+              'field_value' => ['field' => 50, 'value' => 50],
           ],
       ]
    ];
