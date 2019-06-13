@@ -2425,42 +2425,38 @@ class Toolbox {
 
       $DB = \Glpi\DatabaseFactory::create();
 
-      if (!$DB->runFile(GLPI_ROOT ."/install/mysql/glpi-empty.sql")) {
-         echo "Errors occurred inserting default database";
-      } else {
-         //dataset
-         require_once(__DIR__ . '/../install/empty_data.php');
-         createTables();
-         insertData();
+      //dataset
+      require_once(__DIR__ . '/../install/empty_data.php');
+      createTables();
+      insertData();
 
-         // update default language
-         Config::setConfigurationValues(
-            'core',
-            [
-               'language'      => $lang,
-               'version'       => GLPI_VERSION,
-               'dbversion'     => GLPI_SCHEMA_VERSION,
-               'use_timezones' => $DB->areTimezonesAvailable()
-            ]
-         );
+      // update default language
+      Config::setConfigurationValues(
+         'core',
+         [
+            'language'      => $lang,
+            'version'       => GLPI_VERSION,
+            'dbversion'     => GLPI_SCHEMA_VERSION,
+            'use_timezones' => $DB->areTimezonesAvailable()
+         ]
+      );
+      $DB->updateOrDie(
+         'glpi_users', [
+            'language' => 'NULL'
+         ], [0], "4203"
+      );
+
+      if (defined('GLPI_SYSTEM_CRON')) {
+         // Downstream packages may provide a good system cron
          $DB->updateOrDie(
-            'glpi_users', [
-               'language' => 'NULL'
-            ], [0], "4203"
+            'glpi_crontasks', [
+               'mode'   => 2
+            ], [
+               'name'      => ['!=', 'watcher'],
+               'allowmode' => ['&', 2]
+            ],
+            '4203'
          );
-
-         if (defined('GLPI_SYSTEM_CRON')) {
-            // Downstream packages may provide a good system cron
-            $DB->updateOrDie(
-               'glpi_crontasks', [
-                  'mode'   => 2
-               ], [
-                  'name'      => ['!=', 'watcher'],
-                  'allowmode' => ['&', 2]
-               ],
-               '4203'
-            );
-         }
       }
    }
 
