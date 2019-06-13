@@ -1575,4 +1575,128 @@ abstract class AbstractDatabase
     {
         return 0;
     }
+
+    /**
+     *
+     * Drops the specified table if it exists.
+     * @since 10.0.0
+     * @param string $table The table to drop
+     * @return PDOStatement|boolean Query result handler
+     *
+     * @throws GlpitestSQLError
+     */
+    public function drop(string $table)
+    {
+        return $this->rawQuery("DROP TABLE IF EXISTS $table;");
+    }
+
+    /**
+     *
+     * Drops the specified table if it exists. Scripts dies on error.
+     * @since 10.0.0
+     * @param string $table The table to drop
+     * @param string $message The message to display on error
+     * @return PDOStatement|boolean Query result handler
+     *
+     * @throws GlpitestSQLError
+     */
+    public function dropOrDie(string $table, string $message = '')
+    {
+        return $this->rawQueryOrDie("DROP TABLE IF EXISTS $table;", $message);
+    }
+
+    /**
+     * Builds a CREATE TABLE query with the given table name, fields, and keys.
+     * @param string $table The name of the table.
+     * @param array $fields An array of field definitions.
+     *   [$field_name => ['value' => $default_value, 'no_default' => boolean, 'comment' => $comment]]
+     * @param array $keys An array of key definitions.
+     *   [$key_type => [$key_name => $constraints]].
+     * @return string
+     * @throws \RuntimeException
+     */
+    public function buildCreate(string $table, array $fields = [], array $keys = [])
+    {
+        $query = "CREATE TABLE IF NOT EXISTS $table (";
+        if (!count($fields)) {
+            throw new \RuntimeException('Cannot run an CREATE TABLE query without at least one column!');
+        }
+        foreach ($fields as $name => $params) {
+            $query .= "`$name` $params, ";
+        }
+        foreach ($keys as $keytype => $keyarray) {
+            $type = '';
+            switch ($keytype) {
+                case 'PRIMARY':
+                case 'PRIMARY KEY':
+                    $type = 'PRIMARY KEY';
+                    break;
+                case 'UNIQUE':
+                case 'UNIQUE KEY':
+                    $type = 'UNIQUE KEY';
+                    break;
+                case 'KEY':
+                    $type = 'KEY';
+                    break;
+                case 'FULLTEXT':
+                case 'FULLTEXT KEY':
+                    $type = 'FULLTEXT KEY';
+                    break;
+                default:
+                    throw new \RuntimeException("Invalid key type: $keytype!");
+            }
+            if ($type == 'PRIMARY KEY' && is_array($keyarray)) {
+                throw new \RuntimeException("There can only be a single primary key!");
+            }
+            if ($type == 'PRIMARY KEY') {
+                $query .= " PRIMARY KEY (".$this->quoteName($keyarray)."),";
+            } else {
+                foreach ($keyarray as $keyname => $constraints) {
+                    $query .= " $type " . $this->quoteName($keyname) . ' (';
+                    foreach ($constraints as $constraint => $constraint_value) {
+                        if (is_numeric($constraint)) {
+                            $query .= "`$constraint_value`,";
+                        } else {
+                            $query .= "`$constraint`(" . $constraint_value . "),";
+                        }
+                    }
+                    $query = rtrim($query, ',') . '),';
+                }
+            }
+        }
+        $query = rtrim($query, ',') . ") ";
+        $query .= 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;';
+        return $query;
+    }
+
+    /**
+     *
+     * Creates the specified table if it doesn't already exist.
+     * @since 10.0.0
+     * @param string $table The table to create
+     * @return PDOStatement|boolean Query result handler
+     *
+     * @throws GlpitestSQLError
+     */
+    public function create(string $table, array $fields = [], array $keys = [])
+    {
+        $query = $this->buildCreate($table, $fields, $keys);
+        return $this->rawQuery($query);
+    }
+
+    /**
+     *
+     * Creates the specified table if it doesn't already exist. Scripts dies on error.
+     * @since 10.0.0
+     * @param string $table The table to create
+     * @param string $message The message to display on error
+     * @return PDOStatement|boolean Query result handler
+     *
+     * @throws GlpitestSQLError
+     */
+    public function createOrDie(string $table, array $fields = [], array $keys = [], $message = '')
+    {
+        $query = $this->buildCreate($table, $fields, $keys);
+        return $this->rawQueryOrDie($query, $message);
+    }
 }
