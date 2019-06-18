@@ -965,7 +965,8 @@ abstract class AbstractDatabase
                 if ($value instanceof \QueryExpression) {
                     $row_keys[] = $value->getValue();
                 } else {
-                    $pdo_placeholder = ":{$columns[$arrkey]}_$rowkey";
+                    $columnname = trim($columns[$arrkey], $this->getQuoteNameChar());
+                    $pdo_placeholder = ":{$columnname}_$rowkey";
                     $row_keys[] = $pdo_placeholder;
                     $newparams[$pdo_placeholder] = $value;
                 }
