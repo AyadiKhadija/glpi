@@ -1091,7 +1091,7 @@ class Migration {
                'profiles_id'  => $profile['id'],
                'name'         => $name,
                'rights'       => $reqmet ? $rights : 0
-            ],
+            ], null,
             sprintf('%1$s add right for %2$s', $this->version, $name)
          );
       }
