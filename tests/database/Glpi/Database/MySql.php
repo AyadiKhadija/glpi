@@ -168,7 +168,7 @@ class MySql extends \GLPITestCase {
 
       // Test bulk insert
       $expected = "INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES ";
-      $expected .= "(:context_0,:name_0,:value_0),(:context_1,:name_1,:value_1),(:context_2,:name_2,:value_2),(:context_3,:name_3,:value_3)";
+      $expected .= "(:context_0, :name_0, :value_0),(:context_1, :name_1, :value_1),(:context_2, :name_2, :value_2),(:context_3, :name_3, :value_3)";
       $columns = ['context', 'name', 'value'];
       $values = [
       ['core', 'cut', 250],
@@ -180,7 +180,7 @@ class MySql extends \GLPITestCase {
 
       // Test regular insert
       $expected = "INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES ";
-      $expected .= "(:context_0,:name_0,:value_0)";
+      $expected .= "(:context_0, :name_0, :value_0)";
       $params = [
          'context'   => 'core',
          'name'      => 'cut',

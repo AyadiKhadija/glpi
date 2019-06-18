@@ -106,25 +106,25 @@ class MySql extends \GLPITestCase {
                'field'  => 'value',
                'other'  => 'doe'
             ],
-            'INSERT INTO `table` (`field`, `other`) VALUES (:field, :other)'
+            'INSERT INTO `table` (`field`, `other`) VALUES (:field_0, :other_0)'
          ], [
             '`table`', [
                '`field`'  => 'value',
                '`other`'  => 'doe'
             ],
-            'INSERT INTO `table` (`field`, `other`) VALUES (:field, :other)'
+            'INSERT INTO `table` (`field`, `other`) VALUES (:field_0, :other_0)'
          ], [
             'table', [
                'field'  => new \QueryParam(),
                'other'  => new \QueryParam()
             ],
-            'INSERT INTO `table` (`field`, `other`) VALUES (:field, :other)'
+            'INSERT INTO `table` (`field`, `other`) VALUES (:field_0, :other_0)'
          ], [
             'table', [
                'field'  => new \QueryParam('field'),
                'other'  => new \QueryParam('other')
             ],
-            'INSERT INTO `table` (`field`, `other`) VALUES (:field, :other)'
+            'INSERT INTO `table` (`field`, `other`) VALUES (:field_0, :other_0)'
          ]
       ];
    }

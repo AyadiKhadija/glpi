@@ -983,7 +983,7 @@ abstract class AbstractDatabase
 
         $query .= implode(', ', $fields) . ") VALUES ";
         foreach ($keys as $rowkey => $rowvalues) {
-            $query .= '('.implode(',', $rowvalues).'),';
+            $query .= '('.implode(', ', $rowvalues).'),';
         }
         $query = rtrim($query, ',');
         return $query;

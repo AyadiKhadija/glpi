@@ -134,9 +134,9 @@ class Migration extends \GLPITestCase {
       $this->array($this->queries)->isIdenticalTo([
          0 => 'SELECT * FROM `glpi_configs` WHERE `context` = ? AND `name` IN (?,?)',
          1 => 'SELECT `id` FROM `glpi_configs` WHERE `context` = ? AND `name` = ?',
-         2 => 'INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES (:context, :name, :value)',
+         2 => 'INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES (:context_0, :name_0, :value_0)',
          3 => 'SELECT `id` FROM `glpi_configs` WHERE `context` = ? AND `name` = ?',
-         4 => 'INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES (:context, :name, :value)'
+         4 => 'INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES (:context_0, :name_0, :value_0)'
       ]);
 
       print_r($this->qry_params);
@@ -189,9 +189,9 @@ class Migration extends \GLPITestCase {
       $this->array($this->queries)->isIdenticalTo([
          0 => 'SELECT * FROM `glpi_configs` WHERE `context` = ? AND `name` IN (?,?)',
          1 => 'SELECT `id` FROM `glpi_configs` WHERE `context` = ? AND `name` = ?',
-         2 => 'INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES (:context, :name, :value)',
+         2 => 'INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES (:context_0, :name_0, :value_0)',
          3 => 'SELECT `id` FROM `glpi_configs` WHERE `context` = ? AND `name` = ?',
-         4 => 'INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES (:context, :name, :value)'
+         4 => 'INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES (:context_0, :name_0, :value_0)'
       ]);
 
       $this->array($this->qry_params)
@@ -263,7 +263,7 @@ class Migration extends \GLPITestCase {
       )->isIdenticalTo('Configuration values added for two.Task completed.');
 
       $this->array($this->queries)->isIdenticalTo([
-         0 => 'INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES (:context, :name, :value)'
+         0 => 'INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES (:context_0, :name_0, :value_0)'
       ]);
       $this->array($this->qry_params)->isIdenticalTo([
           0 => ['context' => 'core', 'name' => 'two', 'value' => 'value']
