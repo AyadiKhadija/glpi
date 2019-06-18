@@ -210,9 +210,9 @@ class Migration extends \GLPITestCase {
           })
           ->child[2](function($child) {
              $child->isIdenticalTo([
-                'context'  => 'test-context',
-                'name'     => 'one',
-                'value'    => 'key'
+                ':context_0'  => 'test-context',
+                ':name_0'     => 'one',
+                ':value_0'    => 'key'
              ]);
           })
           ->child[3](function($child) {
@@ -223,9 +223,9 @@ class Migration extends \GLPITestCase {
           })
           ->child[4](function($child) {
              $child->isIdenticalTo([
-                'context'  => 'test-context',
-                'name'     => 'two',
-                'value'    => 'value'
+                ':context_0'  => 'test-context',
+                ':name_0'     => 'two',
+                ':value_0'    => 'value'
              ]);
           });
 
@@ -266,7 +266,7 @@ class Migration extends \GLPITestCase {
          0 => 'INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES (:context_0, :name_0, :value_0)'
       ]);
       $this->array($this->qry_params)->isIdenticalTo([
-          0 => ['context' => 'core', 'name' => 'two', 'value' => 'value']
+          0 => [':context_0' => 'core', ':name_0' => 'two', ':value_0' => 'value']
       ]);
    }
 
