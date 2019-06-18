@@ -163,8 +163,10 @@ class MySql extends \GLPITestCase {
       ]);
    }
 
-   public function testBuildInsertBulk() {
+   public function testBuildInsert() {
       global $DB;
+
+      // Test bulk insert
       $expected = "INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES ";
       $expected .= "(:context_0,:name_0,:value_0),(:context_1,:name_1,:value_1),(:context_2,:name_2,:value_2),(:context_3,:name_3,:value_3)";
       $columns = ['context', 'name', 'value'];
@@ -173,7 +175,18 @@ class MySql extends \GLPITestCase {
       ['core', 'list_limit', 15],
       ['core', 'list_limit_max', 50],
       ['core', 'url_maxlength', 30]];
-      $built = $DB->buildInsertBulk('glpi_configs', $columns, $values);
+      $built = $DB->buildInsert('glpi_configs', $columns, $values);
+      $this->string($built)->isIdenticalTo($expected);
+
+      // Test regular insert
+      $expected = "INSERT INTO `glpi_configs` (`context`, `name`, `value`) VALUES ";
+      $expected .= "(:context_0,:name_0,:value_0)";
+      $params = [
+         'context'   => 'core',
+         'name'      => 'cut',
+         'value'     => 250
+      ];
+      $built = $DB->buildInsert('glpi_configs', $params);
       $this->string($built)->isIdenticalTo($expected);
    }
 }

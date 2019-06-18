@@ -44,7 +44,7 @@ function insertData() {
        'ipv6'              => '::1'
    ];
 
-   $DB->insertBulkOrDie('glpi_blacklists', ['id', 'type', 'name', 'value'], [
+   $DB->insertOrDie('glpi_blacklists', ['id', 'type', 'name', 'value'], [
       [1, 1, 'empty IP', ''],
       [2, 1, 'localhost', '127.0.0.1'],
       [3, 1, 'zero IP', '0.0.0.0'],
@@ -74,7 +74,7 @@ function insertData() {
       ];
    }
 
-   $DB->insertBulkOrDie('glpi_configs', ['context', 'name', 'value'], [
+   $DB->insertOrDie('glpi_configs', ['context', 'name', 'value'], [
       ['core', 'version', 'FILLED AT INSTALL'],
       ['core', 'show_jobs_at_login', 0],
       ['core', 'cut', 250],
@@ -276,7 +276,7 @@ function insertData() {
       ['core', 'display_login_source', 1]
    ]);
 
-   $DB->insertBulkOrDie('glpi_crontasks', [
+   $DB->insertOrDie('glpi_crontasks', [
       'itemtype', 'name', 'frequency', 'param', 'state', 'mode',
          'allowmode', 'hourmin', 'hourmax', 'logs_lifetime'],
       [
@@ -312,21 +312,21 @@ function insertData() {
       ]
    );
 
-   $DB->insertBulkOrDie('glpi_devicememorytypes', ['id', 'name'], [
+   $DB->insertOrDie('glpi_devicememorytypes', ['id', 'name'], [
       [1, 'EDO'],
       [2, 'DDR'],
       [3, 'SDRAM'],
       [4, 'SDRAM-2'],
    ]);
 
-   $DB->insertBulkOrDie('glpi_devicesimcardtypes', ['id', 'name'], [
+   $DB->insertOrDie('glpi_devicesimcardtypes', ['id', 'name'], [
       [1, 'Full SIM'],
       [2, 'Mini SIM'],
       [3, 'Micro SIM'],
       [4, 'Nano SIM'],
    ]);
 
-   $DB->insertBulkOrDie('glpi_displaypreferences', ['itemtype', 'num', 'rank', 'users_id', 'is_main'], [
+   $DB->insertOrDie('glpi_displaypreferences', ['itemtype', 'num', 'rank', 'users_id', 'is_main'], [
       ['Computer','4','4','0','1'],
       ['Computer','45','6','0','1'],
       ['Computer','40','5','0','1'],
@@ -592,7 +592,7 @@ function insertData() {
       ['SoftwareVersion','124','1','0','0']
    ]);
 
-   $DB->insertBulkOrDie('glpi_documenttypes', ['name', 'ext', 'icon'], [
+   $DB->insertOrDie('glpi_documenttypes', ['name', 'ext', 'icon'], [
       ['JPEG','jpg','jpg-dist.png'],
       ['PNG','png','png-dist.png'],
       ['GIF','gif','gif-dist.png'],
@@ -713,15 +713,15 @@ function insertData() {
       ]
    ];
 
-   $DB->insertBulkOrDie('glpi_filesystems', ['name'], [
+   $DB->insertOrDie('glpi_filesystems', ['name'], [
       ['ext'], ['ext2'], ['ext3'], ['ext4'], ['FAT'], ['FAT32'], ['VFAT'], ['HFS'], ['HPFS'],
       ['HTFS'], ['JFS2'], ['NFS'], ['NTFS'], ['ReiserFS'], ['SMBFS'], ['UDF'], ['UFS'],
       ['XFS'], ['ZFS']]);
 
-   $DB->insertBulkOrDie('glpi_interfacetypes', ['name'], [
+   $DB->insertOrDie('glpi_interfacetypes', ['name'], [
       ['IDE'], ['SATA'], ['SCSI'], ['USB'], ['AGP'], ['PCI'], ['PCIe'], ['PCI-X']]);
 
-   $DB->insertBulkOrDie('glpi_notifications', ['name', 'itemtype', 'event', 'is_active'], [
+   $DB->insertOrDie('glpi_notifications', ['name', 'itemtype', 'event', 'is_active'], [
       ['Alert Tickets not closed', 'Ticket', 'alertnotclosed', 1],
       ['New Ticket', 'Ticket', 'new', 1],
       ['Update Ticket', 'Ticket', 'update', 0],
@@ -791,7 +791,7 @@ function insertData() {
       ['Certificates', 'Certificate', 'alert', 1]
    ]);
 
-   $DB->insertBulkOrDie('glpi_notifications_notificationtemplates', ['notificationtemplates_id', 'mode', 'notifications_id'], [
+   $DB->insertOrDie('glpi_notifications_notificationtemplates', ['notificationtemplates_id', 'mode', 'notifications_id'], [
       [1, 'mailing', 6],
       [2, 'mailing', 4],
       [3, 'mailing', 4],
@@ -861,7 +861,7 @@ function insertData() {
       [67, 'mailing', 25]
    ]);
 
-   $DB->insertBulkOrDie('glpi_notificationtargets', ['items_id', 'type', 'notifications_id'], [
+   $DB->insertOrDie('glpi_notificationtargets', ['items_id', 'type', 'notifications_id'], [
       ['3','1','13'],
       ['1','1','13'],
       ['3','2','2'],
@@ -993,7 +993,7 @@ function insertData() {
       ['19','1','66']
    ]);
 
-   $DB->insertBulkOrDie('glpi_notificationtemplates', ['name', 'itemtype'], [
+   $DB->insertOrDie('glpi_notificationtemplates', ['name', 'itemtype'], [
       ['MySQL Synchronization','DBConnection'],
       ['Reservations','Reservation'],
       ['Alert Reservation','Reservation'],
@@ -1822,7 +1822,7 @@ function insertData() {
       ]
    ];
 
-   $DB->insertBulkOrDie('glpi_profilerights', ['profiles_id', 'name', 'rights'], [
+   $DB->insertOrDie('glpi_profilerights', ['profiles_id', 'name', 'rights'], [
       ['1','computer','0'],
       ['1','monitor','0'],
       ['1','software','0'],
@@ -2586,20 +2586,20 @@ function insertData() {
       ]
    ];
 
-   $DB->insertBulkOrDie('glpi_profiles_users', ['users_id', 'profiles_id'], [
+   $DB->insertOrDie('glpi_profiles_users', ['users_id', 'profiles_id'], [
       [2, 4],
       [3, 1],
       [4, 6],
       [5, 2]
    ]);
 
-   $DB->insertBulkOrDie('glpi_projectstates', ['name', 'color', 'is_finished'], [
+   $DB->insertOrDie('glpi_projectstates', ['name', 'color', 'is_finished'], [
       ['New', '#06ff00', '0'],
       ['Processing', '#ffb800', '0'],
       ['Closed', '#ff0000', '1']
    ]);
 
-   $DB->insertBulkOrDie('glpi_requesttypes', [
+   $DB->insertOrDie('glpi_requesttypes', [
          'name', 'is_helpdesk_default', 'is_followup_default',
          'is_mail_default', 'is_mailfollowup_default'],
       [
@@ -2612,7 +2612,7 @@ function insertData() {
       ]
    );
 
-   $DB->insertBulkOrDie('glpi_ruleactions', ['rules_id', 'action_type', 'field', 'value'], [
+   $DB->insertOrDie('glpi_ruleactions', ['rules_id', 'action_type', 'field', 'value'], [
       ['6','fromitem','locations_id','1'],
       ['2','assign','entities_id','0'],
       ['3','assign','entities_id','0'],
@@ -2625,7 +2625,7 @@ function insertData() {
       ['11','regex_result','_affect_user_by_regex','#0']
    ]);
 
-   $DB->insertBulkOrDie('glpi_rulecriterias', ['rules_id', 'criteria', 'condition', 'pattern'], [
+   $DB->insertOrDie('glpi_rulecriterias', ['rules_id', 'criteria', 'condition', 'pattern'], [
       ['6','locations_id','9','1'],
       ['2','uid','0','*'],
       ['2','samaccountname','0','*'],
@@ -2648,7 +2648,7 @@ function insertData() {
       ['11','contact','6','/(.*)/']
    ]);
 
-   $DB->insertBulkOrDie('glpi_rulerightparameters', ['name', 'value', 'comment'], [
+   $DB->insertOrDie('glpi_rulerightparameters', ['name', 'value', 'comment'], [
       ['(LDAP)Organization','o',''],
       ['(LDAP)Common Name','cn',''],
       ['(LDAP)Department Number','departmentnumber',''],
@@ -2664,7 +2664,7 @@ function insertData() {
       ['(LDAP) MemberOf','memberof','']
    ]);
 
-   $DB->insertBulkOrDie('glpi_rules', [
+   $DB->insertOrDie('glpi_rules', [
          'sub_type', 'ranking', 'name', 'description', 'match',
          'is_active', 'comment', 'is_recursive', 'uuid', 'condition'],
       [
@@ -2699,7 +2699,7 @@ function insertData() {
       ]
    ];
 
-   $DB->insertBulkOrDie('glpi_ssovariables', ['name', 'comment'], [
+   $DB->insertOrDie('glpi_ssovariables', ['name', 'comment'], [
       ['HTTP_AUTH_USER',''],
       ['REMOTE_USER',''],
       ['PHP_AUTH_USER',''],
@@ -2793,20 +2793,12 @@ function insertData() {
       ]
    ];
 
-   $DB->insertBulkOrDie('glpi_devicefirmwaretypes', ['name'], [['BIOS'], ['UEFI'], ['Firmware']]);
+   $DB->insertOrDie('glpi_devicefirmwaretypes', ['name'], [['BIOS'], ['UEFI'], ['Firmware']]);
 
    // Add all other data with individual insert queries
    foreach ($tables as $table => $data) {
-      $stmt = $DB->prepare($DB->buildInsert($table, $data[0]));
       foreach ($data as $row) {
-         try {
-            $stmt->execute($row);
-         } catch (\Exception $e) {
-            $msg = "In table $table";
-            $msg .= print_r($row, true);
-            $msg .= "\n".$e->getMessage();
-            throw new \RuntimeException($msg);
-         }
+         $DB->insertOrDie($table, $row);
       }
    }
 }

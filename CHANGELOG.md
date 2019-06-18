@@ -27,7 +27,8 @@ The present file will list all changes made to the project; according to the
 
 - Added `DB::truncate()` to replace raw SQL queries
 - `DB::fieldExists()` does not check table existence anymore.
-- Added `DB::insertBulk` to allow bulk inserts with PDO.
+- Changed function definition `DB::insertOrDie`. Inserted `values` param before message. Messages will automatically get re-assigned to the right param for now.
+- `DB::buildInsert` now supports bulk inserts when the columns and values are specified in separate parameters.
 
 #### Deprecated
 

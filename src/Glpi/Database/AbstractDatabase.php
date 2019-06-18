@@ -938,31 +938,54 @@ abstract class AbstractDatabase
      * @since 9.3
      *
      * @param \QueryExpression|string $table  Table name
+     * @param array                   $columns Array of columns or [field name => field value]
+     *                                 If a numeric-keyed array is used, it assumed to be columns.
      * @param array                   $params Query parameters ([field name => field value)
+     *                                 Only used if this is a bulk insert.
      *
      * @return string
      */
-    public function buildInsert($table, array &$params): string
+    public function buildInsert($table, array &$columns, &$values = null): string
     {
+        $is_bulk = !is_null($values);//count($columns) && array_key_exists(0, $columns);
+        if (!$is_bulk) {
+            $values = [array_values($columns)];
+            $columns = array_keys($columns);
+        }
         $query = "INSERT INTO " . $this->quoteName($table) . " (";
-
         $fields = [];
         $keys   = [];
-        foreach ($params as $key => $value) {
-            $fields[] = $this->quoteName($key);
-            if ($value instanceof \QueryExpression) {
-                $keys[] = $value->getValue();
-                unset($params[$key]);
-            } else {
-                $keys[]   = ':' . trim($key, '`');
+        foreach ($columns as $column) {
+            $fields[] = $this->quoteName($column);
+        }
+        $newparams = [];
+        foreach ($values as $rowkey => $row) {
+            $row_keys = [];
+            foreach ($row as $arrkey => $value) {
+                if ($value instanceof \QueryExpression) {
+                    $row_keys[] = $value->getValue();
+                } else {
+                    $pdo_placeholder = ":{$columns[$arrkey]}_$rowkey";
+                    $row_keys[] = $pdo_placeholder;
+                    $newparams[$pdo_placeholder] = $value;
+                }
             }
+            $keys[] = $row_keys;
         }
 
-        $query .= implode(', ', $fields);
-        $query .= ") VALUES (";
-        $query .= implode(", ", $keys);
-        $query .= ")";
+        // Pass parameters properly. Only seems to be an issue if buildInsert is called directly
+        if (!$is_bulk) {
+            $columns = $newparams;
+            $values = $columns;
+        } else {
+            $values = $newparams;
+        }
 
+        $query .= implode(', ', $fields) . ") VALUES ";
+        foreach ($keys as $rowkey => $rowvalues) {
+            $query .= '('.implode(',', $rowvalues).'),';
+        }
+        $query = rtrim($query, ',');
         return $query;
     }
 
@@ -972,15 +995,18 @@ abstract class AbstractDatabase
      * @since 9.3
      *
      * @param string $table  Table name
-     * @param array  $params Query parameters ([field name => field value)
+     * @param array                   $columns Array of columns or [field name => field value]
+     *                                 If a numeric-keyed array is used, it assumed to be columns.
+     * @param array                   $params Query parameters ([field name => field value)
+     *                                 Only used if this is a bulk insert.
      *
      * @return PDOStatement|boolean
      */
-    public function insert(string $table, array $params)
+    public function insert(string $table, array $columns, $values = null)
     {
         $result = $this->rawQuery(
-            $this->buildInsert($table, $params),
-            $params
+            $this->buildInsert($table, $columns, $values),
+            $values
         );
         return $result;
     }
@@ -992,15 +1018,23 @@ abstract class AbstractDatabase
      * @since 9.3
      *
      * @param string      $table   Table name
-     * @param array       $params  Query parameters ([field name => field value)
+     * @param array       $columns Array of columns or [field name => field value]
+     *                        If a numeric-keyed array is used, it assumed to be columns.
+     * @param array       $params Query parameters ([field name => field value)
+     *                        Only used if this is a bulk insert.
      * @param string|null $message Explanation of query
      *
      * @return PDOStatement
      */
-    public function insertOrDie(string $table, array $params, $message = null): PDOStatement
+    public function insertOrDie(string $table, array $columns, $values = null, $message = null): PDOStatement
     {
-        $insert = $this->buildInsert($table, $params);
-        $res = $this->rawQuery($insert, $params);
+        if (is_string($values)) {
+            Toolbox::deprecated('The position of the message parameter has moved');
+            $message = $values;
+            $values = null;
+        }
+        $insert = $this->buildInsert($table, $columns, $values);
+        $res = $this->rawQuery($insert, $values);
         if (!$res) {
            //TRANS: %1$s is the description, %2$s is the query, %3$s is the error message
             $message = sprintf(
