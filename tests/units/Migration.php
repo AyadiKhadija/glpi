@@ -156,9 +156,9 @@ class Migration extends \GLPITestCase {
           })
           ->child[2](function($child) {
              $child->isIdenticalTo([
-                'context'  => 'core',
-                'name'     => 'one',
-                'value'    => 'key'
+                ':context_0'  => 'core',
+                ':name_0'     => 'one',
+                ':value_0'    => 'key'
              ]);
           })
           ->child[3](function($child) {
@@ -169,9 +169,9 @@ class Migration extends \GLPITestCase {
           })
           ->child[4](function($child) {
              $child->isIdenticalTo([
-                'context'  => 'core',
-                'name'     => 'two',
-                'value'    => 'value'
+                ':context_0'  => 'core',
+                ':name_0'     => 'two',
+                ':value_0'    => 'value'
              ]);
           });
 
