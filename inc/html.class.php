@@ -3877,7 +3877,7 @@ JS;
                   : '',
                'lists'
             ],
-            toolbar: 'styleselect | bold italic | forecolor backcolor | bullist numlist outdent indent | table link image | code fullscreen',
+            toolbar: 'styleselect removeformat | bold italic | forecolor backcolor | bullist numlist outdent indent | table link image | code fullscreen',
             $readonlyjs
          });
 
