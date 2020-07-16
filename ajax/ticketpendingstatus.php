@@ -2,7 +2,7 @@
 /**
  * ---------------------------------------------------------------------
  * GLPI - Gestionnaire Libre de Parc Informatique
- * Copyright (C) 2015-2017 Teclib' and contributors.
+ * Copyright (C) 2015-2020 Teclib' and contributors.
  *
  * http://glpi-project.org
  *
@@ -30,10 +30,6 @@
  * ---------------------------------------------------------------------
  */
 
-/** @file
-* @brief
-*/
-
 // Direct access to file
 if (strpos($_SERVER['PHP_SELF'], "ticketpendingstatus.php")) {
    $AJAX_INCLUDE = 1;
@@ -43,9 +39,7 @@ if (strpos($_SERVER['PHP_SELF'], "ticketpendingstatus.php")) {
 }
 
 Session::checkLoginUser();
-if (isset($_POST['state'])
-        AND isset($_POST['pendingenddate'])
-        AND isset($_POST['pendingcomment'])) {
+if (isset($_POST['state'], $_POST['pendingenddate'], $_POST['pendingcomment'])) {
    $ticket = new Ticket();
    $ticket->showPendingEndDate($_POST['state'], $_POST['pendingenddate'], $_POST['pendingcomment']);
 }

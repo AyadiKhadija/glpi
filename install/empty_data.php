@@ -667,6 +667,16 @@ $tables['glpi_crontasks'] = [
       'mode'          => 2,
       'lastrun'       => null,
       'logs_lifetime' => 30,
+   ], [
+      'id'           => 38,
+      'itemtype'     => 'Ticket',
+      'name'          => 'expirePending',
+      'frequency'     => 3600,
+      'param'         => null,
+      'state'         => 1,
+      'mode'          => 2,
+      'lastrun'       => null,
+      'logs_lifetime' => 30,
    ],
 ];
 
@@ -2103,6 +2113,8 @@ $tables['glpi_entities'] = [
       'suppliers_as_private'                 => 0,
       'enable_custom_css'                    => 0,
       'anonymize_support_agents'             => 0,
+      'pendingenddate'                       => 0,
+      'pending_add_follow'                   => 0,
    ],
 ];
 

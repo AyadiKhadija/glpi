@@ -1559,7 +1559,7 @@ class Ticket extends CommonITILObject {
             ]
          );
       }
-      $this->AddFollowupWhenSetPendingStatus();
+      $this->addFollowupWhenSetPendingStatus();
    }
 
 
@@ -1962,7 +1962,7 @@ class Ticket extends CommonITILObject {
                                                           "<a href='".Ticket::getFormURLWithID($this->fields['id'])."'>".
                                                             $this->fields['id']."</a>")));
       }
-      $this->AddFollowupWhenSetPendingStatus('add');
+      $this->addFollowupWhenSetPendingStatus('add');
    }
 
 
@@ -7403,16 +7403,17 @@ class Ticket extends CommonITILObject {
          echo __('Expiration date of pending status');
          echo "</th>";
          echo "<td>";
-         Html::showDateTimeField('pendingenddate', array('value' => $pendingenddate,
-                                                   'timestep'   => 1,
-                                                   'maybeempty' => true));
+         Html::showDateTimeField('pendingenddate', [
+            'value' => $pendingenddate,
+            'timestep'   => 1,
+            'maybeempty' => true
+         ]);
          echo "</td>";
          echo "<th>";
          echo __('Pending status reasons');
          echo "</th>";
          echo "<td>";
-         echo "<textarea cols='40' rows='1' name='pendingcomment' >".
-              $pendingcomment;
+         echo "<textarea cols='40' rows='1' name='pendingcomment' >".$pendingcomment;
          echo "</textarea>";
          echo "</td>";
       }
@@ -7423,58 +7424,64 @@ class Ticket extends CommonITILObject {
     * Cron used to pass tickets from WAITING (pending) status to ASSIGNED when pending date is
     * expired
     *
-    * @param type $task
+    * @param CronTask $task
+    * @return bool
     */
-   static public function cronExpirePending($task) {
-      $ticket = new self();
-      $entity = new entity();
+   public static function cronExpirePending(CronTask $task) {
+      global $DB;
 
-      $entities = getAllDatasFromTable('glpi_entities');
-      foreach ($entities as $entdata) {
-         $val = $entity->getUsedConfig('pendingenddate', $entdata['id']);
+      $ticket = new self();
+
+      $entities = $DB->request([
+         'SELECT' => ['id'],
+         'FROM'   => Entity::getTable()
+      ]);
+      while ($entdata = $entities->next()) {
+         $val = Entity::getUsedConfig('pendingenddate', $entdata['id']);
          if ($val >= 0) {
-            $tickets = $ticket->find("`status`='".Ticket::WAITING."'"
-                    . " AND `pendingenddate` IS NOT NULL"
-                    . " AND `pendingenddate` < NOW()"
-                    . " AND `entities_id`='".$entdata['id']."'");
+            $tickets = $DB->request([
+               'SELECT' => ['id'],
+               'FROM'   => self::getTable(),
+               'WHERE'  => [
+                  ['NOT' => ['pendingdate' => null]],
+                  new QueryExpression($DB::quoteName('pendingdate') . ' < NOW()'),
+                  'entities_id'  => $entdata['id']
+               ]
+            ]);
             foreach ($tickets as $data) {
-               // so we need udpate the ticket to modify status from WAITING to ASSIGNED
+               // so we need to update the ticket to modify status from WAITING to ASSIGNED
                $input = [
-                   'id'             => $data['id'],
-                   'pendingenddate' => 'NULL',
-                   'pendingcomment' => 'NULL',
-                   'status'         => Ticket::ASSIGNED
+                  'id'             => $data['id'],
+                  'pendingenddate' => 'NULL',
+                  'pendingcomment' => 'NULL',
+                  'status'         => Ticket::ASSIGNED
                ];
                $ticket->update($input);
                $task->addVolume(1);
             }
          }
       }
-      return True;
+      return true;
    }
 
 
    /**
     * Fill expire pending date if not filled and days defined in entity configuration
     * Called when add and update the ticket
+    *
+    * @return array The modified input
     */
-   function fillExpireDatePending($input) {
-      if (isset($input['status']) AND $input['status'] == Ticket::WAITING) {
-         $entity = new Entity();
-         $entities_id = 0;
-         if (isset($input['entities_id'])) {
-            $entities_id = $input['entities_id'];
-         } else {
-            $entities_id = $this->fields['entities_id'];
-         }
-         $val = $entity->getUsedConfig('pendingenddate', $entities_id);
+   function fillExpireDatePending(array $input): array {
+      if (isset($input['status']) && $input['status'] == Ticket::WAITING) {
+         $entities_id = $input['entities_id'] ?? $this->fields['entities_id'];
+
+         $val = Entity::getUsedConfig('pendingenddate', $entities_id);
          if ($val > 0) {
-            if (!isset($input['pendingenddate']) OR $input['pendingenddate'] == '') {
-               $input['pendingenddate'] = date('Y-m-d H:i:s', (date('U') + ($val * 24 * 3600)));
+            if (!isset($input['pendingenddate']) || $input['pendingenddate'] == '') {
+               $input['pendingenddate'] = date('Y-m-d H:i:s', (date('U') + ($val * DAY_TIMESTAMP)));
             }
          }
-      } else if (isset($input['status'])
-              AND $input['status'] != Ticket::WAITING) {
+      } else if (isset($input['status']) && $input['status'] != Ticket::WAITING) {
          $input['pendingenddate'] = 'NULL';
          $input['pendingcomment'] = 'NULL';
       }
@@ -7486,29 +7493,25 @@ class Ticket extends CommonITILObject {
    /**
     * Add a 'private' followup in case define an expiration date / a reason of pending state
     */
-   function AddFollowupWhenSetPendingStatus($type='update') {
-      $entity = new Entity();
-      $val = $entity->getUsedConfig('pending_add_follow', $this->fields['entities_id']);
+   function addFollowupWhenSetPendingStatus(string $type = 'update') {
+      $val = Entity::getUsedConfig('pending_add_follow', $this->fields['entities_id']);
       if ($val == 1) {
-         if (($type == 'update'
-                 AND isset($this->oldvalues['status'])
-                 AND $this->input['status'] == Ticket::WAITING
-                 AND $this->input['status'] != $this->oldvalues['status'])
-             OR ($type == 'add'
-                 AND isset($this->input['status'])
-                 AND $this->input['status'] == Ticket::WAITING)) {
+         if (($type === 'update' && isset($this->oldvalues['status']) &&
+               $this->input['status'] == Ticket::WAITING && $this->input['status'] != $this->oldvalues['status']) ||
+            ($type === 'add' && isset($this->input['status']) && $this->input['status'] == Ticket::WAITING)) {
 
             $pendingcomment = '';
             if (isset($this->input['pendingcomment'])) {
                $pendingcomment = ":\n".$this->input['pendingcomment'];
             }
             $input = [
-                'tickets_id' => $this->fields['id'],
-                'content'    => __('Set ticket status in pending state').$pendingcomment,
-                'is_private' => True,
-                'users_id'   => $_SESSION['glpiID']
+               'itemtype'     => 'Ticket',
+               'items_id'    => $this->fields['id'],
+               'content'     => __('Set ticket status in pending state').$pendingcomment,
+               'is_private'  => true,
+               'users_id'    => $_SESSION['glpiID']
             ];
-            $tfollow = new TicketFollowup();
+            $tfollow = new ITILFollowup();
             $tfollow->add($input);
          }
       }

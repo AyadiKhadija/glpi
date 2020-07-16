@@ -2632,22 +2632,25 @@ class Entity extends CommonTreeDropdown {
       if ($ID > 0) {
          $elements[self::CONFIG_PARENT] = __('Inheritance of the parent entity');
       }
-      Dropdown::showNumber('pendingenddate',
-                           array('value' => $entity->fields['pendingenddate'],
-                                 'min'   => 1,
-                                 'max'   => 500,
-                                 'step'  => 1,
-                                 'toadd' => $elements,
-                                 'unit'  => 'day'));
+      Dropdown::showNumber('pendingenddate', [
+         'value' => $entity->fields['pendingenddate'],
+         'min'   => 1,
+         'max'   => 500,
+         'step'  => 1,
+         'toadd' => $elements,
+         'unit'  => 'day'
+      ]);
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td colspan='2'>".__('Add private followup when add reason of pending status')."</td>";
       echo "<td colspan='2'>";
-      Alert::dropdownYesNo(array('name'           => "pending_add_follow",
-                                 'value'          =>  $entity->fields['pending_add_follow'],
-                                 'inherit_parent' => (($ID > 0) ? 1 : 0)));
+      Alert::dropdownYesNo([
+         'name'           => "pending_add_follow",
+         'value'          =>  $entity->fields['pending_add_follow'],
+         'inherit_parent' => (($ID > 0) ? 1 : 0)
+      ]);
       echo "</td>";
       echo "</tr>";
 
@@ -2719,15 +2722,14 @@ class Entity extends CommonTreeDropdown {
          unset($autopurge[self::CONFIG_PARENT]);
       }
 
-      Dropdown::showNumber(
-         'autopurge_delay',
-         [
-            'value' => $entity->fields['autopurge_delay'],
-            'min'   => 1,
-            'max'   => 3650,
-            'step'  => 1,
-            'toadd' => $autopurge,
-            'unit'  => 'day']);
+      Dropdown::showNumber('autopurge_delay', [
+         'value' => $entity->fields['autopurge_delay'],
+         'min'   => 1,
+         'max'   => 3650,
+         'step'  => 1,
+         'toadd' => $autopurge,
+         'unit'  => 'day'
+      ]);
 
       if (($entity->fields['autopurge_delay'] == self::CONFIG_PARENT)
           && ($ID != 0)) {

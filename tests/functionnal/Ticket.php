@@ -3193,7 +3193,7 @@ class Ticket extends DbTestCase {
 
       $entity = new \Entity;
       $ticket = new \Ticket;
-      $followup = new \TicketFollowup;
+      $followup = new \ITILFollowup();
 
       // First: Activate the option in the entity + activate followup
       $e = getItemByTypeName('Entity', '_test_root_entity', true);
@@ -3215,7 +3215,11 @@ class Ticket extends DbTestCase {
       $ticket_id = $ticket->add($input);
       $this->integer($ticket_id);
 
-      $this->integer(count($followup->find("`tickets_id`='".$ticket_id."'")))->isEqualTo(1);
+      $fup_count = count($followup->find([
+         'itemtype'  => 'Ticket',
+         'items_id'  => $ticket_id
+      ]));
+      $this->integer($fup_count)->isEqualTo(1);
 
       // go back ticket in assigned status manually
       $input = [
@@ -3223,7 +3227,12 @@ class Ticket extends DbTestCase {
          'status' => \Ticket::ASSIGNED
       ];
       $ticket->update($input);
-      $this->integer(count($followup->find("`tickets_id`='".$ticket_id."'")))->isEqualTo(1);
+
+      $fup_count = count($followup->find([
+         'itemtype'  => 'Ticket',
+         'items_id'  => $ticket_id
+      ]));
+      $this->integer($fup_count)->isEqualTo(1);
       $ticket->getFromDB($ticket_id);
       $this->variable($ticket->fields['pendingenddate'])->isNull();
       $this->variable($ticket->fields['pendingcomment'])->isNull();
@@ -3235,7 +3244,12 @@ class Ticket extends DbTestCase {
          'pendingenddate' => date('Y-m-d H:i:s', (date('U') - 36000))
       ];
       $ticket->update($input);
-      $this->integer(count($followup->find("`tickets_id`='".$ticket_id."'")))->isEqualTo(2);
+
+      $fup_count = count($followup->find([
+         'itemtype'  => 'Ticket',
+         'items_id'  => $ticket_id
+      ]));
+      $this->integer($fup_count)->isEqualTo(2);
 
    }
 
@@ -3244,7 +3258,7 @@ class Ticket extends DbTestCase {
 
       $entity = new \Entity;
       $ticket = new \Ticket;
-      $followup = new \TicketFollowup;
+      $followup = new \ITILFollowup;
       $cron   = new \CronTask;
 
       // First: Activate the option in the entity
@@ -3279,6 +3293,10 @@ class Ticket extends DbTestCase {
       $this->string($ticket->fields['status'])->isEqualTo(\Ticket::ASSIGNED);
       $this->variable($ticket->fields['pendingenddate'])->isNull();
 
-      $this->integer(count($followup->find("`tickets_id`='".$ticket_id."'")))->isEqualTo(0);
+      $fup_count = count($followup->find([
+         'itemtype'  => 'Ticket',
+         'items_id'  => $ticket_id
+      ]));
+      $this->integer($fup_count)->isEqualTo(0);
    }
 }
