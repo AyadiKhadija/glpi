@@ -125,5 +125,5 @@ if (!$DB->tableExists('glpi_appliancerelations')) {
    $DB->queryOrDie($query, "9.5 add table glpi_appliancerelations");
 }
 
-$migration->addRight('appliance', ALLSTANDARDRIGHT);
+$migration->addRight('appliance', ALLSTANDARDRIGHT | READNOTE | UPDATENOTE);
 $ADDTODISPLAYPREF['appliance'] = [2, 3, 4, 5];
