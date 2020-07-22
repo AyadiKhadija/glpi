@@ -40,13 +40,12 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 9.5
  */
-
 trait CommonDeprecatedTrait
 {
    abstract public function getType(): string;
 
    /**
-    * Get the class short name for the deprecated itemtpe
+    * Get the class short name for the deprecated itemtype
     *
     * @return string
     */
@@ -75,7 +74,7 @@ trait CommonDeprecatedTrait
    }
 
    /**
-    * For each searchoption, update the UID ref to match the deprecated type
+    * For each search option, update the UID ref to match the deprecated type
     *
     * @param array $soptions
     * @return CommonDeprecatedTrait Return self to allow method chaining
@@ -98,7 +97,7 @@ trait CommonDeprecatedTrait
    }
 
    /**
-    * For each searchoption, update the table ref to match the deprecated type
+    * For each search option, update the table ref to match the deprecated type
     *
     * @param array $soptions
     * @return CommonDeprecatedTrait Return self to allow method chaining
@@ -188,36 +187,28 @@ trait CommonDeprecatedTrait
    }
 
    /**
-    * Add a searchoption
+    * Add a search option
     *
     * @param array $fields
     * @param string $key
     * @param array $values
     * @return CommonDeprecatedTrait Return self to allow method chaining
     */
-   public function addSearchOption(
-      array &$soptions,
-      string $key,
-      array $values
-   ) {
+   public function addSearchOption(array &$soptions, string $key, array $values) {
       $soptions[$key] = $values;
 
       return $this;
    }
 
    /**
-    * Edit an existing searchoption
+    * Edit an existing search option
     *
-    * @param array $fields
+    * @param array $soptions
     * @param string $key
     * @param array $values
     * @return CommonDeprecatedTrait Return self to allow method chaining
     */
-   public function alterSearchOption(
-      array &$soptions,
-      string $key,
-      array $values
-   ) {
+   public function alterSearchOption(array &$soptions, string $key, array $values) {
       foreach ($values as $v_key => $v_value) {
          $soptions[$key][$v_key] = $v_value;
       }
@@ -226,11 +217,10 @@ trait CommonDeprecatedTrait
    }
 
    /**
-    * Delete an existing searchoption
+    * Delete an existing search option
     *
-    * @param array $fields
+    * @param array $soptions
     * @param string $key
-    * @param array $values
     * @return CommonDeprecatedTrait Return self to allow method chaining
     */
    public function deleteSearchOption(array &$soptions, string $key) {

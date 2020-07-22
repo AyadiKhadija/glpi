@@ -105,7 +105,7 @@ class APIRest extends API {
       // Add headers for CORS
       $this->cors($this->verb);
 
-      // retrieve paramaters (in body, query_string, headers)
+      // retrieve parameters (in body, query_string, headers)
       $this->parseIncomingParams($is_inline_doc);
 
       // show debug if required
@@ -319,13 +319,12 @@ class APIRest extends API {
 
 
    /**
-    * Retrieve and check itemtype from $this->url_elements
+    * Retrieve and check itemtype from {@link url_elements}
     *
-    * @param integer $index      we'll find itemtype in this index of $this->url_elements
-    *                            (default o)
-    * @param boolean $recursive  can we go depper or we trigger an http error if we fail to find itemtype?
+    * @param integer $index      We'll find itemtype in this index of {@link url_elements} (default 0)
+    * @param boolean $recursive  Can we go deeper or we trigger an http error if we fail to find itemtype?
     *                            (default true)
-    * @param boolean $all_assets if we can have allasset virtual type (default false)
+    * @param boolean $all_assets If we can have allasset virtual type (default false)
     *
     * @return boolean
     */
@@ -374,7 +373,7 @@ class APIRest extends API {
 
 
    /**
-    * Retrieve in url_element the current id. If we have a multiple id (ex /Ticket/1/TicketFollwup/2),
+    * Retrieve in url_element the current id. If we have a multiple id (ex /Ticket/1/TicketFollowup/2),
     * it always find the second
     *
     * @return integer|boolean id of current itemtype (or false if not found)

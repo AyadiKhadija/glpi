@@ -532,7 +532,7 @@ abstract class API extends CommonGLPI {
     *    - 'expand_dropdowns': Show dropdown's names instead of id. default: false. Optional
     *    - 'get_hateoas':      Show relation of current item in a links attribute. default: true. Optional
     *    - 'get_sha1':         Get a sha1 signature instead of the full answer. default: false. Optional
-    *    - 'with_devices':  Only for [Computer, NetworkEquipment, Peripheral, Phone, Printer], Optional.
+    *    - 'with_devices':     Only for [Computer, NetworkEquipment, Peripheral, Phone, Printer], Optional.
     *    - 'with_disks':       Only for Computer, retrieve the associated filesystems. Optional.
     *    - 'with_softwares':   Only for Computer, retrieve the associated software installations. Optional.
     *    - 'with_connections': Only for Computer, retrieve the associated direct connections (like peripherals and printers) .Optional.
@@ -1402,7 +1402,7 @@ abstract class API extends CommonGLPI {
     *    - 'expand_dropdowns':  Show dropdown's names instead of id. default: false. Optional
     *    - 'get_hateoas':       Show relation of current item in a links attribute. default: true. Optional
     *    - 'get_sha1':          Get a sha1 signature instead of the full answer. default: false. Optional
-    *    - 'with_devices':   Only for [Computer, NetworkEquipment, Peripheral, Phone, Printer], Optional.
+    *    - 'with_devices':      Only for [Computer, NetworkEquipment, Peripheral, Phone, Printer], Optional.
     *    - 'with_disks':        Only for Computer, retrieve the associated filesystems. Optional.
     *    - 'with_softwares':    Only for Computer, retrieve the associated software installations. Optional.
     *    - 'with_connections':  Only for Computer, retrieve the associated direct connections (like peripherals and printers) .Optional.
@@ -1579,12 +1579,12 @@ abstract class API extends CommonGLPI {
     *    - 'criteria': array of criterion object to filter search.
     *        Optional.
     *        Each criterion object must provide :
-    *           - link: (optionnal for 1st element) logical operator in [AND, OR, AND NOT, AND NOT].
+    *           - link: (optional for 1st element) logical operator in [AND, OR, AND NOT, AND NOT].
     *           - field: id of searchoptions.
     *           - searchtype: type of search in [contains, equals, notequals, lessthan, morethan, under, notunder].
     *           - value : value to search.
-    *    - 'metacriteria' (optionnal): array of metacriterion object to filter search.
-    *                                  Optional.
+    *    - 'metacriteria' (optional): array of metacriterion object to filter search.
+    *                                 Optional.
     *                                  A meta search is a link with another itemtype
     *                                  (ex: Computer with softwares).
     *         Each metacriterion object must provide :
@@ -1597,7 +1597,7 @@ abstract class API extends CommonGLPI {
     *    - 'order' : ASC - Ascending sort / DESC Descending sort (default ASC). Optional.
     *    - 'range' : a string with a couple of number for start and end of pagination separated by a '-'. Ex : 150-200. (default 0-50)
     *                Optional.
-    *    - 'forcedisplay': array of columns to display (default empty = empty use display pref and search criterias).
+    *    - 'forcedisplay': array of columns to display (default empty = empty use display pref and search criteria).
     *                      Some columns will be always presents (1-id, 2-name, 80-Entity).
     *                      Optional.
     *    - 'rawdata': boolean for displaying raws data of Search engine of glpi (like sql request, and full searchoptions)

@@ -40,7 +40,6 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 9.5
  */
-
 interface DeprecatedInterface
 {
    /**
@@ -67,7 +66,7 @@ interface DeprecatedInterface
    public function mapCurrentToDeprecatedFields(array $fields): array;
 
    /**
-    * Convert current searchoptions to deprecated searchoptions
+    * Convert current search options to deprecated search options
     *
     * @param array $soptions
     * @return array
