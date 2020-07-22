@@ -37,6 +37,7 @@ if (!defined('GLPI_ROOT')) {
 }
 
 use CommonDBConnexity;
+use CommonDBTM;
 use Toolbox;
 
 /**
@@ -44,9 +45,9 @@ use Toolbox;
  **/
 trait Clonable {
    /**
-    * Get relations class to clone along with current eleemnt
+    * Get relations class to clone along with current element
     *
-    * @return CommonDBTM::class[]
+    * @return CommonDBTM[]
     */
    abstract public function getCloneRelations() :array;
 

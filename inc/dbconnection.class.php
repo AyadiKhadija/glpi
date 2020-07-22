@@ -53,10 +53,10 @@ class DBConnection extends CommonDBTM {
     *
     * @since 9.1
     *
-    * @param $dbhost
-    * @param $user
-    * @param $password
-    * @param $DBname
+    * @param string $host
+    * @param string $user
+    * @param string $password
+    * @param string $DBname
     *
     * @return boolean
     *
@@ -77,10 +77,10 @@ class DBConnection extends CommonDBTM {
    /**
     * Create slave DB configuration file
     *
-    * @param host       the slave DB host(s)
-    * @param user       the slave DB user
-    * @param password   the slave DB password
-    * @param DBname     the name of the slave DB
+    * @param string $host     The slave DB host(s)
+    * @param string $user     The slave DB user
+    * @param string $password The slave DB password
+    * @param string $DBname   The name of the slave DB
     *
     * @return boolean for success
    **/

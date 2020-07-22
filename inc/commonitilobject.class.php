@@ -2997,11 +2997,11 @@ abstract class CommonITILObject extends CommonDBTM {
     *
     * @since 0.83
     *
-    * @param $field     String         name of the field
-    * @param $values    String / Array with the value to display
-    * @param $options   Array          of option
+    * @param string $field   Name of the field
+    * @param array  $values  Array with the value to display
+    * @param array  $options Array of options
     *
-    * @return a string
+    * @return string
    **/
    static function getSpecificValueToDisplay($field, $values, array $options = []) {
 

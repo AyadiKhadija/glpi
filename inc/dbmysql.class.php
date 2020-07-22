@@ -1635,7 +1635,7 @@ class DBmysql {
    }
 
    /**
-    * Clear cached schema informations.
+    * Clear cached schema information.
     *
     * @return void
     */

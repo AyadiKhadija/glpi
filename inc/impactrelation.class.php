@@ -49,7 +49,7 @@ class ImpactRelation extends CommonDBRelation {
          return false;
       }
 
-      // Check if source and impacted are valid objets
+      // Check if source and impacted are valid objects
       $source_exist = Impact::assetExist(
          $input['itemtype_source'],
          $input['items_id_source']

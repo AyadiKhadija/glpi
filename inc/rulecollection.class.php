@@ -45,7 +45,7 @@ class RuleCollection extends CommonDBTM {
    public $orderby                               = "ranking";
    /// Processing several rules : use result of the previous one to computer the current one
    public $use_output_rule_process_as_next_input = false;
-   /// Rule collection can be replay (for dictionnary)
+   /// Rule collection can be replay (for dictionary)
    public $can_replay_rules                      = false;
    /// List of rules of the rule collection
    public $RuleList                              = null;
@@ -1814,7 +1814,7 @@ class RuleCollection extends CommonDBTM {
     * Get rulecollection classname by giving his itemtype
     *
     * @param $itemtype                 itemtype
-    * @param $check_dictionnary_type   check if the itemtype is a dictionnary or not
+    * @param $check_dictionary_type   check if the itemtype is a dictionary or not
     *                                  (false by default)
     *
     * @return the rulecollection class or null

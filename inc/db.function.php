@@ -125,7 +125,7 @@ function getTableForItemType($itemtype) {
 
 
 /**
- * Get new item objet for an itemtype
+ * Get new item object for an itemtype
  *
  * @since 0.83
  *
@@ -519,7 +519,7 @@ function getDateCriteria($field, $begin, $end) {
 /**
  * Export an array to be stored in a simple field in the database
  *
- * @param $TAB Array to export / encode (one level depth)
+ * @param array $TAB Array to export / encode (one level depth)
  *
  * @return string containing encoded array
 **/

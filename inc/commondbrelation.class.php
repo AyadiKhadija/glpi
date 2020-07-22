@@ -343,7 +343,7 @@ abstract class CommonDBRelation extends CommonDBConnexity {
     *
     * @since 0.84
     *
-    * @param $input Array of data to be added
+    * @param array $input Array of data to be added
     *
     * @return boolean
    **/
@@ -357,7 +357,7 @@ abstract class CommonDBRelation extends CommonDBConnexity {
     *
     * @since 0.84
     *
-    * @param $input Array of data to be added
+    * @param array $input Array of data to be added
     *
     * @return boolean
    **/
@@ -1544,7 +1544,7 @@ abstract class CommonDBRelation extends CommonDBConnexity {
     * @since 9.3.1
     *
     * @param CommonDBTM $item  Item instance
-    * @param boolean    $noent Flag to not compute entity informations (see Document_Item::getListForItemParams)
+    * @param boolean    $noent Flag to not compute entity information (see Document_Item::getListForItemParams)
     *
     * @return array
     */
@@ -1690,7 +1690,7 @@ abstract class CommonDBRelation extends CommonDBConnexity {
     *
     * @param integer $items_id Object id to restrict on
     * @param string  $itemtype Type for items to retrieve
-    * @param boolean $noent    Flag to not compute entity informations (see Document_Item::getTypeItemsQueryParams)
+    * @param boolean $noent    Flag to not compute entity information (see Document_Item::getTypeItemsQueryParams)
     * @param array   $where    Inital WHERE clause. Defaults to []
     *
     * @return array

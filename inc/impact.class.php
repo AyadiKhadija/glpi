@@ -458,8 +458,8 @@ class Impact extends CommonGLPI {
 
    /**
     * Display "number" cell in list view
-    * The cell is empty if no itilobjets are found, else it contains the
-    * number of iitilobjets found, use the highest priority as it's background
+    * The cell is empty if no itilobjects are found, else it contains the
+    * number of iitilobjects found, use the highest priority as it's background
     * color and is a link to matching search result
     *
     * @param array   $itil_objects

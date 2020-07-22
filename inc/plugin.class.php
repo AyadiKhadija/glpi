@@ -397,12 +397,12 @@ class Plugin extends CommonDBTM {
 
       if (empty($informations)) {
          if (!$is_already_known) {
-            // Plugin is not known and we are unable to load informations, we ignore it
+            // Plugin is not known and we are unable to load information, we ignore it
             return;
          }
 
          // Try to get information from a plugin that lists current name as its old name
-         // If something found, and not already registerd in DB,, base plugin informations on it
+         // If something found, and not already registerd in DB,, base plugin information on it
          // If nothing found, mark plugin as "To be cleaned"
          $new_specs = $this->getNewInfoAndDirBasedOnOldName($plugin_key);
          if (null !== $new_specs
@@ -417,7 +417,7 @@ class Plugin extends CommonDBTM {
                ),
                E_USER_WARNING
             );
-            // Plugin is known but we are unable to load informations, we ignore it
+            // Plugin is known but we are unable to load information, we ignore it
             return;
          }
       }
@@ -443,8 +443,8 @@ class Plugin extends CommonDBTM {
 
       if ($informations['version'] != $plugin->fields['version']
           || $plugin_key != $plugin->fields['directory']) {
-         // Plugin known version differs from informations or plugin has been renamed,
-         // update informations in database
+         // Plugin known version differs from information or plugin has been renamed,
+         // update information in database
          $input              = $informations;
          $input['id']        = $plugin->fields['id'];
          $input['directory'] = $plugin_key;
@@ -547,11 +547,11 @@ class Plugin extends CommonDBTM {
 
 
    /**
-    * Get plugin informations based on its old name.
+    * Get plugin information based on its old name.
     *
     * @param string $oldname
     *
-    * @return null|array If a new directory is found, returns an array containing 'directory' and 'informations' keys.
+    * @return null|array If a new directory is found, returns an array containing 'directory' and 'information' keys.
     */
    private function getNewInfoAndDirBasedOnOldName($oldname) {
 
@@ -565,7 +565,7 @@ class Plugin extends CommonDBTM {
 
          $informations = $this->getInformationsFromDirectory($plugin_directory->getFilename());
          if (array_key_exists('oldname', $informations) && $informations['oldname'] === $oldname) {
-            // Return informations if oldname specified in parsed directory matches passed value
+            // Return information if oldname specified in parsed directory matches passed value
             return [
                'directory'    => $plugin_directory->getFilename(),
                'informations' => $informations,
@@ -1401,7 +1401,7 @@ class Plugin extends CommonDBTM {
    }
 
    /**
-    * Returns plugin informations from directory.
+    * Returns plugin information from directory.
     *
     * @param string $directory
     *

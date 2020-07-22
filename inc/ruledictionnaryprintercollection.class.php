@@ -124,7 +124,7 @@ class RuleDictionnaryPrinterCollection extends RuleCollection {
             }
          }
 
-         //Replay printer dictionnary rules
+         //Replay printer dictionary rules
          $res_rule = $this->processAllRules($input, [], []);
 
          foreach (['manufacturer', 'is_global', 'name'] as $attr) {
@@ -152,7 +152,7 @@ class RuleDictionnaryPrinterCollection extends RuleCollection {
                while ($result = $print_iterator->next()) {
                   $IDs[] = $result["id"];
                }
-               //Replay dictionnary on all the printers
+               //Replay dictionary on all the printers
                $this->replayDictionnaryOnPrintersByID($IDs, $res_rule);
             }
          }
@@ -196,7 +196,7 @@ class RuleDictionnaryPrinterCollection extends RuleCollection {
 
 
    /**
-    * Replay dictionnary on several printers
+    * Replay dictionary on several printers
     *
     * @param $IDs       array of printers IDs to replay
     * @param $res_rule  array of rule results
@@ -255,7 +255,7 @@ class RuleDictionnaryPrinterCollection extends RuleCollection {
 
 
    /**
-    * Replay dictionnary on one printer
+    * Replay dictionary on one printer
     *
     * @param &$new_printers   array containing new printers already computed
     * @param $res_rule        array of rule results
