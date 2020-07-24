@@ -135,7 +135,7 @@ class NetworkPortInstantiation extends CommonDBChild {
 
    /**
     * Get HTMLTable columns headers for a given item type
-    * Beware : the internet informations are "sons" of each instantiation ...
+    * Beware : the internet information are "sons" of each instantiation ...
     *
     * @param HTMLTableSuperHeader $group           HTMLTableGroup object
     * @param HTMLTableSuperHeader $super           HTMLTableSuperHeader object

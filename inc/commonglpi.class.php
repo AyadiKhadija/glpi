@@ -56,7 +56,7 @@ class CommonGLPI {
    public $taborientation          = 'horizontal';
 
    /**
-    * Rightname used to check rights to do actions on item.
+    * Right name used to check rights to do actions on item.
     *
     * @var string
     */
@@ -155,7 +155,7 @@ class CommonGLPI {
    /**
     * Have I the global right to "view" the Object
     *
-    * Default is true and check entity if the objet is entity assign
+    * Default is true and check entity if the object is entity assign
     *
     * May be overloaded if needed
     *
@@ -215,7 +215,7 @@ class CommonGLPI {
 
 
    /**
-    * Register tab on an objet
+    * Register tab on an object
     *
     * @since 0.83
     *
@@ -469,11 +469,11 @@ class CommonGLPI {
 
 
    /**
-    * get additional menu content
+    * Get additional menu content
     *
     * @since 0.85
     *
-    * @return array array for menu
+    * @return array|bool Array for menu or false if there are no additional menu content.
    **/
    static function getAdditionalMenuContent() {
       return false;
@@ -485,7 +485,7 @@ class CommonGLPI {
     *
     * @since 0.85
     *
-    * @return array array of forbidden actions
+    * @return array Array of forbidden actions
    **/
    static function getForbiddenActionsForMenu() {
       return [];
@@ -497,7 +497,7 @@ class CommonGLPI {
     *
     * @since 0.85
     *
-    * @return array array of additional options
+    * @return array|bool Array of additional options or false if these are no additional menu options.
    **/
    static function getAdditionalMenuOptions() {
       return false;
@@ -509,7 +509,7 @@ class CommonGLPI {
     *
     * @since 0.85
     *
-    * @return array array of additional options
+    * @return array|bool Array of additional links  or false if these are no additional menu links.
    **/
    static function getAdditionalMenuLinks() {
       return false;
@@ -521,7 +521,7 @@ class CommonGLPI {
     *
     * @since 0.85
     *
-    * @return string character menu shortcut key
+    * @return string Menu shortcut key character
    **/
    static function getMenuShorcut() {
       return '';
@@ -529,11 +529,11 @@ class CommonGLPI {
 
 
    /**
-    * Get menu name
+    * Get the displayed name of this itemtype when in a menu
     *
     * @since 0.85
     *
-    * @return string character menu shortcut key
+    * @return string Menu name
    **/
    static function getMenuName() {
       return static::getTypeName(Session::getPluralNumber());
@@ -646,12 +646,12 @@ class CommonGLPI {
 
 
    /**
-    * create tab text entry
+    * Create a tab text entry with an optional counter
     *
     * @param string  $text text to display
     * @param integer $nb   number of items (default 0)
     *
-    *  @return array array containing the onglets
+    *  @return string The generated tab text
    **/
    static function createTabEntry($text, $nb = 0) {
 
@@ -688,7 +688,9 @@ class CommonGLPI {
 
 
    /**
-    * is the current object a new  one - Always false here (virtual Objet)
+    * Check if the current object a new  one
+    *
+    * If called directly on {@link CommonGLPI}, it is always false since this is a virtual object.
     *
     * @since 0.83
     *
@@ -700,7 +702,9 @@ class CommonGLPI {
 
 
     /**
-    * is the current object a new one - Always true here (virtual Objet)
+    * Check if the current object a new  one
+    *
+    * If called directly on {@link CommonGLPI}, it is always true since this is a virtual object.
     *
     * @since 0.84
     *
@@ -714,9 +718,9 @@ class CommonGLPI {
 
 
    /**
-    * Get the search page URL for the current classe
+    * Get the tabs URL for the current class
     *
-    * @param boolean $full path or relative one (true by default)
+    * @param boolean $full Full path or relative one (true by default)
     *
     * @return string
    **/
@@ -728,7 +732,7 @@ class CommonGLPI {
    /**
     * Get the search page URL for the current class
     *
-    * @param boolean $full path or relative one (true by default)
+    * @param boolean $full Full path or relative one (true by default)
     *
     * @return string
    **/
@@ -740,7 +744,7 @@ class CommonGLPI {
    /**
     * Get the form page URL for the current class
     *
-    * @param boolean $full path or relative one (true by default)
+    * @param boolean $full Full path or relative one (true by default)
     *
     * @return string
    **/
@@ -1149,7 +1153,7 @@ class CommonGLPI {
 
 
    /**
-    * check if main is always display in current Layout
+    * Check if the main table is always displayed in the current layout
     *
     * @since 0.90
     *
@@ -1161,7 +1165,7 @@ class CommonGLPI {
 
 
    /**
-    * check if page is excluded for splitted layouts
+    * Check if page is excluded for split layouts
     *
     * @since 0.90
     *
@@ -1422,7 +1426,7 @@ class CommonGLPI {
     *
     * @since 0.84
     *
-    * @return array all the options
+    * @return array All the options
    **/
    static function getAvailableDisplayOptions() {
       return [];
@@ -1434,7 +1438,7 @@ class CommonGLPI {
     *
     * @since 0.84
     *
-    * @param string $sub_itemtype sub itemtype if needed for display options
+    * @param string $sub_itemtype Sub-itemtype if needed for display options
     *
     * @return string
    **/
@@ -1465,8 +1469,8 @@ class CommonGLPI {
     *
     * @since 0.85
     *
-    * @param integer $error  error type see define.php for ERROR_*
-    * @param string  $object string to use instead of item link (default '')
+    * @param integer $error  Error type. See define.php for ERROR_*
+    * @param string  $object String to use instead of item link (default '')
     *
     * @return string
    **/

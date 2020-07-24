@@ -333,7 +333,7 @@ class Search {
     *                             may include sort, order, start, list_limit, deleted, criteria, metacriteria
     * @param $forcedisplay  array of columns to display (default empty = empty use display pref and search criterias)
     *
-    * @return array prepare to be used for a search (include criterias and others needed informations)
+    * @return array prepare to be used for a search (include criterias and others needed information)
    **/
    static function prepareDatasForSearch($itemtype, array $params, array $forcedisplay = []) {
       global $CFG_GLPI;

@@ -447,7 +447,7 @@ class Computer extends CommonDBTM {
 
       echo "</td>";
 
-      // Display auto inventory informations
+      // Display auto inventory information
       $rowspan        = 3;
 
       echo "<td rowspan='$rowspan'><label for='comment'>".__('Comments')."</label></td>";
@@ -471,7 +471,7 @@ class Computer extends CommonDBTM {
       echo "<td >";
       AutoUpdateSystem::dropdown(['value' => $this->fields["autoupdatesystems_id"], 'rand' => $randDropdown]);
       echo "</td></tr>";
-      // Display auto inventory informations
+      // Display auto inventory information
       if (!empty($ID)
           && Plugin::haveImport()
           && $this->fields["is_dynamic"]) {

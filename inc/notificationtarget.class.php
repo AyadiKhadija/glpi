@@ -55,7 +55,7 @@ class NotificationTarget extends CommonDBChild {
    // Tags which have data in HTML : do not try to clean them
    public $html_tags                   = [];
 
-   // Data from the objet which can be used by the template
+   // Data from the object which can be used by the template
    // See https://forge.indepnet.net/projects/5/wiki/NotificationTemplatesTags
    public $data                        = [];
    public $tag_descriptions            = [];

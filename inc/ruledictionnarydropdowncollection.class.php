@@ -85,7 +85,7 @@ class RuleDictionnaryDropdownCollection extends RuleCollection {
                }
             }
 
-            //Replay Type dictionnary
+            //Replay Type dictionary
             $ID = Dropdown::importExternal(getItemTypeForTable($this->item_table),
                                            addslashes($data["name"]), -1, [],
                                            addslashes($data["comment"]));
@@ -199,7 +199,7 @@ class RuleDictionnaryDropdownCollection extends RuleCollection {
                $data["manufacturer"] = Manufacturer::processName(addslashes($data["manufacturer"]));
             }
 
-            //Replay Type dictionnary
+            //Replay Type dictionary
             $ID = Dropdown::importExternal(getItemTypeForTable($this->item_table),
                                            addslashes($data["name"]), -1, $data,
                                            addslashes($data["comment"]));

@@ -369,7 +369,7 @@ class Dropdown {
          /// TODO getDropdownName need to return only name
          /// When needed to use comment use class instead : getComments function
          /// GetName of class already give Name !!
-         /// TODO CommonDBTM : review getComments to be recursive and add informations from class hierarchy
+         /// TODO CommonDBTM : review getComments to be recursive and add information from class hierarchy
          /// getUserName have the same system : clean it too
          /// Need to study the problem
          if (count($iterator)) {
@@ -2142,7 +2142,7 @@ class Dropdown {
    /**
     * Import a value in a dropdown table.
     *
-    * This import a new dropdown if it doesn't exist - Play dictionnary if needed
+    * This import a new dropdown if it doesn't exist - Play dictionary if needed
     *
     * @param string  $itemtype         name of the class
     * @param string  $value            Value of the new dropdown.

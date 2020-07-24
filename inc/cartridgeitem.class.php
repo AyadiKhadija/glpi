@@ -144,8 +144,8 @@ class CartridgeItem extends CommonDBTM {
    /**
     * Add a compatible printer type for a cartridge type
     *
-    * @param $cartridgeitems_id  integer: cartridge type identifier
-    * @param printermodels_id    integer: printer type identifier
+    * @param integer $cartridgeitems_id Cartridge type identifier
+    * @param integer $printermodels_id  Printer type identifier
     *
     * @return boolean : true for success
    **/

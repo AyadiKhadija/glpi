@@ -164,12 +164,12 @@ class RuleDictionnarySoftwareCollection extends RuleCollection {
                }
             }
 
-            //If manufacturer is set, then first run the manufacturer's dictionnary
+            //If manufacturer is set, then first run the manufacturer's dictionary
             if (isset($input["manufacturer"])) {
                $input["manufacturer"] = Manufacturer::processName($input["manufacturer"]);
             }
 
-            //Replay software dictionnary rules
+            //Replay software dictionary rules
             $res_rule = $this->processAllRules($input, [], []);
 
             if ((isset($res_rule["name"]) && (strtolower($res_rule["name"]) != strtolower($input["name"])))
@@ -197,7 +197,7 @@ class RuleDictionnarySoftwareCollection extends RuleCollection {
                   while ($result = $same_iterator->next()) {
                      $IDs[] = $result["id"];
                   }
-                  //Replay dictionnary on all the softwares
+                  //Replay dictionary on all the softwares
                   $this->replayDictionnaryOnSoftwaresByID($IDs, $res_rule);
                }
             }
@@ -230,7 +230,7 @@ class RuleDictionnarySoftwareCollection extends RuleCollection {
 
 
    /**
-    * Replay dictionnary on several softwares
+    * Replay dictionary on several softwares
     *
     * @param $IDs       array of software IDs to replay
     * @param $res_rule  array of rule results
@@ -289,7 +289,7 @@ class RuleDictionnarySoftwareCollection extends RuleCollection {
 
 
    /**
-    * Replay dictionnary on one software
+    * Replay dictionary on one software
     *
     * @param &$new_softs      array containing new softwares already computed
     * @param $res_rule        array of rule results

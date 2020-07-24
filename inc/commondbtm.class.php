@@ -56,7 +56,7 @@ class CommonDBTM extends CommonGLPI {
    public $dohistory = false;
 
    /**
-    * List of fields that must not be taken into account when logging history or computating last
+    * List of fields that must not be taken into account when logging history or computing the last
     * modification date.
     *
     * @var string[]
@@ -87,14 +87,14 @@ class CommonDBTM extends CommonGLPI {
    static protected $notable = false;
 
    /**
-    * List of fields that must not be taken into account for dictionnary processing.
+    * List of fields that must not be taken into account for dictionary processing.
     *
     * @var string[]
     */
    public $additional_fields_for_dictionnary = [];
 
    /**
-    * List of linked item types on which entities informations should be forwarded on update.
+    * List of linked item types on which entities information should be forwarded on update.
     *
     * @var string[]
     */
@@ -127,7 +127,7 @@ class CommonDBTM extends CommonGLPI {
    public $get_item_to_display_tab = true;
 
    /**
-    * List of linked item types from plugins on which entities informations should be forwarded on update.
+    * List of linked item types from plugins on which entities information should be forwarded on update.
     *
     * @var array
     */
@@ -141,7 +141,7 @@ class CommonDBTM extends CommonGLPI {
    protected $usenotepad = false;
 
    /**
-    * Flag to determine whether or not notification queu should be flushed immediately when an
+    * Flag to determine whether or not notification queue should be flushed immediately when an
     * action is performed on item.
     *
     * @var boolean
@@ -199,9 +199,9 @@ class CommonDBTM extends CommonGLPI {
 
 
    /**
-    * force table value (used for config management for old versions)
+    * Force table value (used for config management for old versions)
     *
-    * @param string $table name of the table to be forced
+    * @param string $table Name of the table to be forced
     *
     * @return void
    **/
@@ -251,7 +251,7 @@ class CommonDBTM extends CommonGLPI {
     *
     * @param integer $ID ID of the item to get
     *
-    * @return boolean true if succeed else false
+    * @return boolean DB item retrieval success
    **/
    function getFromDB($ID) {
       global $DB;
@@ -329,7 +329,7 @@ class CommonDBTM extends CommonGLPI {
     *
     * @since 9.2
     *
-    * @param Array $crit search criteria
+    * @param array $crit Search criteria
     *
     * @return boolean|array
     */
@@ -421,7 +421,7 @@ class CommonDBTM extends CommonGLPI {
 
 
    /**
-    * Actions done to not show some fields when geting a single item from API calls
+    * Actions done to not show some fields when getting a single item from API calls
     *
     * @param array $fields Fields to unset undiscloseds
     *
@@ -437,9 +437,9 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Retrieve all items from the database
     *
-    * @param array        $condition condition used to search if needed (empty get all) (default '')
-    * @param array|string $order     order field if needed (default '')
-    * @param integer      $limit     limit retrieved data if needed (default '')
+    * @param array        $condition Condition used to search if needed (empty get all) (default '')
+    * @param array|string $order     Order field if needed (default '')
+    * @param integer      $limit     Limit retrieved data if needed (default '')
     *
     * @return array all retrieved data in a associative array by id
    **/
@@ -478,8 +478,8 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Get the name of the index field
     *
-    * @return string name of the index field
-   **/
+    * @return string Name of the index field
+    */
    static function getIndexName() {
       return "id";
    }
@@ -488,8 +488,13 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Get an empty item
     *
-    *@return boolean true if succeed else false
-   **/
+    * This will get a list of all columns in this itemtype's table, and assign empty values for each in the fields property of this item.
+    * Additionally it the itemtype has a link to an entity and there is a current entity, the active entity will be set for the field.
+    * Next, {@link post_getEmpty} is called.
+    * Finally, the plugin hook "item_empty" is called.
+    *
+    * @return boolean true if succeed else false
+    */
    function getEmpty() {
       global $DB;
 
@@ -520,7 +525,7 @@ class CommonDBTM extends CommonGLPI {
 
 
    /**
-    * Actions done at the end of the getEmpty function
+    * Actions done at the end of the {@link getEmpty} function
     *
     * @return void
    **/
@@ -546,7 +551,7 @@ class CommonDBTM extends CommonGLPI {
     * @param string[] $updates   fields to update
     * @param string[] $oldvalues array of old values of the updated fields
     *
-    * @return void
+    * @return bool
    **/
    function updateInDB($updates, $oldvalues = []) {
       global $DB;
@@ -583,7 +588,7 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Add an item to the database
     *
-    * @return integer|boolean new ID of the item is insert successfull else false
+    * @return integer|boolean New ID of the item is successfully added to the DB, otherwise false
    **/
    function addToDB() {
       global $DB;
@@ -617,7 +622,7 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Restore item = set deleted flag to 0
     *
-    * @return boolean true if succeed else false
+    * @return boolean True if succeed else false
    **/
    function restoreInDB() {
       global $DB;
@@ -641,7 +646,7 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Mark deleted or purge an item in the database
     *
-    * @param boolean $force force the purge of the item (not used if the table do not have a deleted field)
+    * @param boolean $force Force the purge of the item (not used if the table do not have a deleted field)
     *               (default 0)
     *
     * @return boolean true if succeed else false
@@ -793,7 +798,7 @@ class CommonDBTM extends CommonGLPI {
 
 
    /**
-    * Actions done after the DELETE of the item in the database
+    * Actions done after the {@link delete} of the item in the database
     *
     * @return void
    **/
@@ -813,8 +818,8 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Delete children items and relation with other items from database.
     *
-    * @param array $relations_classes List of classname on which deletion will be done
-    *                                 Classes needs to extends CommonDBConnexity.
+    * @param array $relations_classes List of class names on which the deletion will be done.
+    *                                 Classes needs to extends {@link CommonDBConnexity}.
     *
     * @return void
     **/
@@ -844,6 +849,7 @@ class CommonDBTM extends CommonGLPI {
     * @since 0.85
     *
     * @return void
+    * @see DropdownTranslation
    **/
    function cleanTranslations() {
 
@@ -1019,10 +1025,10 @@ class CommonDBTM extends CommonGLPI {
     *
     * @since 0.84
     *
-    * @param array $default Array of value used if session is empty
+    * @param array $default Array of values used if session is empty
     *
-    * @return array Array of value
-   **/
+    * @return array Array of values
+    */
    protected function restoreInput(Array $default = []) {
 
       if (isset($_SESSION['saveInput'][$this->getType()])) {
@@ -1042,13 +1048,13 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Add an item in the database with all it's items.
     *
-    * @param array   $input   the _POST vars returned by the item form when press add
-    * @param array   $options with the insert options
+    * @param array   $input   The _POST vars returned by the item form when press add
+    * @param array   $options Array of options for the add
     *   - unicity_message : do not display message if item it a duplicate (default is yes)
-    * @param boolean $history do history log ? (true by default)
+    * @param boolean $history If true, the history log wil be used
     *
-    * @return integer the new ID of the added item (or false if fail)
-   **/
+    * @return integer The new ID of the added item (or false if fail)
+    */
    function add(array $input, $options = [], $history = true) {
       global $DB, $CFG_GLPI;
 
@@ -1194,10 +1200,10 @@ class CommonDBTM extends CommonGLPI {
     *
     * @since 9.5
     *
-    * @param array $override_input custom input to override
-    * @param boolean $history do history log ? (true by default)
+    * @param array $override_input Custom input to override
+    * @param boolean $history If true, the history log wil be used
     *
-    * @return integer the new ID of the clone (or false if fail)
+    * @return integer The new ID of the clone (or false if fail)
     */
    function clone(array $override_input = [], bool $history = true) {
       global $DB, $CFG_GLPI;
@@ -1236,14 +1242,14 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Get the link to an item
     *
-    * @param array $options array of options
+    * @param array $options Array of options
     *    - comments     : boolean / display comments
     *    - complete     : boolean / display completename instead of name
     *    - additional   : boolean / display additionals information
     *    - linkoption   : string  / additional options to add to <a>
     *
     * @return string HTML link
-   **/
+    */
    function getLink($options = []) {
 
       $p = [
@@ -1338,11 +1344,11 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Add needed information to $input (example entities_id)
     *
-    * @param array $input datas used to add the item
+    * @param array $input Data used to add the item
     *
     * @since 0.84
     *
-    * @return array the modified $input array
+    * @return array The modified $input array
    **/
    function addNeededInfoToInput($input) {
       return $input;
@@ -1350,24 +1356,24 @@ class CommonDBTM extends CommonGLPI {
 
 
    /**
-    * Prepare input datas for adding the item
+    * Prepare input data for adding the item
     *
-    * @param array $input datas used to add the item
+    * @param array $input data used to add the item
     *
-    * @return array the modified $input array
+    * @return array The modified $input array
    **/
    function prepareInputForAdd($input) {
       return $input;
    }
 
     /**
-    * Prepare input datas for cloning the item
+    * Prepare input data for cloning the item
     *
     * @since 9.5
     *
-    * @param array $input datas used to add the item
+    * @param array $input Data used to add the item
     *
-    * @return array the modified $input array
+    * @return array The modified $input array
    **/
    function prepareInputForClone($input) {
       unset($input['id']);
@@ -1378,7 +1384,7 @@ class CommonDBTM extends CommonGLPI {
 
 
    /**
-    * Actions done after the ADD of the item in the database
+    * Actions done after the {@link add} of the item in the database
     *
     * @return void
    **/
@@ -1386,12 +1392,12 @@ class CommonDBTM extends CommonGLPI {
    }
 
    /**
-    * Actions done after the clone of the item in the database
+    * Actions done after the {@link clone} of the item in the database
     *
     * @since 9.5
     *
-    * @param $source the item that is being cloned
-    * @param $history do history log ?
+    * @param CommonDBTM $source  The item that is being cloned
+    * @param bool       $history If true, the history log wil be used
     *
     * @return void
    **/
@@ -1402,11 +1408,11 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Update some elements of an item in the database.
     *
-    * @param array   $input   the _POST vars returned by the item form when press update
-    * @param boolean $history do history log ? (default 1)
-    * @param array   $options with the insert options
+    * @param array       $input   The _POST vars returned by the item form when press update
+    * @param boolean|int $history If true, the history log wil be used
+    * @param array       $options with the insert options
     *
-    * @return boolean true on success
+    * @return boolean True on success
    **/
    function update(array $input, $history = 1, $options = []) {
       global $DB, $GLPI_CACHE;
@@ -2027,7 +2033,7 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Have I the right to "create" the Object
     *
-    * Default is true and check entity if the objet is entity assign
+    * Default is true and check entity if the object is entity assign
     *
     * May be overloaded if needed
     *
@@ -2045,7 +2051,7 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Have I the right to "update" the Object
     *
-    * Default is true and check entity if the objet is entity assign
+    * Default is true and check entity if the object is entity assign
     *
     * May be overloaded if needed
     *
@@ -2063,7 +2069,7 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Have I the right to "delete" the Object
     *
-    * Default is true and check entity if the objet is entity assign
+    * Default is true and check entity if the object is entity assign
     *
     * May be overloaded if needed
     *
@@ -2081,7 +2087,7 @@ class CommonDBTM extends CommonGLPI {
    /**
     * Have I the right to "purge" the Object
     *
-    * Default is true and check entity if the objet is entity assign
+    * Default is true and check entity if the object is entity assign
     *
     * @since 0.85
     *
@@ -5030,7 +5036,7 @@ class CommonDBTM extends CommonGLPI {
 
 
    /**
-    * Is entity informations forward To ?
+    * Is entity information forward To ?
     *
     * @since 0.84
     *

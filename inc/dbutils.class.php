@@ -287,7 +287,7 @@ final class DbUtils {
 
 
    /**
-    * Get new item objet for an itemtype
+    * Get new item object for an itemtype
     *
     * @param string $itemtype itemtype
     *
