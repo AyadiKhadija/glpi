@@ -1,0 +1,151 @@
+<?php
+/**
+ * ---------------------------------------------------------------------
+ * GLPI - Gestionnaire Libre de Parc Informatique
+ * Copyright (C) 2015-2020 Teclib' and contributors.
+ *
+ * http://glpi-project.org
+ *
+ * based on GLPI - Gestionnaire Libre de Parc Informatique
+ * Copyright (C) 2003-2014 by the INDEPNET Development Team.
+ *
+ * ---------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of GLPI.
+ *
+ * GLPI is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * GLPI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with GLPI. If not, see <http://www.gnu.org/licenses/>.
+ * ---------------------------------------------------------------------
+ */
+
+namespace Glpi\Siem;
+
+use QueryExpression;
+
+class ScheduledDowntime extends \CommonDBTM {
+
+   /**
+    * Name of the type
+    *
+    * @param $nb : number of item in the type
+    * @return string
+    **/
+   public static function getTypeName($nb = 0)
+   {
+      return _n('Scheduled Downtime', 'Scheduled Downtimes', $nb);
+   }
+
+   public static function getForHostOrService($items_id, $is_service = true, $params = [])
+   {
+      global $DB;
+
+      $p = [
+         'start' => $_SESSION['glpi_currenttime'],
+         'end' => $_SESSION['glpi_currenttime']
+      ];
+      $p = array_replace($p, $params);
+
+      $downtimetable = self::getTable();
+      $monitoredtable = $is_service ? Service::getTable() : Host::getTable();
+
+      $where = [
+         "$downtimetable.items_id_target" => $items_id,
+         "$downtimetable.is_service" => $is_service
+      ];
+
+      if ($p['start'] !== null) {
+         $where[] = new QueryExpression("'{$p['start']}' >= begin_date");
+      }
+      if ($p['end'] !== null) {
+         $where[] = new QueryExpression("'{$p['end']}' <= end_date");
+      }
+
+      $iterator = $DB->request([
+         'FROM' => $downtimetable,
+         'LEFT JOIN' => [
+            $monitoredtable => [
+               'FKEY' => [
+                  $monitoredtable => 'id',
+                  $downtimetable => 'items_id_target'
+               ]
+            ]
+         ],
+         'WHERE' => $where
+      ]);
+
+      return $iterator;
+   }
+
+   public static function getActivelyDown()
+   {
+      global $DB;
+
+      $iterator = $DB->request([
+         'SELECT' => ['is_service', 'items_id'],
+         'FROM' => self::getTable(),
+         'WHERE' => [
+            new QueryExpression('begin_date <= NOW()'),
+            new QueryExpression('end_date >= NOW()')
+         ]
+      ]);
+
+      $actively_down = [];
+      while ($data = $iterator->next()) {
+         $type = $data['is_service'] ? Service::class : Host::class;
+         $actively_down[$type][] = $data['items_id'];
+      }
+
+      if (isset($actively_down[Host::class])) {
+         // If the host is scheduled down, all services on it are also considered to be scheduled down
+         $iterator = $DB->request([
+            'SELECT' => ['id'],
+            'FROM' => Service::getTable(),
+            'WHERE' => [
+               'siemhosts_id' => $actively_down[Host::class]
+            ]
+         ]);
+         while ($data = $iterator->next()) {
+            $actively_down[Service::class][] = $data['id'];
+         }
+      }
+      return $actively_down;
+   }
+
+   public function prepareInputForUpdate($input)
+   {
+      if (isset($input['_cancel'])) {
+         $input['end_date'] = $_SESSION['glpi_currenttime'];
+      }
+   }
+
+   public function post_updateItem($history = 1)
+   {
+      if (isset($this->input['_cancel'])) {
+         $this->dispatchScheduledDowntimeEvent('scheduleddowntime.cancel');
+      }
+   }
+
+   private function dispatchScheduledDowntimeEvent($eventName)
+   {
+      global $CONTAINER;
+
+      if (!isset($CONTAINER) || !$CONTAINER->has(EventDispatcher::class)) {
+         return;
+      }
+
+      $dispatcher = $CONTAINER->get(EventDispatcher::class);
+      $dispatcher->dispatch($eventName, new ScheduledDowntimeEvent($this));
+   }
+}
