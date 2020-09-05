@@ -2061,7 +2061,9 @@ class Project extends CommonDBTM implements ExtraVisibilityCriteria {
                ]
             ]
          ] + $project_visibility['LEFT JOIN'],
-         'WHERE'     => $project_visibility['WHERE']
+         'WHERE'     => $project_visibility['WHERE'] + [
+            'is_deleted'   => 0
+         ]
       ];
       if ($ID > 0) {
          $request['WHERE']['glpi_projects.projects_id'] = $ID;
