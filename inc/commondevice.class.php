@@ -286,6 +286,17 @@ abstract class CommonDevice extends CommonDropdown {
          'datatype'           => 'dropdown'
       ];
 
+      if ($this->isField('is_recursive')) {
+         $tab[] = [
+            'id'       => 86,
+            'table'      => static::getTable(),
+            'field'      => 'is_recursive',
+            'name'       => __('Child entities'),
+            'datatype'   => 'bool',
+            'searchtype' => 'equals',
+         ];
+      }
+
       return $tab;
    }
 

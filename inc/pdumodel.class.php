@@ -40,4 +40,20 @@ class PDUModel extends CommonDCModelDropdown {
    static function getTypeName($nb = 0) {
       return _n('PDU model', 'PDU models', $nb);
    }
+
+   public function rawSearchOptions()
+   {
+      $tab = parent::rawSearchOptions();
+
+      $tab[] = [
+         'id'                 => '140',
+         'table'              => self::getTable(),
+         'field'              => 'max_power',
+         'name'               => __('Max. power (in watts)'),
+         'massiveaction'      => true,
+         'datatype'           => 'number'
+      ];
+
+      return $tab;
+   }
 }
