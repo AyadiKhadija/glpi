@@ -316,6 +316,14 @@ class Supplier extends CommonDBTM {
       ];
 
       $tab[] = [
+         'id'                 => '7',
+         'table'              => static::getTable(),
+         'field'              => 'is_active',
+         'name'               => __('Active'),
+         'datatype'           => 'bool'
+      ];
+
+      $tab[] = [
          'id'                 => '9',
          'table'              => 'glpi_suppliertypes',
          'field'              => 'name',
