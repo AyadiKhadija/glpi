@@ -211,7 +211,7 @@ $CFG_GLPI["document_types"]               = ['Budget', 'CartridgeItem', 'Change'
                                                   'Certificate', 'Cluster', 'ITILFollowup', 'ITILSolution',
                                                    'ChangeTask', 'ProblemTask', 'TicketTask', 'Appliance'];
 
-$CFG_GLPI["consumables_types"]            = ['Group', 'User'];
+$CFG_GLPI["consumables_types"]            = array_merge(['Group', 'User'], $CFG_GLPI['asset_types']);
 
 $CFG_GLPI["report_types"]                 = ['Computer', 'Monitor', 'NetworkEquipment',
                                                   'Peripheral', 'Phone', 'Printer', 'Project',
