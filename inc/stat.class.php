@@ -707,6 +707,371 @@ class Stat extends CommonGLPI {
       }
    }
 
+   /**
+    * Display a statistics graph for the given options
+    * @param array $options
+    */
+   public static function showGraph(string $itemtype, $type, $date1, $date2, array $options): void {
+      global $DB, $CFG_GLPI;
+
+      if (!self::canView()) {
+         return;
+      }
+
+      /** @var CommonDBTM $item */
+      if (!$item = getItemForItemtype($itemtype)) {
+         return;
+      }
+
+      $next    = 0;
+      $prev    = 0;
+      $title   = "";
+      $parent  = 0;
+
+      $showuserlink = 0;
+      if (Session::haveRight('user', READ)) {
+         $showuserlink = 1;
+      }
+
+      $val1 = $options['id'] ?? '';
+      $val2 = '';
+
+      switch ($_GET["type"]) {
+         case 'technicien_followup':
+         case 'technicien':
+            $values  = self::getItems($itemtype, $date1, $date2, $type);
+            $title   = sprintf(__('%1$s: %2$s'), __('Technician'),
+               $item->getAssignName($options["id"], 'User', $showuserlink));
+            break;
+
+         case 'suppliers_id_assign':
+            $values  = self::getItems($itemtype, $date1, $date2, $type);
+            $title   = sprintf(__('%1$s: %2$s'), Supplier::getTypeName(1),
+               $item->getAssignName($options["id"], 'Supplier', $showuserlink));
+            break;
+
+         case 'users_id_recipient':
+         case 'user':
+            $values  = self::getItems($itemtype, $date1, $date2, $type);
+            $title   = sprintf(__('%1$s: %2$s'), User::getTypeName(1), getUserName($_GET["id"], $showuserlink));
+            break;
+
+         case 'itilcategories_tree':
+            $parent = ($options['champ'] ?? 0);
+         // nobreak;
+
+         case 'itilcategories_id':
+            $values  = self::getItems($itemtype, $date1, $date2, $type, $parent);
+            $title   = sprintf(__('%1$s: %2$s'), __('Category'),
+               Dropdown::getDropdownName("glpi_itilcategories", $options["id"]));
+            break;
+
+         case 'locations_tree':
+            $parent = ($options['champ'] ?? 0);
+         // nobreak;
+
+         case 'locations_id':
+            $values  = self::getItems($itemtype, $date1, $date2, $type, $parent);
+            $title   = sprintf(__('%1$s: %2$s'), Location::getTypeName(1),
+               Dropdown::getDropdownName('glpi_locations', $options['id']));
+            break;
+
+         case 'type':
+            $values  = self::getItems($itemtype, $date1, $date2, $type);
+            $title   = sprintf(__('%1$s: %2$s'), _n('Type', 'Types', 1), Ticket::getTicketTypeName($options["id"]));
+            break;
+
+         case 'group_tree':
+         case 'groups_tree_assign':
+            $parent = ($options['champ'] ?? 0);
+         // nobreak;
+
+         case 'group':
+            $values  = self::getItems($itemtype, $date1, $date2, $type, $parent);
+            $title   = sprintf(__('%1$s: %2$s'), Group::getTypeName(1),
+               Dropdown::getDropdownName("glpi_groups", $_GET["id"]));
+            break;
+
+         case 'groups_id_assign':
+            $values  = self::getItems($itemtype, $date1, $date2, $type);
+            $title   = sprintf(__('%1$s: %2$s'), Group::getTypeName(1),
+               Dropdown::getDropdownName("glpi_groups", $_GET["id"]));
+            break;
+
+         case 'priority':
+            $values  = self::getItems($itemtype, $date1, $date2, $type);
+            $title   = sprintf(__('%1$s: %2$s'), __('Priority'), $item->getPriorityName($options["id"]));
+            break;
+
+         case 'urgency':
+            $values  = self::getItems($itemtype, $date1, $date2, $type);
+            $title   = sprintf(__('%1$s: %2$s'), __('Urgency'), $item->getUrgencyName($options["id"]));
+            break;
+
+         case 'impact':
+            $values  = self::getItems($itemtype, $date1, $date2, $type);
+            $title   = sprintf(__('%1$s: %2$s'), __('Impact'), $item->getImpactName($options["id"]));
+            break;
+
+         case 'usertitles_id':
+            $values  = self::getItems($itemtype, $date1, $date2, $type);
+            $title   = sprintf(__('%1$s: %2$s'), _x('person', 'Title'),
+               Dropdown::getDropdownName("glpi_usertitles", $options["id"]));
+            break;
+
+         case 'solutiontypes_id':
+            $values  = self::getItems($itemtype, $date1, $date2, $type);
+            $title   = sprintf(__('%1$s: %2$s'), SolutionType::getTypeName(1),
+               Dropdown::getDropdownName("glpi_solutiontypes", $options["id"]));
+            break;
+
+         case 'usercategories_id':
+            $values  = self::getItems($itemtype, $date1, $date2, $type);
+            $title   = sprintf(__('%1$s: %2$s'), __('Category'),
+               Dropdown::getDropdownName("glpi_usercategories", $options["id"]));
+            break;
+
+         case 'requesttypes_id':
+            $values  = self::getItems($itemtype, $date1, $date2, $type);
+            $title   = sprintf(__('%1$s: %2$s'), RequestType::getTypeName(1),
+               Dropdown::getDropdownName("glpi_requesttypes", $options["id"]));
+            break;
+
+         case 'device':
+            $val2 = $options["champ"];
+            if ($item = getItemForItemtype($options["champ"])) {
+               $device_table = $item->getTable();
+               $values       = self::getItems($itemtype, $date1, $date2, $options["champ"]);
+
+               $iterator = $DB->request([
+                  'SELECT' => ['designation'],
+                  'FROM'   => $device_table,
+                  'WHERE'  => [
+                     'id' => $options['id']
+                  ]
+               ]);
+               $current = $iterator->next();
+
+               $title  = sprintf(__('%1$s: %2$s'), $item->getTypeName(), $current['designation']);
+            }
+            break;
+
+         case 'comp_champ':
+            $val2  = $options["champ"];
+            if ($item = getItemForItemtype($options["champ"])) {
+               $table  = $item->getTable();
+               $values = self::getItems($itemtype, $date1, $date2, $options["champ"]);
+               $title  = sprintf(__('%1$s: %2$s'),
+                  $item->getTypeName(), Dropdown::getDropdownName($table, $options["id"]));
+            }
+            break;
+      }
+
+      // Found next and prev items
+      $foundkey = -1;
+      foreach ($values as $key => $val) {
+         if ($val['id'] == $options["id"]) {
+            $foundkey = $key;
+         }
+      }
+
+      if ($foundkey >= 0) {
+         if (isset($values[$foundkey+1])) {
+            $next = $values[$foundkey+1]['id'];
+         }
+         if (isset($values[$foundkey-1])) {
+            $prev = $values[$foundkey-1]['id'];
+         }
+      }
+
+      $stat = new Stat();
+
+      $cleantarget = preg_replace("/[&]date[12]=[0-9-]*/", "", $_SERVER['QUERY_STRING']);
+      $cleantarget = preg_replace("/[&]*id=([0-9]+[&]{0,1})/", "", $cleantarget);
+      $cleantarget = preg_replace("/&/", "&amp;", $cleantarget);
+
+      echo "<div class='center'>";
+      echo "<table class='tab_cadre'>";
+      echo "<tr><td>";
+      if ($prev > 0) {
+         echo "<a href=\"".$_SERVER['PHP_SELF']."?$cleantarget&amp;date1=".$date1."&amp;date2=".
+            $date2."&amp;id=$prev\">
+          <img src='".$CFG_GLPI["root_doc"]."/pics/left.png' alt=\"".__s('Previous')."\"
+           title=\"".__s('Previous')."\"></a>";
+      }
+      echo "</td>";
+
+      echo "<td width='400' class='center b'>$title</td>";
+      echo "<td>";
+      if ($next > 0) {
+         echo "<a href=\"".$_SERVER['PHP_SELF']."?$cleantarget&amp;date1=".$date1."&amp;date2=".
+            $date2."&amp;id=$next\">
+          <img src='".$CFG_GLPI["root_doc"]."/pics/right.png' alt=\"".__s('Next')."\"
+           title=\"".__s('Next')."\"></a>";
+      }
+      echo "</td>";
+      echo "</tr>";
+      echo "</table></div><br>";
+
+      $target = preg_replace("/&/", "&amp;", $_SERVER["REQUEST_URI"]);
+
+      echo "<form method='post' name='form' action='$target'><div class='center'>";
+      echo "<table class='tab_cadre'>";
+      echo "<tr class='tab_bg_2'><td class='right'>".__('Start date')."</td><td>";
+      Html::showDateField("date1", ['value' => $date1]);
+      echo "</td><td rowspan='2' class='center'>";
+      echo "<input type='hidden' name='itemtype' value=\"".$itemtype."\">";
+      echo "<input type='submit' class='submit' value=\"".__s('Display report')."\"></td></tr>";
+
+      echo "<tr class='tab_bg_2'><td class='right'>".__('End date')."</td><td>";
+      Html::showDateField("date2", ['value' => $date2]);
+      echo "</td></tr>";
+      echo "</table></div>";
+
+// form using GET method : CRSF not needed
+      Html::closeForm();
+
+
+///////// Stats nombre intervention
+// Total des interventions
+      $values['total']  = self::constructEntryValues($itemtype, "inter_total", $date1,
+         $date2, $type, $val1, $val2);
+// Total des interventions r??solues
+      $values['solved'] = self::constructEntryValues($itemtype, "inter_solved", $date1,
+         $date2, $type, $val1, $val2);
+// Total des interventions closes
+      $values['closed'] = self::constructEntryValues($itemtype, "inter_closed", $date1,
+         $date2, $type, $val1, $val2);
+// Total des interventions closes
+      $values['late']   = self::constructEntryValues($itemtype, "inter_solved_late",
+         $date1, $date2, $type,
+         $val1, $val2);
+
+
+      $stat->displayLineGraph(
+         _x('Quantity', 'Number') . " - " . $item->getTypeName(Session::getPluralNumber()),
+         array_keys($values['total']), [
+            [
+               'name' => _nx('ticket', 'Opened', 'Opened', Session::getPluralNumber()),
+               'data' => $values['total']
+            ], [
+               'name' => _nx('ticket', 'Solved', 'Solved', Session::getPluralNumber()),
+               'data' => $values['solved']
+            ], [
+               'name' => __('Late'),
+               'data' => $values['late']
+            ], [
+               'name' => __('Closed'),
+               'data' => $values['closed']
+            ]
+         ]
+      );
+
+      $values = [];
+//Temps moyen de resolution d'intervention
+      $values['avgsolved'] = self::constructEntryValues($itemtype, "inter_avgsolvedtime",
+         $date1, $date2,
+         $type, $val1, $val2);
+// Pass to hour values
+      foreach ($values['avgsolved'] as $key => &$val) {
+         $val = round($val / HOUR_TIMESTAMP, 2);
+      }
+//Temps moyen de cloture d'intervention
+      $values['avgclosed'] = self::constructEntryValues($itemtype, "inter_avgclosedtime",
+         $date1, $date2,
+         $type, $val1, $val2);
+// Pass to hour values
+      foreach ($values['avgclosed'] as $key => &$val) {
+         $val = round($val / HOUR_TIMESTAMP, 2);
+      }
+//Temps moyen d'intervention reel
+      $values['avgactiontime'] = self::constructEntryValues($itemtype, "inter_avgactiontime",
+         $date1, $date2,
+         $type, $val1, $val2);
+// Pass to hour values
+      foreach ($values['avgactiontime'] as $key => &$val) {
+         $val = round($val / HOUR_TIMESTAMP, 2);
+      }
+
+      $series = [
+         [
+            'name' => __('Closure'),
+            'data' => $values['avgsolved']
+         ], [
+            'name' => __('Resolution'),
+            'data' => $values['avgclosed']
+         ], [
+            'name' => __('Real duration'),
+            'data' => $values['avgactiontime']
+         ]
+      ];
+
+      if ($_GET['itemtype'] == 'Ticket') {
+         //Temps moyen de prise en compte de l'intervention
+         $values['avgtaketime'] = self::constructEntryValues($itemtype, "inter_avgtakeaccount",
+            $date1, $date2,
+            $type, $val1, $val2);
+         // Pass to hour values
+         foreach ($values['avgtaketime'] as $key => &$val) {
+            $val = round($val / HOUR_TIMESTAMP, 2);
+         }
+
+         $series[] = [
+            'name' => __('Take into account'),
+            'data' => $values['avgtaketime']
+         ];
+      }
+
+      $stat->displayLineGraph(
+         __('Average time') . " - " .  _n('Hour', 'Hours', Session::getPluralNumber()),
+         array_keys($values['avgsolved']),
+         $series
+      );
+
+      if ($_GET['itemtype'] == 'Ticket') {
+         $values = [];
+         ///////// Satisfaction
+         $values['opensatisfaction']   = self::constructEntryValues($itemtype,
+            "inter_opensatisfaction",
+            $date1, $date2,
+            $type, $val1, $val2);
+
+         $values['answersatisfaction'] = self::constructEntryValues($itemtype,
+            "inter_answersatisfaction",
+            $date1, $date2,
+            $type, $val1, $val2);
+
+         $stat->displayLineGraph(
+            __('Satisfaction survey') . " - " .  __('Tickets'),
+            array_keys($values['opensatisfaction']), [
+               [
+                  'name' => _nx('survey', 'Opened', 'Opened', Session::getPluralNumber()),
+                  'data' => $values['opensatisfaction']
+               ], [
+                  'name' => _nx('survey', 'Answered', 'Answered', Session::getPluralNumber()),
+                  'data' => $values['answersatisfaction']
+               ]
+            ]
+         );
+
+         $values = [];
+         $values['avgsatisfaction'] = self::constructEntryValues($itemtype,
+            "inter_avgsatisfaction",
+            $date1, $date2,
+            $type, $val1, $val2);
+
+         $stat->displayLineGraph(
+            __('Satisfaction'),
+            array_keys($values['avgsatisfaction']), [
+               [
+                  'name' => __('Satisfaction'),
+                  'data' => $values['avgsatisfaction']
+               ]
+            ]
+         );
+      }
+   }
+
 
    /**
     * @param $itemtype
