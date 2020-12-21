@@ -386,7 +386,7 @@ class Ajax {
          $current = 0;
          $selected_tab = 0;
          foreach ($tabs as $key => $val) {
-            if ($key == $active_tabs) {
+            if (addslashes($key) == $active_tabs) {
                $selected_tab = $current;
             }
             echo "<li><a title=\"".
