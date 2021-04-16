@@ -1,4 +1,3 @@
-<?php
 /**
  * ---------------------------------------------------------------------
  * GLPI - Gestionnaire Libre de Parc Informatique
@@ -30,23 +29,25 @@
  * ---------------------------------------------------------------------
  */
 
-include ('../inc/includes.php');
+// Bootstrap for all JS test modules
 
-Session::checkLoginUser();
+window.$ = window.jQuery = require('jquery');
 
-if (Session::getCurrentInterface() == "helpdesk") {
-   Html::helpHeader(Ticket::getTypeName(Session::getPluralNumber()), '', $_SESSION["glpiname"]);
-} else {
-   Html::header(Ticket::getTypeName(Session::getPluralNumber()), '', "helpdesk", "ticket");
-}
+// Set faux CFG_GLPI variable. We cannot get the real values since they are set inline in PHP.
+window.CFG_GLPI = {
+    root_doc: '/'
+};
 
-echo Html::manageRefreshPage(false, "$('table.search-results').closest('div.ajax-container').data('js_class').refreshSearchTable();");
-
-Search::show('Ticket');
-
-if (Session::getCurrentInterface() == "helpdesk") {
-   Html::helpFooter();
-} else {
-   Html::footer();
-}
-
+// Mock localization
+window.__ = function (msgid, domain /* , extra */) {
+    return msgid;
+};
+window._n = function (msgid, msgid_plural, n = 1, domain /* , extra */) {
+    return n === 1 ? msgid : msgid_plural;
+};
+window._x = function (msgctxt, msgid, domain /* , extra */) {
+    return msgid;
+};
+window._nx = function (msgctxt, msgid, msgid_plural, n = 1, domain /* , extra */) {
+    return n === 1 ? msgid : msgid_plural;
+};

@@ -1,5 +1,10 @@
+{% set is_ajax = searchform_id is defined %}
+{% if not is_ajax %}
+<div class="ajax-container search-display-data">
+{% endif %}
 
-<form id="massform{{ itemtype }}" method="get" action="{{ path("front/massiveaction.php") }}">
+<form id="massform{{ itemtype }}" method="get" action="{{ path("front/massiveaction.php") }}"
+      data-search-itemtype="{{ data['itemtype'] }}" data-start="{{ start }}" data-count="{{ count }}" data-limit="{{ limit }}">
    <div class="card card-sm mt-0 search-card">
       <div class="card-header d-flex justify-content-between search-header">
          {% if data['display_type'] == constant('Search::GLOBAL_SEARCH') %}
@@ -15,6 +20,8 @@
             {{ include('components/search/controls.html.twig') }}
 
             {% if count > 0 and data['search']['as_map'] == 0 %}
+               {% set no_onchange = true %}
+               {% set select_class = 'search-limit-dropdown' %}
                {% set limitdropdown = include('components/dropdown/limit.html.twig') %}
                <div class="d-inline-flex align-items-center d-none d-md-block search-limit">
                   {{ __("Show %s entries")|format(limitdropdown)|raw }}
@@ -39,3 +46,11 @@
       {% endif %}
    </div>
 </form>
+{% if not is_ajax %}
+</div>
+<script>
+    $(document).on('ready', () => {
+        new GLPI.Search.ResultsView("massform{{ itemtype }}", GLPI.Search.Table);
+    });
+</script>
+{% endif %}

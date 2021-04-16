@@ -31,6 +31,8 @@
  */
 
 // Direct access to file
+use Glpi\Application\View\TemplateRenderer;
+
 include ('../inc/includes.php');
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -51,6 +53,61 @@ switch ($_REQUEST['action']) {
       ]);
 
       echo json_encode(['success' => $success]);
+      break;
+
+   case 'display_results':
+      if (!isset($_REQUEST['itemtype'])) {
+         http_response_code(400);
+         die;
+      }
+
+      /** @var CommonDBTM $itemtype */
+      $itemtype = $_REQUEST['itemtype'];
+      if (!$itemtype::canView()) {
+         http_response_code(403);
+         die;
+      }
+
+      $sort = [];
+      if (isset($_REQUEST['sort'], $_REQUEST['order'])) {
+         for ($i = 0, $iMax = count($_REQUEST['sort']); $i < $iMax; $i++) {
+            $sort[] = [
+               'itemtype'     => $itemtype,
+               'searchopt_id' => $_REQUEST['sort'][$i],
+               'order'        => $_REQUEST['order'][$i],
+            ];
+         }
+      }
+
+      $search_params = [
+         'sort'   => $sort
+      ];
+      unset($_REQUEST['sort'], $_REQUEST['order']);
+      $search_params = array_merge($search_params, $_REQUEST);
+
+      $results = Search::getDatas($itemtype, $search_params);
+
+      TemplateRenderer::getInstance()->display('components/search/display_data.html.twig', [
+         'searchform_id'   => $_REQUEST['searchform_id'] ?? null,
+         'itemtype'  => $results['itemtype'],
+         'data'      => $results,
+         'showmassiveactions'  => ($search['showmassiveactions'] ?? true)
+            && $results['display_type'] != Search::GLOBAL_SEARCH
+            && ($results['itemtype'] === 'AllAssets'
+               || count(MassiveAction::getAllMassiveActions($results['item'], $results['search']['is_deleted']))
+            ),
+         'massiveactionparams' => $results['search']['massiveactionparams'] + [
+            'is_deleted' => $results['search']['is_deleted'],
+            'container'  => "massform{$results['itemtype']}",
+         ],
+         'start'               => $results['search']['start'] ?? 0,
+         'limit'               => $_SESSION['glpilist_limit'],
+         'count'               => $results['data']['totalcount'] ?? 0,
+         'can_config'          => Session::haveRightsOr('search_config', [
+            DisplayPreference::PERSONAL,
+            DisplayPreference::GENERAL
+         ]),
+      ]);
       break;
 }
 
