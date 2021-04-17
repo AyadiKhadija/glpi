@@ -1614,7 +1614,7 @@ class Html {
     * @param $keepDB boolean, closeDBConnections if false (false by default)
    **/
    static function footer($keepDB = false) {
-      global $CFG_GLPI, $FOOTER_LOADED, $TIMER_DEBUG;
+      global $CFG_GLPI, $FOOTER_LOADED, $TIMER_DEBUG, $PLUGIN_HOOKS;
 
       // If in modal : display popFooter
       if (isset($_REQUEST['_in_modal']) && $_REQUEST['_in_modal']) {
@@ -1662,7 +1662,35 @@ class Html {
       $tpl_vars['js_files'][] = 'js/misc.js';
 
       // TODO Add Ajax notifications script block
-      // TODO Add plugins scripts
+      if (isset($PLUGIN_HOOKS['add_javascript']) && count($PLUGIN_HOOKS['add_javascript'])) {
+         foreach ($PLUGIN_HOOKS["add_javascript"] as $plugin => $files) {
+            $plugin_root_dir = Plugin::getPhpDir($plugin, true);
+            $plugin_web_dir  = Plugin::getWebDir($plugin, false);
+            if (!Plugin::isPluginActive($plugin)) {
+               continue;
+            }
+            $version = Plugin::getInfo($plugin, 'version');
+            if (!is_array($files)) {
+               $files = [$files];
+            }
+            foreach ($files as $file) {
+               if (!is_array($file)) {
+                  $file = [
+                     'file'   => $file,
+                     'type'   => 'text/javascript'
+                  ];
+               }
+               if (file_exists($plugin_root_dir."/{$file['file']}")) {
+                  $tpl_vars['js_files'][] = [
+                     'file'   => $plugin_web_dir."/{$file['file']}",
+                     'type'   => $file['type']
+                  ];
+               } else {
+                  Toolbox::logWarning("$file file not found from plugin $plugin!");
+               }
+            }
+         }
+      }
 
       TemplateRenderer::getInstance()->display('layout/parts/page_footer.html.twig', $tpl_vars);
 
