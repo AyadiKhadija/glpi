@@ -506,7 +506,7 @@ class Migration {
 
 
    /**
-    * Drop immediatly a table if it exists
+    * Drop immediately a table if it exists
     *
     * @param string $table Table name
     *
@@ -520,6 +520,38 @@ class Migration {
       }
    }
 
+   /**
+    * Drop immediately a table if it exists or die on error
+    *
+    * @param string $table Table name
+    * @param string $message Message to show on failure
+    *
+    * @return void
+    **/
+   function dropTableOrDie($table, $message = '') {
+      global $DB;
+
+      if (!$DB->tableExists($table)) {
+         return;
+      }
+      $res = $DB->query('DROP TABLE'.$DB::quoteName($table));
+      if (!$res) {
+         //TRANS: %1$s is the description, %2$s is the query, %3$s is the error message
+         $message = sprintf(
+            _x('error', '%1$s - Error during the drop of the table %2$s - Error is %3$s', 'chat'),
+            $message,
+            $table,
+            $DB->error()
+         );
+         if (isCommandLine()) {
+            throw new \RuntimeException($message);
+         }
+
+         echo $message . "\n";
+         die(1);
+      }
+      return $res;
+   }
 
    /**
     * Add index for migration
