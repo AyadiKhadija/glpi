@@ -1686,7 +1686,7 @@ class Html {
                      'type'   => $file['type']
                   ];
                } else {
-                  Toolbox::logWarning("$file file not found from plugin $plugin!");
+                  Toolbox::logWarning("{$file['file']} file not found from plugin $plugin!");
                }
             }
          }
@@ -5254,6 +5254,9 @@ JAVASCRIPT;
          unset($options['version']);
       }
 
+      $type = (isset($options['type']) && $options['type'] === 'module') ||
+         preg_match('/^js\/modules\//', $url) === 1 ? 'module' : 'text/javascript';
+
       if ($minify === true) {
          $url = self::getMiniFile($url);
       }
@@ -5264,7 +5267,7 @@ JAVASCRIPT;
          $url .= '?v=' . $version;
       }
 
-      return sprintf('<script type="text/javascript" src="%1$s"></script>', $url);
+      return sprintf('<script type="%s" src="%s"></script>', $type, $url);
    }
 
 
@@ -6430,10 +6433,19 @@ JAVASCRIPT;
                $files = [$files];
             }
             foreach ($files as $file) {
-               if (file_exists($plugin_root_dir."/$file")) {
-                  echo Html::script("$plugin_web_dir/$file", ['version' => $version]);
+               if (!is_array($file)) {
+                  $file = [
+                     'file'   => $file,
+                     'type'   => 'text/javascript'
+                  ];
+               }
+               if (file_exists($plugin_root_dir."/{$file['file']}")) {
+                  echo Html::script("$plugin_web_dir/{$file['file']}", [
+                     'version'   => $version,
+                     'type'      => $file['type']
+                  ]);
                } else {
-                  Toolbox::logWarning("$file file not found from plugin $plugin!");
+                  Toolbox::logWarning("{$file['file']} file not found from plugin $plugin!");
                }
             }
          }

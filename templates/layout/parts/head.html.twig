@@ -51,7 +51,8 @@
    <link rel="shortcut icon" type="images/x-icon" href="{{ asset_path('/pics/favicon.ico') }}" />
 
    {% for js_file in js_files %}
-      <script type="text/javascript" src="{{ js_path(js_file) }}"></script>
+      {% set js_file = js_file is not iterable ? {'file': js_file, 'type': 'text/javascript'} : js_file %}
+      <script type="{{ js_file['type']|default('text/javascript') }}" src="{{ js_path(js_file['file']) }}"></script>
    {% endfor %}
 
    {{ locales_js() }}

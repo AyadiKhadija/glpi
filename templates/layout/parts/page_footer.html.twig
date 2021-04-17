@@ -63,7 +63,8 @@
    {% endif %}
 
    {% for js_file in js_files %}
-      <script type="text/javascript" src="{{ js_path(js_file) }}"></script>
+      {% set js_file = js_file is not iterable ? {'file': js_file, 'type': 'text/javascript'} : js_file %}
+      <script type="{{ js_file['type']|default('text/javascript') }}" src="{{ js_path(js_file['file']) }}"></script>
    {% endfor %}
 
 </body>
