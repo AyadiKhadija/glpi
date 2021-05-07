@@ -78,30 +78,46 @@ window.GLPI.Search.Table = class Table extends GenericView {
     }
 
     refreshResults(search_overrides = {}) {
-        const sort_state = this.getSortState();
+        this.showLoadingSpinner();
         const el = this.getElement();
         const form_el = el.closest('form');
         const ajax_container = el.closest('.ajax-container');
-        const limit = $(form_el).find('select.search-limit-dropdown').first().val();
-        const search_form_values = $(ajax_container).closest('.search-container').find('.search-form-container').serializeArray();
-        let search_criteria = {};
-        search_form_values.forEach((v) => {
-            search_criteria[v['name']] = v['value'];
-        });
-        const start = $(ajax_container).find('.pagination .page-item.active .page-link').data('start');
-        search_criteria['start'] = start || 0;
+        let search_data = {};
+        try {
+            if (search_overrides['reset']) {
+                search_data = {
+                    action: 'display_results',
+                    searchform_id: this.element_id,
+                    itemtype: this.getItemtype(),
+                    reset: 'reset'
+                };
+            } else {
+                const sort_state = this.getSortState();
+                const limit = $(form_el).find('select.search-limit-dropdown').first().val();
+                const search_form_values = $(ajax_container).closest('.search-container').find('.search-form-container').serializeArray();
+                let search_criteria = {};
+                search_form_values.forEach((v) => {
+                    search_criteria[v['name']] = v['value'];
+                });
+                const start = $(ajax_container).find('.pagination .page-item.active .page-link').data('start');
+                search_criteria['start'] = start || 0;
 
-        this.showLoadingSpinner();
-        $(ajax_container).load(CFG_GLPI.root_doc + '/ajax/search.php', Object.assign({
-            action: 'display_results',
-            searchform_id: this.element_id,
-            itemtype: this.getItemtype(),
-            sort: sort_state['sort'],
-            order: sort_state['order'],
-            glpilist_limit: limit,
-        }, search_criteria, search_overrides), () => {
+                search_data = Object.assign({
+                    action: 'display_results',
+                    searchform_id: this.element_id,
+                    itemtype: this.getItemtype(),
+                    sort: sort_state['sort'],
+                    order: sort_state['order'],
+                    glpilist_limit: limit,
+                }, search_criteria, search_overrides);
+            }
+
+            $(ajax_container).load(CFG_GLPI.root_doc + '/ajax/search.php', search_data, () => {
+                this.hideLoadingSpinner();
+            });
+        } catch {
             this.hideLoadingSpinner();
-        });
+        }
     }
 
     registerListeners() {
@@ -124,6 +140,13 @@ window.GLPI.Search.Table = class Table extends GenericView {
         $(search_container).on('click', '.search-form-container button[name="search"]', (e) => {
             e.preventDefault();
             this.onSearch();
+        });
+
+        $(search_container).on('click', '.search-form-container .search-reset', (e) => {
+            e.preventDefault();
+            this.refreshResults({
+                reset: 'reset'
+            });
         });
     }
 

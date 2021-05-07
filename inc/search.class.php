@@ -2253,7 +2253,7 @@ class Search {
             }
 
             if ($p['showreset']) {
-               echo "<a class='btn btn-ghost-secondary btn-icon btn-sm me-1'
+               echo "<a class='btn btn-ghost-secondary btn-icon btn-sm me-1 search-reset'
                         data-bs-toggle='tooltip' data-bs-placement='bottom'
                         href='"
                   .$p['target']
