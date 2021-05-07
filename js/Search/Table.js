@@ -65,11 +65,19 @@ window.GLPI.Search.Table = class Table extends GenericView {
         this.refreshResults();
     }
 
+    onPageChange(target) {
+        const page_link = $(target);
+        page_link.closest('.pagination').find('.page-item').removeClass('active');
+        page_link.parent().addClass('active');
+
+        this.refreshResults();
+    }
+
     onSearch() {
         this.refreshResults();
     }
 
-    refreshResults() {
+    refreshResults(search_overrides = {}) {
         const sort_state = this.getSortState();
         const el = this.getElement();
         const form_el = el.closest('form');
@@ -80,6 +88,8 @@ window.GLPI.Search.Table = class Table extends GenericView {
         search_form_values.forEach((v) => {
             search_criteria[v['name']] = v['value'];
         });
+        const start = $(ajax_container).find('.pagination .page-item.active .page-link').data('start');
+        search_criteria['start'] = start || 0;
 
         this.showLoadingSpinner();
         $(ajax_container).load(CFG_GLPI.root_doc + '/ajax/search.php', Object.assign({
@@ -88,8 +98,8 @@ window.GLPI.Search.Table = class Table extends GenericView {
             itemtype: this.getItemtype(),
             sort: sort_state['sort'],
             order: sort_state['order'],
-            glpilist_limit: limit
-        }, search_criteria), () => {
+            glpilist_limit: limit,
+        }, search_criteria, search_overrides), () => {
             this.hideLoadingSpinner();
         });
     }
@@ -105,6 +115,10 @@ window.GLPI.Search.Table = class Table extends GenericView {
 
         $(ajax_container).on('change', 'select.search-limit-dropdown', (e) => {
             this.onLimitChange(e.target);
+        });
+
+        $(ajax_container).on('click', '.pagination .page-link', (e) => {
+            this.onPageChange(e.target);
         });
 
         $(search_container).on('click', '.search-form-container button[name="search"]', (e) => {
