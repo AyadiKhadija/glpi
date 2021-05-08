@@ -51,4 +51,9 @@ window.GLPI.Search.ResultsView = class ResultsView {
     getAJAXContainer() {
         return this.getElement().closest('div.ajax-container.search-display-data');
     }
+
+    getView() {
+        return this.view;
+    }
 }
+export default window.GLPI.Search.ResultsView;

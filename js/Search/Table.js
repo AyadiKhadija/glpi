@@ -73,10 +73,6 @@ window.GLPI.Search.Table = class Table extends GenericView {
         this.refreshResults();
     }
 
-    onSearch() {
-        this.refreshResults();
-    }
-
     refreshResults(search_overrides = {}) {
         this.showLoadingSpinner();
         const el = this.getElement();
@@ -144,6 +140,7 @@ window.GLPI.Search.Table = class Table extends GenericView {
 
         $(search_container).on('click', '.search-form-container .search-reset', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             this.refreshResults({
                 reset: 'reset'
             });

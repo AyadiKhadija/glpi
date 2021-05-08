@@ -1,4 +1,5 @@
 require('../../../js/Search/Table.js');
+import ResultsView from '../../../js/Search/ResultsView.js';
 
 describe('Search Table', () => {
     beforeEach(() => {
@@ -14,17 +15,18 @@ describe('Search Table', () => {
             <input name="is_deleted" value="0"/>
             <input name="as_map" value="0"/>
             <button name="search" type="button"/>
+            <a class="btn search-reset" href="#"></a>
         </form>
-        <form>
-            <select class="search-limit-dropdown">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15" selected="selected">15</option>
-                <option value="20">20</option>
-            </select>
-            <div class="ajax-container">
+        <div class="ajax-container search-display-data">
+            <form id="massformComputer" data-search-itemtype="Computer">
+                <select class="search-limit-dropdown">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15" selected="selected">15</option>
+                    <option value="20">20</option>
+                </select>
                 <div class="table-responsive-md">
-                    <table id="search_9439839" class="search-results" data-search-itemtype="Computer">
+                    <table id="search_9439839" class="search-results">
                         <thead>
                             <th data-searchopt-id="1" data-sort-order="ASC"></th>
                             <th data-searchopt-id="2" data-sort-order="nosort"></th>
@@ -33,20 +35,60 @@ describe('Search Table', () => {
                         </thead>
                     </table>
                 </div>
-            </div>
-            <select class="search-limit-dropdown">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15" selected="selected">15</option>
-                <option value="20">20</option>
-            </select>
-        </form>
+                <select class="search-limit-dropdown">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15" selected="selected">15</option>
+                    <option value="20">20</option>
+                </select>
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link page-link-start" href="#" data-start="0">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link page-link-prev" href="#" data-start="15">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link page-link-num" href="#" data-start="30">30</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link page-link-num" href="#" data-start="45">45</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link page-link-next" href="#" data-start="60">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link page-link-last" href="#" data-start="75">
+                        <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </form>
+        </div>
     </div>
 `);
-    const real_table = new GLPI.Search.Table('search_9439839');
+    window.GLPI.Search.Table.prototype.getResultsView = jest.fn(function () {
+        return {
+            getElement: () => {
+                return $('#massformComputer');
+            },
+            getAJAXContainer: () => {
+                return $('#massformComputer').closest('.ajax-container');
+            }
+        }
+    });
+
+    const real_table = new GLPI.Search.Table('massformComputer');
     $.fn.load = jest.fn().mockImplementation((url, data, callback) => {
         callback();
     });
+
     const jquery_load = jest.spyOn($.fn, 'load');
     const table_showSpinner = jest.spyOn(real_table, 'showLoadingSpinner');
     const table_hideSpinner = jest.spyOn(real_table, 'hideLoadingSpinner');
@@ -58,23 +100,27 @@ describe('Search Table', () => {
         expect(GLPI.Search).toBeDefined();
         expect(GLPI.Search.Table).toBeDefined();
     });
-    test('Constructor', () => {
-        const table1 = new GLPI.Search.Table('not_a_table');
-        expect(table1.getElement().length).toBe(0);
-
+    test('getElement', () => {
         expect(real_table.getElement().length).toBe(1);
     });
     test('getItemtype', () => {
         expect(real_table.getItemtype()).toBe('Computer');
     });
     test('getSortState', () => {
-        const verify_initial_state = function() {
+        const table_el = real_table.getElement();
+
+        const restore_initial_state = () => {
+            table_el.find('th').data('sort-order', 'nosort');
+            table_el.find('th').eq(0).data('sort-order', 'ASC');
+        };
+        const verify_initial_state = () => {
             let state = real_table.getSortState();
             expect(state['sort'].length).toBe(1);
             expect(state['order'].length).toBe(1);
             expect(state['sort'][0]).toBe(1);
             expect(state['order'][0]).toBe('ASC');
-        }
+        };
+        restore_initial_state();
         verify_initial_state();
 
         // Manually modify data for existing sorted column and test again
@@ -120,9 +166,7 @@ describe('Search Table', () => {
         expect(state['order'][1]).toBe('ASC');
 
         // Restore sort
-        const table_el = real_table.getElement();
-        table_el.find('th').data('sort-order', 'nosort');
-        table_el.find('th').eq(0).data('sort-order', 'ASC');
+        restore_initial_state();
         verify_initial_state();
     });
     test('AJAX refresh on sort', () => {
@@ -139,7 +183,7 @@ describe('Search Table', () => {
         expect(table_onLimitChange).toHaveBeenCalledTimes(1);
         const dropdowns = real_table.getElement().closest('form').find('.search-limit-dropdown');
         expect(dropdowns.length).toBe(2);
-        dropdowns.each(function() {
+        dropdowns.each(function () {
             expect($(this).val()).toBe("10");
         });
     });
@@ -164,6 +208,40 @@ describe('Search Table', () => {
         expect(load_data).toHaveProperty('as_map');
         expect(load_data['as_map']).toBe('0');
     });
+    test('AJAX refresh on search reset', () => {
+        real_table.getElement().closest('.search-container').find('form.search-form-container a.search-reset').click();
+        expect(table_showSpinner).toHaveBeenCalledTimes(1);
+        expect(jquery_load).toHaveBeenCalledTimes(1);
+        expect(table_hideSpinner).toHaveBeenCalledTimes(1);
+
+        const load_data = jquery_load.mock.calls[0][1];
+        expect(load_data).toHaveProperty('reset');
+        expect(load_data['reset']).toBe('reset');
+    });
+    test('AJAX refresh on page change', () => {
+        const pagination = real_table.getElement().closest('.search-container').find('.pagination');
+        const pagination_items = pagination.find('li');
+
+        const expectOnlyActive = (index) => {
+            for (let i = 0; i < pagination_items.length; i++) {
+                expect(pagination_items.eq(i).hasClass('active')).toBe(i === index);
+            }
+        };
+        const expectResultStart = (start) => {
+            expect(jquery_load.mock.calls[jquery_load.mock.calls.length - 1][1]['start']).toBe(start);
+        };
+
+        // This is more to test that no other test changes the active item
+        expect(pagination_items.eq(2).hasClass('active')).toBeTrue();
+
+        const click_order = [0, 1, 3, 4, 5, 2];
+        for (let i = 0; i < click_order.length; i++) {
+            const p = click_order[i];
+            pagination_items.eq(i).find('.page-link').click();
+            expectOnlyActive(i);
+            expectResultStart(i * 15);
+        }
+    });
     test('Show and Hide loading spinner', () => {
         const el = real_table.getElement();
         real_table.showLoadingSpinner();
@@ -173,5 +251,14 @@ describe('Search Table', () => {
         real_table.hideLoadingSpinner();
         expect(overlay.length).toBe(1);
         expect(overlay.css('visibility')).toBe('hidden');
+    });
+    test('Hide loading spinner after refresh exception', () => {
+        const get_sort = jest.spyOn(real_table, 'getSortState');
+        get_sort.mockImplementation(() => {
+            throw 'Test exception';
+        });
+        real_table.refreshResults();
+        expect(table_hideSpinner).toHaveBeenCalledTimes(1);
+        expect(jquery_load).toHaveBeenCalledTimes(0);
     });
 });

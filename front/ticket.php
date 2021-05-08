@@ -40,7 +40,7 @@ if (Session::getCurrentInterface() == "helpdesk") {
    Html::header(Ticket::getTypeName(Session::getPluralNumber()), '', "helpdesk", "ticket");
 }
 
-echo Html::manageRefreshPage(false, "$('table.search-results').closest('div.ajax-container').data('js_class').refreshSearchTable();");
+echo Html::manageRefreshPage(false, "$('div.ajax-container.search-display-data').data('js_class').getView().refreshResults();");
 
 Search::show('Ticket');
 

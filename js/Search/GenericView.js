@@ -75,14 +75,7 @@ window.GLPI.Search.GenericView = class GenericView {
         loading_overlay.css('visibility', 'hidden');
     }
 
-    registerListeners() {
-        const search_container = this.getElement().closest('.search-container');
-
-        $(search_container).on('click', '.search-form-container button[name="search"]', (e) => {
-            e.preventDefault();
-            this.onSearch();
-        });
-    }
+    registerListeners() {}
 
     onSearch() {
         this.refreshResults();
