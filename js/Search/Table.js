@@ -37,135 +37,135 @@ window.GLPI.Search = window.GLPI.Search || {};
 
 window.GLPI.Search.Table = class Table extends GenericView {
 
-    constructor(result_view_element_id) {
-        const element_id = $('#'+result_view_element_id).find('table.search-results').attr('id');
-        super(element_id);
-    }
+   constructor(result_view_element_id) {
+      const element_id = $('#'+result_view_element_id).find('table.search-results').attr('id');
+      super(element_id);
+   }
 
-    getElement() {
-        return $('#'+this.element_id);
-    }
+   getElement() {
+      return $('#'+this.element_id);
+   }
 
-    onColumnSortClick(target) {
-        const target_column = $(target);
-        const sort_order = target_column.data('sort-order');
+   onColumnSortClick(target) {
+      const target_column = $(target);
+      const sort_order = target_column.data('sort-order');
 
-        const new_order = sort_order === 'ASC' ? 'DESC' : (sort_order === 'DESC' ? 'nosort' : 'ASC');
-        target_column.data('sort-order', new_order);
+      const new_order = sort_order === 'ASC' ? 'DESC' : (sort_order === 'DESC' ? 'nosort' : 'ASC');
+      target_column.data('sort-order', new_order);
 
-        this.refreshResults();
-    }
+      this.refreshResults();
+   }
 
-    onLimitChange(target) {
-        const new_limit = target.value;
-        $(target).closest('form').find('select.search-limit-dropdown').each(function() {
-            $(this).val(new_limit);
-        });
+   onLimitChange(target) {
+      const new_limit = target.value;
+      $(target).closest('form').find('select.search-limit-dropdown').each(function() {
+         $(this).val(new_limit);
+      });
 
-        this.refreshResults();
-    }
+      this.refreshResults();
+   }
 
-    onPageChange(target) {
-        const page_link = $(target);
-        page_link.closest('.pagination').find('.page-item').removeClass('active');
-        page_link.parent().addClass('active');
+   onPageChange(target) {
+      const page_link = $(target);
+      page_link.closest('.pagination').find('.page-item').removeClass('active');
+      page_link.parent().addClass('active');
 
-        this.refreshResults();
-    }
+      this.refreshResults();
+   }
 
-    refreshResults(search_overrides = {}) {
-        this.showLoadingSpinner();
-        const el = this.getElement();
-        const form_el = el.closest('form');
-        const ajax_container = el.closest('.ajax-container');
-        let search_data = {};
-        try {
-            if (search_overrides['reset']) {
-                search_data = {
-                    action: 'display_results',
-                    searchform_id: this.element_id,
-                    itemtype: this.getItemtype(),
-                    reset: 'reset'
-                };
-            } else {
-                const sort_state = this.getSortState();
-                const limit = $(form_el).find('select.search-limit-dropdown').first().val();
-                const search_form_values = $(ajax_container).closest('.search-container').find('.search-form-container').serializeArray();
-                let search_criteria = {};
-                search_form_values.forEach((v) => {
-                    search_criteria[v['name']] = v['value'];
-                });
-                const start = $(ajax_container).find('.pagination .page-item.active .page-link').data('start');
-                search_criteria['start'] = start || 0;
-
-                search_data = Object.assign({
-                    action: 'display_results',
-                    searchform_id: this.element_id,
-                    itemtype: this.getItemtype(),
-                    sort: sort_state['sort'],
-                    order: sort_state['order'],
-                    glpilist_limit: limit,
-                }, search_criteria, search_overrides);
-            }
-
-            $(ajax_container).load(CFG_GLPI.root_doc + '/ajax/search.php', search_data, () => {
-                this.hideLoadingSpinner();
+   refreshResults(search_overrides = {}) {
+      this.showLoadingSpinner();
+      const el = this.getElement();
+      const form_el = el.closest('form');
+      const ajax_container = el.closest('.ajax-container');
+      let search_data = {};
+      try {
+         if (search_overrides['reset']) {
+            search_data = {
+               action: 'display_results',
+               searchform_id: this.element_id,
+               itemtype: this.getItemtype(),
+               reset: 'reset'
+            };
+         } else {
+            const sort_state = this.getSortState();
+            const limit = $(form_el).find('select.search-limit-dropdown').first().val();
+            const search_form_values = $(ajax_container).closest('.search-container').find('.search-form-container').serializeArray();
+            let search_criteria = {};
+            search_form_values.forEach((v) => {
+               search_criteria[v['name']] = v['value'];
             });
-        } catch {
+            const start = $(ajax_container).find('.pagination .page-item.active .page-link').data('start');
+            search_criteria['start'] = start || 0;
+
+            search_data = Object.assign({
+               action: 'display_results',
+               searchform_id: this.element_id,
+               itemtype: this.getItemtype(),
+               sort: sort_state['sort'],
+               order: sort_state['order'],
+               glpilist_limit: limit,
+            }, search_criteria, search_overrides);
+         }
+
+         $(ajax_container).load(CFG_GLPI.root_doc + '/ajax/search.php', search_data, () => {
             this.hideLoadingSpinner();
-        }
-    }
+         });
+      } catch {
+         this.hideLoadingSpinner();
+      }
+   }
 
-    registerListeners() {
-        const ajax_container = this.getResultsView().getAJAXContainer();
-        const search_container = ajax_container.closest('.search-container');
+   registerListeners() {
+      const ajax_container = this.getResultsView().getAJAXContainer();
+      const search_container = ajax_container.closest('.search-container');
 
-        $(ajax_container).on('click', 'table.search-results th[data-searchopt-id]', (e) => {
-            e.stopPropagation();
-            this.onColumnSortClick(e.target);
-        });
+      $(ajax_container).on('click', 'table.search-results th[data-searchopt-id]', (e) => {
+         e.stopPropagation();
+         this.onColumnSortClick(e.target);
+      });
 
-        $(ajax_container).on('change', 'select.search-limit-dropdown', (e) => {
-            this.onLimitChange(e.target);
-        });
+      $(ajax_container).on('change', 'select.search-limit-dropdown', (e) => {
+         this.onLimitChange(e.target);
+      });
 
-        $(ajax_container).on('click', '.pagination .page-link', (e) => {
-            this.onPageChange(e.target);
-        });
+      $(ajax_container).on('click', '.pagination .page-link', (e) => {
+         this.onPageChange(e.target);
+      });
 
-        $(search_container).on('click', '.search-form-container button[name="search"]', (e) => {
-            e.preventDefault();
-            this.onSearch();
-        });
+      $(search_container).on('click', '.search-form-container button[name="search"]', (e) => {
+         e.preventDefault();
+         this.onSearch();
+      });
 
-        $(search_container).on('click', '.search-form-container .search-reset', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            this.refreshResults({
-                reset: 'reset'
-            });
-        });
-    }
+      $(search_container).on('click', '.search-form-container .search-reset', (e) => {
+         e.preventDefault();
+         e.stopPropagation();
+         this.refreshResults({
+            reset: 'reset'
+         });
+      });
+   }
 
-    getItemtype() {
-        return this.getResultsView().getElement().data('search-itemtype');
-    }
+   getItemtype() {
+      return this.getResultsView().getElement().data('search-itemtype');
+   }
 
-    getSortState() {
-        const columns = this.getElement().find('thead th[data-searchopt-id]:not([data-searchopt-id=""])[data-sort-order]:not([data-sort-order=""])');
-        const sort_state = {
-            sort: [],
-            order: []
-        };
-        columns.each((i, c) => {
-            const col = $(c);
+   getSortState() {
+      const columns = this.getElement().find('thead th[data-searchopt-id]:not([data-searchopt-id=""])[data-sort-order]:not([data-sort-order=""])');
+      const sort_state = {
+         sort: [],
+         order: []
+      };
+      columns.each((i, c) => {
+         const col = $(c);
 
-            const order = col.data('sort-order');
-            if (order !== 'nosort') {
-                sort_state['sort'].push(col.data('searchopt-id'));
-                sort_state['order'].push(order);
-            }
-        });
-        return sort_state;
-    }
+         const order = col.data('sort-order');
+         if (order !== 'nosort') {
+            sort_state['sort'].push(col.data('searchopt-id'));
+            sort_state['order'].push(order);
+         }
+      });
+      return sort_state;
+   }
 };
