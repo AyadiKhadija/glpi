@@ -61,7 +61,7 @@
     },
     "scripts": {
         "build": "webpack --config webpack.config.js",
-        "test": "jest ./tests/js/**"
+        "test": "jest --config tests/js/jest.config.js ./tests/js/**"
     },
     "devDependencies": {
         "@babel/core": "^7.14.0",
