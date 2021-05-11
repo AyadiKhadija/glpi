@@ -244,13 +244,19 @@ describe('Search Table', () => {
    });
    test('Show and Hide loading spinner', () => {
       const el = real_table.getElement();
+      // Be sure no overlay exists yet
+      el.find('.spinner-overlay').remove();
       real_table.showLoadingSpinner();
-      const overlay = el.find('.spinner-overlay');
+      let overlay = el.find('.spinner-overlay');
       expect(overlay.length).toBe(1);
       expect(overlay.css('visibility')).toBe('visible');
       real_table.hideLoadingSpinner();
       expect(overlay.length).toBe(1);
       expect(overlay.css('visibility')).toBe('hidden');
+      // Re-show overlay and ensure it is visible
+      real_table.showLoadingSpinner();
+      expect(overlay.length).toBe(1);
+      expect(overlay.css('visibility')).toBe('visible');
    });
    test('Hide loading spinner after refresh exception', () => {
       const get_sort = jest.spyOn(real_table, 'getSortState');
