@@ -137,14 +137,6 @@ window.GLPI.Search.Table = class Table extends GenericView {
          e.preventDefault();
          this.onSearch();
       });
-
-      $(search_container).on('click', '.search-form-container .search-reset', (e) => {
-         e.preventDefault();
-         e.stopPropagation();
-         this.refreshResults({
-            reset: 'reset'
-         });
-      });
    }
 
    getItemtype() {

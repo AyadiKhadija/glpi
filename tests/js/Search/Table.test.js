@@ -208,16 +208,6 @@ describe('Search Table', () => {
       expect(load_data).toHaveProperty('as_map');
       expect(load_data['as_map']).toBe('0');
    });
-   test('AJAX refresh on search reset', () => {
-      real_table.getElement().closest('.search-container').find('form.search-form-container a.search-reset').click();
-      expect(table_showSpinner).toHaveBeenCalledTimes(1);
-      expect(jquery_load).toHaveBeenCalledTimes(1);
-      expect(table_hideSpinner).toHaveBeenCalledTimes(1);
-
-      const load_data = jquery_load.mock.calls[0][1];
-      expect(load_data).toHaveProperty('reset');
-      expect(load_data['reset']).toBe('reset');
-   });
    test('AJAX refresh on page change', () => {
       const pagination = real_table.getElement().closest('.search-container').find('.pagination');
       const pagination_items = pagination.find('li');
