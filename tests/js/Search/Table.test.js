@@ -97,9 +97,9 @@ describe('Search Table', () => {
 
    const table_el = real_table.getElement();
    const restore_initial_sort_state = () => {
-      table_el.find('th').data('sort-order', 'nosort');
-      table_el.find('th').eq(0).data('sort-order', 'ASC');
-      table_el.find('th').eq(0).data('sort-num', 0);
+      table_el.find('th').attr('data-sort-order', 'nosort');
+      table_el.find('th').eq(0).attr('data-sort-order', 'ASC');
+      table_el.find('th').eq(0).attr('data-sort-num', 0);
    };
 
    test('Class exists', () => {
@@ -118,27 +118,27 @@ describe('Search Table', () => {
          let state = real_table.getSortState();
          expect(state['sort'].length).toBe(1);
          expect(state['order'].length).toBe(1);
-         expect(state['sort'][0]).toBe(1);
+         expect(state['sort'][0]).toBe('1');
          expect(state['order'][0]).toBe('ASC');
       };
       restore_initial_sort_state();
       verify_initial_sort_state();
 
       // Manually modify data for existing sorted column and test again
-      real_table.getElement().find('th').eq(0).data('sort-order', 'DESC');
+      real_table.getElement().find('th').eq(0).attr('data-sort-order', 'DESC');
       let state = real_table.getSortState();
       expect(state['sort'].length).toBe(1);
       expect(state['order'].length).toBe(1);
-      expect(state['sort'][0]).toBe(1);
+      expect(state['sort'][0]).toBe('1');
       expect(state['order'][0]).toBe('DESC');
 
       // Manually add new sort
-      real_table.getElement().find('th').eq(2).data('sort-order', 'ASC');
-      real_table.getElement().find('th').eq(2).data('sort-num', '1');
+      real_table.getElement().find('th').eq(2).attr('data-sort-order', 'ASC');
+      real_table.getElement().find('th').eq(2).attr('data-sort-num', '1');
       state = real_table.getSortState();
       expect(state['sort'].length).toBe(2);
       expect(state['order'].length).toBe(2);
-      expect(state['sort'][1]).toBe(3);
+      expect(state['sort'][1]).toBe('3');
       expect(state['order'][1]).toBe('ASC');
 
       // Click to add new sort
@@ -146,7 +146,7 @@ describe('Search Table', () => {
       state = real_table.getSortState();
       expect(state['sort'].length).toBe(3);
       expect(state['order'].length).toBe(3);
-      expect(state['sort'][2]).toBe(4);
+      expect(state['sort'][2]).toBe('4');
       expect(state['order'][2]).toBe('ASC');
 
       // Click previous column again to switch it to DESC
@@ -154,7 +154,7 @@ describe('Search Table', () => {
       state = real_table.getSortState();
       expect(state['sort'].length).toBe(3);
       expect(state['order'].length).toBe(3);
-      expect(state['sort'][2]).toBe(4);
+      expect(state['sort'][2]).toBe('4');
       expect(state['order'][2]).toBe('DESC');
 
       // Click previous column again. We should be back at a nosort state for it (excluded from sort state).
@@ -162,9 +162,9 @@ describe('Search Table', () => {
       state = real_table.getSortState();
       expect(state['sort'].length).toBe(2);
       expect(state['order'].length).toBe(2);
-      expect(state['sort'][0]).toBe(1);
+      expect(state['sort'][0]).toBe('1');
       expect(state['order'][0]).toBe('DESC');
-      expect(state['sort'][1]).toBe(3);
+      expect(state['sort'][1]).toBe('3');
       expect(state['order'][1]).toBe('ASC');
 
       // Restore sort
@@ -233,7 +233,7 @@ describe('Search Table', () => {
          const p = click_order[i];
          pagination_items.eq(i).find('.page-link').click();
          expectOnlyActive(i);
-         expectResultStart(i * 15);
+         expectResultStart(String(i * 15));
       }
    });
    test('Show and Hide loading spinner', () => {
