@@ -71,11 +71,13 @@ switch ($_REQUEST['action']) {
       $sort = [];
       if (isset($_REQUEST['sort'], $_REQUEST['order'])) {
          for ($i = 0, $iMax = count($_REQUEST['sort']); $i < $iMax; $i++) {
-            $sort[] = [
-               'itemtype'     => $itemtype,
-               'searchopt_id' => $_REQUEST['sort'][$i],
-               'order'        => $_REQUEST['order'][$i],
-            ];
+            if (!empty($_REQUEST['sort'][$i])) {
+               $sort[] = [
+                  'itemtype'     => $itemtype,
+                  'searchopt_id' => $_REQUEST['sort'][$i],
+                  'order'        => $_REQUEST['order'][$i],
+               ];
+            }
          }
       }
 
