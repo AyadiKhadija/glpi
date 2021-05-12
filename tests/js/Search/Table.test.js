@@ -28,7 +28,7 @@ describe('Search Table', () => {
                 <div class="table-responsive-md">
                     <table id="search_9439839" class="search-results">
                         <thead>
-                            <th data-searchopt-id="1" data-sort-order="ASC"></th>
+                            <th data-searchopt-id="1" data-sort-order="ASC" data-sort-num="0"></th>
                             <th data-searchopt-id="2" data-sort-order="nosort"></th>
                             <th data-searchopt-id="3" data-sort-order="nosort"></th>
                             <th data-searchopt-id="4" data-sort-order="nosort"></th>
@@ -95,6 +95,13 @@ describe('Search Table', () => {
    const table_onLimitChange = jest.spyOn(real_table, 'onLimitChange');
    const table_onSearch = jest.spyOn(real_table, 'onSearch');
 
+   const table_el = real_table.getElement();
+   const restore_initial_sort_state = () => {
+      table_el.find('th').data('sort-order', 'nosort');
+      table_el.find('th').eq(0).data('sort-order', 'ASC');
+      table_el.find('th').eq(0).data('sort-num', 0);
+   };
+
    test('Class exists', () => {
       expect(GLPI).toBeDefined();
       expect(GLPI.Search).toBeDefined();
@@ -107,21 +114,15 @@ describe('Search Table', () => {
       expect(real_table.getItemtype()).toBe('Computer');
    });
    test('getSortState', () => {
-      const table_el = real_table.getElement();
-
-      const restore_initial_state = () => {
-         table_el.find('th').data('sort-order', 'nosort');
-         table_el.find('th').eq(0).data('sort-order', 'ASC');
-      };
-      const verify_initial_state = () => {
+      const verify_initial_sort_state = () => {
          let state = real_table.getSortState();
          expect(state['sort'].length).toBe(1);
          expect(state['order'].length).toBe(1);
          expect(state['sort'][0]).toBe(1);
          expect(state['order'][0]).toBe('ASC');
       };
-      restore_initial_state();
-      verify_initial_state();
+      restore_initial_sort_state();
+      verify_initial_sort_state();
 
       // Manually modify data for existing sorted column and test again
       real_table.getElement().find('th').eq(0).data('sort-order', 'DESC');
@@ -133,6 +134,7 @@ describe('Search Table', () => {
 
       // Manually add new sort
       real_table.getElement().find('th').eq(2).data('sort-order', 'ASC');
+      real_table.getElement().find('th').eq(2).data('sort-num', '1');
       state = real_table.getSortState();
       expect(state['sort'].length).toBe(2);
       expect(state['order'].length).toBe(2);
@@ -166,14 +168,16 @@ describe('Search Table', () => {
       expect(state['order'][1]).toBe('ASC');
 
       // Restore sort
-      restore_initial_state();
-      verify_initial_state();
+      restore_initial_sort_state();
+      verify_initial_sort_state();
    });
    test('AJAX refresh on sort', () => {
+      restore_initial_sort_state();
       real_table.getElement().find('th').eq(0).click();
       expect(table_showSpinner).toHaveBeenCalledTimes(1);
       expect(jquery_load).toHaveBeenCalledTimes(1);
       expect(table_hideSpinner).toHaveBeenCalledTimes(1);
+      restore_initial_sort_state();
    });
    test('AJAX refresh on limit change', () => {
       real_table.getElement().closest('form').find('select.search-limit-dropdown').first().val(10).trigger('change');
