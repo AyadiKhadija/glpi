@@ -39,7 +39,6 @@ window.GLPI.Search.GenericView = class GenericView {
       this.element_id = element_id;
 
       if (this.getElement()) {
-         //this.getElement().closest('div.ajax-container').data('js_class', this);
          this.registerListeners();
       }
    }

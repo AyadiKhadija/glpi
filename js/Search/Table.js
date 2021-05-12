@@ -49,12 +49,12 @@ window.GLPI.Search.Table = class Table extends GenericView {
    onColumnSortClick(target) {
       const target_column = $(target);
       const all_colums = this.getElement().find('thead th');
-      const sort_order = target_column.data('sort-order');
+      const sort_order = target_column.attr('data-sort-order');
 
       const new_order = sort_order === 'ASC' ? 'DESC' : (sort_order === 'DESC' ? 'nosort' : 'ASC');
-      target_column.data('sort-order', new_order);
+      target_column.attr('data-sort-order', new_order);
 
-      let sort_num = target_column.data('sort-num');
+      let sort_num = target_column.attr('data-sort-num');
 
       const recalulate_sort_nums = () => {
          let sort_nums = [];
@@ -62,8 +62,8 @@ window.GLPI.Search.Table = class Table extends GenericView {
          // Add sort nums to an array in order
          all_colums.each((i, c) => {
             const col = $(c);
-            if (col.data('sort-num') !== undefined) {
-               sort_nums[col.data('sort-num')] = col.data('searchopt-id');
+            if (col.attr('data-sort-num') !== undefined) {
+               sort_nums[col.attr('data-sort-num')] = col.attr('data-searchopt-id');
             }
          });
 
@@ -79,9 +79,9 @@ window.GLPI.Search.Table = class Table extends GenericView {
          // Clear sort-nums from all columns or change value
          all_colums.each((i, c) => {
             const col = $(c);
-            col.data('sort-num', undefined);
-            if (sort_nums_obj.hasOwnProperty(col.data('searchopt-id'))) {
-               col.data('sort-num', sort_nums_obj[col.data('searchopt-id')]);
+            col.attr('data-sort-num', undefined);
+            if (sort_nums_obj.hasOwnProperty(col.attr('data-searchopt-id'))) {
+               col.attr('data-sort-num', sort_nums_obj[col.attr('data-searchopt-id')]);
             }
          });
       };
@@ -89,14 +89,21 @@ window.GLPI.Search.Table = class Table extends GenericView {
       if (sort_num === undefined && new_order !== 'nosort') {
          // Recalculate sort-num on other columns, then set new sort-num
          recalulate_sort_nums();
-         target_column.data('sort-num', all_colums.filter(function() {
-            return $(this).data('sort-num') !== undefined;
+         target_column.attr('data-sort-num', all_colums.filter(function() {
+            return $(this).attr('data-sort-num') !== undefined;
          }).length);
-      } else if (sort_num !== undefined && new_order === 'nosort') {
+      } else if (new_order === 'nosort') {
          // Remove sort-num and recalculate sort-num on other columns
-         target_column.data('sort-num', undefined);
+         target_column.attr('data-sort-num', undefined);
          recalulate_sort_nums();
       }
+
+      all_colums.each((i, c) => {
+         const col = $(c);
+         if (col.attr('data-sort-num') !== undefined) {
+            col.find('.sort-num').text(col.attr('data-sort-num') ? (col.attr('data-sort-num') + 1) : '');
+         }
+      });
 
       this.refreshResults();
    }
@@ -140,7 +147,7 @@ window.GLPI.Search.Table = class Table extends GenericView {
             search_form_values.forEach((v) => {
                search_criteria[v['name']] = v['value'];
             });
-            const start = $(ajax_container).find('.pagination .page-item.active .page-link').data('start');
+            const start = $(ajax_container).find('.pagination .page-item.active .page-link').attr('data-start');
             search_criteria['start'] = start || 0;
 
             search_data = Object.assign({
@@ -185,7 +192,7 @@ window.GLPI.Search.Table = class Table extends GenericView {
    }
 
    getItemtype() {
-      return this.getResultsView().getElement().data('search-itemtype');
+      return this.getResultsView().getElement().attr('data-search-itemtype');
    }
 
    getSortState() {
@@ -197,10 +204,10 @@ window.GLPI.Search.Table = class Table extends GenericView {
       columns.each((i, c) => {
          const col = $(c);
 
-         const order = col.data('sort-order');
+         const order = col.attr('data-sort-order');
          if (order !== 'nosort') {
-            sort_state['sort'][col.data('sort-num') ?? 0] = col.data('searchopt-id');
-            sort_state['order'][col.data('sort-num') ?? 0] = order;
+            sort_state['sort'][col.attr('data-sort-num') ?? 0] = col.attr('data-searchopt-id');
+            sort_state['order'][col.attr('data-sort-num') ?? 0] = order;
          }
       });
       return sort_state;
