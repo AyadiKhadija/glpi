@@ -3167,7 +3167,7 @@ JAVASCRIPT;
       // BC parameter conversion
       if (!is_array($sort_fields)) {
          // < 10.0.0 parameters
-         //Toolbox::deprecated('The parameters for Search::addOrderBy have changed to allow sorting by multiple fields. Please update your calling code.');
+         Toolbox::deprecated('The parameters for Search::addOrderBy have changed to allow sorting by multiple fields. Please update your calling code.');
          $sort_fields = [
             [
                'itemtype'     => $sort_fields,
