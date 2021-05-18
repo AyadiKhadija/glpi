@@ -1,4 +1,4 @@
-{% set is_ajax = searchform_id is defined %}
+{% set is_ajax = data['searchform_id'] is defined %}
 {% if not is_ajax %}
 <div class="ajax-container search-display-data">
 {% endif %}

@@ -88,28 +88,8 @@ switch ($_REQUEST['action']) {
       $search_params = array_merge($search_params, $_REQUEST);
 
       $results = Search::getDatas($itemtype, $search_params);
-
-      TemplateRenderer::getInstance()->display('components/search/display_data.html.twig', [
-         'searchform_id'   => $_REQUEST['searchform_id'] ?? null,
-         'itemtype'  => $results['itemtype'],
-         'data'      => $results,
-         'showmassiveactions'  => ($search['showmassiveactions'] ?? true)
-            && $results['display_type'] != Search::GLOBAL_SEARCH
-            && ($results['itemtype'] === 'AllAssets'
-               || count(MassiveAction::getAllMassiveActions($results['item'], $results['search']['is_deleted']))
-            ),
-         'massiveactionparams' => $results['search']['massiveactionparams'] + [
-            'is_deleted' => $results['search']['is_deleted'],
-            'container'  => "massform{$results['itemtype']}",
-         ],
-         'start'               => $results['search']['start'] ?? 0,
-         'limit'               => $_SESSION['glpilist_limit'],
-         'count'               => $results['data']['totalcount'] ?? 0,
-         'can_config'          => Session::haveRightsOr('search_config', [
-            DisplayPreference::PERSONAL,
-            DisplayPreference::GENERAL
-         ]),
-      ]);
+      $results['searchform_id'] = $_REQUEST['searchform_id'] ?? null;
+      Search::displayData($results);
       break;
 }
 
