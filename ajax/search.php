@@ -86,6 +86,7 @@ switch ($_REQUEST['action']) {
       ];
       unset($_REQUEST['sort'], $_REQUEST['order']);
       $search_params = array_merge($search_params, $_REQUEST);
+      $search_params = Search::manageParams($itemtype, $search_params);
 
       $results = Search::getDatas($itemtype, $search_params);
       $results['searchform_id'] = $_REQUEST['searchform_id'] ?? null;
