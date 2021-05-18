@@ -46,10 +46,25 @@ window.GLPI.Search.Table = class Table extends GenericView {
       return $('#'+this.element_id);
    }
 
-   onColumnSortClick(target) {
+   /**
+    * Handle sorting when a column is clicked
+    * @param target The target column element
+    * @param multisort If true, allow adding a new sort.
+    *    If false, this will only allow the user to change the sort order for the column if it is already sorted or change the sorted column.
+    */
+   onColumnSortClick(target, multisort = false) {
       const target_column = $(target);
       const all_colums = this.getElement().find('thead th');
       const sort_order = target_column.attr('data-sort-order');
+
+      if (!multisort && (sort_order === null || sort_order === 'nosort')) {
+         // Remove all sorts and set this new column as the primary sort
+         all_colums.each((i, c) => {
+            const col = $(c);
+            col.attr('data-sort-num', null);
+            col.attr('data-sort-order', null);
+         });
+      }
 
       const new_order = sort_order === 'ASC' ? 'DESC' : (sort_order === 'DESC' ? 'nosort' : 'ASC');
       target_column.attr('data-sort-order', new_order);
@@ -171,7 +186,14 @@ window.GLPI.Search.Table = class Table extends GenericView {
 
       $(ajax_container).on('click', 'table.search-results th[data-searchopt-id]', (e) => {
          e.stopPropagation();
-         this.onColumnSortClick($(e.target).closest('th').get(0));
+         const target = $(e.target).closest('th').get(0);
+         if (e.ctrlKey) {
+            // Multisort mode
+            this.onColumnSortClick(target, true);
+         } else {
+            // Single sort mode or just changing sort orders
+            this.onColumnSortClick(target, false);
+         }
       });
 
       $(ajax_container).on('change', 'select.search-limit-dropdown', (e) => {
