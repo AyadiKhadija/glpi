@@ -98,13 +98,6 @@ window.GLPI.Search.Table = class Table extends GenericView {
          recalulate_sort_nums();
       }
 
-      all_colums.each((i, c) => {
-         const col = $(c);
-         if (col.attr('data-sort-num') !== undefined) {
-            col.find('.sort-num').text(col.attr('data-sort-num') ? (col.attr('data-sort-num') + 1) : '');
-         }
-      });
-
       this.refreshResults();
    }
 
