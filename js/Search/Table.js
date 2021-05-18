@@ -211,7 +211,7 @@ window.GLPI.Search.Table = class Table extends GenericView {
    }
 
    getItemtype() {
-      return this.getElement().attr('data-search-itemtype');
+      return this.getElement().closest('form').attr('data-search-itemtype');
    }
 
    getSortState() {

@@ -102,6 +102,9 @@ describe('Search Table', () => {
       table_el.find('th').eq(0).attr('data-sort-num', 0);
    };
 
+   const ctrl_click = $.Event('click');
+   ctrl_click.ctrlKey = true;
+
    test('Class exists', () => {
       expect(GLPI).toBeDefined();
       expect(GLPI.Search).toBeDefined();
@@ -141,15 +144,15 @@ describe('Search Table', () => {
       expect(state['sort'][1]).toBe('3');
       expect(state['order'][1]).toBe('ASC');
 
-      // Click to add new sort
-      real_table.getElement().find('th').eq(3).click();
+      // Ctrl-Click to add new sort
+      real_table.getElement().find('th').eq(3).trigger(ctrl_click);
       state = real_table.getSortState();
       expect(state['sort'].length).toBe(3);
       expect(state['order'].length).toBe(3);
       expect(state['sort'][2]).toBe('4');
       expect(state['order'][2]).toBe('ASC');
 
-      // Click previous column again to switch it to DESC
+      // Click previous column again to switch it to DESC. Expect the other columns to remain.
       real_table.getElement().find('th').eq(3).click();
       state = real_table.getSortState();
       expect(state['sort'].length).toBe(3);
@@ -166,6 +169,14 @@ describe('Search Table', () => {
       expect(state['order'][0]).toBe('DESC');
       expect(state['sort'][1]).toBe('3');
       expect(state['order'][1]).toBe('ASC');
+
+      // Click new column to become the only sort
+      real_table.getElement().find('th').eq(1).click();
+      state = real_table.getSortState();
+      expect(state['sort'].length).toBe(1);
+      expect(state['order'].length).toBe(1);
+      expect(state['sort'][0]).toBe('2');
+      expect(state['order'][0]).toBe('ASC');
 
       // Restore sort
       restore_initial_sort_state();
