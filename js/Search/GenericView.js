@@ -55,22 +55,24 @@ window.GLPI.Search.GenericView = class GenericView {
 
    showLoadingSpinner() {
       const el = this.getElement();
-      const loading_overlay = el.find('div.spinner-overlay');
+      const container = el.parent();
+      let loading_overlay = container.find('div.spinner-overlay');
 
       if (loading_overlay.length === 0) {
-         this.getElement().append(`
+         container.append(`
             <div class="spinner-overlay text-center">
                 <div class="spinner-border" role="status">
                     <span class="sr-only">${__('Loading...')}</span>
                 </div>
             </div>`);
+         loading_overlay = container.find('div.spinner-overlay');
       } else {
          loading_overlay.css('visibility', 'visible');
       }
    }
 
    hideLoadingSpinner() {
-      const loading_overlay = this.getElement().find('div.spinner-overlay');
+      const loading_overlay = this.getElement().parent().find('div.spinner-overlay');
       loading_overlay.css('visibility', 'hidden');
    }
 
