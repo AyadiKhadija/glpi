@@ -31,7 +31,6 @@
  */
 
 // Direct access to file
-use Glpi\Application\View\TemplateRenderer;
 
 include ('../inc/includes.php');
 header("Content-Type: text/html; charset=UTF-8");
