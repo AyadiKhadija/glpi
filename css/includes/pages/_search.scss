@@ -110,6 +110,8 @@
             border-collapse: separate;
             border-spacing: 0;
 
+            --tblr-table-bg: #{$card-bg};
+
             @include media-breakpoint-up(sm) {
                thead:first-child {
                   position: sticky;
