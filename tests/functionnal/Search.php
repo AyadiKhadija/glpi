@@ -1142,28 +1142,69 @@ class Search extends DbTestCase {
     * @dataProvider addOrderByBCProvider
     */
    public function testAddOrderByBC($itemtype, $id, $order, $expected) {
-      $result = \Search::addOrderBy($itemtype, $id, $order);
+      $result = null;
+      $this->when(
+         function () use (&$result, $itemtype, $id, $order) {
+            $result = \Search::addOrderBy($itemtype, $id, $order);
+         }
+      )->error()
+         ->withType(E_USER_DEPRECATED)
+         ->withMessage('The parameters for Search::addOrderBy have changed to allow sorting by multiple fields. Please update your calling code.')
+            ->exists();
       $this->string($result)->isEqualTo($expected);
 
       // Complex cases
       $table_addtable = 'glpi_users_af1042e23ce6565cfe58c6db91f84692';
 
       $_SESSION['glpinames_format'] = \User::FIRSTNAME_BEFORE;
-      $user_order_1 = \Search::addOrderBy('Ticket', 4, 'ASC');
+      $user_order_1 = null;
+      $this->when(
+         function () use (&$user_order_1) {
+            $user_order_1 = \Search::addOrderBy('Ticket', 4, 'ASC');
+         }
+      )->error()
+         ->withType(E_USER_DEPRECATED)
+         ->withMessage('The parameters for Search::addOrderBy have changed to allow sorting by multiple fields. Please update your calling code.')
+            ->exists();
       $this->string($user_order_1)->isEqualTo(" ORDER BY `$table_addtable`.`firstname` ASC,
                                  `$table_addtable`.`realname` ASC,
                                  `$table_addtable`.`name` ASC ");
-      $user_order_2 = \Search::addOrderBy('Ticket', 4, 'DESC');
+
+      $user_order_2 = null;
+      $this->when(
+         function () use (&$user_order_2) {
+            $user_order_2 = \Search::addOrderBy('Ticket', 4, 'DESC');
+         }
+      )->error()
+         ->withType(E_USER_DEPRECATED)
+         ->withMessage('The parameters for Search::addOrderBy have changed to allow sorting by multiple fields. Please update your calling code.')
+            ->exists();
       $this->string($user_order_2)->isEqualTo(" ORDER BY `$table_addtable`.`firstname` DESC,
                                  `$table_addtable`.`realname` DESC,
                                  `$table_addtable`.`name` DESC ");
 
       $_SESSION['glpinames_format'] = \User::REALNAME_BEFORE;
-      $user_order_3 = \Search::addOrderBy('Ticket', 4, 'ASC');
+      $user_order_3 = null;
+      $this->when(
+         function () use (&$user_order_3) {
+            $user_order_3 = \Search::addOrderBy('Ticket', 4, 'ASC');
+         }
+      )->error()
+         ->withType(E_USER_DEPRECATED)
+         ->withMessage('The parameters for Search::addOrderBy have changed to allow sorting by multiple fields. Please update your calling code.')
+            ->exists();
       $this->string($user_order_3)->isEqualTo(" ORDER BY `$table_addtable`.`realname` ASC,
                                  `$table_addtable`.`firstname` ASC,
                                  `$table_addtable`.`name` ASC ");
-      $user_order_4 = \Search::addOrderBy('Ticket', 4, 'DESC');
+      $user_order_4 = null;
+      $this->when(
+         function () use (&$user_order_4) {
+            $user_order_4 = \Search::addOrderBy('Ticket', 4, 'DESC');
+         }
+      )->error()
+         ->withType(E_USER_DEPRECATED)
+         ->withMessage('The parameters for Search::addOrderBy have changed to allow sorting by multiple fields. Please update your calling code.')
+            ->exists();
       $this->string($user_order_4)->isEqualTo(" ORDER BY `$table_addtable`.`realname` DESC,
                                  `$table_addtable`.`firstname` DESC,
                                  `$table_addtable`.`name` DESC ");
