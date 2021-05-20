@@ -3218,7 +3218,7 @@ JAVASCRIPT;
          }
 
          // Plugin can override core definition for its type
-         if ($plug = isPluginItemType($itemtype)) {
+         if ($criterion === null && $plug = isPluginItemType($itemtype)) {
             $out = Plugin::doOneHook(
                $plug['plugin'],
                'addOrderBy',
@@ -3231,46 +3231,48 @@ JAVASCRIPT;
             }
          }
 
-         switch ($table . "." . $field) {
-            // FIXME Dead case? Can't see any itemtype referencing this table in their search options to be able to get here.
-            case "glpi_auth_tables.name" :
-               $user_searchopt = self::getOptions('User');
-               $criterion = "`glpi_users`.`authtype` $order,
+         if ($criterion === null) {
+            switch ($table . "." . $field) {
+               // FIXME Dead case? Can't see any itemtype referencing this table in their search options to be able to get here.
+               case "glpi_auth_tables.name" :
+                  $user_searchopt = self::getOptions('User');
+                  $criterion = "`glpi_users`.`authtype` $order,
                               `glpi_authldaps" . $addtable . "_" .
-                  self::computeComplexJoinID($user_searchopt[30]['joinparams']) . "`.
+                     self::computeComplexJoinID($user_searchopt[30]['joinparams']) . "`.
                                  `name` $order,
                               `glpi_authmails" . $addtable . "_" .
-                  self::computeComplexJoinID($user_searchopt[31]['joinparams']) . "`.
+                     self::computeComplexJoinID($user_searchopt[31]['joinparams']) . "`.
                                  `name` $order";
-               break;
+                  break;
 
-            case "glpi_users.name" :
-               if ($itemtype != 'User') {
-                  if ($_SESSION["glpinames_format"] == User::FIRSTNAME_BEFORE) {
-                     $name1 = 'firstname';
-                     $name2 = 'realname';
-                  } else {
-                     $name1 = 'realname';
-                     $name2 = 'firstname';
-                  }
-                  $criterion = "`" . $table . $addtable . "`.`$name1` $order,
+               case "glpi_users.name" :
+                  if ($itemtype != 'User') {
+                     if ($_SESSION["glpinames_format"] == User::FIRSTNAME_BEFORE) {
+                        $name1 = 'firstname';
+                        $name2 = 'realname';
+                     } else {
+                        $name1 = 'realname';
+                        $name2 = 'firstname';
+                     }
+                     $criterion = "`" . $table . $addtable . "`.`$name1` $order,
                                  `" . $table . $addtable . "`.`$name2` $order,
                                  `" . $table . $addtable . "`.`name` $order";
-               } else {
-                  $criterion = "`" . $table . $addtable . "`.`name` $order";
-               }
-               break;
-            //FIXME glpi_networkequipments.ip seems like a dead case
-            case "glpi_networkequipments.ip" :
-            case "glpi_ipaddresses.name" :
-               $criterion = "INET_ATON(`$table$addtable`.`$field`) $order";
-               break;
+                  } else {
+                     $criterion = "`" . $table . $addtable . "`.`name` $order";
+                  }
+                  break;
+               //FIXME glpi_networkequipments.ip seems like a dead case
+               case "glpi_networkequipments.ip" :
+               case "glpi_ipaddresses.name" :
+                  $criterion = "INET_ATON(`$table$addtable`.`$field`) $order";
+                  break;
+            }
          }
 
          //// Default cases
 
          // Link with plugin tables
-         if (preg_match("/^glpi_plugin_([a-z0-9]+)/", $table, $matches)) {
+         if ($criterion === null && preg_match("/^glpi_plugin_([a-z0-9]+)/", $table, $matches)) {
             if (count($matches) == 2) {
                $plug = $matches[1];
                $out = Plugin::doOneHook(
@@ -3287,7 +3289,7 @@ JAVASCRIPT;
          }
 
          // Preformat items
-         if (isset($searchopt[$ID]["datatype"])) {
+         if ($criterion === null && isset($searchopt[$ID]["datatype"])) {
             switch ($searchopt[$ID]["datatype"]) {
                case "date_delay" :
                   $interval = "MONTH";
