@@ -85,12 +85,6 @@ window.GLPI.Search.Table = class Table extends GenericView {
          // Re-index array
          sort_nums = sort_nums.filter(v => v);
 
-         // Convert to object and flip keys and values
-         const sort_nums_obj = {};
-         sort_nums.forEach((v, k) => {
-            sort_nums_obj[v] = k;
-         });
-
          // Clear sort-nums from all columns or change value
          all_colums.each((i, c) => {
             const col = $(c);
