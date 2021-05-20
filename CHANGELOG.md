@@ -10,9 +10,16 @@ The present file will list all changes made to the project; according to the
 
 ### Changed
 - APCu and WinCache are not anymore use by GLPI, use `php bin/console cache:configure` command to configure cache system.
+- The search engine and search results page now support sorting by multiple fields.
+- The search result lists now refresh/update without triggering a full page reload.
 
 ### Deprecated
 - Usage of XML-RPC API is deprecated.
+- Usage of the previous `[string] $itemtype`, `[integer] $ID`, `[string] $order` parameters of Search::addOrderBy are deprecated.
+  The new parameters are `[string|array] $sort_fields`, `[integer] $_id`, `[string] $_order` where only the first argument is used if using the new style arguments and pass an array.
+  The old parameters are detected based on the type of data passed as the first argument.
+  If it is a string, the arguments are transformed automatically to match the new style data.
+  This conversion will not be done in future versions.
 
 ### Removed
 - Usage of alternative DB connection encoding (`DB::$dbenc` property).
