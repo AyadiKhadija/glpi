@@ -250,9 +250,9 @@ describe('Search Table', () => {
    test('Show and Hide loading spinner', () => {
       const el = real_table.getElement();
       // Be sure no overlay exists yet
-      el.find('.spinner-overlay').remove();
+      el.parent().find('.spinner-overlay').remove();
       real_table.showLoadingSpinner();
-      let overlay = el.find('.spinner-overlay');
+      let overlay = el.parent().find('.spinner-overlay');
       expect(overlay.length).toBe(1);
       expect(overlay.css('visibility')).toBe('visible');
       real_table.hideLoadingSpinner();

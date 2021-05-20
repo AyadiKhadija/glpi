@@ -89,22 +89,20 @@ window.GLPI.Search.Table = class Table extends GenericView {
          all_colums.each((i, c) => {
             const col = $(c);
             col.attr('data-sort-num', undefined);
-            if (sort_nums_obj.hasOwnProperty(col.attr('data-searchopt-id'))) {
-               col.attr('data-sort-num', sort_nums_obj[col.attr('data-searchopt-id')]);
+            const col_sort_num = sort_nums.indexOf(col.attr('data-searchopt-id'));
+            if (col_sort_num !== -1) {
+               col.attr('data-sort-num', col_sort_num);
             }
          });
       };
 
+      recalulate_sort_nums();
       if (sort_num === undefined && new_order !== 'nosort') {
-         // Recalculate sort-num on other columns, then set new sort-num
-         recalulate_sort_nums();
          target_column.attr('data-sort-num', all_colums.filter(function() {
             return $(this).attr('data-sort-num') !== undefined;
          }).length);
       } else if (new_order === 'nosort') {
-         // Remove sort-num and recalculate sort-num on other columns
          target_column.attr('data-sort-num', undefined);
-         recalulate_sort_nums();
       }
 
       this.refreshResults();
