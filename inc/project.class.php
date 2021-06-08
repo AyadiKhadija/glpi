@@ -2547,8 +2547,9 @@ JAVASCRIPT;
       }
 
       $project->update([
-         'id'           => $ID,
-         'percent_done' => $percent_done
+         'id'              => $ID,
+         'percent_done'    => $percent_done,
+         '_disablenotif'   => true
       ]);
       return true;
    }
