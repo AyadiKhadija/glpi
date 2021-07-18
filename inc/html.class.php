@@ -1312,6 +1312,7 @@ HTML;
       // Search
       $tpl_vars['js_modules'][] = 'js/modules/Search/ResultsView.js';
       $tpl_vars['js_modules'][] = 'js/modules/Search/Table.js';
+      $tpl_vars['js_modules'][] = 'js/modules/Search/Map.js';
 
       // layout
       if (CommonGLPI::isLayoutWithMain()

@@ -42,7 +42,7 @@ window.GLPI.Search.Map = class Map extends GenericView {
    constructor(result_view_element_id) {
       const element_id = $('#'+result_view_element_id).find('.map-container').attr('id');
       super(element_id);
-      this.map = initMap($(element_id), 'map', 'full');
+      this.map = initMap($('#'+element_id), 'map', 'full');
    }
 
    getElement() {

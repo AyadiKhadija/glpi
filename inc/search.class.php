@@ -163,6 +163,7 @@ class Search {
 
       $data = self::getDatas($itemtype, $params);
       self::displayData($data);
+      return;
 
       if ($data['data']['totalcount'] > 0) {
          $target = $data['search']['target'];

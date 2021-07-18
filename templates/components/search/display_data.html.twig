@@ -32,6 +32,8 @@
 
       {% if data['search']['as_map'] == 0 %}
          {{ include('components/search/table.html.twig') }}
+      {% else %}
+         {{ include('components/search/map.html.twig') }}
       {% endif %}
       {% if count > 0 %}
          {% if data['display_type'] != constant('Search::GLOBAL_SEARCH') and data['search']['as_map'] == 0 %}
@@ -50,7 +52,7 @@
 </div>
 <script>
     $(document).on('ready', () => {
-        new GLPI.Search.ResultsView("massform{{ itemtype }}", GLPI.Search.Table);
+        new GLPI.Search.ResultsView("massform{{ itemtype }}", {{ data['search']['as_map'] == 0 ? 'GLPI.Search.Table' : 'GLPI.Search.Map'}});
     });
 </script>
 {% endif %}
