@@ -1,0 +1,7 @@
+{% set searchform_id = data['searchform_id']|default('search_' ~ rand) %}
+
+<div class="card">
+   <div class="card-body map-container" id="map_container{{ rand }}">
+      <div class="card-title">{{ __('Search results for localized items only') }}</div>
+   </div>
+</div>

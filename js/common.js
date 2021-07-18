@@ -1453,3 +1453,25 @@ $(
 jQuery.expr.filters.icontains = function(elem, i, m) {
    return (elem.innerText || elem.textContent || "").toLowerCase().indexOf(m[3].toLowerCase()) > -1;
 };
+
+/**
+ * Format strings similar to PHP's sprintf
+ * @param {string} str
+ * @returns {string}
+ */
+function sprintf(str) {
+   const args = arguments;
+   let i = 1;
+
+   return str.replace(/%(s|d|0\d+d)/g, function (x, type) {
+      let value = args[i++];
+      switch (type) {
+         case 's': return value;
+         case 'd': return parseInt(value, 10);
+         default:
+            value = String(parseInt(value, 10));
+            const n = Number(type.slice(1, -1));
+            return '0'.repeat(n).slice(value.length) + value;
+      }
+   });
+}
