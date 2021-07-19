@@ -3,8 +3,24 @@
 <div class="ajax-container search-display-data">
 {% endif %}
 
-<form id="massform{{ itemtype }}" method="get" action="{{ path("front/massiveaction.php") }}"
-      data-search-itemtype="{{ data['itemtype'] }}" data-start="{{ start }}" data-count="{{ count }}" data-limit="{{ limit }}">
+{% set search_el_data = {
+   'data-search-itemtype': data['itemtype'],
+} %}
+
+{% if data['search']['as_map'] == 0 %}
+   {% set search_el_data = search_el_data|merge({
+      'data-start': start,
+      'data-count': count,
+      'data-limit': limit
+   }) %}
+{% else %}
+   {% set search_el_data = search_el_data|merge({
+      'data-itemtype-name': data['itemtype_name'],
+      'data-full-target': data['full_target'],
+      'data-params': data['params'],
+   }) %}
+{% endif %}
+<form id="massform{{ itemtype }}" method="get" action="{{ path("front/massiveaction.php") }}" {{ Html__parseAttributes(search_el_data) }}>
    <div class="card card-sm mt-0 search-card">
       <div class="card-header d-flex justify-content-between search-header">
          {% if data['display_type'] == constant('Search::GLOBAL_SEARCH') %}

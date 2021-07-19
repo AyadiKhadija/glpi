@@ -43,6 +43,7 @@ window.GLPI.Search.Map = class Map extends GenericView {
       const element_id = $('#'+result_view_element_id).find('.map-container').attr('id');
       super(element_id);
       this.map = initMap($('#'+element_id), 'map', 'full');
+      this.refreshResults();
    }
 
    getElement() {
@@ -50,8 +51,10 @@ window.GLPI.Search.Map = class Map extends GenericView {
    }
 
    loadMap() {
-      const map_elt = this.element_id;
+      const map_elt = this.getElement();
+      const map = this.map;
       const loadMap = this.loadMap;
+      const itemtype = this.getItemtype();
 
       L.AwesomeMarkers.Icon.prototype.options.prefix = 'far';
       const _micon = 'circle';
@@ -88,14 +91,14 @@ window.GLPI.Search.Map = class Map extends GenericView {
 
 
       //retrieve geojson data
-      map_elt.spin(true);
+      map.spin(true);
       $.ajax({
          dataType: 'json',
          method: 'POST',
          url: CFG_GLPI.root_doc+'/ajax/map.php',
          data: {
             itemtype: itemtype,
-            params: ""//TODO ".json_encode($params)."
+            params: map_elt.closest('form').data('params')
          }
       }).done(function(data) {
          const _points = data.points;
@@ -122,8 +125,8 @@ window.GLPI.Search.Map = class Map extends GenericView {
             }
          });
 
-         const typename = ''; //TODO
-         const fulltarget = ''; //TODO
+         const typename = map_elt.closest('form').data('itemtype-name');
+         const fulltarget = map_elt.closest('form').data('full-target');
 
          $.each(_points, (index, point) => {
             let _title = `
@@ -155,8 +158,8 @@ window.GLPI.Search.Map = class Map extends GenericView {
             _markers.addLayer(_marker);
          });
 
-         map_elt.addLayer(_markers);
-         map_elt.fitBounds(
+         map.addLayer(_markers);
+         map.fitBounds(
             _markers.getBounds(), {
                padding: [50, 50],
                maxZoom: 12
@@ -175,14 +178,14 @@ window.GLPI.Search.Map = class Map extends GenericView {
                 <br/><span id="reload_data"><i class="fa fa-sync"></i>${__('Reload')}</span>`;
             return this._div;
          };
-         fail_info.addTo(map_elt);
+         fail_info.addTo(map);
          $('#reload_data').on('click', function() {
             $('.fail_info').remove();
             loadMap();
          });
       }).always(function() {
          //hide spinner
-         map_elt.spin(false);
+         map.spin(false);
       });
    }
 
