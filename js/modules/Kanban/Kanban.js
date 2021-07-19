@@ -29,100 +29,7 @@
  * ---------------------------------------------------------------------
  */
 
-/**
- * Kanban rights structure
- * @since 10.0.0
- */
-class GLPIKanbanRights {
-   constructor(rights) {
-      /**
-       * If true, then a button will be added to each column to allow new items to be added.
-       * When an item is added, a request is made via AJAX to create the item in the DB.
-       * Permissions are re-checked server-side during this request.
-       * Users will still be limited by the {@link create_card_limited_columns} right both client-side and server-side.
-       * @since 9.5.0
-       * @since 10.0.0 Moved to new rights class
-       * @type {boolean}
-       */
-      this.create_item = rights['create_item'] || false;
-
-      /**
-       * If true, then a button will be added to each card to allow deleting them and the underlying item directly from the kanban.
-       * When a card is deleted, a request is made via AJAX to delete the item in the DB.
-       * Permissions are re-checked server-side during this request.
-       * @since 10.0.0
-       * @type {boolean}
-       */
-      this.delete_item = rights['delete_item'] || false;
-
-      /**
-       * If true, then a button will be added to the add column form that lets the user create a new column.
-       * For Projects as an example, it would create a new project state.
-       * Permissions are re-checked server-side during this request.
-       * @since 9.5.0
-       * @since 10.0.0 Moved to new rights class
-       * @type {boolean}
-       */
-      this.create_column = rights['create_column'] || false;
-
-      /**
-       * Global permission for being able to modify the Kanban state/view.
-       * This includes the order of cards in the columns.
-       * @since 9.5.0
-       * @since 10.0.0 Moved to new rights class
-       * @type {boolean}
-       */
-      this.modify_view = rights['modify_view'] || false;
-
-      /**
-       * Limits the columns that the user can add cards to.
-       * By default, it is empty which allows cards to be added to all columns.
-       * If you don't want the user to add cards to any column, {@link rights.create_item} should be false.
-       * @since 9.5.0
-       * @since 10.0.0 Moved to new rights class
-       * @type {Array}
-       */
-      this.create_card_limited_columns = rights['create_card_limited_columns'] || [];
-
-      /**
-       * Global right for ordering cards.
-       * @since 9.5.0
-       * @since 10.0.0 Moved to new rights class
-       * @type {boolean}
-       */
-      this.order_card = rights['order_card'] || false;
-   }
-
-   /** @see this.create_item */
-   canCreateItem() {
-      return this.create_item;
-   }
-
-   /** @see this.delete_item */
-   canDeleteItem() {
-      return this.delete_item;
-   }
-
-   /** @see this.create_column */
-   canCreateColumn() {
-      return this.create_column;
-   }
-
-   /** @see this.modify_view */
-   canModifyView() {
-      return this.modify_view;
-   }
-
-   /** @see this.order_card */
-   canOrderCard() {
-      return this.order_card;
-   }
-
-   /** @see this.create_card_limited_columns */
-   getAllowedColumnsForNewCards() {
-      return this.create_card_limited_columns;
-   }
-}
+import KanbanRights from "./Rights.js";
 
 (function(){
    window.GLPIKanban = function() {
@@ -193,9 +100,9 @@ class GLPIKanbanRights {
 
       /**
        * User rights object
-       * @type {GLPIKanbanRights}
+       * @type {KanbanRights}
        */
-      this.rights = new GLPIKanbanRights({});
+      this.rights = new KanbanRights({});
 
       /** @deprecated 10.0.0 Use rights.canCreateItem() instead */
       this.allow_add_item = false;
@@ -346,10 +253,10 @@ class GLPIKanbanRights {
          }
          // Set rights
          if (args[0]['rights'] !== undefined) {
-            self.rights = new GLPIKanbanRights(args[0]['rights']);
+            self.rights = new KanbanRights(args[0]['rights']);
          } else {
             // 9.5.0 style compatibility
-            self.rights = new GLPIKanbanRights({
+            self.rights = new KanbanRights({
                create_item: self.allow_add_item,
                delete_item: self.allow_delete_item,
                create_column: self.allow_create_column,
@@ -367,7 +274,7 @@ class GLPIKanbanRights {
       /**
        * Build DOM elements and defer registering event listeners for when the document is ready.
        * @since 9.5.0
-      **/
+       **/
       const build = function() {
          if (self.show_toolbar) {
             buildToolbar();
@@ -1049,7 +956,7 @@ class GLPIKanbanRights {
       /**
        * Hide all columns that don't have a card in them.
        * @since 9.5.0
-      **/
+       **/
       this.hideEmpty = function() {
          const bodies = $(".kanban-body");
          bodies.each(function(index, item) {
@@ -1062,7 +969,7 @@ class GLPIKanbanRights {
       /**
        * Show all columns that don't have a card in them.
        * @since 9.5.0
-      **/
+       **/
       this.showEmpty = function() {
          const columns = $(".kanban-column");
          columns.each(function(index, item) {
@@ -1076,7 +983,7 @@ class GLPIKanbanRights {
        * @param {Object}  ui       ui value directly from JQuery sortable function.
        * @param {Element} sortable Sortable object
        * @returns {Boolean}       Returns false if the sort was cancelled.
-      **/
+       **/
       this.onKanbanCardSort = function(ui, sortable) {
          const target = sortable.parentElement;
          const source = $(ui.sender);
@@ -1273,13 +1180,13 @@ class GLPIKanbanRights {
        * @returns {string} HTML image or icon
        * @see generateUserBadge()
        * @see generateOtherBadge()
-      **/
+       **/
       const getTeamBadge = function(teammember) {
          const itemtype = teammember["itemtype"];
          const items_id = teammember["items_id"];
 
          if (self.team_badge_cache[itemtype] === undefined ||
-                 self.team_badge_cache[itemtype][items_id] === undefined) {
+            self.team_badge_cache[itemtype][items_id] === undefined) {
             if (itemtype === 'User') {
                let user_img = null;
                $.ajax({
@@ -1330,7 +1237,7 @@ class GLPIKanbanRights {
        *    trim_cache - boolean indicating if unused user images should be removed from the cache.
        *       This is useful for refresh scenarios.
        * @see generateUserBadge()
-      **/
+       **/
       const preloadBadgeCache = function(options) {
          let users = [];
          $.each(self.columns, function(column_id, column) {
@@ -2052,7 +1959,7 @@ class GLPIKanbanRights {
        * @param {boolean} nosave If true, the column state is not saved after adding the new column.
        *    This should be false when the state is being loaded, and new columns are being added as a part of that process.
        *    The default behaviour is to save the column state after adding the column (if successful).
-    *    @param {boolean} revalidate If true, all other columns are checked to see if they have an item in this new column.
+       *    @param {boolean} revalidate If true, all other columns are checked to see if they have an item in this new column.
        *    If they do, the item is removed from that other column and the counter is updated.
        *    This is useful if an item is changed in another tab or by another user to be in the new column after the original column was added.
        * @param {function} callback Function to call after the column is loaded (or fails to load).
