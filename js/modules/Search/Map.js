@@ -43,7 +43,11 @@ window.GLPI.Search.Map = class Map extends GenericView {
       const element_id = $('#'+result_view_element_id).find('.map-container').attr('id');
       super(element_id);
       this.map = initMap($('#'+element_id), 'map', 'full');
-      this.refreshResults();
+      if (this.getElement().closest('form').data('count') === 0) {
+         this.getElement().hide();
+      } else {
+         this.refreshResults();
+      }
    }
 
    getElement() {
@@ -192,6 +196,11 @@ window.GLPI.Search.Map = class Map extends GenericView {
    refreshResults(search_overrides = {}) {
       this.showLoadingSpinner();
       this.loadMap();
+      if (this.getElement().closest('form').data('count') === 0) {
+         this.getElement().hide();
+      } else {
+         this.getElement().show();
+      }
       this.hideLoadingSpinner();
    }
 

@@ -5,12 +5,12 @@
 
 {% set search_el_data = {
    'data-search-itemtype': data['itemtype'],
+   'data-count': count,
 } %}
 
 {% if data['search']['as_map'] == 0 %}
    {% set search_el_data = search_el_data|merge({
       'data-start': start,
-      'data-count': count,
       'data-limit': limit
    }) %}
 {% else %}
