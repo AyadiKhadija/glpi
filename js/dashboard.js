@@ -884,6 +884,7 @@ var Dashboard = {
       specific_one = specific_one || "";
 
       var promises = [];
+      var filters = Dashboard.getFiltersFromDB();
       $(".grid-stack-item:not(.lock-bottom)"+specific_one).each(function() {
          var card         = $(this);
          var card_opt     = card.data('card-options');
@@ -898,7 +899,6 @@ var Dashboard = {
          }
 
          // append filters
-         var filters = Dashboard.getFiltersFromDB();
          card_opt.apply_filters = filters;
 
          promises.push($.get(CFG_GLPI.root_doc+"/ajax/dashboard.php", {
