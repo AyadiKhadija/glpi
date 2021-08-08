@@ -146,6 +146,8 @@
                            {% set params = params|merge({'types': config(field['itemtype_list'])}) %}
                         {% endif %}
                         {{ fields.dropdownItemTypes(field['name'], item.fields[field['name']], field['label'], params) }}
+                     {% elseif type == 'hidden' %}
+                        {{ fields.hiddenField(field['name'], item.fields[field['name']], field['label'], params) }}
                      {% else %}
                         {% set field_value = getSpecificTypeField(item, item.fields['id'], field) %}
                         {{ fields.field(field['name'], field_value, field['label']) }}
