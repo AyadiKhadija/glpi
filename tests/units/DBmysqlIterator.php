@@ -1251,4 +1251,70 @@ class DBmysqlIterator extends DbTestCase {
       ])];
       $this->string($this->it->analyseCrit($crit))->isIdenticalTo("(SELECT COUNT(`users_id`) FROM `glpi_groups_users` WHERE `groups_id` = glpi_groups.id)");
    }
+
+   public function testSeek() {
+      global $DB;
+
+      $it = $DB->request([
+         'SELECT' => ['id', 'entities_id', 'name'],
+         'FROM'   => 'glpi_tickets'
+      ]);
+      $expected_data = [];
+      while ($data = $it->next()) {
+         $expected_data[] = $data;
+      }
+      $data_count = count($expected_data);
+      for ($i = 0; $i < $data_count; $i++) {
+         $it->seek($i);
+         $this->integer($expected_data[$i]['id'])->isEqualTo($it->current()['id']);
+      }
+   }
+
+   public function testToArray() {
+      global $DB;
+      $it = $DB->request([
+         'SELECT' => ['id', 'entities_id', 'name'],
+         'FROM'   => 'glpi_tickets'
+      ]);
+
+      // Normal List Test
+      $results = $it->toArray();
+      $this->boolean(is_array($results))->isTrue();
+      $this->integer(count($results))->isEqualTo(5);
+      $this->array($results)->keys->isEqualTo([0, 1, 2, 3, 4]);
+      $this->array(reset($results))->keys->isEqualTo(['id', 'entities_id', 'name']);
+
+      // Normal Associative Test
+      $results = $it->toArray('id');
+      $this->boolean(is_array($results))->isTrue();
+      $this->integer(count($results))->isEqualTo(5);
+      $this->boolean(is_array(reset($results)))->isTrue();
+      $this->array(reset($results))->keys->isEqualTo(['id', 'entities_id', 'name']);
+
+      // Grouped Associative Test
+      $results = $it->toArray('entities_id', true, 'id');
+      $this->boolean(is_array($results))->isTrue();
+      $this->integer(count($results))->isEqualTo(2);
+      $this->array($results)->keys->isEqualTo([1, 2]);
+      $this->boolean(is_array(reset($results[1])))->isTrue();
+      $this->array(reset($results[1]))->keys->isEqualTo(['id', 'entities_id', 'name']);
+      $this->integer(count($results[1]))->isEqualTo(4);
+      $this->boolean(is_array(reset($results[2])))->isTrue();
+      $this->array(reset($results[2]))->keys->isEqualTo(['id', 'entities_id', 'name']);
+      $this->integer(count($results[2]))->isEqualTo(1);
+
+      // Grouped List Test
+      $results = $it->toArray('entities_id', true);
+      $this->boolean(is_array($results))->isTrue();
+      $this->integer(count($results))->isEqualTo(2);
+      $this->array($results)->keys->isEqualTo([1, 2]);
+      $this->boolean(is_array(reset($results[1])))->isTrue();
+      $this->array($results[1])->keys->isEqualTo([0, 1, 2, 3]);
+      $this->array($results[1][0])->keys->isEqualTo(['id', 'entities_id', 'name']);
+      $this->integer(count($results[1]))->isEqualTo(4);
+      $this->boolean(is_array(reset($results[2])))->isTrue();
+      $this->array($results[2])->keys->isEqualTo([0]);
+      $this->array($results[1][0])->keys->isEqualTo(['id', 'entities_id', 'name']);
+      $this->integer(count($results[2]))->isEqualTo(1);
+   }
 }

@@ -37,7 +37,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  *  Database iterator class for Mysql
 **/
-class DBmysqlIterator implements Iterator, Countable {
+class DBmysqlIterator implements SeekableIterator, Countable {
    /**
     * DBmysql object
     * @var DBmysql
@@ -45,7 +45,7 @@ class DBmysqlIterator implements Iterator, Countable {
    private $conn;
    // Current SQL query
    private $sql;
-   // Current result
+   /** @var bool|\mysqli_result Current result */
    private $res = false;
    // Current row
    private $row;
@@ -694,6 +694,17 @@ class DBmysqlIterator implements Iterator, Countable {
       trigger_error("BAD FOREIGN KEY, should be [ table1 => key1, table2 => key2 ] or [ table1 => key1, table2 => key2, [criteria]]", E_USER_ERROR);
    }
 
+   public function seek($offset): void {
+      if ($offset < 0 || $offset >= $this->count()) {
+         throw new OutOfBoundsException("Invalid seek position ($offset)");
+      }
+      $this->position = $offset;
+      $this->conn->dataSeek($this->res, $offset);
+      // Get current row and then reset pointer so next() works properly
+      $this->row = $this->conn->fetchAssoc($this->res);
+      $this->conn->dataSeek($this->res, $offset);
+   }
+
    /**
     * Reset rows parsing (go to first offset) & provide first row
     *
@@ -777,5 +788,55 @@ class DBmysqlIterator implements Iterator, Countable {
     */
    public function isOperator($value) {
       return in_array($value, $this->allowed_operators, true);
+   }
+
+   /**
+    * Retrieve all results as an array
+    *
+    * @param string|null $key_field An optional key field. If specified, this should be the name of a column with unique values.
+    *                               If more than one row has the same value for this field, only the last row will be present in the results.
+    * @param bool $group If true, enable grouping
+    * @param string|null $group_subkey The field to use as the grouping subkey. This is only used if grouping is enabled.
+    * @return array All results as an array. If a key_field was specified, the returned array is associative.
+    */
+   public function toArray(?string $key_field = null, bool $group = false, ?string $group_subkey = null): array {
+      if (!($this->res instanceof \mysqli_result)) {
+         return [];
+      }
+
+      $result = [];
+      $original_pos = $this->position;
+      $first = $this->rewind();
+      $valid_key_field = $key_field === null || array_key_exists($key_field, $first);
+      if (!$valid_key_field) {
+         trigger_error('Key field not present in results');
+      }
+
+      // Reset position
+      $this->seek(0);
+
+      while ($data = $this->next()) {
+         if ($key_field !== null) {
+            if ($group) {
+               if (!isset($result[$data[$key_field]])) {
+                  $result[$data[$key_field]] = [];
+               }
+               if ($group_subkey !== null) {
+                  $result[$data[$key_field]][$data[$group_subkey]] = $data;
+               } else {
+                  $result[$data[$key_field]][] = $data;
+               }
+            } else {
+               $result[$data[$key_field]] = $data;
+            }
+         } else {
+            $result[] = $data;
+         }
+      }
+
+      // Restore position
+      $this->seek($original_pos);
+
+      return $result;
    }
 }
