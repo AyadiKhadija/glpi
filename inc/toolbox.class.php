@@ -3486,4 +3486,38 @@ HTML;
 
       return $tabs;
    }
+
+   /**
+    * @param array $given
+    * @param array $expected
+    * @param bool $allow_extra
+    *
+    * @return bool
+    */
+   public static function arrayMatchRecursive(array $given, array $expected, bool $allow_extra = true): bool {
+      if (!$allow_extra) {
+         // Same key => value pairs in any order (works recursively)
+         return $given == $expected;
+      }
+      if (!$allow_extra && !empty(array_diff_key($given, $expected))) {
+         return false;
+      }
+      foreach ($expected as $key => $value) {
+         if (!array_key_exists($key, $given)) {
+            return false;
+         }
+         if (is_array($value)) {
+            if (!is_array($given[$key])) {
+               return false;
+            }
+            if (!self::arrayMatchRecursive($given[$key], $value, $allow_extra)) {
+               return false;
+            }
+         } else if ($value !== $given[$key]) {
+            return false;
+         }
+      }
+
+      return true;
+   }
 }

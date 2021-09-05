@@ -1380,27 +1380,10 @@ class Session {
          $idor_data =  $_SESSION['glpiidortokens'][$token];
          unset($idor_data['expires']);
 
-         // check all stored data for the idor token are present (and identifical) in the posted data
-         $match_expected = function ($expected, $given) use (&$match_expected) {
-            if (is_array($expected)) {
-               if (!is_array($given)) {
-                  return false;
-               }
-               foreach ($expected as $key => $value) {
-                  if (!array_key_exists($key, $given) || !$match_expected($value, $given[$key])) {
-                     return false;
-                  }
-               }
-               return true;
-            } else {
-               return $expected == $given;
-            }
-         };
-
          // Check also unsanitized data, as sanitizing process may alter expected data.
          $unsanitized_data = Toolbox::stripslashes_deep($data);
 
-         return $match_expected($idor_data, $data) || $match_expected($idor_data, $unsanitized_data);
+         return Toolbox::arrayMatchRecursive($data, $idor_data) || Toolbox::arrayMatchRecursive($unsanitized_data, $idor_data);
       }
 
       return false;

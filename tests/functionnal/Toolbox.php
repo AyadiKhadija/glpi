@@ -1079,4 +1079,44 @@ class Toolbox extends DbTestCase {
    public function testAppendParameters(array $params, string $separator, string $expected) {
       $this->string(\Toolbox::append_params($params, $separator))->isEqualTo($expected);
    }
+
+   public function arrayMatchProvider() {
+      return [
+         [
+            [], [], false, true
+         ],
+         [
+            [2], [], false, false
+         ],
+         [
+            [2], [], true, true
+         ],
+         [
+            [2,1,4,3], [3,1,4,2], false, false
+         ],
+         [
+            ['a' => 1, 'b' => 2, 'c' => 3], ['c' => 3, 'a' => 1, 'b' => 2], false, true
+         ],
+         [
+            ['a' => 1, 'b' => 2, 'c' => ['d' => 3]], ['c' => ['d' => 3], 'a' => 1, 'b' => 2], false, true
+         ],
+         [
+            ['a' => 1, 'b' => 2, 'c' => ['d' => 3]], ['c' => ['d' => 4], 'a' => 1, 'b' => 2], false, false
+         ],
+         [
+            ['a' => 1, 'b' => 2, 'c' => ['d' => 3, 'e' => 4]], ['c' => ['d' => 3], 'a' => 1, 'b' => 2], true, true
+         ],
+         [
+            ['a' => 1, 'b' => 2, 'c' => ['d' => 3, 'e' => 4]], ['c' => ['d' => 3], 'a' => 1, 'b' => 2], false, false
+         ]
+      ];
+   }
+
+   /**
+    * @dataProvider arrayMatchProvider
+    */
+   public function testArrayMatchRecursive($given, $expected, $allow_extra, $expected_result) {
+      $actual_result = \Toolbox::arrayMatchRecursive($given, $expected, $allow_extra);
+      $this->boolean($actual_result)->isEqualTo($expected_result);
+   }
 }
