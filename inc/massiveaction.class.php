@@ -72,6 +72,10 @@ class MassiveAction {
 
       if (!empty($POST)) {
 
+         if (isset($POST['action'])) {
+            // Fix extra slashes in namepaced class names
+            $POST['action'] = stripslashes($POST['action']);
+         }
          if (!isset($POST['is_deleted'])) {
             $POST['is_deleted'] = 0;
          }
@@ -164,6 +168,8 @@ class MassiveAction {
                         if (isset($POST['action_filter'][$POST['action']])) {
                            $items = [];
                            foreach ($POST['action_filter'][$POST['action']] as $itemtype) {
+                              // Fix extra slashes in namepaced class names
+                              $itemtype = stripslashes($itemtype);
                               if (isset($POST['items'][$itemtype])) {
                                  $items[$itemtype] = $POST['items'][$itemtype];
                               }
@@ -246,7 +252,11 @@ class MassiveAction {
             $this->POST = $POST;
             foreach (['items', 'action', 'processor'] as $field) {
                if (isset($this->POST[$field])) {
-                  $this->$field = $this->POST[$field];
+                  if ($field === 'processor' && strpos($this->POST['processor'], '\\\\')) {
+                     $this->$field = stripslashes($this->POST[$field]);
+                  } else {
+                     $this->$field = $this->POST[$field];
+                  }
                }
             }
             foreach ($remove_from_post as $field) {
@@ -1489,6 +1499,7 @@ class MassiveAction {
    **/
    function itemDone($itemtype, $id, $result) {
 
+      $itemtype = stripslashes($itemtype);
       $this->current_itemtype = $itemtype;
 
       if (!isset($this->done[$itemtype])) {
