@@ -36,8 +36,8 @@
 
 use Glpi\Siem\Event;
 
-if (!$DB->tableExists('glpi_siem_events')) {
-   $query = "CREATE TABLE `glpi_siem_events` (
+if (!$DB->tableExists('glpi_siems_events')) {
+   $query = "CREATE TABLE `glpi_siems_events` (
          `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
          `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
          `date` datetime DEFAULT NULL,
@@ -46,49 +46,49 @@ if (!$DB->tableExists('glpi_siem_events')) {
          `significance` tinyint(4) NOT NULL,
          `correlation_id` VARCHAR(23) DEFAULT NULL,
          `date_mod` datetime DEFAULT NULL,
-         `siem_services_id` int(11) NOT NULL,
+         `siems_services_id` int(11) NOT NULL,
          PRIMARY KEY (`id`),
          KEY `name` (`name`),
          KEY `date` (`date`),
          KEY `date_creation` (`date_creation`),
          KEY `significance` (`significance`),
          KEY `correlation_id` (`correlation_id`),
-         KEY `siem_services_id` (`siem_services_id`)
+         KEY `siems_services_id` (`siems_services_id`)
          ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-   $DB->queryOrDie($query, "10.0.0 add table glpi_siem_events");
+   $DB->queryOrDie($query, "10.0.0 add table glpi_siems_events");
 }
 
-if (!$DB->tableExists('glpi_siem_itils_events')) {
-   $query = "CREATE TABLE `glpi_siem_itils_events` (
+if (!$DB->tableExists('glpi_siems_itils_events')) {
+   $query = "CREATE TABLE `glpi_siems_itils_events` (
          `id` int(11) NOT NULL AUTO_INCREMENT,
          `itemtype` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
          `items_id` int(11) NOT NULL DEFAULT '0',
-         `plugin_siem_events_id` int(11) unsigned NOT NULL DEFAULT '0',
+         `plugin_siems_events_id` int(11) unsigned NOT NULL DEFAULT '0',
          PRIMARY KEY (`id`)
          ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-   $DB->queryOrDie($query, "10.0.0 add table glpi_siem_itils_events");
+   $DB->queryOrDie($query, "10.0.0 add table glpi_siems_itils_events");
 }
 
-if (!$DB->tableExists('glpi_siem_hosts')) {
-   $query = "CREATE TABLE `glpi_siem_hosts` (
+if (!$DB->tableExists('glpi_siems_hosts')) {
+   $query = "CREATE TABLE `glpi_siems_hosts` (
       `id` int(11) NOT NULL AUTO_INCREMENT,
       `itemtype` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
       `items_id` int(11) NOT NULL,
-      `siem_services_id_availability` int(11) DEFAULT NULL,
+      `siems_services_id_availability` int(11) DEFAULT NULL,
       `is_reachable` tinyint(1) NOT NULL DEFAULT '1',
       `date_mod` timestamp NULL DEFAULT NULL,
       `date_creation` timestamp NULL DEFAULT NULL,
       PRIMARY KEY (`id`),
       KEY `item` (`items_id`,`itemtype`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-   $DB->queryOrDie($query, "10.0.0 add table glpi_siem_hosts");
+   $DB->queryOrDie($query, "10.0.0 add table glpi_siems_hosts");
 }
 
-if (!$DB->tableExists('glpi_siem_services')) {
-   $query = "CREATE TABLE `glpi_siem_services` (
+if (!$DB->tableExists('glpi_siems_services')) {
+   $query = "CREATE TABLE `glpi_siems_services` (
       `id` int(11) NOT NULL AUTO_INCREMENT,
-      `siem_hosts_id` int(11) NOT NULL DEFAULT -1,
-      `siem_servicetemplates_id` int(11) NOT NULL,
+      `siems_hosts_id` int(11) NOT NULL DEFAULT -1,
+      `siems_servicetemplates_id` int(11) NOT NULL,
       `last_check` timestamp NULL DEFAULT NULL,
       `status` tinyint(3) NOT NULL DEFAULT '2',
       `is_hard_status` tinyint(1) NOT NULL DEFAULT '1',
@@ -102,16 +102,16 @@ if (!$DB->tableExists('glpi_siem_services')) {
       `date_mod` timestamp NULL DEFAULT NULL,
       `date_creation` timestamp NULL DEFAULT NULL,
       PRIMARY KEY (`id`),
-      KEY `siem_servicetemplates_id` (`siem_servicetemplates_id`),
-      KEY `plugin_siem_hosts_id` (`siem_hosts_id`),
+      KEY `siems_servicetemplates_id` (`siems_servicetemplates_id`),
+      KEY `plugin_siems_hosts_id` (`siems_hosts_id`),
       KEY `is_flapping` (`is_flapping`),
       KEY `is_acknowledged` (`is_acknowledged`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-   $DB->queryOrDie($query, "10.0.0 add table glpi_siem_services");
+   $DB->queryOrDie($query, "10.0.0 add table glpi_siems_services");
 }
 
-if (!$DB->tableExists('glpi_siem_servicetemplates')) {
-   $query = "CREATE TABLE `glpi_siem_servicetemplates` (
+if (!$DB->tableExists('glpi_siems_servicetemplates')) {
+   $query = "CREATE TABLE `glpi_siems_servicetemplates` (
       `id` int(11) NOT NULL AUTO_INCREMENT,
       `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
       `comment` text COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -131,7 +131,7 @@ if (!$DB->tableExists('glpi_siem_servicetemplates')) {
       `date_creation` timestamp NULL DEFAULT NULL,
       PRIMARY KEY (`id`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-   $DB->queryOrDie($query, "10.0.0 add table glpi_siem_servicetemplates");
+   $DB->queryOrDie($query, "10.0.0 add table glpi_siems_servicetemplates");
 }
 
 $migration->addConfig([
