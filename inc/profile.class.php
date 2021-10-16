@@ -30,6 +30,10 @@
  * ---------------------------------------------------------------------
  */
 
+use Glpi\Siem\Host;
+use Glpi\Siem\Service;
+use Glpi\Siem\ServiceTemplate;
+
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
@@ -118,6 +122,7 @@ class Profile extends CommonDBTM {
                   $ong[6] = __('Tools');
                   $ong[7] = __('Administration');
                   $ong[8] = __('Setup');
+                  $ong[9] = __('SIEM');
 
                }
                return $ong;
@@ -174,6 +179,10 @@ class Profile extends CommonDBTM {
                } else {
                   $item->showFormSetup();
                }
+               break;
+
+            case 9 :
+               $item->showFormSiem();
                break;
          }
       }
@@ -1780,6 +1789,56 @@ class Profile extends CommonDBTM {
 
       if ($canedit
           && $closeform) {
+         echo "<div class='center'>";
+         echo "<input type='hidden' name='id' value='".$this->fields['id']."'>";
+         echo Html::submit("<i class='fas fa-save'></i><span>"._sx('button', 'Save')."</span>", [
+            'class' => 'btn btn-primary mt-2',
+            'name'  => 'update'
+         ]);
+         echo "</div>";
+         Html::closeForm();
+      }
+      echo "</div>";
+
+      $this->showLegend();
+   }
+
+   /**
+    * Print the central form for a profile
+    *
+    * @param $openform     boolean  open the form (true by default)
+    * @param $closeform    boolean  close the form (true by default)
+    **/
+   function showFormSiem($openform = true, $closeform = true) {
+
+      if (!self::canView()) {
+         return false;
+      }
+
+      echo "<div class='spaced'>";
+      if (($canedit = Session::haveRightsOr(self::$rightname, [CREATE, UPDATE, PURGE]))
+         && $openform) {
+         echo "<form method='post' action='".$this->getFormURL()."' data-track-changes='true'>";
+      }
+
+      $dropdown_rights = $this->getRights();
+      unset($dropdown_rights[DELETE]);
+      unset($dropdown_rights[UNLOCK]);
+
+      $rights = [['itemtype' => Host::class,
+         'label' => Host::getTypeName(Session::getPluralNumber()),
+         'field' => Host::$rightname],
+         ['itemtype' => Service::class,
+            'label' => Service::getTypeName(Session::getPluralNumber()),
+            'field' => Service::$rightname],
+         ['itemtype' => ServiceTemplate::class,
+            'label' => ServiceTemplate::getTypeName(Session::getPluralNumber()),
+            'field' => ServiceTemplate::$rightname]];
+      $matrix_options['title'] = __('SIEM');
+      $this->displayRightsChoiceMatrix($rights, $matrix_options);
+
+      if ($canedit
+         && $closeform) {
          echo "<div class='center'>";
          echo "<input type='hidden' name='id' value='".$this->fields['id']."'>";
          echo Html::submit("<i class='fas fa-save'></i><span>"._sx('button', 'Save')."</span>", [
