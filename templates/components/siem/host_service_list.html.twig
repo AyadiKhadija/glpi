@@ -1,0 +1,25 @@
+<table class="table">
+   <thead>
+   <tr><th colspan="4" class="center">{{ __('Services') }}</th></tr>
+   <tr>
+      <th>{{ __('Status', 'glpi') }}</th>
+      <th>{{ __('Name', 'glpi') }}</th>
+      <th>{{ __('Last status change') }}</th>
+      <th>{{ __('Latest event') }}</th>
+   </tr>
+   </thead>
+   <tbody>
+   {% for service in services %}
+      <tr id="service_{{ service.id|e('html_attr') }}">
+         <td>
+            {% for badge in service.badges %}
+               <span class="{{ badge.class|e('html_attr') }}" style="font-size: 1em">{{ badge.label|e }}</span>
+            {% endfor %}
+         </td>
+         <td><a href="{{ service.link|e('html_attr') }}">{{ service.name|e }}</a></td>
+         <td title="{{ service.status_since|e('html_attr') }}">{{ service.status_since_diff|e }}</td>
+         <td>{{ service.latest_event_name|e }}</td>
+      </tr>
+   {% endfor %}
+   </tbody>
+</table>

@@ -1341,6 +1341,32 @@ HTML;
             ]
          ];
 
+         // SIEM Cards
+         $cards['siem_monitored_summary'] = [
+            'widgettype'  => ['summaryNumbers', 'multipleNumber'],
+            'label'       => __('Monitored Count'),
+            'group'       => __('SIEM'),
+            'provider'    => \Glpi\Siem\Dashboard::class.'::cardMonitoredCountProvider'
+         ];
+         $cards['siem_host_count'] = [
+            'widgettype'  => ['bigNumber'],
+            'label'       => __('Monitored Host Count'),
+            'group'       => __('SIEM'),
+            'provider'    => \Glpi\Siem\Dashboard::class.'::cardHostCountProvider'
+         ];
+         $cards['siem_service_count'] = [
+            'widgettype'  => ['bigNumber'],
+            'label'       => __('Monitored Services Count'),
+            'group'       => __('SIEM'),
+            'provider'    => \Glpi\Siem\Dashboard::class.'::cardServiceCountProvider'
+         ];
+         $cards['siem_service_status'] = [
+            'widgettype'   => ['pie', 'donut', 'halfpie', 'halfdonut', 'summaryNumbers', 'multipleNumber', 'bar', 'hbar'],
+            'label'        => __('Service Status'),
+            'group'       => __('SIEM'),
+            'provider'     => \Glpi\Siem\Dashboard::class.'::cardServiceStatusProvider'
+         ];
+
          $more_cards = Plugin::doHookFunction("dashboard_cards");
          if (is_array($more_cards)) {
             $cards = array_merge($cards, $more_cards);

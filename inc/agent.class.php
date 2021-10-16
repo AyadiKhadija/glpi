@@ -36,6 +36,7 @@ if (!defined('GLPI_ROOT')) {
 
 use GuzzleHttp\Client as Guzzle_Client;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\RequestOptions;
 
 /**
  * @since 10.0.0
@@ -50,6 +51,12 @@ class Agent extends CommonDBTM {
 
    /** @var string */
    public const ACTION_INVENTORY = 'inventory';
+
+   /**
+    * Action for executing an Event Management sensor
+    * @var string
+    */
+   public const ACTION_SENSOR = 'sensor';
 
 
    /** @var integer */
@@ -486,10 +493,11 @@ class Agent extends CommonDBTM {
     * Send agent an HTTP request
     *
     * @param string $endpoint Endpoint to reach
+    * @param array $params Array of request parameters
     *
     * @return Response
     */
-   public function requestAgent($endpoint): Response {
+   public function requestAgent($endpoint, $params = []): Response {
       global $CFG_GLPI;
 
       if (self::$found_adress !== false) {
@@ -511,6 +519,10 @@ class Agent extends CommonDBTM {
                : "";
             $proxy_string     = "http://{$proxy_creds}".$CFG_GLPI['proxy_name'].":".$CFG_GLPI['proxy_port'];
             $options['proxy'] = $proxy_string;
+         }
+
+         if (!empty($params)) {
+            $options[RequestOptions::QUERY] = $params;
          }
 
          // init guzzle client with base options
@@ -548,6 +560,26 @@ class Agent extends CommonDBTM {
       try {
          $this->requestAgent('now');
          return $this->handleAgentResponse(new Response(), self::ACTION_INVENTORY);
+      } catch (\GuzzleHttp\Exception\ClientException $e) {
+         Toolbox::logError($e->getMessage());
+         //not authorized
+         return ['answer' => __('Not allowed')];
+      }
+   }
+
+   /**
+    * Request the agent to execute an Event Management sensor
+    * @param string $sensor
+    * @param array $params
+    * @return array
+    */
+   public function requestSensorExecution(string $sensor, array $params): array {
+      try {
+         $this->requestAgent('sensor', [
+            'sensor' => $sensor,
+            'params' => $params
+         ]);
+         return $this->handleAgentResponse(new Response(), self::ACTION_SENSOR);
       } catch (\GuzzleHttp\Exception\ClientException $e) {
          Toolbox::logError($e->getMessage());
          //not authorized

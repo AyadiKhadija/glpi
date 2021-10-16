@@ -1293,7 +1293,7 @@ HTML;
             'types' => [
                'SoftwareLicense','Budget', 'Supplier', 'Contact', 'Contract',
                'Document', 'Line', 'Certificate', 'Datacenter', 'Cluster', 'Domain',
-               'Appliance', 'Database'
+               'Appliance', 'Database', \Glpi\Siem\Service::class, \Glpi\Siem\ServiceTemplate::class,
             ],
             'icon'  => 'fas fa-wallet'
          ],
