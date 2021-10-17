@@ -29,8 +29,6 @@
  * ---------------------------------------------------------------------
  */
 
-/* global CFG_GLPI */
-
 // Explicitly bind to window so Jest tests work properly
 window.GLPI = window.GLPI || {};
 window.GLPI.SIEM = window.GLPI.SIEM || {};
@@ -55,31 +53,30 @@ window.GLPI.SIEM.EventManagement = new class EventManagement {
       }
    }
 
-   updateSensorDropdown(plugin_dropdown, sensor_dropdown, linked_btn) {
-      const selected_plugin = $(plugin_dropdown).val();
+   updateAgentDropdown(sensor_dropdown, agent_dropdown) {
+      const selected_sensor = $(sensor_dropdown).val();
       $.ajax({
-         type: 'GET',
-         url: self.ajax_root + 'getSensors.php',
+         method: 'GET',
+         url: this.ajax_root + 'agent.php',
          data: {
-            plugins_id: selected_plugin
-         },
-         success: (sensors) => {
-            const sensor_dropdown_jobj = $(sensor_dropdown);
-            sensor_dropdown_jobj.empty().select2({
-               width: 'max-content'
-            });
-            if (Object.keys(sensors).length > 0) {
-               sensor_dropdown_jobj.removeAttr('disabled');
-               $(linked_btn).removeAttr('disabled');
-            } else {
-               sensor_dropdown_jobj.attr('disabled', 'disabled');
-               $(linked_btn).attr('disabled', 'disabled');
-            }
-            $.each(sensors, function(id, name) {
-               sensor_dropdown_jobj.append(new Option(name, id, false, false));
-            });
-            sensor_dropdown_jobj.trigger('change');
+            sensor: selected_sensor
          }
+      }).done((agents) => {
+         const options = [];
+         $.each(agents, (class_name, agent_name) => {
+            options.push({
+               id: class_name,
+               text: agent_name
+            });
+         });
+         if (options.length > 0) {
+            $(agent_dropdown).removeAttr('disabled');
+         } else {
+            $(agent_dropdown).attr('disabled', 'disabled');
+         }
+         $(agent_dropdown).empty().select2({
+            data: options
+         });
       });
    }
 
@@ -97,17 +94,9 @@ window.GLPI.SIEM.EventManagement = new class EventManagement {
       });
    }
 
-   checkServiceNow(services_id) {
-      //TODO Implement
-   }
-
-   scheduleHostDowntime(hosts_id) {
-      //TODO Implement
-   }
-
-   scheduleServiceDowntime(services_id) {
-      //TODO Implement
-   }
+   // checkServiceNow(services_id) {
+   //    //TODO Implement
+   // }
 
    addHostService(hosts_id) {
       $.ajax({

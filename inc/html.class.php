@@ -33,6 +33,8 @@
 use Glpi\Application\View\TemplateRenderer;
 use Glpi\Console\Application;
 use Glpi\Plugin\Hooks;
+use Glpi\Siem\Service;
+use Glpi\Siem\ServiceTemplate;
 use Glpi\Toolbox\Sanitizer;
 use ScssPhp\ScssPhp\Compiler;
 
@@ -1201,6 +1203,10 @@ HTML;
          if (in_array('cable', $jslibs)) {
             Html::requireJs('cable');
          }
+
+         if (in_array('siem', $jslibs)) {
+            $tpl_vars['js_modules'][] = 'js/modules/SIEM/EventManagement.js';
+         }
       }
 
       if (Session::getCurrentInterface() == "helpdesk") {
@@ -1293,7 +1299,7 @@ HTML;
             'types' => [
                'SoftwareLicense','Budget', 'Supplier', 'Contact', 'Contract',
                'Document', 'Line', 'Certificate', 'Datacenter', 'Cluster', 'Domain',
-               'Appliance', 'Database', \Glpi\Siem\Service::class, \Glpi\Siem\ServiceTemplate::class,
+               'Appliance', 'Database', Service::class, ServiceTemplate::class,
             ],
             'icon'  => 'fas fa-wallet'
          ],

@@ -1,0 +1,114 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% set bg = '' %}
+{% if item.isDeleted() %}
+   {% set bg = 'asset-deleted' %}
+{% endif %}
+
+<div class="asset {{ bg }}">
+   {{ include('components/form/header.html.twig') }}
+
+   {% set rand = random() %}
+   {% set params  = params ?? [] %}
+   {% set target       = params['target'] ?? item.getFormURL() %}
+   {% set withtemplate = params['withtemplate'] ?? '' %}
+   {% set item_type = item.getType() %}
+
+   <div class="card-body d-flex">
+      <div class="col-9 flex-column">
+         <div class="d-flex flex-row flex-wrap flex-xl-nowrap">
+            <div class="row flex-row align-items-start flex-grow-1">
+               <div class="row flex-row">
+                  {% block form_fields %}
+                     {{ fields.autoNameField('name', item, __('Name'), withtemplate) }}
+
+                     {{ fields.textareaField('comment', item.fields['comment'], _n('Comment', 'Comments', get_plural_number())) }}
+
+                     {{ fields.dropdownArrayField('sensor', item.fields['sensor'], sensors, __('Sensor'), {
+                        'rand': rand
+                     }) }}
+
+                     {{ fields.dropdownArrayField('agent', item.fields['agent'], agents, __('Agent'), {
+                        'rand': rand,
+                        'disabled': true
+                     }) }}
+
+                     {{ fields.dropdownArrayField('priority', item.fields['priority']|default(3), {
+                        1: _x('priority', 'Very low'),
+                        2: _x('priority', 'Low'),
+                        3: _x('priority', 'Medium'),
+                        4: _x('priority', 'High'),
+                        5: _x('priority', 'Very high'),
+                        6:_x('priority', 'Major'),
+                     }, __('Priority'), {
+                        'rand': rand,
+                        'helper': __('The criticality of the service')
+                     }) }}
+
+                     {{ fields.numberField('max_checks', item.fields['max_checks']|default(3), __('Max checks'), {
+                        'min': 1,
+                        'max': 100,
+                        'helper': __('The number of checks on the service before it can change from being in a soft state to a hard state.')
+                     }) }}
+
+                     {{ fields.numberField('check_interval', item.fields['check_interval']|default(1), __('Check interval'), {
+                        'min': 1,
+                        'max': 100,
+                        'helper': __('How often the sensor will be polled for the service in minutes (Ignored for passive sensors).')
+                     }) }}
+
+                     {{ fields.smallTitle(__('Flapping detection settings'), 'fa-rotate-90 fas fa-exchange-alt') }}
+
+                     {{ fields.dropdownYesNo('use_flap_detection', item.fields['use_flap_detection'], __('Use flapping detection')) }}
+
+                     {{ fields.numberField('flap_threshold_low', item.fields['flap_threshold_low']|default(15), __('Lower flapping threshold'), {
+                        'min': 1,
+                        'max': 100,
+                        'helper': __('The maximum amount of change between states needed before the service is no longer considered flapping. This is calculated over a sample size of 20 checks')
+                     }) }}
+
+                     {{ fields.numberField('flap_threshold_high', item.fields['flap_threshold_high']|default(30), __('Higher flapping threshold'), {
+                        'min': 1,
+                        'max': 100,
+                        'helper': __('The minimum amount of change between states needed before the service is considered flapping. This is calculated over a sample size of 20 checks')
+                     }) }}
+
+                     {{ fields.smallTitle(__('Alert settings'), 'fas fa-bell') }}
+
+                     {{ fields.numberField('notificationinterval', item.fields['notificationinterval']|default(0), __('Notification interval'), {
+                        'min': 0,
+                        'max': constant('MONTH_TIMESTAMP'),
+                        'helper': __('The amount of time between alerts for this service when not in downtime or acknowledged (0 for one-time alerts).')
+                     }) }}
+
+                     {{ fields.smallTitle(__('Service parameters'), 'fas fa-cog') }}
+                     {% set service_params_block %}
+                        <div id="service-params">{{ __('No parameters supported for this sensor') }}</div>
+                     {% endset %}
+                     {{ fields.htmlField('service_params', service_params_block) }}
+                  {% endblock %}
+               </div> {# .row #}
+            </div> {# .row #}
+         </div> {# .flex-row #}
+      </div>
+      <div class="col-3 flex-column">
+         <div class="flex-row asset-pictures">
+            {{ include('components/form/pictures.html.twig', {'gallery_type': ''}) }}
+         </div>
+      </div>
+   </div> {# .card-body #}
+
+   {{ include('components/form/buttons.html.twig') }}
+   {% if params['formfooter'] == null %}
+      <div class="card-footer mx-n2 mb-n2 mt-4">
+         {{ include('components/form/dates.html.twig') }}
+      </div>
+   {% endif %}
+
+   <script>
+      $('#dropdown_sensor{{ rand }}').on('change', () => {
+         window.GLPI.SIEM.EventManagement.updateAgentDropdown('#dropdown_sensor{{ rand }}', '#dropdown_agent{{ rand }}');
+      });
+      $('#dropdown_sensor{{ rand }}').trigger('change');
+   </script>
+</div>

@@ -32,6 +32,10 @@
 
 
 // Current version of GLPI
+use Glpi\Siem\Host;
+use Glpi\Siem\Service;
+use Glpi\Siem\ServiceTemplate;
+
 define('GLPI_VERSION', '10.0.0-dev');
 if (substr(GLPI_VERSION, -4) === '-dev') {
    //for dev version
@@ -525,6 +529,9 @@ $CFG_GLPI['javascript'] = [
       ],
       'cable' => ['cable'],
       'socket' => ['cable'],
+      strtolower(Host::class) => ['siem'],
+      strtolower(Service::class) => ['siem'],
+      strtolower(ServiceTemplate::class) => ['siem'],
    ],
    'config' => [
       'commondropdown'  => [

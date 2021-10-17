@@ -35,7 +35,7 @@ namespace Glpi\Siem\Provider;
 use Glpi\Siem\Provider\Sensor\Core;
 use Glpi\Siem\Provider\Sensor\SensorProviderInterface;
 
-final class Provider {
+final class Sensors {
 
    public static function getDefaultProviders(): array {
       return [
@@ -60,6 +60,7 @@ final class Provider {
       static $sensors = null;
 
       if ($sensors === null) {
+         $sensors = [];
          $providers = self::getDefaultProviders();
          $providers = array_merge($providers, self::getPluginProviders());
          /** @var SensorProviderInterface $provider */
@@ -74,5 +75,10 @@ final class Provider {
 
    public static function getSensor(string $sensor): array {
       return self::getSensors()[$sensor];
+   }
+
+   public static function getDropdownItems() {
+      $sensors = self::getSensors();
+      return array_diff(array_combine(array_keys($sensors), array_column($sensors, 'name')), [null]);
    }
 }

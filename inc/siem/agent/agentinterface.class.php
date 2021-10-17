@@ -19,14 +19,19 @@ interface AgentInterface {
    public const SIEM_AGENT_TYPE_EXTERNAL = 1;
 
    /**
+    * @return string
+    */
+   public static function getAgentName(): string;
+
+   /**
     * @return int One of {@link SIEM_AGENT_TYPE_INTERNAL} or {@link SIEM_AGENT_TYPE_EXTERNAL}
     */
-   public function getSiemAgentType(): int;
+   public static function getSiemAgentType(): int;
 
    /**
     * @return array
     */
-   public function getSupportedSensors(): array;
+   public static function getSupportedSensors(): array;
 
    /**
     * @param string $sensor
@@ -35,5 +40,5 @@ interface AgentInterface {
     * @return array
     * @throws UnsupportedSensorException
     */
-   public function executeSensor(string $sensor, Host $host, array $service_params): array;
+   public static function executeSensor(string $sensor, Host $host, array $service_params): array;
 }
