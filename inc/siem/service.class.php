@@ -5,6 +5,7 @@ namespace Glpi\Siem;
 use CommonDBTM;
 use Dropdown;
 use Glpi\Application\View\TemplateRenderer;
+use Glpi\Siem\Provider\Sensors;
 use Html;
 use Plugin;
 
@@ -297,7 +298,7 @@ class Service extends CommonDBTM {
       $host = new Host();
       $is_hostservice = false;
       if ($host = $this->getHost()) {
-         if ($host->fields['plugin_siem_services_id_availability'] === $this->getID()) {
+         if ($host->fields['siems_services_id_availability'] === $this->getID()) {
             $is_hostservice = true;
          }
       }
@@ -315,9 +316,13 @@ class Service extends CommonDBTM {
    public static function getFormForHost(Host $host): string {
       global $DB;
       $services = $host->getServices();
+      $sensors = Sensors::getSensors();
+
       foreach ($services as $service_id => &$service) {
          $status = self::getStatusName($service['status']);
          $service['badges'] = [];
+         $sensor = $sensors[$service['sensor']] ?? null;
+
          switch ($service['status']) {
             case self::STATUS_OK:
                $service['badges'][] = ['class' => 'badge badge-success', 'label' => $status];
@@ -345,7 +350,13 @@ class Service extends CommonDBTM {
          $eventdata = $eventiterator->count() ? $eventiterator->current() : null;
          $service['link'] = self::getFormURLWithID($service_id);
          if ($eventdata !== null) {
-            $service['latest_event_name'] = Event::getLocalizedEventName($eventdata['name'], $service['plugins_id']);
+            if (isset($sensor['events'][$eventdata['name']])) {
+               $service['latest_event_name'] = $sensor['events'][$eventdata['name']]['name'];
+            } else {
+               // Sensor not valid (plugin missing or old/replaced event?) or a localized name is not defined.
+               // Use the internal name
+               $service['latest_event_name'] = $eventdata['name'];
+            }
          } else {
             $service['latest_event_name'] = null;
          }

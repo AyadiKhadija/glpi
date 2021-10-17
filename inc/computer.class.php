@@ -34,6 +34,7 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
+use Glpi\Siem\Event as SIEMEvent;
 use Glpi\Socket;
 
 /**
@@ -104,6 +105,7 @@ class Computer extends CommonDBTM {
          ->addStandardTab('NetworkPort', $ong, $options)
          ->addStandardTab(Socket::class, $ong, $options)
          ->addStandardTab('Item_RemoteManagement', $ong, $options)
+         ->addStandardTab(SIEMEvent::class, $ong, $options)
          ->addStandardTab('Infocom', $ong, $options)
          ->addStandardTab('Contract_Item', $ong, $options)
          ->addStandardTab('Document_Item', $ong, $options)

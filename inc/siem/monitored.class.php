@@ -53,7 +53,7 @@ trait Monitored {
 
    /**
     * Returns the translated name of the host or service's current status.
-    * @since 1.0.0
+    * @since 10.0.0
     */
    public function getCurrentStatusName(): string {
       if (static::getType() === Host::class) {
@@ -82,7 +82,7 @@ trait Monitored {
 
    /**
     * Returns the name of this host (or service's host).
-    * @since 1.0.0
+    * @since 10.0.0
     */
    public function getHostName() {
       global $DB;

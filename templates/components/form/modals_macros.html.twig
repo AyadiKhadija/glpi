@@ -36,9 +36,9 @@
                {{ modal_body|raw }}
             </div>
             <div class="modal-footer">
-               {% for button in options['buttons'] %}
-                  <button type="button" class="btn {{ options['primary'] ? 'btn-primary' : 'btn-outline-secondary' }} {{ button['class']|default('') }}"
-                          id="{{ button['id']|default(options.id ~ '_btn_' ~ (loop.index0)) }}" data-bs-dismiss="modal">
+               {% for button_name, button in options['buttons'] %}
+                  <button type="button" name="{{ button_name }}" class="btn {{ options['primary'] ? 'btn-primary' : 'btn-outline-secondary' }} {{ button['class']|default('') }}"
+                          id="{{ button['id']|default(options.id ~ '_btn_' ~ (button_name)) }}" data-bs-dismiss="modal">
                      {{ button['label']|default('')|raw }}
                   </button>
                {% endfor %}

@@ -1,51 +1,64 @@
-<div id='host-actions-toolbar'>
-   <div class='btn-toolbar'>
-      {% for button in toolbar_buttons %}
-         <button type='button' class='btn btn-primary mx-1' onclick='{{ button.action|e }}'>{{ button.label|e }}</button>
-      {% endfor %}
-   </div>
-</div>
-<div id='host-info-box'>
-   <div id='host-info' class='w-25 inline-block {{ host_info_bg|e('html_attr') }}'>
-      <table class='text-center w-100'>
-         <thead>
-         <tr>
-            <th colspan='2'>
-               <h3>{{ status|e }}</h3>
-            </th>
-         </tr>
-         </thead>
-         <tbody>
-         {% for label,value in host_stats %}
-            <tr>
-               <td>
-                  <p style='font-size: 1.5em; margin: 0'>{{ label|e }}</p>
-                  <p style='font-size: 1.25em; margin: 0'>{{ value|e }}</p>
-               </td>
-            </tr>
+{% import "components/form/modals_macros.html.twig" as modals %}
+
+<div>
+   <div id='host-actions-toolbar'>
+      <div class='btn-toolbar'>
+         {% for button in toolbar_buttons %}
+            <button type='button' class='btn btn-primary mx-1' onclick='{{ button.action|e }}'>{{ button.label|e }}</button>
          {% endfor %}
-         </tbody>
-      </table>
+      </div>
    </div>
-   <div id='host-service-info' class='inline-block w-75'>
-      {% if service_stats is defined and service_stats|length > 0 %}
-         <h3>{{ __("Availability service info") }}</h3>
-         <table class='text-center w-100'>
-            <tbody>
-            {% for statrow in service_stats %}
-               <tr>
-                  {% for label,value in statrow %}
-                     <td>
-                        <p style='font-size: 1.5em; margin: 0'>{{ label|e }}</p>
-                        <p style='font-size: 1.25em; margin: 0'>{{ value|e }}</p>
-                     </td>
-                  {% endfor %}
-               </tr>
+   <div id='host-info-box' class="d-flex">
+      <div id="host-info" class="card col col-4 {{ host_info_bg|e('html_attr') }}">
+         <div class="card-header"><h3>{{ status|e }}</h3></div>
+         <div class="card-body container">
+            {% for label,value in host_stats %}
+               <div class="d-flex">
+                  <div class="col col-6">{{ label|e }}</div>
+                  <div class="col col-6">{{ value|e }}</div>
+               </div>
             {% endfor %}
-            </tbody>
-         </table>
-      {% elseif add_availability_service_form is defined %}
-         {{ add_availability_service_form|raw }}
-      {% endif %}
+         </div>
+      </div>
+      <div id="host-service-info" class="card col col-8">
+         <div class="card-header"><h3>{{ __("Availability service info") }}</h3></div>
+         <div class="card-body container">
+            {% if service_stats is defined and service_stats|length > 0 %}
+               {% for statrow in service_stats %}
+                  <div>
+                     {% for label,value in statrow %}
+                        <div class="d-flex">
+                           <div class="col-6">{{ label|e }}</div>
+                           <div class="col-6">{{ value|e }}</div>
+                        </div>
+                     {% endfor %}
+                  </div>
+               {% endfor %}
+            {% elseif add_availability_service_form is defined %}
+               {{ add_availability_service_form|raw }}
+            {% endif %}
+         </div>
+      </div>
    </div>
+
+   {% set add_host_service_modal_content %}
+      <div id='add-host-form'>
+         <select class='service-template-dropdown'></select>
+      </div>
+   {% endset %}
+   {{ modals.modal(__('Add service from template'), add_host_service_modal_content, {
+      'id': 'add-host-service-modal',
+      'modal_classes': 'modal-md',
+      'buttons': {
+         'cancel': {
+            'label': options['cancel_label']|default(_x('button', 'Cancel')),
+            'event': ''
+         },
+         'add': {
+            'label': options['confirm_label']|default(_x('button', 'Add')),
+            'event': '',
+            'class': 'ms-auto'
+         }
+      }
+   }) }}
 </div>

@@ -78,7 +78,7 @@ class ServiceTemplate extends CommonDBTM {
          echo "<tr><td colspan='7'>" . __('No services') . '</td></tr>';
       } else {
          foreach ($services as $service) {
-            $host = $siemhost->find(['id' => 'plugin_siem_hosts_id']);
+            $host = $siemhost->find(['id' => 'siems_hosts_id']);
             $host = reset($host);
             $assetinfo = $host->getItemInfo();
             echo '<tr>';

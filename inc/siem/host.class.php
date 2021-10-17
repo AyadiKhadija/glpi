@@ -108,7 +108,7 @@ class Host extends CommonDBTM {
          'id' => '7',
          'table' => $service_table,
          'field' => 'name',
-         'linkfield' => 'plugin_siem_services_id_availability',
+         'linkfield' => 'siems_services_id_availability',
          'name' => __('Availability service'),
          'datatype' => 'itemlink'
       ];
@@ -135,17 +135,17 @@ class Host extends CommonDBTM {
    /**
     * Loads the host's availability service and then caches and returns it.
     * @return Service The loaded availability service or null if it could not be loaded.
-    * @since 1.0.0
+    * @since 10.0.0
     */
    public function getAvailabilityService(): ?Service {
-      if (!$this->fields['services_id_availability'] || $this->fields['services_id_availability'] < 0) {
+      if (!$this->fields['siems_services_id_availability'] || $this->fields['siems_services_id_availability'] < 0) {
          return null;
       }
       // Load and cache availability service in case of multiple calls per page
       static $service = null;
       if ($service === null) {
          $service = new Service();
-         if (!$service->getFromDB($this->fields['services_id_availability'])) {
+         if (!$service->getFromDB($this->fields['siems_services_id_availability'])) {
             return null;
          }
       }
@@ -164,15 +164,11 @@ class Host extends CommonDBTM {
          'toolbar_buttons' => [
             [
                'label' => __('Check now'),
-               'action' => "window.pluginSiem.hostCheckNow({$this->getID()})",
-            ],
-            [
-               'label' => __('Schedule downtime'),
-               'action' => "hostScheduleDowntime({$this->getID()})",
+               'action' => "window.GLPI.SIEM.EventManagement.hostCheckNow({$this->getID()})",
             ],
             [
                'label' => sprintf(__('Add %s'), Service::getTypeName(1)),
-               'action' => "window.pluginSiem.addHostService({$this->getID()})",
+               'action' => "window.GLPI.SIEM.EventManagement.addHostService({$this->getID()})",
             ]
          ],
          'status'       => $this->getCurrentStatusName(),
@@ -192,12 +188,7 @@ class Host extends CommonDBTM {
             __('Host availability not monitored') => __('Set the availability service to monitor the host')
          ];
       }
-      if (in_array($this->getStatus(), [Service::STATUS_CRITICAL, Service::STATUS_WARNING], true)) {
-         $twig_vars['toolbar_buttons'][] = [
-            'label' => sprintf(__('Acknowledge %s'), self::getTypeName(1)),
-            'action' => "acknowledge({$this->getID()})",
-         ];
-      }
+
       if ($this->getAvailabilityService()) {
          $host_service = $this->getAvailabilityService();
          $calendar_name = __('Unspecified');
@@ -259,8 +250,8 @@ class Host extends CommonDBTM {
             'SELECT' => [
                $service_table.'.*',
                $template_table.'.name',
-               $template_table.'.plugins_id',
-               $template_table.'.sensor'
+               $template_table.'.sensor',
+               $template_table.'.agent'
             ],
             'FROM' => $service_table,
             'LEFT JOIN' => [
@@ -295,7 +286,7 @@ class Host extends CommonDBTM {
          'id'  => $services_id
       ]);
       if (count($match) && reset($match)[self::getForeignKeyField()] === $this->getID()) {
-         $DB->update(self::getTable(), ['services_id_availability' => $services_id], ['id' => $this->getID()]);
+         $DB->update(self::getTable(), ['siems_services_id_availability' => $services_id], ['id' => $this->getID()]);
          return true;
       }
       return false;

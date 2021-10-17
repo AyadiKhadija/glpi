@@ -565,7 +565,7 @@ class Event extends CommonDBTM {
              'items_id' => $item->getID()]);
          return;
       } else if (!$has_services) {
-         echo "<div class='alert alert-warning'>" . __('No services on this host are monitored by any plugin') . '</div>';
+         echo "<div class='alert alert-warning'>" . __('No services are defined on this host') . '</div>';
       } else if (!$eventhost->getAvailabilityService()) {
          echo "<div class='alert alert-warning'>" . __('No host availability service set') . '</div>';
       }

@@ -486,6 +486,11 @@ $CFG_GLPI['remote_management_types'] = ['Computer', 'Phone'];
 
 $CFG_GLPI['databaseinstance_types'] = ['Computer'];
 
+$CFG_GLPI['siem_types'] = ['Computer', 'Monitor', 'NetworkEquipment', 'Peripheral', 'Phone', 'Printer', 'Enclosure',
+                           'PDU', 'Cluster'];
+
+$siem_libs = ['siem'];
+
 $dashboard_libs = [
    'dashboard', 'gridstack',
    'charts', 'clipboard', 'sortable'
@@ -503,9 +508,17 @@ $CFG_GLPI['javascript'] = [
       ], $dashboard_libs)
    ],
    'assets'    => [
-      'dashboard' => $dashboard_libs,
-      'rack'      => ['gridstack', 'rack'],
-      'printer'   => $dashboard_libs
+      'dashboard'          => $dashboard_libs,
+      'rack'               => ['gridstack', 'rack'],
+      'printer'            => array_merge($dashboard_libs, $siem_libs),
+      'computer'           => $siem_libs,
+      'monitor'            => $siem_libs,
+      'networkequipment'   => $siem_libs,
+      'peripheral'         => $siem_libs,
+      'phone'              => $siem_libs,
+      'enclosure'          => $siem_libs,
+      'pdu'                => $siem_libs,
+      'cluster'            => $siem_libs
    ],
    'helpdesk'  => [
       'dashboard' => $dashboard_libs,

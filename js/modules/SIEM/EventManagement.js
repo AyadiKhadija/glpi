@@ -83,7 +83,7 @@ window.GLPI.SIEM.EventManagement = new class EventManagement {
    checkHostNow(hosts_id) {
       $.ajax({
          type: 'POST',
-         url: self.ajax_root + 'siemhost.php',
+         url: this.ajax_root + 'siemhost.php',
          data: {
             _check_now: true,
             hosts_id: hosts_id
@@ -101,50 +101,47 @@ window.GLPI.SIEM.EventManagement = new class EventManagement {
    addHostService(hosts_id) {
       $.ajax({
          type: "GET",
-         url: self.ajax_root + 'getSiemServiceTemplates.php',
+         url: this.ajax_root + 'servicetemplate.php',
          data: {},
          success: (servicetemplates) => {
-            $(`<div id='add-host-form'><select class='service-template-dropdown'></select></div>`).dialog({
-               modal: true,
-               title: "Add service from template",
-               open: function() {
-                  const template_dropdown_jobj = $("#add-host-form .service-template-dropdown");
-                  template_dropdown_jobj.empty().select2({
-                     width: 'max-content'
-                  });
-                  if (Object.keys(servicetemplates).length > 0) {
-                     template_dropdown_jobj.removeAttr('disabled');
-                     //$(linked_btn).removeAttr('disabled');
-                  } else {
-                     template_dropdown_jobj.attr('disabled', 'disabled');
-                     //$(linked_btn).attr('disabled', 'disabled');
+            const template_dropdown_jobj = $("#add-host-service-modal #add-host-form .service-template-dropdown");
+            const options = [];
+            $.each(servicetemplates, (id, name) => {
+               options.push({
+                  id: id,
+                  text: name
+               });
+            });
+            if (options.length > 0) {
+               template_dropdown_jobj.removeAttr('disabled');
+            } else {
+               template_dropdown_jobj.attr('disabled', 'disabled');
+            }
+
+            template_dropdown_jobj.empty().select2({
+               data: options
+            });
+            template_dropdown_jobj.trigger('change');
+            $('#add-host-service-modal').modal('show');
+
+            const cancel_button = $('#add-host-service-modal button[name="cancel"]');
+            cancel_button.off();
+            cancel_button.on('click', () => {
+               $('#add-host-service-modal').modal('hide');
+            });
+
+            const add_button = $('#add-host-service-modal button[name="add"]');
+            add_button.off();
+            add_button.on('click', () => {
+               $.ajax({
+                  method: 'POST',
+                  url: this.ajax_root + `host.php/${hosts_id}/services`,
+                  data: {
+                     templates_id: template_dropdown_jobj.val()
                   }
-                  $.each(servicetemplates, function(id, name) {
-                     template_dropdown_jobj.append(new Option(name, id, false, false));
-                  });
-                  template_dropdown_jobj.trigger('change');
-               },
-               buttons: {
-                  Add: function() {
-                     var parentDialog = $(this);
-                     var templates_id = $("#add-host-form").find("select").select2('val');
-                     $.ajax({
-                        type: "POST",
-                        url: self.ajax_root + 'siemhost.php',
-                        data: {
-                           _add_service: true,
-                           hosts_id: hosts_id,
-                           servicetemplates_id: templates_id
-                        },
-                        success: function() {
-                           window.location.reload();
-                        },
-                        complete: function() {
-                           parentDialog.dialog('close');
-                        }
-                     });
-                  }
-               }
+               }).then(() => {
+                  window.location.reload();
+               });
             });
          }
       });
