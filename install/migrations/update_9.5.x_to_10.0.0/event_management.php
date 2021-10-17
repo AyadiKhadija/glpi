@@ -63,7 +63,7 @@ if (!$DB->tableExists('glpi_siems_itils_events')) {
          `id` int(11) NOT NULL AUTO_INCREMENT,
          `itemtype` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
          `items_id` int(11) NOT NULL DEFAULT '0',
-         `plugin_siems_events_id` int(11) unsigned NOT NULL DEFAULT '0',
+         `siems_events_id` int(11) unsigned NOT NULL DEFAULT '0',
          PRIMARY KEY (`id`)
          ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
    $DB->queryOrDie($query, "10.0.0 add table glpi_siems_itils_events");
@@ -103,7 +103,7 @@ if (!$DB->tableExists('glpi_siems_services')) {
       `date_creation` timestamp NULL DEFAULT NULL,
       PRIMARY KEY (`id`),
       KEY `siems_servicetemplates_id` (`siems_servicetemplates_id`),
-      KEY `plugin_siems_hosts_id` (`siems_hosts_id`),
+      KEY `siems_hosts_id` (`siems_hosts_id`),
       KEY `is_flapping` (`is_flapping`),
       KEY `is_acknowledged` (`is_acknowledged`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
@@ -121,8 +121,8 @@ if (!$DB->tableExists('glpi_siems_servicetemplates')) {
       `check_interval` int(11) DEFAULT NULL COMMENT 'Ignored when check_mode is passive',
       `use_flap_detection` tinyint(1) NOT NULL DEFAULT '0',
       `check_mode` tinyint(3) NOT NULL DEFAULT '0',
-      `plugins_id` int(11) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Indicates which plugin (or the core) logged this event. Used to delegate translations and other functions',
       `sensor` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+      `agent` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
       `is_stateless` tinyint(1) NOT NULL DEFAULT '0',
       `flap_threshold_low` tinyint(3) NOT NULL DEFAULT '15',
       `flap_threshold_high` tinyint(3) NOT NULL DEFAULT '30',
