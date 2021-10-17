@@ -11,6 +11,33 @@ final class Core implements SensorProviderInterface {
          'ping'   => [
             'name'      => _x('sensor', 'Ping'),
             'mode'      => Service::CHECK_MODE_ACTIVE,
+            'params'    => [
+               'required_props' => [
+                  'percent_loss' => [
+                     'name'   => _x('sensor_property', 'Percent loss')
+                  ],
+                  'min' => [
+                     'name'   => _x('sensor_property', 'Minimum (ms)')
+                  ],
+                  'avg' => [
+                     'name'   => _x('sensor_property', 'Average (ms)')
+                  ],
+                  'max' => [
+                     'name'   => _x('sensor_property', 'Maximum (ms)')
+                  ],
+                  'mdev' => [
+                     'name'   => _x('sensor_property', 'Standard deviation (ms)')
+                  ],
+               ]
+            ],
+            'events'    => [
+               'ok'  => [
+                  'name'   => _x('sensor_event', 'Ping OK')
+               ],
+               'error'  => [
+                  'name'   => _x('sensor_event', 'Ping not OK')
+               ]
+            ],
          ],
          'heartbeat' => [
             'name'      => _x('sensor', 'Heartbeat'),
@@ -33,72 +60,23 @@ final class Core implements SensorProviderInterface {
                      'max'    => 600,
                      'step'   => 1
                   ]
+               ],
+            ],
+            'sensor_params'   => [
+               'required_props'  => [
+                  'http_code' => [
+                     _x('sensor_property', 'HTTP code')
+                  ]
                ]
+            ],
+            'events' => [
+               'ok'  => [
+                  'name'   => _x('sensor_event', 'HTTP OK')
+               ],
+               'error'  => [
+                  'name'   => _x('sensor_event', 'HTTP not OK')
+               ],
             ]
-         ],
-         'cpu_percent'  => [
-            'name'      => _x('sensor', 'CPU Usage (%)'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'disk_usage_percent'  => [
-            'name'      => _x('sensor', 'Disk Usage (%)'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'disk_usage_bytes'  => [
-            'name'      => _x('sensor', 'Disk Usage (bytes)'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'disk_opts'  => [
-            'name'      => _x('sensor', 'Disk Options'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'disk_free_percent'  => [
-            'name'      => _x('sensor', 'Disk Free (%)'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'disk_free_bytes'  => [
-            'name'      => _x('sensor', 'Disk Free (bytes)'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'netint_packets_sent'  => [
-            'name'      => _x('sensor', 'Network Interface Bytes Sent'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'netint_packets_received'  => [
-            'name'      => _x('sensor', 'Network Interface Packets Received'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'netint_bytes_sent'  => [
-            'name'      => _x('sensor', 'Network Interface Bytes Sent'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'netint_bytes_received'  => [
-            'name'      => _x('sensor', 'Network Interface Bytes Received'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'memory_available_bytes'  => [
-            'name'      => _x('sensor', 'Memory Available (bytes)'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'memory_available_percent'  => [
-            'name'      => _x('sensor', 'Memory Available (%)'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'memory_used_bytes'  => [
-            'name'      => _x('sensor', 'Memory Usage (bytes)'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'memory_used_percent'  => [
-            'name'      => _x('sensor', 'Memory Usage (%)'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'process_count'  => [
-            'name'      => _x('sensor', 'Process Count'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
-         ],
-         'service_status'  => [
-            'name'      => _x('sensor', 'Service Status'),
-            'mode'      => Service::CHECK_MODE_ACTIVE,
          ],
       ];
    }
