@@ -1315,7 +1315,8 @@ HTML;
             'title' => __('Administration'),
             'types' => [
                'User', 'Group', 'Entity', 'Rule',
-               'Profile', 'QueuedNotification', 'Glpi\\Event', 'Glpi\Inventory\Inventory'
+               'Profile', 'QueuedNotification', 'QueuedWebhook',
+               'Glpi\\Event', 'Glpi\Inventory\Inventory'
             ],
             'icon'  => 'fas fa-user-shield'
          ],
@@ -1324,7 +1325,7 @@ HTML;
             'types' => [
                'CommonDropdown', 'CommonDevice', 'Notification',
                'SLM', 'Config', 'FieldUnicity', 'CronTask', 'Auth',
-               'MailCollector', 'Link', 'Plugin'
+               'MailCollector', 'Link', 'Plugin', 'Webhook'
             ],
             'icon'  => 'fas fa-cogs'
          ],

@@ -1399,6 +1399,9 @@ class CommonDBTM extends CommonGLPI {
       if (Toolbox::hasTrait($this, \Glpi\Features\UserMention::class)) {
          $this->handleUserMentions();
       }
+      if (!isCommandLine()) {
+         Webhook::postWebhookAction($this, 'add');
+      }
    }
 
 
@@ -1751,6 +1754,9 @@ class CommonDBTM extends CommonGLPI {
 
       if (Toolbox::hasTrait($this, \Glpi\Features\UserMention::class)) {
          $this->handleUserMentions();
+      }
+      if (!isCommandLine()) {
+         Webhook::postWebhookAction($this, 'update');
       }
    }
 

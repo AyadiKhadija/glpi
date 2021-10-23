@@ -1546,6 +1546,10 @@ class Profile extends CommonDBTM {
             'itemtype'  => 'Log',
             'label'     => Log::getTypeName(Session::getPluralNumber()),
             'field'     => 'logs'
+         ], [
+            'itemtype'  => 'QueuedWebhook',
+            'label'     => QueuedWebhook::getTypeName(Session::getPluralNumber()),
+            'field'     => 'queuedwebhook'
          ]
       ];
       $matrix_options['title'] = __('Administration');

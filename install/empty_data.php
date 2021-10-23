@@ -7584,6 +7584,14 @@ $tables['glpi_profilerights'] = [
       'profiles_id' => '8',
       'name'        => 'database',
       'rights'      => 1,
+   ], [
+      'profiles_id' => '4',
+      'name'        => 'webhook',
+      'rights'      => ALLSTANDARDRIGHT,
+   ], [
+      'profiles_id' => '4',
+      'name'        => 'queuedwebhook',
+      'rights'      => ALLSTANDARDRIGHT,
    ],
 ];
 

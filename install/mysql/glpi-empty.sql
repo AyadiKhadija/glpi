@@ -9097,4 +9097,45 @@ CREATE TABLE `glpi_databases` (
   KEY `databaseinstances_id` (`databaseinstances_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
+DROP TABLE IF EXISTS `glpi_webhooks`;
+CREATE TABLE `glpi_webhooks` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `entities_id` int(11) NOT NULL DEFAULT '0',
+    `name` varchar(255) NOT NULL,
+    `comment` text,
+    `url` varchar(255) NOT NULL,
+    `payload` text NOT NULL,
+    `is_recursive` tinyint(1) NOT NULL DEFAULT '0',
+    `is_active` tinyint(1) NOT NULL DEFAULT '0',
+    `date_creation` TIMESTAMP NULL DEFAULT NULL,
+    `date_mod` TIMESTAMP NULL DEFAULT NULL,
+    `is_plaintextpayload` tinyint(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `glpi_webhooktriggers`;
+CREATE TABLE `glpi_webhooktriggers` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `webhooks_id` INT(11) NOT NULL,
+    `itemtype` VARCHAR(100) NOT NULL,
+    `action` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `webhookaction` (`itemtype`,`webhooks_id`,`action`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `glpi_queuedwebhooks`;
+CREATE TABLE `glpi_queuedwebhooks` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `payload` text NOT NULL,
+    `url` varchar(255) NOT NULL,
+    `date_creation` TIMESTAMP NULL DEFAULT NULL,
+    `date_send` TIMESTAMP NULL,
+    `date_sent` TIMESTAMP NULL,
+    `sent_try` int(11) NOT NULL DEFAULT '0',
+    `entities_id` int(11) NOT NULL DEFAULT '0',
+    `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 SET FOREIGN_KEY_CHECKS=1;
