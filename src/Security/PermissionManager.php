@@ -45,7 +45,6 @@ use QueryExpression;
  */
 final class PermissionManager
 {
-
     /**
      * Gets all profiles assigned to the provided user for a given entity.
      *
@@ -62,7 +61,7 @@ final class PermissionManager
         $parent_entities = getAncestorsOf('glpi_entities', $entities_id);
 
         if ($users_id === -1) {
-            $profiles = array_filter($_SESSION['glpiprofiles'], static function ($profile, $pid) use ($parent_entities){
+            $profiles = array_filter($_SESSION['glpiprofiles'], static function ($profile, $pid) use ($parent_entities) {
                 return $profile['entities_id'] === $pid ||
                     ($profile['is_recursive'] && in_array($profile['entities_id'], $parent_entities, true));
             }, ARRAY_FILTER_USE_BOTH);
