@@ -47,6 +47,17 @@ use QueryExpression;
  */
 final class PermissionManager
 {
+    public static function getInstance(): self
+    {
+        static $instance = null;
+
+        if ($instance === null) {
+            $instance = new self();
+        }
+
+        return $instance;
+    }
+
     /**
      * Gets all profiles assigned to the provided user for a given entity.
      *
@@ -54,7 +65,7 @@ final class PermissionManager
      * @param int $entities_id The entity's ID.
      * @return array Array of profile IDs
      */
-    private static function getAllProfilesForUser(int $users_id, int $entities_id): array
+    private function getAllProfilesForUser(int $users_id, int $entities_id): array
     {
         global $DB;
 
@@ -109,7 +120,7 @@ final class PermissionManager
      * @param array $profiles Array of profile IDs.
      * @return array Array of rights combined from all provided profiles
      */
-    public static function getAggregatedRights(array $profiles): array
+    public function getAggregatedRights(array $profiles): array
     {
         global $DB;
 
@@ -155,7 +166,7 @@ final class PermissionManager
      *
      * @return bool
      */
-    public static function haveRight(int $users_id, string $module, int $right, bool $all_profiles = false, int $entities_id = -1): bool
+    public function haveRight(int $users_id, string $module, int $right, bool $all_profiles = false, int $entities_id = -1): bool
     {
         global $DB;
 
@@ -182,7 +193,7 @@ final class PermissionManager
                 return (!empty($module_rights) && ($module_rights & $right) === $right);
             }
         } else {
-            $profiles = self::getAllProfilesForUser($users_id, $entities_id);
+            $profiles = $this->getAllProfilesForUser($users_id, $entities_id);
         }
         if (empty($profiles)) {
             return false;
@@ -210,7 +221,7 @@ final class PermissionManager
      * @return array Array of applicable profiles where the profile ID is the key and the value is the full rights on the specified module.
      *               The array is sorted so that the profiles with the lower rights on the module are first.
      */
-    public static function getPossibleProfiles(string $module, int $right): array
+    public function getPossibleProfiles(string $module, int $right): array
     {
         global $DB;
 
@@ -242,7 +253,7 @@ final class PermissionManager
      * @param int $profiles_id The profile ID to check.
      * @return bool
      */
-    public static function hasProfile(int $users_id, int $profiles_id): bool
+    public function hasProfile(int $users_id, int $profiles_id): bool
     {
         global $DB;
 
