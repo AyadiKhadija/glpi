@@ -61,11 +61,12 @@ final class PermissionManager
     /**
      * Gets all profiles assigned to the provided user for a given entity.
      *
-     * @param int $users_id The user's ID or -1 for the current user.
+     * @param ?int $users_id The user's ID or null for the current user.
+     * @phpstan-param positive-int|null $users_id
      * @param int $entities_id The entity's ID.
      * @return array Array of profile IDs
      */
-    private function getAllProfilesForUser(int $users_id, int $entities_id): array
+    private function getAllProfilesForUser(?int $users_id, int $entities_id): array
     {
         global $DB;
 
@@ -73,7 +74,7 @@ final class PermissionManager
 
         $parent_entities = getAncestorsOf('glpi_entities', $entities_id);
 
-        if ($users_id === -1) {
+        if ($users_id === null) {
             $profiles = array_filter($_SESSION['glpiprofiles'], static function ($profile, $pid) use ($parent_entities) {
                 return $profile['entities_id'] === $pid ||
                     ($profile['is_recursive'] && in_array($profile['entities_id'], $parent_entities, true));
@@ -150,9 +151,10 @@ final class PermissionManager
     }
 
     /**
-     * @param int $users_id The user's ID or -1 for the current user.
+     * @param ?int $users_id The user's ID or null for the current user.
      *                      While you could pass the actual ID of the current user, it is not recommended as it would
      *                      bypass optimizations that are made by using data already available in the session.
+     * @phpstan-param positive-int|null $users_id
      * @param string $module The module to check. Typically, this is a $rightname property of a class.
      * @param int $right The individual right/permission to check. Common values are defined by the constants:
      *                   {@link READ}, {@link UPDATE}, {@link CREATE}, {@link DELETE}, {@link PURGE}, {@link PURGE},
@@ -160,21 +162,21 @@ final class PermissionManager
      *                   Rights unique to a module may be defined as constants within their related class.
      *                   Not all the common rights are valid for all modules. For example, an item that cannot be soft-deleted
      *                   would only have the {@link PURGE} right and not the {@link DELETE} right.
-     * @param bool $all_profiles If this is true or if the provided user ID is not -1, every profile assigned to the user will be checked.
-     *                           Otherwise, if the users_id is -1 and this is false, only the active profile is checked.
+     * @param bool $all_profiles If this is true or if the provided user ID is not null, every profile assigned to the user will be checked.
+     *                           Otherwise, if the users_id is null and this is false, only the active profile is checked.
      * @param int $entities_id The entity to check. If -1 provided, the current entity is used.
      *
      * @return bool
      */
-    public function haveRight(int $users_id, string $module, int $right, bool $all_profiles = false, int $entities_id = -1): bool
+    public function haveRight(?int $users_id, string $module, int $right, bool $all_profiles = false, int $entities_id = -1): bool
     {
         global $DB;
 
-        if ($entities_id === -1) {
+        if ($entities_id === null) {
             $entities_id = (int) $_SESSION['glpiactive_entity'];
         }
 
-        if ($users_id === -1) {
+        if ($users_id === null) {
             if ($all_profiles) {
                 $profiles = array_keys($_SESSION['glpiprofiles']) ?? [];
                 $parent_entities = getAncestorsOf('glpi_entities', $entities_id);
@@ -247,17 +249,18 @@ final class PermissionManager
     /**
      * Check if a user has a specific profile.
      *
-     * @param int $users_id The user's ID or -1 for the current user.
+     * @param ?int $users_id The user's ID or null for the current user.
      *                      While you could pass the actual ID of the current user, it is not recommended as it would
      *                      bypass optimizations that are made by using data already available in the session.
+     * @phpstan-param positive-int|null $users_id
      * @param int $profiles_id The profile ID to check.
      * @return bool
      */
-    public function hasProfile(int $users_id, int $profiles_id): bool
+    public function hasProfile(?int $users_id, int $profiles_id): bool
     {
         global $DB;
 
-        if ($users_id === -1) {
+        if ($users_id === null) {
             return isset($_SESSION['glpiprofiles'][$profiles_id]);
         }
 
